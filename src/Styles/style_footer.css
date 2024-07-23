@@ -1,0 +1,33 @@
+#footer {
+  background-color: #000;
+  color: white;
+  padding: 20px 0;
+  position: relative;
+  width: 100%;
+  height: 200px;
+  text-align: center;
+  bottom: 0;
+  
+}
+
+#footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#footer-content p {
+  margin: 0;
+}
+
+#footer-content a {
+  color: white;
+  text-decoration: none;
+}
+
+#footer-content a:hover {
+  text-decoration: underline;
+}
+#prp{
+  color:#FFF689;
+}

@@ -1,0 +1,225 @@
+body{
+    background-color: #F7F7F7;
+}
+
+.box-form {
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    width: 768px;
+    max-width: 100%;
+    min-height: 480px;
+    transition: all 0.6s ease-in-out;
+}
+
+.form-container,
+.toggle-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+}
+
+.form-text{
+    font-size:3rem;
+}
+#sign{margin-top: -10%;}
+#back{
+    margin-top: 2%;
+    height:40px;
+    font-size:0.6rem;
+
+}
+
+.box-form p {
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: 0.3px;
+    margin: 20px 0;
+}
+
+.box-form span {
+    font-size: 12px;
+}
+
+.box-form a {
+    color: #333;
+    font-size: 13px;
+    text-decoration: none;
+    margin: 15px 0 10px;
+}
+
+.box-form button {
+    background-color: #512da8;
+    color: #fff;
+    font-size: 12px;
+    padding: 10px 45px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.box-form button.hidden {
+    background-color: transparent;
+    border-color: #fff;
+}
+
+.box-form form {
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 40px; /* Aumentato il padding per spaziatura migliore */
+    height: 100%;
+}
+
+.box-form input {
+    background-color: #eee;
+    border: none;
+    margin: 10px 0; /* Ridotto il margine per compattare gli input */
+    padding: 12px 15px; /* Aumentato il padding per input più grandi */
+    font-size: 14px; /* Aumentato il font-size per migliorare la leggibilità */
+    border-radius: 8px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.3s ease; /* Aggiunto transizione per evidenziare input */
+}
+
+.box-form input:focus {
+    border-color: #512da8; /* Colore di focus aggiunto per input */
+}
+
+.form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    transition: all 0.6s ease-in-out;
+}
+
+.sign-in {
+    left: 0;
+    z-index: 2;
+}
+
+.sign-up {
+    left: 50%;
+    opacity: 0;
+    z-index: 1;
+    transform: translateX(100%);
+}
+
+.box-form.sign-up-mode .sign-in {
+    transform: translateX(-100%);
+}
+
+.box-form.sign-up-mode .sign-up {
+    transform: translateX(0);
+    opacity: 1;
+    z-index: 2;
+}
+
+.toggle-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: all 0.6s ease-in-out;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.box-form.sign-up-mode .toggle-container {
+    left: 0;
+}
+
+.toggle {
+    background-image: linear-gradient(to top, #37ecba 0%, #72afd3 100%);    height: 100%;
+    width: 200%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    position: absolute;
+    left: -100%;
+    transition: all 0.6s ease-in-out;
+}
+
+.box-form.sign-up-mode .toggle {
+    transform: translateX(50%);
+}
+
+.toggle-panel {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 40px;
+    transition: all 0.6s ease-in-out;
+    left: 50%; /* Posizionamento centrale rispetto al container padre */
+    transform: translateX(-50%); /* Regola il posizionamento al centro */
+}
+
+.toggle-left {
+    transform: translateX(-200%);
+}
+
+.box-form.sign-up-mode .toggle-left {
+    transform: translateX(0);
+}
+
+.toggle-right {
+    right: 0;
+    transform: translateX(0);
+}
+
+.box-form.sign-up-mode .toggle-right {
+    transform: translateX(200%);
+}
+
+footer {
+    visibility: hidden;
+}
+
+.social-icons {
+    margin: 30px 0;
+    margin-top:-30px;
+}
+
+.social-icons a {
+    border: 1px solid #ccc;
+    border-radius: 20%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 3px;
+    width: 40px;
+    height: 40px;
+}
+
+#back{
+    background-color: #F7F7F7;
+    color:#512da8;
+    border:2px solid #512da8;
+    width:25px;
+}
