@@ -38,7 +38,8 @@
     "start": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build": "npm install --force && other-build-steps"
+    "install-deps": "npm install --force",
+    "build": "npm run install-deps && npm run compile"
   },
   "eslintConfig": {
     "extends": [
