@@ -38,7 +38,7 @@
     "start": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "install-deps": "npm install --force",
+    "install-deps": "npm install --legacy-peer-deps",
     "build": "npm run install-deps && npm run compile"
   },
   "eslintConfig": {
