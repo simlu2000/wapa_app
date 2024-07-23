@@ -16,7 +16,7 @@ import PercentageBox from '../Components/PercentageBox';
 import UserPlaces from '../Components/UserPlaces'; 
 
 import '../Styles/style_weatherscreen.css';
-import Lottie from 'lottie-react-web';
+import { Lottie } from 'lottie-react';
 import 'leaflet/dist/leaflet.css';
 import animationData from '../Animations/Animation - 1720385851643.json';
 
