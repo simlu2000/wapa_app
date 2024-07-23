@@ -39,7 +39,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "install-deps": "npm install --force",
-    "build": "npm run install-deps && npm run compile"
+    "build": "npm install --force && npm run compile"
   },
   "eslintConfig": {
     "extends": [
