@@ -1,8 +1,10 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { auth } from '../Utils/firebase';  // Importa auth per il logout
+import { auth } from '../Utils/firebase';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 
-const NavBar = ({ user }) => {
+export const NavBar = ({ user }) => {
     const location = useLocation();
 
     return (
@@ -10,7 +12,7 @@ const NavBar = ({ user }) => {
             <div className="navbar-container">
                 <header className="nav-header">
                     <h3 className="wapa-area"><Link to="/">WAPA</Link></h3>
-                    <h3 className="opt">
+                    <h3 className="opt" id="opt1">
                         <Link to="/WeatherScreen" className={`opt ${location.pathname === '/WeatherScreen' ? 'active' : ''}`}>
                             Weather
                         </Link>
@@ -20,16 +22,19 @@ const NavBar = ({ user }) => {
                             Advanced
                         </Link>
                     </h3>
-                    {!user ? ( //se non ce utente accesso
+                    {!user ? ( //se non ce utente loggato
                         <button className="opt btn-user">
                             <Link to="/SignUpScreen" className={`opt ${location.pathname === '/SignUpScreen' ? 'active' : ''}`}>
                                 Sign Up
                             </Link>
                         </button>
-                    ) : ( //altrimenti ce utene
-                        <button className="logout-button btn-user" onClick={() => auth.signOut()}>
+                    ) : ( //altrimenti ce utente
+                        /*<button className="logout-button btn-user" onClick={() => auth.signOut()}>
                             Sign Out
-                        </button>
+                        </button>*/
+                        <section id="user-area">
+                            <button id="profile-btn" className="Logout-button btn-user"><Link to="/UserProfileScreen"><FontAwesomeIcon icon={faUserCircle}/></Link></button>
+                        </section>
                     )}
                 </header>
             </div>

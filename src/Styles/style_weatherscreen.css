@@ -7,7 +7,7 @@
 }
 
 body {
-    background-color: #000000;
+    background-color: #F7F7F7;
     font-family: "Inconsolata", monospace;
     margin: 0;
     padding: 0;
@@ -59,23 +59,26 @@ body {
 }
 
 #meteo-title {
-    margin-top: 10%;
+    margin-top: 20%;
     margin-left: 10%;
+
 }
 
 h1 {
-    
-    font-size: 5.5em;
+
+    font-size: 6.5em;
     word-break: break-word;
 }
 
 .title {
     margin-top: -50px;
 }
-.sub-title{
-    color:#F7F7F7;
-    margin-top:-10px;
+
+.sub-title {
+    color: #F7F7F7;
+    margin-top: -10px;
 }
+
 #action-area {
     justify-content: center;
     align-items: center;
@@ -131,6 +134,7 @@ h1 {
     height: 3rem;
     border-radius: 25px;
     border: none;
+    margin-bottom:50px;
 }
 
 #box-search {
@@ -183,6 +187,8 @@ h1 {
     color: #4f5b66;
 }
 
+
+
 /*------------------------------------------Meteo area boxs-------------------------------------------*/
 .today-data {
     display: flex;
@@ -202,14 +208,20 @@ h1 {
     border-radius: 25px;
     padding: 20px;
     width: 90%;
+    
 }
 
 .charts {
     margin-top: 2%;
 }
 
+.light-chart {
+    margin-top: 5%;
+    margin-left: 30%;
+}
+
 #c1 {
-    margin-left: 5%;
+    margin-left: 21%;
 }
 
 .meteo-box-container {
@@ -243,10 +255,6 @@ h1 {
     transition: width 0.3s ease;
 }
 
-.light-chart{
-    margin-top:5%;
-    margin-left:25%;
-}
 
 .data-boxes {
     flex: 1 0 40%;
@@ -260,50 +268,84 @@ h1 {
 
 /*----------------------------FORECAST------------*/
 .forecast-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    margin-top: 7%;
-    margin-left: 12%;
-    margin-bottom: 5%;
-    overflow-x: auto;
-    padding-bottom: 10px;
-    border-radius: 25px;
     width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
 .forecast-item {
-    border-radius: 25px;
-    border: 5px solid #F7F7F7;
-    padding: 10px;
-    margin: 0 7.5px;
-    min-width: 100px;
-    width: 15%;
-    height: 200px;
-    text-align: center;
-    box-sizing: border-box;
-    flex: 0 0 auto;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    height: 200px;
+    max-width: 300px;
+    margin: 0 auto;
 }
 
-.forecast-item h3 {
-    margin: 0 0 10px;
-    font-size: 1.2rem;
-    color: #000000;
+.forecast-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-.forecast-item p {
-    margin: 5px 0;
-    font-size: 1rem;
-    color: #000000;
+.date {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
 }
 
 .temp {
-    margin-top: auto;
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 10px;
+    text-align: center;
+    margin-top:10%;
 }
+.weatherIcon{
+    margin-left:36%;
+   margin-top:10%;
+}
+
+.slick-prev, .slick-next {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    z-index: 2;
+}
+
+.slick-prev:hover, .slick-next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.slick-prev:before, .slick-next:before {
+    font-size: 24px;
+    color: white;
+}
+
+.slick-dots li button:before {
+    font-size: 16px;
+    color: #333;
+}
+
+.slick-dots li.slick-active button:before {
+    color: #000;
+}
+
+
+
+/*----------------------------user places area----------------------------------*/
 
 /*--------------------------------------------WeatherMap-----------------------------------------------*/
 .map-section {
@@ -311,7 +353,7 @@ h1 {
     justify-content: space-between;
     align-items: flex-start;
     margin-top: 5%;
-    margin-left: 4%;
+    margin-left: 8%;
     padding: 20px;
     width: 100%;
     color: #F7F7F7;
@@ -332,7 +374,7 @@ h1 {
 
 .map-title {
     font-size: 3rem;
-    color:#000000;
+    color: #000000;
 }
 
 #m3 {
@@ -372,12 +414,12 @@ h1 {
     }
 
     .forecast-container {
-        width: 97%;
-        margin-left: 10%;
+        width: 95%;
+        margin-left: 2.5%;
     }
 
     .forecast-item {
-        width: 12.5%;
+        width: 10%;
     }
 
     .charts-container {
@@ -387,8 +429,7 @@ h1 {
     .charts {
         width: 18rem;
         height: 18rem;
-        margin-bottom: 7%;
-        margin-left: 50px;
+        margin-left: 90px;
     }
 
     #c1 {
@@ -399,31 +440,10 @@ h1 {
     .map-title {
         font-size: 2rem;
     }
-}
-@media (min-width: 1200px) {
-    .forecast-container {
-        width: 97%;
-        margin-left: 10%;
-    }
 
-    .forecast-item {
-        width: 12.5%;
-    }
+    .light-chart {
+        margin-left: 20%;
 
-    .charts {
-        width: 18rem;
-        height: 18rem;
-        margin-bottom: 7%;
-        margin-left: 175px;
-    }
-
-    #c1 {
-        margin-left: 15px;
-    }
-
-
-    .map-title {
-        font-size: 2rem;
     }
 }
 
@@ -433,8 +453,8 @@ h1 {
         text-align: left;
         margin: 0;
         font-size: 0.8rem;
-        margin-left: 5%;
-        margin-top: 25%;
+        margin-left: 15%;
+        margin-top: 20%;
     }
 
     #weather-intro {
@@ -447,8 +467,8 @@ h1 {
     }
 
     .forecast-container {
-        width: 97%;
-        margin-left: 8.2%;
+        width: 92%;
+        margin-left: 4%;
     }
 
     .forecast-item {
@@ -456,7 +476,8 @@ h1 {
     }
 
     .forecast-item .meteo-icon {
-        font-size: 0.5rem !important;/*solo se necessario*/
+        font-size: 0.5rem !important;
+        /*solo se necessario*/
     }
 
     .forecast-item .date {
@@ -467,25 +488,26 @@ h1 {
         width: 95%;
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between; /* Distribuisce lo spazio tra gli elementi */
-        gap: 20px; /* Aggiungi un gap per distanziare i grafici */
+        justify-content: space-between;
+        gap: 20px;
         background-color: #000000;
         border-radius: 25px;
         padding: 20px;
     }
 
     .charts {
-        flex: 1 1 calc(33.333% - 40px); /* Tre grafici per riga con gap */
+        flex: 1 1 calc(33.333% - 40px);
         margin-bottom: 20px;
+        margin-left: 0px;
     }
 
-    #c1,#c3 {
-        margin-left: -5%;
+    .light-chart {
+        margin-left: 10%;
     }
 
     .map-section {
         flex-direction: column;
-        margin-left: 17%;
+        margin-left: 33.5%;
     }
 
     .weather-map {
@@ -498,21 +520,23 @@ h1 {
         font-size: 2rem;
     }
 
-    footer{
-        margin-top:100px;
+    footer {
+        margin-top: 100px;
     }
 }
 
 @media (max-width: 768px) {
+    #weather-intro{
+        width:100%;
+    }
     .charts-container {
-        flex-direction: row;
+        flex-direction: column;
         align-items: center;
+        width: 95%;
     }
 
     .charts {
-        width: 0.2rem;
-        margin-bottom: 7%;
-        margin-left: 30%;
+        margin-bottom: -20px;
     }
 
     .data-boxes {
@@ -521,26 +545,40 @@ h1 {
     }
 
     .forecast-container {
-        margin-left: 1.5%;
+        width:60%;
+        margin-left:20%;
     }
 
     .forecast-item {
-        width: 14%;
+        width: 8%;
         flex: 0 0 auto;
-        margin-left: 5px;
     }
 
     .date {
         font-size: 0.1rem;
     }
 
+    .meteo-box-container {
+        width: 95%;
+    }
+
     #meteo-title {
-        margin-left: 10%;
+        margin-left: 20%;
+        font-size:0.7rem;
+    }
+
+    .light-chart {
+        margin-left: -4%;
+    }
+
+    #sunset,
+    #sunrise {
+        width: 25%;
     }
 
     .map-section {
         flex-direction: column;
-        margin-left: 16.5%;
+        margin-left: 26.5%;
     }
 
     .weather-map {
@@ -549,62 +587,77 @@ h1 {
         margin-bottom: 20px;
     }
 
-    .forecast-container {
-        width: 98%;
-    }
+
 }
 
 @media (max-width: 576px) {
     #meteo-title {
         margin-left: 5%;
         margin-top: 30%;
-        font-size: 0.7rem;
+        font-size: 0.6rem;
     }
 
-    .forecast-container {
-        width: 100%;
-        margin-left: 5PX;
-        overflow-x: auto;
-        /*scrolling orizzontale*/
+    .container-1 {
+        width: 65%;
+        height: 25px;
     }
 
-    .forecast-item {
-        width: 2%;
-        margin: 5px auto;
+    #search-location::placeholder {
+        font-size: 1.5rem;
     }
 
-    .forecast-item .meteo-icon {
-        font-size: 0.5rem !important;
-        /*usa solo se necessario*/
+    .icon {
+        top: 40px;
+        margin-left: 40px;
     }
 
-    .forecast-item .date {
-        font-size: 0.8rem;
+    #search-location {
+        margin-top: 10%;
+        margin-left: 15%;
     }
+
+    
+      
+      .date {
+        font-size: 18px;
+        font-weight: bold;
+      }
+      
+      .meteo-icon {
+        font-size: 48px;
+        margin-top: 10px;
+      }
+      
+      .temp {
+        font-size: 16px;
+      }
+      
 
     .charts-container {
         flex-direction: column;
         align-items: center;
         width: 80%;
-        height:70rem;
+        height: 70rem;
         padding: 10px;
     }
 
     .charts {
         width: 70%;
         height: 15rem;
-        margin-bottom:10px;
-        margin-top:15%;
-        margin-left:-22%;
+        margin-bottom: 10px;
+        margin-top: 15%;
+        margin-left: -22%;
     }
 
     .data-boxes {
         padding: 10px;
         font-size: 0.9em;
     }
-    .meteo-box-container{
-        width:80%;
+
+    .meteo-box-container {
+        width: 80%;
     }
+
     .date {
         font-size: 0.1rem;
     }
@@ -612,7 +665,7 @@ h1 {
     .map-section {
         flex-direction: column;
         margin-left: 7%;
-        gap:20px;
+        gap: 20px;
     }
 
     .weather-map {
@@ -620,12 +673,14 @@ h1 {
         height: 350px;
         margin-bottom: 10%;
     }
-    .weather-map-area{
-        width:100%;
-        margin-bottom:10%;
+
+    .weather-map-area {
+        width: 100%;
+        margin-bottom: 10%;
     }
-    .map-title{
-        margin-top:15%;
+
+    .map-title {
+        margin-top: 15%;
     }
 
     .forecast-container {

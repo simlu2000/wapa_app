@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../Styles/style_footer.css';
 
-const Footer = () => {
+export const Footer = () => {
   return (
     <section id="footer">
       <div className="footer-content">

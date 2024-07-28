@@ -81,3 +81,13 @@ h3 {
   #see{
     color:#F7F7F7;
   }
+  @media (max-width: 768px) {
+    .opt{
+        margin-right:10%;
+    }
+    #opt2{
+    }
+    #profile-btn{
+        margin-right:50px;
+    }
+  }

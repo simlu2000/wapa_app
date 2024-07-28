@@ -1,0 +1,27 @@
+#users-data{
+    background-image: linear-gradient(120deg, #F7F7F7 20%, #8fd3f4 100%);
+    width:80%;
+    border-radius:25px;
+    margin-left:10%;
+}
+#user-area{
+    flex-direction: row;
+    justify-content: center;
+}
+.user-info{
+    border-radius:25px;
+    height:25px;
+}
+#label2,#label3{
+    margin-left:100px;
+}
+#logout-button{
+    background-color:red;
+    border-radius: 25px;
+    color:#F7F7F7;
+    width:100px;
+    height:25px;
+}
+.user-places-container li {
+    margin-left:5%;
+}

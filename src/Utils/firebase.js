@@ -1,4 +1,4 @@
-// src/Utils/firebase.js
+// Configura e inizializza Firebase, e imposta le connessioni a Authentication e Realtime Database.
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
@@ -14,13 +14,14 @@ const firebaseConfig = {
   appId: "1:29586370547:web:cc1ca0286515ad3e57ec86",
   measurementId: "G-X7QG13BHHM"
 };
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
 // Initialize Firebase Authentication
 const auth = getAuth(app);
 
-//Google
+// Google Auth Provider
 const provider = new GoogleAuthProvider();
 
 // Initialize Realtime Database

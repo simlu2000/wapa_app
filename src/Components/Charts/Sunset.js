@@ -3,10 +3,9 @@ import * as d3 from 'd3';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
 
-
-const Sunset = ({ time }) => {
+const Sunset = ({ sunsetTime }) => {
     useEffect(() => {
-        if (!time) return; // Verifica presenza ora (check if time is defined)
+        if (!sunsetTime) return; // Verifica ora
 
         const width = 300;
         const height = 300;
@@ -16,7 +15,7 @@ const Sunset = ({ time }) => {
             sunset: '#FFA500',
         };
 
-        // Rimuovo (pulisco) elementi precedenti (remove previous elements)
+        //Pulizia elem precedenti
         d3.select("#sunset-chart").selectAll("*").remove();
 
         const svg = d3.select("#sunset-chart")
@@ -25,35 +24,35 @@ const Sunset = ({ time }) => {
             .append("g")
             .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
-        // Scala per arco (scale for arc)
+        //Scala per l'angolo
         const xScale = d3.scaleLinear()
-            .domain([0, 24]) // 24 ore (24 hours)
+            .domain([0, 24]) // 24 ore
             .range([0, 2 * Math.PI]);
 
-        // Arco tramonto (sunset arc)
-        const sunsetArc = d3.arc()
+        //Ora tramonto in ore e min
+        const date = new Date(sunsetTime * 1000);
+        const hours = date.getHours() + date.getMinutes() / 60;
+        
+        const arc = d3.arc()
             .innerRadius(radius - 20)
             .outerRadius(radius)
-            .startAngle(xScale(new Date(time * 1000).getHours()))
-            .endAngle(xScale(new Date(time * 1000).getHours() + 1)); // Sunset covers a full hour
+            .startAngle(xScale(hours))
+            .endAngle(xScale(hours + 1)); // Tramonto copre un'ora
 
-        // Creo arco tramonto (create sunset arc)
+        //Creazione arco
         svg.append("path")
-            .attr("d", sunsetArc)
+            .attr("d", arc)
             .attr("fill", colors.sunset);
 
-        // Calcolo ora tramonto (calculate sunset time)
-        const sunsetTime = new Date((time + 12) * 1000);
-
-        // Testo tramonto centrato verticalmente (sunset text centered vertically)
+        //Ora tramonto
         svg.append("text")
-            .attr("text-anchor", "middle") // Centro orizzontale (center horizontally)
-            .attr("dominant-baseline", "central") // Centro verticale con 'dominant-baseline'
-            .attr("y", radius - 100)
-            .text(`${sunsetTime.toLocaleTimeString()}`)
+            .attr("text-anchor", "middle")
+            .attr("dominant-baseline", "central")
+            .attr("y", radius - 50)
+            .text(`${date.toLocaleTimeString()}`)
             .attr("fill", colors.sunset)
             .attr("font-size", 20);
-    }, [time]);
+    }, [sunsetTime]);
 
     const iconStyle = {
         position: 'absolute',
@@ -62,12 +61,11 @@ const Sunset = ({ time }) => {
         transform: 'translate(-50%, -50%)',
         color: '#FFA500',
         fontSize: '40px',
-      };
-    
+    };
 
     return (
-        <div className="light-chart" style={{ position: 'relative', width: '300px', height: '300px' }}>
-            <svg id="sunset-chart" width="600" height="600"></svg>
+        <div id="light2" className="light-chart" style={{ position: 'relative', width: '300px', height: '300px' }}>
+            <svg id="sunset-chart"></svg>
             <FontAwesomeIcon icon={faArrowDown} style={iconStyle} />
         </div>
     );

@@ -52,8 +52,8 @@ const TempCharts = ({ initialTemperature }) => {
     };
 
     const chartStyle = { /*regolazione grandezza in base a grandezza schermo*/
-        height: window.innerWidth < 576 ? "2rem" : "25rem",
-        width: window.innerWidth < 576 ? "2rem" : "25rem"
+        height: window.innerWidth < 576 ? "2rem" : "20rem",
+        width: window.innerWidth < 576 ? "2rem" : "20rem"
     };
 
     return (

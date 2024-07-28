@@ -1,8 +1,10 @@
+//Gestisce la registrazione e l'accesso degli utenti, e interagisce con userService per gestire i dati dell'utente nel Realtime Database.
 import React, { useState } from 'react';
 import { auth, provider } from '../Utils/firebase';
 import { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { setUserData, getUserData } from '../Utils/userService'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebookF, faGooglePlusG, faApple } from '@fortawesome/free-brands-svg-icons';
+import { faFacebookF, faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
 import '../Styles/style_signupscreen.css';
 import NavBar from '../Components/NavBar';
 
@@ -18,7 +20,11 @@ const SignUpScreen = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Memorizza i dati dell'utente nel Realtime Database
+      await setUserData(user.uid, { email: user.email, localities: [] });
       alert('Registration successful');
     } catch (error) {
       console.error("Error during registration", error);
@@ -26,24 +32,32 @@ const SignUpScreen = () => {
     }
   };
 
-  //accesso email, password
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Recupera i dati dell'utente se necessario
+      // const userData = await getUserData(user.uid); // Se vuoi recuperare i dati dell'utente all'accesso
+
       alert('Sign-in successful');
     } catch (error) {
       console.error("Error during sign-in", error);
       alert(error.message);
     }
   };
-  //accesso google
+
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
       const user = result.user;
+
+      // Memorizza i dati dell'utente nel Realtime Database
+      await setUserData(user.uid, { email: user.email, localities: [] });
+
       alert('Sign-in with Google successful');
       console.log(user);
     } catch (error) {
@@ -66,7 +80,6 @@ const SignUpScreen = () => {
             <div className="social-icons">
               <a href="#" className="icon" onClick={handleGoogleSignIn}><FontAwesomeIcon icon={faGooglePlusG} /></a>
               <a href="#" className="icon"><FontAwesomeIcon icon={faFacebookF} /></a>
-              <a href="#" className="icon"><FontAwesomeIcon icon={faApple} /></a>
             </div>
             <span>or use your email for registration</span>
             <input type="text" placeholder="Name" />
@@ -81,7 +94,6 @@ const SignUpScreen = () => {
             <div className="social-icons">
               <a href="#" className="icon" onClick={handleGoogleSignIn}><FontAwesomeIcon icon={faGooglePlusG} /></a>
               <a href="#" className="icon"><FontAwesomeIcon icon={faFacebookF} /></a>
-              <a href="#" className="icon"><FontAwesomeIcon icon={faApple} /></a>
             </div>
             <span>or use your email and password</span>
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />

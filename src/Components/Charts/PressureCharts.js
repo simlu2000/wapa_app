@@ -73,7 +73,7 @@ const PressureCharts = ({ initialPressure }) => {
         <div id="c3" className="charts">
             <ReactECharts
                 option={getOption()}
-                style={{ height: "25rem", width: "25rem" }}
+                style={{ height: "20rem", width: "19rem" }}
             />
         </div>
     )

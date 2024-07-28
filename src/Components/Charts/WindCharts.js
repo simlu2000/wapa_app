@@ -22,7 +22,7 @@ const WindCharts = ({ windSpeed}) => {
                 },
                 axisLine: {
                     lineStyle: {
-                        width: 18
+                        width: 16
                     }
                 },
                 axisTick: {
@@ -41,7 +41,7 @@ const WindCharts = ({ windSpeed}) => {
                 axisLabel: {
                     distance: 25,
                     textStyle:{
-                        fontSize:16,
+                        fontSize:11,
                         color:"#f7f7f7"
                     }
                 },
@@ -54,7 +54,7 @@ const WindCharts = ({ windSpeed}) => {
                     formatter: '{value} m/s',
                     textStyle:{
                         fontSize:16,
-                        color:"#f7f7f7"
+                        color:"#f7f7f7",
                     }
                 },
                 data: [{
@@ -70,7 +70,7 @@ const WindCharts = ({ windSpeed}) => {
         <div  className="charts" id="c1">
         <ReactECharts
             option={getOption()}
-            style={{ height: "25rem", width: "25rem"}}
+            style={{ height: "20rem", width: "20rem"}}
         />
         </div>
     );

@@ -7,7 +7,7 @@ import Footer from "../Components/Footer";
 /* Stili, animazioni */
 import "../Styles/style_advancedscreen.css";
 import "../Styles/style_navbar.css";
-import { Lottie } from 'lottie-react';
+import Lottie from "lottie-react-web";
 import animationData from "../Animations/Animation - 1720795288441.json";
 
 const AdvancedScreen = () => {

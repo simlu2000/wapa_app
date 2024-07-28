@@ -1,13 +1,12 @@
 import React from "react";
+import Slider from "react-slick";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faCloudRain, faSnowflake, faBolt, faCloud, faCloudShowersHeavy, faSmog } from '@fortawesome/free-solid-svg-icons';
 import "../Styles/style_weatherscreen.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
 
-
-const Forecast = ({ forecast, weatherData }) => {
+const Forecast = ({ forecast }) => {
     if (!forecast) {
         return <div>No forecast data available</div>;
     }
@@ -72,38 +71,55 @@ const Forecast = ({ forecast, weatherData }) => {
         const temperatures = dayData.map(item => item.main.temp);
         const weatherMain = dayData[0].weather[0].main;
 
-        return (
-            <div key={index} className="forecast-item" >
-                <h3 className="date">{date}</h3>
-                <p className="meteo-icon">{getWeatherIcon(weatherMain, "4x", "#F7F7F7")}</p>
-                <p className="temp">Min: {Math.min(...temperatures)}°C Max: {Math.max(...temperatures)}°C</p>
-            </div>
-        );
+        return {
+            date,
+            weatherMain,
+            temperatures,
+            icon: getWeatherIcon(weatherMain, "4x", "#F7F7F7"),
+            minTemp: Math.min(...temperatures),
+            maxTemp: Math.max(...temperatures),
+        };
     });
 
-    /*impostazioni slider*/
     const settings = {
         dots: true,
-        infinite: true,
+        infinite: false,
         speed: 500,
-        slidesToShow: 1,
+        slidesToShow: 3,
         slidesToScroll: 1,
+        arrows: true,
+        autoplay: false,
         responsive: [
             {
-                breakpoint: 576,
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                },
+            },
+            {
+                breakpoint: 480,
                 settings: {
                     slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
-        ]
+                    slidesToScroll: 1,
+                },
+            },
+        ],
     };
 
     return (
         <section className="forecast-container">
-            {forecastItems}
+            <Slider {...settings}>
+                {forecastItems.slice(0, 5).map((item, index) => (
+                    <div key={index} className="forecast-item" style={{ background: applyBackgroundGradient(item.weatherMain) }}>
+                        <h3 className="date">{item.date}</h3>
+                        <div className="weatherIcon">{item.icon}</div>
+                        <p className="temp">Min: {item.minTemp}°C Max: {item.maxTemp}°C</p>
+                    </div>
+                ))}
+            </Slider>
         </section>
     );
-}
+};
 
 export default Forecast;

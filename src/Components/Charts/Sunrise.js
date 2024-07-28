@@ -3,9 +3,9 @@ import * as d3 from 'd3';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 
-const Sunrise = ({ time }) => {
+const Sunrise = ({ sunriseTime }) => {
     useEffect(() => {
-        if (!time) return; //verifico ora
+        if (!sunriseTime) return; // Verifica ora
 
         const width = 300;
         const height = 300;
@@ -15,7 +15,7 @@ const Sunrise = ({ time }) => {
             sunrise: '#FFA500',
         };
 
-        //pulisco elem prec
+        // Pulisci gli elementi precedenti
         d3.select("#sunrise-sunset-chart").selectAll("*").remove();
 
         const svg = d3.select("#sunrise-sunset-chart")
@@ -24,37 +24,36 @@ const Sunrise = ({ time }) => {
             .append("g")
             .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
-        //scales per posizionamento testo e arco
+        // Scala per l'angolo
         const xScale = d3.scaleLinear()
-            .domain([0, 24]) // 24 hours
+            .domain([0, 24]) // 24 ore
             .range([0, 2 * Math.PI]);
 
-        const yScale = d3.scaleLinear() // Not used
-            .domain([0, width])
-            .range([0, 0]);
-
+        // Ora alba in ore e minuti
+        const date = new Date(sunriseTime * 1000);
+        const hours = date.getHours() + date.getMinutes() / 60;
+        
         const arc = d3.arc()
             .innerRadius(radius - 20)
             .outerRadius(radius)
             .startAngle(0)
-            .endAngle(xScale(new Date(time * 1000).getHours())); // Use only the hours
+            .endAngle(xScale(hours));
 
-        //creo arco
+        // Crea l'arco
         svg.append("path")
             .attr("d", arc)
             .attr("fill", colors.sunrise);
 
-        //ora alba
+        // Ora alba
         svg.append("text")
-            .attr("text-anchor", "middle") // Center horizontally
-            .attr("dominant-baseline", "central") // Center vertically
-            .attr("y", radius - 100)
-            .text(`${new Date(time * 1000).toLocaleTimeString()}`)
+            .attr("text-anchor", "middle") 
+            .attr("dominant-baseline", "central")
+            .attr("y", radius - 50)
+            .text(`${date.toLocaleTimeString()}`)
             .attr("fill", colors.sunrise)
-            .attr("font-size", 20)
-    }, [time]);
+            .attr("font-size", 20);
+    }, [sunriseTime]);
 
-    //stile icona alba
     const iconStyle = {
         position: 'absolute',
         top: '135px',
@@ -64,16 +63,9 @@ const Sunrise = ({ time }) => {
         fontSize: '40px',
     };
 
-    const timeStyle = {
-        top: '150px',
-        width: "300",
-        height: "300",
-
-    };
-
     return (
         <div className="light-chart" style={{ position: 'relative', width: '300px', height: '300px' }}>
-            <svg id="sunrise-sunset-chart" style= {timeStyle}></svg>
+            <svg id="sunrise-sunset-chart"></svg>
             <FontAwesomeIcon icon={faArrowUp} style={iconStyle} />
         </div>
     );
