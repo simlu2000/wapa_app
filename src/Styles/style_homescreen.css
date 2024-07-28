@@ -523,15 +523,19 @@ h2 {
     font-size:2rem;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 481px) {
   #title-area {
-    font-size: 0.8rem;
     text-align: left;
     width: 90%;
     margin-left: 10%;
     line-height: 85px;
-    margin-top:30%;
+    margin-top:50%;
   }
+  #title{
+    font-size: 4rem;
+
+  }
+
   
   #small-text1 {
     margin-top: 50px;

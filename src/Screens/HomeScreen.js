@@ -50,12 +50,12 @@ const HomeScreen = () => {
       >
         <div className="mini-container">
           <div id="title-area">
-            <h1>
+            <h1 id="title">
               Exact
               <img src={sun} className="sun-icon" alt="sun icon" />
               weather
             </h1>
-            <h1 className="title" id="title2">
+            <h1 className="title" id="title">
               exactly for you.
             </h1>
           </div>

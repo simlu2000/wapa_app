@@ -74,22 +74,40 @@
     margin-top:15px;
 }
 
+
 @media (max-width: 768px) {
     .user-places-container{
-        width:80%;
+        width:90%;
         border-radius:25px;
+
     }
     .user-places-container ul {
-        margin-left:17%
+        margin-left:5px;
     }
     .user-places-container li {
         width:100%;
     
     }
     #loc-area{
-        width:85%;
-        margin-left:-7%;
+        width:95%;
+        margin-left:1%;
     }
+
+}
+
+@media (max-width: 481px) {
     
+   
+    #loc-area{
+        width:90%;
+        
+    }
+    #fav-insert{
+        width:55%;
+    }
+    .new-loc{
+        margin-left:5%;
+        width:35%;
+    }
 
 }

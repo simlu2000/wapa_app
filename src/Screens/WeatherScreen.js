@@ -238,7 +238,7 @@ const WeatherScreen = () => {
                                     loop: true,
                                     autoplay: true,
                                 }}
-                                style={{ width: 500, height: 500 }}
+                                style={{ width: 200, height: 200 }}
                             />
                         ) : (
                             <>

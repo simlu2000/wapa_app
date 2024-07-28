@@ -125,7 +125,7 @@ const UserProfileScreen = ({ user }) => {
               checked={notificationsEnabled}
               onChange={handleToggleChange}
             />
-            Turn on personalized notifications
+            Notifications
           </label>
         </div>
         <div id="loc-area">
