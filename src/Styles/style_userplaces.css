@@ -29,7 +29,7 @@
 
 .user-places-container li {
     display: flex;
-    justify-content: space-between; /* Allinea gli elementi a sinistra e a destra */
+    justify-content: space-between; 
     align-items: center; 
     padding: 5px 0;
     border-bottom: 3px solid #F7F7F7;

@@ -70,7 +70,7 @@ h3 {
 }    
   
   .btn-user:hover {
-    background-position: right center; /* change the direction of the change here */
+    background-position: right center; 
     color: #fff;
     text-decoration: none;
     background-image: linear-gradient(to right, #4CA1AF 0%, #C4E0E5  51%, #4CA1AF  100%);
