@@ -1,70 +1,85 @@
-# Getting Started with Create React App
+# WAPA
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+WAPA App è una web app meteorologica progettata per raccogliere e visualizzare dati climatici basilari e avanzati da varie fonti tramite l'uso di API. Il progetto è parte della mia tesi universitaria ed è ancora in fase di sviluppo.
 
-## Available Scripts
 
-In the project directory, you can run:
+## Funzionalità
 
-### `npm start`
+ - Visualizzazione dati climatici basilari:
+	 - Temperatura percepita
+	 - Temperatura minima e massima
+	 - Umidità
+	 - Pressione
+	 - Punto di rugiada
+	 - Ora alba e tramonto
+	 - Percentuale nuvolosità
+	 - Visualizzazione forecast (previsioni a 5 			giorni)
+ - Determinazione località:
+	 - Tramite barra di ricerca
+	 - Tramite localizzazione utente
+	 - Selezione località preferita utente
+ - Visualizzazione dati avanzati (da realizzare con API NASA)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Gestione utenza
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Registrazione
 
-### `npm test`
+Accesso tramite email/password o account Google
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## API Utilizzate
+- OpenWeatherAPI: fornisce i dati meteo
+- Unsplash API: imposta lo sfondo della schermata home in base a un'immagine generata casualmente dalla categoria 'sky'
 
-### `npm run build`
+NASA API:
+- EPIC: immagini quotidiane della Terra
+- APOD: immagine astronomica quotidiana
+- DONKI: informazioni e analisi su dati avanzati come il chiarore solare degli ultimi 30 giorni
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Librerie:
+-  React.js
+- D3.JS
+- eCharts
+- FaIcon
+- Leaflet.js
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Gestione Database utenti
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Firebase Realtime DB: utilizzato per la gestione del database utenti
+- Firebase Authentication: implementato per l'autenticazione degli utenti
 
-### `npm run eject`
+# Schermate
+- HomeScreen: introduzione alla app con elenco delle funzionalità offerte
+- WeatherScreen: visualizzazione dati climatici in forma testuale e grafica (alba e tramonto visualizzati con un chart generato con D3.JS; velocità del vento, temperatura e pressione mediante charts generati da ECharts) e mappe interattive
+- UserProfileScreen: pagina riservata all'utente con possibilità di aggiunta/rimozione località
+- SignUpScreen: pagina di registrazione/accesso
+- AdvancedScreen (da realizzare)
+- PrivacyPolicyScreen
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Componenti
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- EarthImage: generazione immagine quotidiana della Terra mediante NASA EPIC API
+- UnsplashFetching: sfondo schermata home
+- PressureChart, TempChart e WindCharts
+- Sunrise, Sunset
+- PrecipitationMap, TemperatureMap, - WeatherMap, WindMap
+- Footer (da inserire)
+- NavBar
+- PercentageBox: barra progressiva per le percentuali
+- SearchLocation
+- UserPlaces: preferenze utente
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Stato del progetto
+Il progetto non è ancora completo. Mancano le seguenti parti:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Realizzazione della pagina di dati avanzati (AdvancedScreen)
+- Sistemazione e completamento del lato responsive
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Installazione
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+Clona la repository: git clone https://github.com/simlu2000/wapa_app.git
+Entra nella directory del progetto: cd wapa_app
+Installa le dipendenze: npm install
+Avvia l'applicazione: npm start
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
