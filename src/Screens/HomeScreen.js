@@ -128,9 +128,11 @@ const InfoBox = ({ title, text, imgSrc, imgAlt, customComponent }) => (
       <p className="info">{text}</p>
     </div>
     <div className="mini-container right">
-      {customComponent || <img src={imgSrc} alt={imgAlt} className="info-img" />}
+      {customComponent || <img src={imgSrc} alt={imgAlt} className="info-img" loading="lazy" />}
     </div>
   </div>
 );
 
 export default HomeScreen;
+
+

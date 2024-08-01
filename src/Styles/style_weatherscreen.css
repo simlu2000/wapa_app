@@ -71,6 +71,7 @@ h1 {
 
 .title {
     margin-top: -50px;
+    color:#F7F7F7;
 }
 
 .sub-title {
@@ -381,11 +382,6 @@ h1 {
     margin-top: 0;
 }
 
-/*footer*/
-#footer {
-    margin-top: 200px;
-}
-
 /*-------------------------------RESPONSIVE-------------------------------------*/
 @media (max-width: 1200px) {
     #meteo-title {
@@ -520,9 +516,6 @@ h1 {
         font-size: 2rem;
     }
 
-    footer {
-        margin-top: 100px;
-    }
 }
 
 @media (max-width: 768px) {

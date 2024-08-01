@@ -1,71 +1,58 @@
-import React, { useState, useEffect } from "react";
-/* Componenti */
+import React, { useState } from "react";
 import NavBar from "../Components/NavBar";
-import EarthImage from "../Components/Api_Img/EarthImage";
+import AstronomicImage from "../Components/Api_Img/AstronomicImage";
 import Footer from "../Components/Footer";
-
-/* Stili, animazioni */
 import "../Styles/style_advancedscreen.css";
 import "../Styles/style_navbar.css";
 import Lottie from "lottie-react-web";
 import animationData from "../Animations/Animation - 1720795288441.json";
+import { AnimateOnChange } from 'react-animation';
 
 const AdvancedScreen = () => {
-    const [loading, setLoading] = useState(true);
-    const [backgroundImageUrl, setBackgroundImageUrl] = useState('');
-
-    useEffect(() => {
-        if (backgroundImageUrl) {
-            setLoading(false);
-        }
-    }, [backgroundImageUrl]);
+    const [backgroundImage, setBackgroundImage] = useState("");
+    const [imageDate, setImageDate] = useState("");
 
     return (
         <>
-            <section
-                id="advanced-intro"
-                className="container-data"
-                style={{
-                    height: `100vh`,
-                    display: `flex`,
-                    flexDirection: `column`,
-                    alignItems: `center`,
-                    justifyContent: `center`,
-                    backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : 'none',
-                    backgroundSize: 'contain', // Cambiato da 'cover' a 'contain'
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'center center', // Centra l'immagine
-                }}
-            >
-                <section className="mini-container">
-                    <div id="advanced-title">
-                        {loading ? (
-                            <Lottie
-                                options={{
-                                    animationData: animationData,
-                                    loop: true,
-                                    autoplay: true,
-                                }}
-                                style={{ width: 500, height: 500 }}
-                            />
-                        ) : (
-                            <>
-                                <div id="area-title">
-                                    <h1 className="title">See NASA datas of today about</h1>
-                                    <h1 className="title">sun & the moon.</h1>
-                                </div>
-                                <div id="planet-button-area">
-                                    <button id="sun-btn">
-                                        <a className="btn-planet" href="#about-area">Sun</a>
-                                    </button>
-                                    <button id="moon-btn">
-                                        <a className="btn-planet" href="#about-area">Moon</a>
-                                    </button>
-                                </div>
-                            </>
-                        )}
+            <AstronomicImage setBackgroundImage={setBackgroundImage} setImageDate={setImageDate} />
+            <section id="advanced-intro" style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                height: "100vh",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
+                transition: "background-image 0.5s ease-in-out",
+                color: "#F7F7F7" //testo data
+            }}>
+                <div id="advanced-title">
+                    <div id="area-title">
+                        <h1 className="title">Navigate the <AnimateOnChange
+                            animationIn="bounceIn"
+                            animationOut="bounceOut"
+                            durationOut={1000}
+                        >universe.</AnimateOnChange></h1>
                     </div>
-                </section>
+                    <div id="subtitle-area" className="centered-text">
+                        <h2 id="subtitle">
+                            Explore the universe with real-time data on the Sun and Moon.<br />
+                            Uncover the secrets of the cosmos with detailed astronomical analyses.<br />
+                            From solar flares to moon phases, get the latest updates and forecasts.
+                        </h2>
+                    </div>
+                    {imageDate && (
+                        <div id="image-date" className="image-date">
+                            <p>{imageDate}</p>
+                        </div>
+                    )}
+                </div>
+            </section>
+
+            <section id="second-container" className="mini-container">
+                {}
             </section>
         </>
     );

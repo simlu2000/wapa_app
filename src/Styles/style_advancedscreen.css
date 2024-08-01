@@ -10,17 +10,31 @@ body {
     ;
 }
 
-#area-title {
-    margin-top: 20%;
+.centered-text {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 800px; /* You can adjust the width to your liking */
 }
 
-.title {
+#subtitle {
+    font-size: 1.2em;
+    line-height: 1.5em;
+    margin: 10px 0;
     color: #F7F7F7;
+}
+#image-date {
+    position: absolute;
+    bottom: 65px; 
+    right: 65px;
+    background: rgba(0, 0, 0, 0.5); 
+    padding: 5px;
+    border-radius: 5px;
+    color: #F7F7F7;
+    font-size: 1em;
 }
 
 .options {
     color: #F7F7F7;
-    text-shadow: #000000;
 }
 
 .options.active {
@@ -42,7 +56,9 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    background-color: #000000;
 }
+
 
 .container-data {
     display: flex;
@@ -110,3 +126,11 @@ body {
     color:#F7F7F7;
   }
  
+  #second-container{
+    background-color: #000000;
+    height:500px;
+}
+
+#footer{
+    margin-top:400px;
+}

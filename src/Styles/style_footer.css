@@ -1,33 +1,23 @@
 #footer {
-  background-color: #000;
-  color: white;
-  padding: 20px 0;
-  position: relative;
-  width: 100%;
-  height: 200px;
+  background-color: #000000;
+  color: #F7F7F7;
   text-align: center;
+  padding: 20px;
+  position: relative;
   bottom: 0;
-  
+  width: 100%;
+  margin-top:200px;
 }
 
-#footer-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.footer-content {
+  margin: 0 auto;
 }
 
-#footer-content p {
-  margin: 0;
-}
-
-#footer-content a {
-  color: white;
+#prp {
+  color: #F7F7F7;
   text-decoration: none;
 }
 
-#footer-content a:hover {
+#prp:hover {
   text-decoration: underline;
-}
-#prp{
-  color:#FFF689;
 }

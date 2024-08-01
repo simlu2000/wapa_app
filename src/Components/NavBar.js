@@ -11,7 +11,7 @@ export const NavBar = ({ user }) => {
         <nav className="nav">
             <div className="navbar-container">
                 <header className="nav-header">
-                    <h3 className="wapa-area"><Link to="/">WAPA</Link></h3>
+                    <h3 id="logo" className="wapa-area"><Link to="/">WAPA</Link></h3>
                     <h3 className="opt" id="opt1">
                         <Link to="/WeatherScreen" className={`opt ${location.pathname === '/WeatherScreen' ? 'active' : ''}`}>
                             Weather
