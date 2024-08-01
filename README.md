@@ -81,5 +81,6 @@ Il progetto non è ancora completo. Mancano le seguenti parti:
 Clona la repository: git clone https://github.com/simlu2000/wapa_app.git
 Entra nella directory del progetto: cd wapa_app
 Installa le dipendenze: npm install
+Installa animazioni: npm install lottie-react-web react-animation
 Avvia l'applicazione: npm start
 
