@@ -13,6 +13,7 @@ import sun from "../img/sun.png";
 import mapsLogo from "../img/mapsLogo.png";
 import locationLogo from "../img/locationLogo.png";
 import alarmLogo from "../img/alarmLogo.png";
+import earth from "../img/earth.png";
 
 const HomeScreen = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -51,12 +52,7 @@ const HomeScreen = () => {
         <div className="mini-container">
           <div id="title-area">
             <h1 id="title">
-              Exact
-              <img src={sun} className="sun-icon" alt="sun icon" />
-              weather
-            </h1>
-            <h1 className="title" id="title">
-              exactly for you.
+              Exact weather exactly for you.
             </h1>
           </div>
           <div id="button-area">
@@ -89,7 +85,8 @@ const HomeScreen = () => {
           <InfoBox
             title="Galactic predictions"
             text="Aren't you satisfied with the usual predictions? Then get ready for something spacey! Thanks to the NASA API, our web app offers you advanced predictions with super detailed data about the sun and the moon. Graphs and charts will reveal every secret of the sky!"
-            customComponent={<EarthImage />}
+            imgSrc={earth}
+            imgAlt="Earth"
           />
           <InfoBox
             title="Interactive maps"

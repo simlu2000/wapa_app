@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
 
 body {
-    background-color: #000000;
     font-family: "Inconsolata", monospace;
     margin: 0;
     padding: 0;
@@ -13,7 +12,8 @@ body {
 .centered-text {
     text-align: center;
     margin: 0 auto;
-    max-width: 800px; /* You can adjust the width to your liking */
+    max-width: 800px;
+    /* You can adjust the width to your liking */
 }
 
 #subtitle {
@@ -22,11 +22,12 @@ body {
     margin: 10px 0;
     color: #F7F7F7;
 }
+
 #image-date {
     position: absolute;
-    bottom: 65px; 
+    bottom: 65px;
     right: 65px;
-    background: rgba(0, 0, 0, 0.5); 
+    background: rgba(0, 0, 0, 0.5);
     padding: 5px;
     border-radius: 5px;
     color: #F7F7F7;
@@ -74,63 +75,133 @@ body {
     align-items: center;
     margin-top: 5%;
     width: 100%;
-    
+
 }
 
-         
+
 #sun-btn {
-    background-image: linear-gradient(to right, #F09819 0%, #EDDE5D  51%, #F09819  100%);
+    background-image: linear-gradient(to right, #F09819 0%, #EDDE5D 51%, #F09819 100%);
     margin: 10px;
     padding: 15px 45px;
     text-align: center;
     text-transform: uppercase;
     transition: 0.5s;
     background-size: 200% auto;
-    color: white;            
+    color: white;
     box-shadow: 0 0 20px #eee;
     border-radius: 25px;
     display: block;
-    border:none;
+    border: none;
 
-  }
+}
 
-  #sun-btn:hover {
-    background-position: right center; 
+#sun-btn:hover {
+    background-position: right center;
     color: #fff;
     text-decoration: none;
-  }
- 
-    
-  #moon-btn {
-    background-image: linear-gradient(to right, #1D2B64 0%, #F8CDDA  51%, #1D2B64  100%);
+}
+
+
+#moon-btn {
+    background-image: linear-gradient(to right, #1D2B64 0%, #F8CDDA 51%, #1D2B64 100%);
     margin: 10px;
     padding: 15px 45px;
     text-align: center;
     text-transform: uppercase;
     transition: 0.5s;
     background-size: 200% auto;
-    color: white;            
+    color: white;
     box-shadow: 0 0 20px #eee;
-    border:none;
+    border: none;
     border-radius: 25px;
     display: block;
-  }
+}
 
-  #moon-btn:hover {
-    background-position: right center; 
+#moon-btn:hover {
+    background-position: right center;
     color: #fff;
     text-decoration: none;
-  }
+}
 
-  .btn-planet{
-    color:#F7F7F7;
-  }
- 
-  #second-container{
+.btn-planet {
+    color: #F7F7F7;
+}
+
+#second-container {
     background-color: #000000;
-    height:500px;
+    height: 500px;
 }
 
-#footer{
-    margin-top:400px;
+#footer {
+    margin-top: 400px;
 }
+
+#universe-btn {
+    background-image: linear-gradient(to right, #FF512F 0%, #F09819 51%, #FF512F 100%);
+    display: flex;
+    color: #C2FFE9;
+    padding: 10px 16px;
+    border-radius: 25px;
+    border: none;
+    transition: all .3s ease;
+    font-weight: bold;
+    cursor: pointer;
+    align-items: center;
+    font-size: 1.3rem;
+    text-align: center;
+    width: 150px;
+    height: 50px;
+
+}
+
+#universe-text {
+    color: #F7F7F7;
+
+}
+
+#universe-btn:hover {
+    background-position: right center;
+    /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+#universe-btn > .arrow {
+    width: 6px;
+    height: 6px;
+    border-right: 2px solid #C2FFE9;
+    border-bottom: 2px solid #C2FFE9;
+    position: relative;
+    transform: rotate(-45deg);
+    margin: 0 6px;
+    transition: all .3s ease;
+  }
+  
+  #universe-btn > .arrow::before {
+    display: block;
+    background-color: currentColor;
+    width: 3px;
+    transform-origin: bottom right;
+    height: 2px;
+    position: absolute;
+    opacity: 0;
+    bottom: calc(-2px / 2);
+    transform: rotate(45deg);
+    transition: all .3s ease;
+    content: "";
+    right: 0;
+  }
+  
+  #universe-btnn:hover > .arrow {
+    transform: rotate(-45deg) translate(4px, 4px);
+    border-color: text-hover-color;
+  }
+  
+  #universe-btnn:hover > .arrow::before {
+    opacity: 1;
+    width: 8px;
+  }
+  
+  #universe-btn:hover {
+    color: #fff;
+  }
+  

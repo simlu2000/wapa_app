@@ -43,6 +43,16 @@ const AdvancedScreen = () => {
                             From solar flares to moon phases, get the latest updates and forecasts.
                         </h2>
                     </div>
+                    <div>
+                    <div id="button-area">
+                        <button id="universe-btn">
+                            <a id="universe-text" href="#about-area">
+                                Universe
+                            </a>
+                            <span className="arrow"></span>
+                        </button>
+                    </div>
+                    </div>
                     {imageDate && (
                         <div id="image-date" className="image-date">
                             <p>{imageDate}</p>
@@ -52,7 +62,7 @@ const AdvancedScreen = () => {
             </section>
 
             <section id="second-container" className="mini-container">
-                {}
+                { }
             </section>
         </>
     );

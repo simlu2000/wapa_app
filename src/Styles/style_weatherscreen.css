@@ -153,6 +153,7 @@ h1 {
 
 .charts {
     margin-top: 2%;
+    margin-left: 9%;
 }
 
 .light-chart {
@@ -160,16 +161,12 @@ h1 {
     margin-left: 30%;
 }
 
-#c1 {
-    margin-left: 21%;
-}
 
 .meteo-box-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 25px;
-    background-color: #000000;
     border-radius: 25px;
     padding: 20px;
     width: 90%;
@@ -230,6 +227,7 @@ h1 {
     height: 200px;
     max-width: 300px;
     margin: 0 auto;
+    margin-left:9%;
 }
 
 .forecast-item:hover {
@@ -360,16 +358,17 @@ h1 {
 
     .charts-container {
         width: 95%;
+        margin-top:2%;
     }
 
     .charts {
         width: 18rem;
         height: 18rem;
-        margin-left: 90px;
+        margin-left: 20px;
     }
 
     #c1 {
-        margin-left: -15px;
+        margin-left: 5%;
     }
 
 
@@ -385,11 +384,9 @@ h1 {
 
 @media (max-width: 992px) {
     #meteo-title {
-        width: 100%;
         text-align: left;
         margin: 0;
         font-size: 0.8rem;
-        margin-left: 15%;
         margin-top: 20%;
     }
 
@@ -403,8 +400,8 @@ h1 {
     }
 
     .forecast-container {
-        width: 92%;
-        margin-left: 4%;
+        width: 63%;
+        margin-left: 18.5%;
     }
 
     .forecast-item {
@@ -423,22 +420,28 @@ h1 {
     .charts-container {
         width: 95%;
         display: flex;
+        flex-direction: column;
         flex-wrap: wrap;
         justify-content: space-between;
         gap: 20px;
-        background-color: #000000;
         border-radius: 25px;
         padding: 20px;
+        margin-top: 3%;
     }
 
     .charts {
         flex: 1 1 calc(33.333% - 40px);
         margin-bottom: 20px;
-        margin-left: 0px;
+        margin-left: 25%;
+    }
+
+    #c1 {
+        margin-left: 25%;
+
     }
 
     .light-chart {
-        margin-left: 10%;
+        margin-left: 0;
     }
 
     .map-section {
@@ -463,6 +466,7 @@ h1 {
         width: 100%;
     }
 
+
     .charts-container {
         flex-direction: column;
         align-items: center;
@@ -472,6 +476,11 @@ h1 {
     .charts {
         margin-bottom: -20px;
         width: 300px;
+        margin-left: 0;
+    }
+
+    #c1 {
+        margin-left: 0;
     }
 
     .data-boxes {
@@ -535,7 +544,7 @@ h1 {
     }
 
     .light-chart {
-        margin-left: 25%;
+        margin-left: 30%;
     }
 
     .forecast-container {
@@ -546,7 +555,7 @@ h1 {
         margin-left: 7%;
     }
 
-    .temp{
+    .temp {
         font-size: 0.9rem;
     }
 }
@@ -555,7 +564,7 @@ h1 {
     #meteo-title {
         margin-left: 28%;
         margin-top: 20%;
-        font-size: 0.5rem;
+        font-size: 0.1rem;
     }
 
     .container-1 {
@@ -659,16 +668,16 @@ h1 {
 }
 
 @media (max-width: 481px) {
-    h1 {
-        font-size: 2.7rem;
-    }
+    .title {
+        margin-left: 10%;
+        font-size: 3rem;
+        line-height: 55px;   
 
-    #meteo-title {
-        margin-left: 35%;
     }
 
     .sub-title {
         font-size: 1rem;
+        margin-left: 10%;
     }
 
     .today-data {
@@ -678,6 +687,13 @@ h1 {
     .charts-container,
     .meteo-box-container {
         padding: 10px;
+    }
+    .charts{
+        margin-left:-12%;
+    }
+    #c1{
+        margin-left:-7%;
+
     }
 
     .data-boxes {
@@ -760,7 +776,7 @@ h1 {
     }
 
     .light-chart {
-        margin-left: 1%;
+        margin-left: -5%;
     }
 
 }

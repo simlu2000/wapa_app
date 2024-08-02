@@ -77,7 +77,7 @@ const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSe
                 placeholder="Add new location"
             />
             <button
-                className="new-loc"
+                className="add-loc"
                 onClick={handleAddClick}
                 disabled={localities.length >= 6}
             >

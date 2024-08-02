@@ -251,7 +251,7 @@ const WeatherScreen = () => {
                             <>
                                 <h1 className="title">In {city}:</h1>
                                 <h1 className="title">{weatherData.weather[0].description}</h1>
-                                <h1 className="title">feels like {Math.floor(weatherData.main.feels_like)} C°</h1>
+                                <h1 className="title">feels {Math.floor(weatherData.main.feels_like)} C°</h1>
                                 <h2 className="sub-title">Min: {Math.floor(weatherData.main.temp_min)} C°</h2>
                                 <h2 className="sub-title">Max: {Math.floor(weatherData.main.temp_max)} C°</h2>
                             </>
@@ -267,7 +267,7 @@ const WeatherScreen = () => {
             {weatherData && weatherData.clouds && (
                 <section id="meteo-area" className="today-data" >
                     {user && (
-                        <section id="loc-area" className="" style={{
+                        <section id="loc" className="meteo-box-container" style={{
                             backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)'
                         }}>
                             <UserPlaces
