@@ -1,6 +1,7 @@
 //Gestisce la registrazione e l'accesso degli utenti, e interagisce con userService per gestire i dati dell'utente nel Realtime Database.
 import React, { useState } from 'react';
 import { auth, provider } from '../Utils/firebase';
+import { useNavigate } from 'react-router-dom';
 import { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { setUserData, getUserData } from '../Utils/userService'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,6 +13,8 @@ const SignUpScreen = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
 
   const toggleForm = () => {
     setIsSignUp(!isSignUp);
@@ -25,7 +28,7 @@ const SignUpScreen = () => {
 
       // Memorizza i dati dell'utente nel Realtime Database
       await setUserData(user.uid, { email: user.email, localities: [] });
-      alert('Registration successful');
+      navigate('/');
     } catch (error) {
       console.error("Error during registration", error);
       alert(error.message);
@@ -41,7 +44,7 @@ const SignUpScreen = () => {
       // Recupera i dati dell'utente se necessario
       // const userData = await getUserData(user.uid); // Se vuoi recuperare i dati dell'utente all'accesso
 
-      alert('Sign-in successful');
+      navigate('/');
     } catch (error) {
       console.error("Error during sign-in", error);
       alert(error.message);
@@ -58,8 +61,7 @@ const SignUpScreen = () => {
       // Memorizza i dati dell'utente nel Realtime Database
       await setUserData(user.uid, { email: user.email, localities: [] });
 
-      alert('Sign-in with Google successful');
-      console.log(user);
+      navigate('/');
     } catch (error) {
       console.error("Error during Google sign-in", error);
       alert(error.message);

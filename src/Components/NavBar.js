@@ -1,42 +1,72 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { auth } from '../Utils/firebase';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import SearchLocation from './SearchLocation';
 
-export const NavBar = ({ user }) => {
-    const location = useLocation();
+const NavBar = ({ user }) => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isClimateMenuOpen, setIsClimateMenuOpen] = useState(false);
+    const navigate = useNavigate();
+
+    const handleSearch = (query) => {
+        navigate('/WeatherScreen', { state: { query } });
+        closeMenu(); // Chiude il menu quando viene effettuata una ricerca
+    };
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
+    const closeMenu = () => {
+        setIsMenuOpen(false);
+        setIsClimateMenuOpen(false);
+    };
+
+    const toggleClimateMenu = () => {
+        setIsClimateMenuOpen(!isClimateMenuOpen);
+    };
 
     return (
-        <nav className="nav">
-            <div className="navbar-container">
-                <header className="nav-header">
-                    <h3 id="logo" className="wapa-area"><Link to="/">WAPA</Link></h3>
-                    <h3 className="opt" id="opt1">
-                        <Link to="/WeatherScreen" className={`opt ${location.pathname === '/WeatherScreen' ? 'active' : ''}`}>
-                            Weather
-                        </Link>
-                    </h3>
-                    <h3 className="opt">
-                        <Link to="/AdvancedScreen" className={`opt ${location.pathname === '/AdvancedScreen' ? 'active' : ''}`}>
-                            Advanced
-                        </Link>
-                    </h3>
-                    {!user ? ( //se non ce utente loggato
-                        <button className="opt btn-user">
-                            <Link to="/SignUpScreen" className={`opt ${location.pathname === '/SignUpScreen' ? 'active' : ''}`}>
-                                Sign Up
-                            </Link>
-                        </button>
-                    ) : ( //altrimenti ce utente
-                        /*<button className="logout-button btn-user" onClick={() => auth.signOut()}>
-                            Sign Out
-                        </button>*/
-                        <section id="user-area">
-                            <button id="profile-btn" className="Logout-button btn-user"><Link to="/UserProfileScreen"><FontAwesomeIcon icon={faUserCircle}/></Link></button>
-                        </section>
+        <nav className="navbar">
+            <div className="navbar-left">
+                <Link to="/" className="navbar-brand">WAPA</Link>
+                <button className="navbar-toggle" onClick={toggleMenu}>
+                    <span className="navbar-toggle-icon"></span>
+                </button>
+            </div>
+            <div className="navbar-center">
+                {/* Aggiungi gli altri link qui se necessario */}
+            </div>
+            <div className="navbar-right">
+                <div className="navbar-link" onMouseEnter={toggleClimateMenu} onMouseLeave={() => setIsClimateMenuOpen(false)}>
+                    Climate
+                    <span className="dropdown-arrow">▼</span>
+                    {isClimateMenuOpen && (
+                        <div className="dropdown-menu">
+                            <Link to="/WeatherScreen" className="dropdown-link" onClick={closeMenu}>Weather</Link>
+                            <Link to="/AdvancedScreen" className="dropdown-link" onClick={closeMenu}>Advanced</Link>
+                        </div>
                     )}
-                </header>
+                </div>
+                <SearchLocation onSearch={handleSearch} />
+                {user ? (
+                    <Link to="/UserProfileScreen" className="navbar-profile">Profile</Link>
+                ) : (
+                    <Link to="/SignUpScreen" className="navbar-signup">Sign Up</Link>
+                )}
+            </div>
+            <div className={`navbar-menu ${isMenuOpen ? 'open' : ''}`}>
+                <div className="navbar-center-menu">
+                    <Link to="/WeatherScreen" className="dropdown-link" onClick={closeMenu}>Weather</Link>
+                    <Link to="/AdvancedScreen" className="dropdown-link" onClick={closeMenu}>Advanced</Link>
+                </div>
+                <div className="navbar-right-menu">
+                    <SearchLocation onSearch={handleSearch} />
+                    {user ? (
+                        <Link to="/UserProfileScreen" className="navbar-profile" onClick={closeMenu}>Profile</Link>
+                    ) : (
+                        <Link to="/SignUpScreen" className="navbar-signup" onClick={closeMenu}>Sign Up</Link>
+                    )}
+                </div>
             </div>
         </nav>
     );

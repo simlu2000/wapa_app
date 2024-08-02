@@ -307,6 +307,13 @@ h2 {
 }
 
 /* RESPONSIVE*/
+@media (min-width: 1200px) {
+  #title-area {
+    font-size: 1rem;
+    margin-left: 0 auto;
+  }
+
+}
 @media (max-width: 1200px) {
   #title-area {
     font-size: 1.2rem;

@@ -1,37 +1,31 @@
-import { eventWrapper } from "@testing-library/user-event/dist/utils";
-import React, {useState} from "react";
-import { Helmet } from 'react-helmet';
+import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-const SearchLocation = ({onSearch}) => {
-    const [input, setInput] = useState(''); //per stato input che si aggiorna
-    const handleInputChange = (e) => {
-        setInput(e.target.value);
-    };
-    const handleSearch = () => {
-        onSearch(input);
+const SearchLocation = ({ onSearch }) => {
+    const [query, setQuery] = useState('');
+
+    const handleSearch = (event) => {
+        event.preventDefault();
+        if (onSearch) {
+            onSearch(query);
+        }
     };
 
     return (
-        <>
-            <Helmet>
-                <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" />
-            </Helmet>
-            <div className="box-search">
-                <div className="container-1">
-                    <span className="icon" onClick={handleSearch}><i className="fa fa-search"></i></span>
-                    <input
-                        id="search-location"
-                        type="text"
-                        placeholder="Type a location..."
-                        value={input}
-                        onChange={handleInputChange}
-                        onKeyDown={(e) => { if (e.key === 'Enter') handleSearch(); }}
-                    ></input>
-                </div>
-            </div>
-
-        </>
-    )
-}
+        <form onSubmit={handleSearch} className="search-location-form">
+            <input
+                type="text"
+                id="search"
+                placeholder="Enter city..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+            />
+            <button type="submit" className="search-button">
+                <FontAwesomeIcon icon={faSearch} />
+            </button>
+        </form>
+    );
+};
 
 export default SearchLocation;

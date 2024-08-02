@@ -100,7 +100,7 @@ const UserProfileScreen = ({ user }) => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigate('/login');
+      navigate('/');
     } catch (error) {
       console.error('Error during logout', error);
     }

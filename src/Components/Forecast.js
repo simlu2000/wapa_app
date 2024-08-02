@@ -5,11 +5,26 @@ import { faSun, faCloudRain, faSnowflake, faBolt, faCloud, faCloudShowersHeavy, 
 import "../Styles/style_weatherscreen.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import animationData from '../Animations/Animation - 1720385851643.json';
+import Lottie from 'lottie-react-web';
 
 const Forecast = ({ forecast }) => {
+    
     if (!forecast) {
-        return <div>No forecast data available</div>;
+        return (
+            <div className="loading-container">
+                <Lottie
+                    options={{
+                        animationData: animationData,
+                        loop: true,
+                        autoplay: true,
+                    }}
+                    style={{ width: '100%', height: '100%' }}
+                />
+            </div>
+        );
     }
+
 
     const applyBackgroundGradient = (weatherMain) => {
         switch (weatherMain) {
@@ -34,6 +49,7 @@ const Forecast = ({ forecast }) => {
         }
     };
 
+   
     const getWeatherIcon = (weatherMain, size, color) => {
         switch (weatherMain) {
             case 'Clear':
@@ -57,6 +73,7 @@ const Forecast = ({ forecast }) => {
         }
     };
 
+    
     const dailyForecast = forecast.reduce((acc, item) => {
         const date = new Date(item.dt * 1000).toLocaleDateString();
         if (!acc[date]) {
@@ -66,6 +83,7 @@ const Forecast = ({ forecast }) => {
         return acc;
     }, {});
 
+   
     const forecastItems = Object.keys(dailyForecast).map((date, index) => {
         const dayData = dailyForecast[date];
         const temperatures = dayData.map(item => item.main.temp);
@@ -81,6 +99,7 @@ const Forecast = ({ forecast }) => {
         };
     });
 
+    
     const settings = {
         dots: true,
         infinite: false,
@@ -109,15 +128,28 @@ const Forecast = ({ forecast }) => {
 
     return (
         <section className="forecast-container">
-            <Slider {...settings}>
-                {forecastItems.slice(0, 5).map((item, index) => (
-                    <div key={index} className="forecast-item" style={{ background: applyBackgroundGradient(item.weatherMain) }}>
-                        <h3 className="date">{item.date}</h3>
-                        <div className="weatherIcon">{item.icon}</div>
-                        <p className="temp">Min: {item.minTemp}°C Max: {item.maxTemp}°C</p>
-                    </div>
-                ))}
-            </Slider>
+            {forecast ? (
+                <Slider {...settings}>
+                    {forecastItems.slice(0, 5).map((item, index) => (
+                        <div key={index} className="forecast-item" style={{ background: applyBackgroundGradient(item.weatherMain) }}>
+                            <h3 className="date">{item.date}</h3>
+                            <div className="weatherIcon">{item.icon}</div>
+                            <p className="temp">Min: {item.minTemp}°C Max: {item.maxTemp}°C</p>
+                        </div>
+                    ))}
+                </Slider>
+            ) : (
+                <div className="loading-container">
+                    <Lottie
+                        options={{
+                            animationData: animationData,
+                            loop: true,
+                            autoplay: true,
+                        }}
+                        style={{ width: '100%', height: '100%' }}
+                    />
+                </div>
+            )}
         </section>
     );
 };

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom'; // Import useLocation for accessing navigation state
 import axios from 'axios';
 import { auth } from '../Utils/firebase';
 import { addLocation, removeLocation, getUserLocalities } from '../Utils/userService';
@@ -33,6 +34,7 @@ const WeatherScreen = () => {
     const [loading, setLoading] = useState(true);
     const [userLocalities, setUserLocalities] = useState([]);
     const [user, setUser] = useState(null);
+    const locationState = useLocation(); // Use useLocation to get navigation state
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
@@ -100,6 +102,11 @@ const WeatherScreen = () => {
         fetchWeatherData();
     }, [location]);
 
+    useEffect(() => {
+        if (locationState.state?.query) {
+            fetchWeatherBySearchedLocation(locationState.state.query);
+        }
+    }, [locationState]);
 
     const fetchWeatherBySearchedLocation = async (searchLocation) => {
         try {
@@ -121,7 +128,6 @@ const WeatherScreen = () => {
             console.error("Error. Location not found", error);
         }
     };
-
 
     const handleAddLocation = async (location) => {
         if (user) {
@@ -205,6 +211,7 @@ const WeatherScreen = () => {
         }
         
     };
+
     const sendNotification = (payload) => {
         navigator.serviceWorker.ready.then(function(registration){
             registration.showNotification(payload.title,{
@@ -242,7 +249,7 @@ const WeatherScreen = () => {
                             />
                         ) : (
                             <>
-                                <h1 className="title">Today in {city}:</h1>
+                                <h1 className="title">In {city}:</h1>
                                 <h1 className="title">{weatherData.weather[0].description}</h1>
                                 <h1 className="title">feels like {Math.floor(weatherData.main.feels_like)} C°</h1>
                                 <h2 className="sub-title">Min: {Math.floor(weatherData.main.temp_min)} C°</h2>
@@ -251,11 +258,8 @@ const WeatherScreen = () => {
                         )}
                     </div>
 
-                    <div id="action-area">
-                        <SearchLocation onSearch={fetchWeatherBySearchedLocation} />
-                    </div>
                     {forecastData && (
-                            <Forecast forecast={forecastData} isMobile={true} />
+                        <Forecast forecast={forecastData} isMobile={true} />
                     )}
                 </section>
             </section>
@@ -266,13 +270,13 @@ const WeatherScreen = () => {
                         <section id="loc-area" className="" style={{
                             backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)'
                         }}>
-                        <UserPlaces
-                            userId={user.uid}
-                            onAddLocation={handleAddLocation}
-                            onRemoveLocation={handleRemoveLocation}
-                            onSelectLocation={handleSelectLocation}
-                            getUserLocalities={getUserLocalities}
-                        />
+                            <UserPlaces
+                                userId={user.uid}
+                                onAddLocation={handleAddLocation}
+                                onRemoveLocation={handleRemoveLocation}
+                                onSelectLocation={handleSelectLocation}
+                                getUserLocalities={getUserLocalities}
+                            />
                         </section>
                     )}
 
