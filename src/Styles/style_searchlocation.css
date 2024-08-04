@@ -29,3 +29,7 @@
 .search-button .fa-search {
     color: black; /* Change the color as needed */
 }
+
+.search-location-form::placeholder{
+    font-size:3rem;
+}

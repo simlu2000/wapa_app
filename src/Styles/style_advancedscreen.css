@@ -13,7 +13,10 @@ body {
     text-align: center;
     margin: 0 auto;
     max-width: 800px;
-    /* You can adjust the width to your liking */
+}
+
+.title {
+    font-size: 6rem;
 }
 
 #subtitle {
@@ -127,14 +130,7 @@ body {
     color: #F7F7F7;
 }
 
-#second-container {
-    background-color: #000000;
-    height: 500px;
-}
-
-#footer {
-    margin-top: 400px;
-}
+#footer {}
 
 #universe-btn {
     background-image: linear-gradient(to right, #FF512F 0%, #F09819 51%, #FF512F 100%);
@@ -161,11 +157,11 @@ body {
 
 #universe-btn:hover {
     background-position: right center;
-    /* change the direction of the change here */
     color: #fff;
     text-decoration: none;
 }
-#universe-btn > .arrow {
+
+#universe-btn>.arrow {
     width: 6px;
     height: 6px;
     border-right: 2px solid #C2FFE9;
@@ -174,9 +170,9 @@ body {
     transform: rotate(-45deg);
     margin: 0 6px;
     transition: all .3s ease;
-  }
-  
-  #universe-btn > .arrow::before {
+}
+
+#universe-btn>.arrow::before {
     display: block;
     background-color: currentColor;
     width: 3px;
@@ -189,19 +185,70 @@ body {
     transition: all .3s ease;
     content: "";
     right: 0;
-  }
-  
-  #universe-btnn:hover > .arrow {
+}
+
+#universe-btnn:hover>.arrow {
     transform: rotate(-45deg) translate(4px, 4px);
     border-color: text-hover-color;
-  }
-  
-  #universe-btnn:hover > .arrow::before {
+}
+
+#universe-btnn:hover>.arrow::before {
     opacity: 1;
     width: 8px;
-  }
-  
-  #universe-btn:hover {
+}
+
+#universe-btn:hover {
     color: #fff;
-  }
-  
+}
+
+/*-------------------------------CONTAINERS------------------*/
+#second-container,#third-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+    gap: 20px;
+    height:45%;
+}
+
+.event-item {
+    flex: 1;
+    min-width: 300px;
+    /* Assicurati che le colonne non diventino troppo strette */
+}
+#timeline{
+    width:55%;
+}
+#natural{
+    width:54%;
+}
+#mars{
+    width:54%;
+}
+
+/*-----------------------THIRD CONTAINER----------------------------*/
+
+/*----------------------------OZONE MAP-----------------------------*/
+#ozone-map {
+    margin-top: 2%;
+    width: 90%;
+    margin-left: 5%;
+
+}
+
+.data-title {
+    font-size: 3rem;
+    margin-left: 5%;
+    margin-top: 5%;
+}
+
+/*--------------------CELESTIAL EVENTS---------------------------------*/
+#celestial-events {
+    height: 400px;
+}
+
+/*----------------------MARS ROVER PHOTOS--------------------------*/
+#mars{
+    height:auto;
+
+}

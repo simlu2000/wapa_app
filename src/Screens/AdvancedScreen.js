@@ -7,7 +7,12 @@ import "../Styles/style_navbar.css";
 import Lottie from "lottie-react-web";
 import animationData from "../Animations/Animation - 1720795288441.json";
 import { AnimateOnChange } from 'react-animation';
-
+import OzoneMap from "../Components/Maps/OzoneMap";
+import SpaceWeatherTimeline from "../Components/SpaceWeatherTimeline";
+import CelestialEvents from "../Components/CelestialEvents";
+import NaturalEvents from "../Components/NaturalEvents";
+import MarsRoverPhotos from "../Components/MarsRoverPhotos";
+import NearEarthObjects from "../Components/NearEarthObjects";
 const AdvancedScreen = () => {
     const [backgroundImage, setBackgroundImage] = useState("");
     const [imageDate, setImageDate] = useState("");
@@ -44,14 +49,14 @@ const AdvancedScreen = () => {
                         </h2>
                     </div>
                     <div>
-                    <div id="button-area">
-                        <button id="universe-btn">
-                            <a id="universe-text" href="#about-area">
-                                Universe
-                            </a>
-                            <span className="arrow"></span>
-                        </button>
-                    </div>
+                        <div id="button-area">
+                            <button id="universe-btn">
+                                <a id="universe-text" href="#second-container">
+                                    Universe
+                                </a>
+                                <span className="arrow"></span>
+                            </button>
+                        </div>
                     </div>
                     {imageDate && (
                         <div id="image-date" className="image-date">
@@ -62,8 +67,40 @@ const AdvancedScreen = () => {
             </section>
 
             <section id="second-container" className="mini-container">
-                { }
+
+                <div id="timeline" >
+                    <h3 className="data-title">Previsioni di eventi spaziali e impatti climatici</h3>
+                    <SpaceWeatherTimeline />
+                </div>
+
+                <div id="celestial" className="event-item">
+                    <h3 className="data-title">Eventi<br></br>Celestiali</h3>
+                    <CelestialEvents />
+                </div>
+
+
             </section>
+            <section id="third-container">
+                <div id="natural" className="event-item">
+                    <h3 className="data-title">Eventi naturali per categoria</h3>
+                    <NaturalEvents />
+                </div>
+                <div id="mars" className="event-item">
+                    <h3 className="data-title">Mars Rover Photos, Rover Curiosity</h3>
+                    <MarsRoverPhotos />
+                </div>
+
+            </section>
+            <section id="four-container">
+                <div id="ozone" className="event-item">
+                    <h3 className="data-title">Mappa della Concentrazione di Ozono</h3>
+                    <OzoneMap />
+                </div>
+                <div id="objects">
+                    <h3>Objects near Earth</h3>
+                </div>
+            </section>
+
         </>
     );
 }

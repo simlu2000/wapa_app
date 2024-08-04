@@ -54,10 +54,12 @@ body {
 #title-area {
   color: #F7F7F7;
   margin-top: 15%;
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 #title{
-  margin-left:-5%;
+  margin-left:5%;
+  margin-top:5%;
+  font-size: 7.5rem;
 
 }
 
@@ -100,10 +102,11 @@ body {
   font-weight: bold;
   cursor: pointer;
   align-items: center;
-  font-size: 1.3rem;
+  font-size: 1rem;
   text-align: center;
   width: 150px;
   height: 50px;
+  margin-top:-5%;
 }
 
 .arrow-button:hover {
@@ -233,7 +236,7 @@ h2 {
 
 .info-box {
   border-radius: 25px;
-background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);  color: white;
+  background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);  color: white;
   margin: 5%;
   margin-top: 2%;
   padding: 20px;
@@ -311,20 +314,22 @@ background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);  color: whi
     margin-left: 5%;
   }
   .btn{
-    width:200px;
-    height:100px;
+    width:125px;
+    height:50px;
     border-radius:25px;
-    font-size:2rem;
+    font-size:1rem;
   }
   
   .info-box {
     width: 85%;
     height: 550px;
   }
-
+  .info-img {
+    width: 65%;
+  }
   .info-box-test {
     font-size: 4.5rem;
-    margin-top:-5%;
+    margin-top:5%;
   }
 
   .info {

@@ -1,0 +1,62 @@
+/* Importa il CSS di slick-carousel nel tuo file CSS globale o nel componente */
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
+
+#space-weather-timeline {
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  margin-left: 5%;
+  font-family: 'Arial, sans-serif';
+}
+
+#space-weather-timeline h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.chart-container {
+  margin-bottom: 20px;
+  position: relative;
+  height: 400px; /* Imposta una altezza fissa per evitare ridimensionamenti */
+}
+
+.slider-item {
+  padding: 20px;
+}
+
+.event-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.event-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease, transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.event-card:hover {
+  background: #f1f1f1;
+  transform: translateY(-5px);
+}
+
+.event-card h4 {
+  color: #e67e22;
+  margin: 0 0 10px 0;
+}
+
+.event-card p {
+  margin: 0;
+  color: #555;
+}
