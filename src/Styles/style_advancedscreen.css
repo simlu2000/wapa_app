@@ -202,13 +202,20 @@ body {
 }
 
 /*-------------------------------CONTAINERS------------------*/
-#second-container,#third-container {
+#second-container,#third-container,#four-container {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     padding: 20px;
     gap: 20px;
     height:45%;
+    background-color: #000000;
+}
+.data-title {
+    font-size: 3rem;
+    margin-left: 5%;
+    margin-top: 5%;
+    color:#F7F7F7;
 }
 
 .event-item {
@@ -220,35 +227,38 @@ body {
     width:55%;
 }
 #natural{
-    width:54%;
+    width:100%;
+    
 }
 #mars{
     width:54%;
 }
+#objects{
+    width:45%;
+    margin-left:5%;
+
+
+}
 
 /*-----------------------THIRD CONTAINER----------------------------*/
 
-/*----------------------------OZONE MAP-----------------------------*/
-#ozone-map {
-    margin-top: 2%;
-    width: 90%;
-    margin-left: 5%;
-
-}
-
-.data-title {
-    font-size: 3rem;
-    margin-left: 5%;
-    margin-top: 5%;
-}
 
 /*--------------------CELESTIAL EVENTS---------------------------------*/
 #celestial-events {
     height: 400px;
+}
+#event-title{
+    margin-left:15%;
 }
 
 /*----------------------MARS ROVER PHOTOS--------------------------*/
 #mars{
     height:auto;
 
+}
+
+/*---------------------EARTH ------------------------------------*/
+.planet-area{
+    width:80%;
+    margin-left:15%;
 }

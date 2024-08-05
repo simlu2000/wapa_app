@@ -34,7 +34,7 @@ const WeatherScreen = () => {
     const [loading, setLoading] = useState(true);
     const [userLocalities, setUserLocalities] = useState([]);
     const [user, setUser] = useState(null);
-    const locationState = useLocation(); // Use useLocation to get navigation state
+    const locationState = useLocation(); 
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {

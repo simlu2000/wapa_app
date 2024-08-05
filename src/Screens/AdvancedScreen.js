@@ -7,12 +7,12 @@ import "../Styles/style_navbar.css";
 import Lottie from "lottie-react-web";
 import animationData from "../Animations/Animation - 1720795288441.json";
 import { AnimateOnChange } from 'react-animation';
-import OzoneMap from "../Components/Maps/OzoneMap";
-import SpaceWeatherTimeline from "../Components/SpaceWeatherTimeline";
-import CelestialEvents from "../Components/CelestialEvents";
-import NaturalEvents from "../Components/NaturalEvents";
-import MarsRoverPhotos from "../Components/MarsRoverPhotos";
-import NearEarthObjects from "../Components/NearEarthObjects";
+import SpaceWeatherTimeline from "../Components/Charts/SpaceWeatherTimeline";
+import CelestialEvents from "../Components/Advanced/CelestialEvents";
+import NaturalEvents from "../Components/Charts/NaturalEvents";
+import MarsRoverPhotos from "../Components/Advanced/MarsRoverPhotos";
+import NearEarthObjects from "../Components/Advanced/NearEarthObjects";
+import EarthImage from "../Components/Api_Img/EarthImage";
 const AdvancedScreen = () => {
     const [backgroundImage, setBackgroundImage] = useState("");
     const [imageDate, setImageDate] = useState("");
@@ -69,36 +69,35 @@ const AdvancedScreen = () => {
             <section id="second-container" className="mini-container">
 
                 <div id="timeline" >
-                    <h3 className="data-title">Previsioni di eventi spaziali e impatti climatici</h3>
+                    <h3 className="data-title">Predictions of space events and climate impacts</h3>
                     <SpaceWeatherTimeline />
                 </div>
-
-                <div id="celestial" className="event-item">
-                    <h3 className="data-title">Eventi<br></br>Celestiali</h3>
-                    <CelestialEvents />
+                <div id="earth" className="event-item">
+                <h3 className="data-title">Earth image of today</h3>
+                    <EarthImage />
                 </div>
-
 
             </section>
             <section id="third-container">
                 <div id="natural" className="event-item">
-                    <h3 className="data-title">Eventi naturali per categoria</h3>
+                    <h3 className="data-title">Natural events by category</h3>
                     <NaturalEvents />
                 </div>
+                <div id="objects">
+                    <h3 className="data-title">Objects near Earth</h3>
+                    <NearEarthObjects />
+                </div>
+            </section>
+            <section id="four-container">
                 <div id="mars" className="event-item">
                     <h3 className="data-title">Mars Rover Photos, Rover Curiosity</h3>
                     <MarsRoverPhotos />
                 </div>
+                <div id="celestial" className="event-item">
+                    <h3 id="event-title" className="data-title">Celestial<br></br>events</h3>
+                    <CelestialEvents />
+                </div>
 
-            </section>
-            <section id="four-container">
-                <div id="ozone" className="event-item">
-                    <h3 className="data-title">Mappa della Concentrazione di Ozono</h3>
-                    <OzoneMap />
-                </div>
-                <div id="objects">
-                    <h3>Objects near Earth</h3>
-                </div>
             </section>
 
         </>

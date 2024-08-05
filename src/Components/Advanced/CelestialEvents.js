@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Api_Key_NASA } from '../Utils/API_KEYS'; // Assicurati che questo sia il tuo file con la chiave API
-import "../Styles/style_celestialevents.css";
+import { Api_Key_NASA } from '../../Utils/API_KEYS'; // Assicurati che questo sia il tuo file con la chiave API
+import "../../Styles/style_celestialevents.css";
 
 const CelestialEvents = () => {
   const [events, setEvents] = useState([]);
