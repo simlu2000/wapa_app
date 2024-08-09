@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-import NavBar from "../Components/NavBar";
 import AstronomicImage from "../Components/Api_Img/AstronomicImage";
-import Footer from "../Components/Footer";
 import "../Styles/style_advancedscreen.css";
-import "../Styles/style_navbar.css";
 import Lottie from "lottie-react-web";
 import animationData from "../Animations/Animation - 1720795288441.json";
 import { AnimateOnChange } from 'react-animation';
@@ -35,11 +32,8 @@ const AdvancedScreen = () => {
             }}>
                 <div id="advanced-title">
                     <div id="area-title">
-                        <h1 className="title">Navigate the <AnimateOnChange
-                            animationIn="bounceIn"
-                            animationOut="bounceOut"
-                            durationOut={1000}
-                        >universe.</AnimateOnChange></h1>
+                        <h1 className="title">Navigate the <a id="universe-text"
+                        >universe.</a></h1>
                     </div>
                     <div id="subtitle-area" className="centered-text">
                         <h2 id="subtitle">
@@ -73,7 +67,7 @@ const AdvancedScreen = () => {
                     <SpaceWeatherTimeline />
                 </div>
                 <div id="earth" className="event-item">
-                <h3 className="data-title">Earth image of today</h3>
+                    <h3 className="data-title">Earth image of today</h3>
                     <EarthImage />
                 </div>
 

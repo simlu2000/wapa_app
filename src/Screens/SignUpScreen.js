@@ -7,7 +7,6 @@ import { setUserData, getUserData } from '../Utils/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
 import '../Styles/style_signupscreen.css';
-import NavBar from '../Components/NavBar';
 
 const SignUpScreen = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -28,7 +27,7 @@ const SignUpScreen = () => {
 
       // Memorizza i dati dell'utente nel Realtime Database
       await setUserData(user.uid, { email: user.email, localities: [] });
-      navigate('/');
+      navigate('/WeatherScreen');
     } catch (error) {
       console.error("Error during registration", error);
       alert(error.message);
@@ -44,7 +43,7 @@ const SignUpScreen = () => {
       // Recupera i dati dell'utente se necessario
       // const userData = await getUserData(user.uid); // Se vuoi recuperare i dati dell'utente all'accesso
 
-      navigate('/');
+      navigate('/WeatherScreen');
     } catch (error) {
       console.error("Error during sign-in", error);
       alert(error.message);
@@ -61,7 +60,7 @@ const SignUpScreen = () => {
       // Memorizza i dati dell'utente nel Realtime Database
       await setUserData(user.uid, { email: user.email, localities: [] });
 
-      navigate('/');
+      navigate('/WeatherScreen');
     } catch (error) {
       console.error("Error during Google sign-in", error);
       alert(error.message);
@@ -74,6 +73,28 @@ const SignUpScreen = () => {
 
   return (
     <>
+    <div class="background">
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+</div>
       <div className={`box-form ${isSignUp ? 'sign-up-mode' : ''}`} id="box">
         <div className="form-container sign-up">
           <button id="back" onClick={handleGoBack}>Go back</button>

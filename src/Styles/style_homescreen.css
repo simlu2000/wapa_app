@@ -17,7 +17,7 @@ html, body {
 }
 
 body {
-  background-color: #f7f7f7;
+  background-color: #000000;
   font-family: "Inconsolata", monospace;
   overflow-x: hidden;
 }
@@ -93,8 +93,8 @@ body {
 
 .arrow-button {
   display: flex;
-  color: #C2FFE9;
-  background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);  color: white;
+  color:#F7F7F7;
+  background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
   padding: 10px 16px;
   border-radius: 25px;
   border: none;
@@ -150,12 +150,12 @@ body {
 }
 
 .arrow-button:hover {
-  color: #fff;
+  color: #F7F7F7;
 }
 
 
 #about-area {
-  background-color: #f7f7f7;
+  background-color: #000000;
   width: 100%;
   margin-left: 0;
   margin-top: 0;
@@ -164,11 +164,13 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  
 }
 
 a {
   text-decoration: none;
-  color: black;
+  color:#F7F7F7;
+
 }
 
 .card {
@@ -180,7 +182,7 @@ a {
 }
 
 h2 {
-  color: black;
+  color: #F7F7F7;
 }
 
 .info-text {
@@ -210,14 +212,17 @@ h2 {
 #big-text {
   margin-top: -60px;
   font-size: 10rem;
+  color:#F7F7F7;
 }
 
 #small-text1 {
   margin-top: 100px;
+  color:#F7F7F7;
 }
 
 #small-text2 {
   margin-top: -140px;
+  color:#F7F7F7;
 }
 
 .text-animations {
@@ -314,10 +319,12 @@ h2 {
     margin-left: 5%;
   }
   .btn{
-    width:125px;
-    height:50px;
+    width:150px;
+    height:60px;
     border-radius:25px;
-    font-size:1rem;
+    background-image: linear-gradient(to right, #00d2ff 0%, #3a7bd5 51%, #00d2ff 100%);
+    color:#F7F7F7;
+    font-size:1.3rem;
   }
   
   .info-box {
@@ -356,6 +363,7 @@ h2 {
 
   #small-text1 {
     margin-top: 100px;
+    color:#F7F7F7;
   }
 
   #big-text {
@@ -364,6 +372,7 @@ h2 {
 
   #small-text2 {
     margin-top: -125px;
+    color:#F7F7F7;
   }
 
   .info-box {

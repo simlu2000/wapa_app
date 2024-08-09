@@ -6,17 +6,23 @@
   position: relative;
   bottom: 0;
   width: 100%;
+  margin-top:200px;
 }
 
 .footer-content {
   margin: 0 auto;
 }
 
-#prp {
-  color: #F7F7F7;
-  text-decoration: none;
+.footer-links {
+  margin-top: 10px;
 }
 
-#prp:hover {
+#prp, #about {
+  color: #F7F7F7;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+#prp:hover, #about:hover {
   text-decoration: underline;
 }

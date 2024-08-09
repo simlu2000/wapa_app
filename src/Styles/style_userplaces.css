@@ -1,4 +1,3 @@
-
 /*------------------------------------------FAVORITE PLACES AREA-----------------------------------------*/
 .user-places-container{
     width:95%;
@@ -9,6 +8,9 @@
     padding: 0;
     margin-left:5%
 
+}
+h2{
+    color:#000000;
 }
 #loc-area{
     width:90%;

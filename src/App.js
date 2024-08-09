@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { auth } from './Utils/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 
-import NavBar from "./Components/NavBar";
+import SideBar from "../src/Components/Sidebar";
 import Footer from "./Components/Footer";
 import HomeScreen from "./Screens/HomeScreen";
 import WeatherScreen from './Screens/WeatherScreen';
@@ -59,7 +59,7 @@ const App = () => {
 
     return (
         <div className='App'>
-            <NavBar user={user} />
+            <SideBar user={user} />
             <div className='main-content'>
                 <Routes>
                     <Route path='/' element={<HomeScreen />} />

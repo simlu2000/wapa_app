@@ -3,9 +3,6 @@ import { useLocation } from 'react-router-dom'; // Import useLocation for access
 import axios from 'axios';
 import { auth } from '../Utils/firebase';
 import { addLocation, removeLocation, getUserLocalities } from '../Utils/userService';
-import NavBar from '../Components/NavBar';
-import Footer from '../Components/Footer';
-import SearchLocation from '../Components/SearchLocation';
 import WindCharts from '../Components/Charts/WindCharts';
 import TempCharts from '../Components/Charts/TempCharts';
 import PressureCharts from '../Components/Charts/PressureCharts';
@@ -249,11 +246,11 @@ const WeatherScreen = () => {
                             />
                         ) : (
                             <>
-                                <h1 className="title">In {city}:</h1>
-                                <h1 className="title">{weatherData.weather[0].description}</h1>
-                                <h1 className="title">feels {Math.floor(weatherData.main.feels_like)} C°</h1>
-                                <h2 className="sub-title">Min: {Math.floor(weatherData.main.temp_min)} C°</h2>
-                                <h2 className="sub-title">Max: {Math.floor(weatherData.main.temp_max)} C°</h2>
+                                <h1 className="meteo-title">In {city}:</h1>
+                                <h1 className="meteo-title">{weatherData.weather[0].description}</h1>
+                                <h1 className="meteo-title">feels {Math.floor(weatherData.main.feels_like)} C°</h1>
+                                <h2 className="meteo-subtitle">Min: {Math.floor(weatherData.main.temp_min)} C°</h2>
+                                <h2 className="meteo-subtitle">Max: {Math.floor(weatherData.main.temp_max)} C°</h2>
                             </>
                         )}
                     </div>
@@ -354,11 +351,12 @@ const WeatherScreen = () => {
                         </section>
                     </section>
 
-                    <section className="map-section">
+                     {/*<section className="map-section">
                         <TemperatureMap location={location} />
                         <PrecipitationMap location={location} />
                         <WindMap location={location} />
                     </section>
+                    */}
                 </section>
             )}
         </>

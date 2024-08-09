@@ -1,0 +1,112 @@
+.sidebar {
+  width: 250px;
+  background-color: #000000;
+  color: #F7F7F7;
+  height: 100vh; /* La sidebar copre tutta l'altezza dello schermo */
+  padding-top: 80px; /* Sposta il contenuto della sidebar più in basso */
+  position: fixed;
+  left: -250px; /* Nasconde la sidebar inizialmente */
+  top: 0;
+  z-index: 1000;
+  overflow-y: auto; /* Aggiunge una barra di scorrimento se il contenuto è troppo lungo */
+  transition: left 0.3s ease; /* Aggiunge una transizione quando la sidebar si apre/chiude */
+}
+
+.sidebar.open {
+  left: 0; /* Mostra la sidebar quando è aperta */
+}
+
+.sidebar-brand {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #F7F7F7;
+  text-decoration: none;
+  margin-bottom: 20px;
+  display: block;
+  text-align: center; 
+}
+
+/* Stili per il pulsante di apertura/chiusura della sidebar */
+.sidebar-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #F7F7F7;
+  font-size: 2rem;
+  position: fixed;
+  left: 20px;
+  top: 20px;
+  z-index: 1100;
+  padding: 5px;
+}
+
+/* Stili per i link nella sidebar */
+.sidebar-link {
+  color: #F7F7F7;
+  text-decoration: none;
+  padding: 15px 0;
+  margin: 10px 0;
+  display: block;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  margin-left:15px;
+  margin-right:15px;
+}
+
+/* Effetto hover sui link del menu */
+.sidebar-link:hover {
+  background-image: linear-gradient(to right, #00d2ff 0%, #3a7bd5 51%, #00d2ff 100%);
+}
+
+.btn-sidebar{
+  margin-top:100px;
+}
+
+.search-location-form {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+#search {
+  width: calc(100% - 60px);
+  height: 40px;
+  padding: 0 15px;
+  border: 1px solid black;
+  border-radius: 25px;
+  background-color: #F7F7F7;
+  box-sizing: border-box;
+  outline: none;
+  font-size: 1rem;
+  margin-left: 15px;
+  margin-top:15px;
+}
+
+.search-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px; 
+  margin-top:15px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  background-color: #000000;
+  color: #F7F7F7;
+}
+
+.search-button .fa-search {
+  font-size: 1.5rem;
+}
+
+.search-location-form::placeholder {
+  font-size: 1rem;
+}
+
+.btn-sidebar{
+  text-align:center;
+  background-image: linear-gradient(to right, #00d2ff 0%, #3a7bd5 51%, #00d2ff 100%);
+  margin-top:50px;
+
+}

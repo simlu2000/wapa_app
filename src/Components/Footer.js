@@ -7,7 +7,10 @@ const Footer = () => {
     <section id="footer">
       <div className="footer-content">
         <p>Copyright &copy; {new Date().getFullYear()} WAPA - Simone Lutero - All Rights Reserved.</p>
-        <Link id="prp" to="/PrivacyPolicesScreen">Privacy Policy</Link>
+        <div className="footer-links">
+          <Link id="about" to="/about-us">About Us</Link>
+          <Link id="prp" to="/PrivacyPolicesScreen">Privacy Policy</Link>
+        </div>
       </div>
     </section>
   );

@@ -5,9 +5,11 @@ import { useInView } from "react-intersection-observer";
 import EarthImage from "../Components/Api_Img/EarthImage";
 import SunImage from "../Components/Api_Img/SunImage";
 import UnsplashFetching from "../Components/Api_Img/UnsplashFetching";
+import Footer from "../Components/Footer";
 /* Styles */
 import "animate.css";
 import "../Styles/style_homescreen.css";
+import "../Styles/style_footer.css";
 /* Images */
 import sun from "../img/sun.png";
 import mapsLogo from "../img/mapsLogo.png";
@@ -49,6 +51,7 @@ const HomeScreen = () => {
           transition: "background-image 0.5s ease-in-out",
         }}
       >
+        
         <div className="mini-container">
           <div id="title-area">
             <h1 id="title">
@@ -67,6 +70,7 @@ const HomeScreen = () => {
       </section>
 
       <section id="about-area" className="container-data">
+        
         <div id="about">
           <h2 id="small-text1">Stay up to date on the</h2>
           <div id="wapa-title">
@@ -78,22 +82,22 @@ const HomeScreen = () => {
         <div id="things" className="container-data">
           <InfoBox
             title="Weather in one click"
-            text="Insert your location and instantly discover all the essential weather information like temperature, pressure, humidity, and much more. Not just numbers, but also colorful charts that make everything clearer and easier to look at!"
+            text=" WAPA provides all the weather information you need in an instant. Simply enter your location and instantly discover essential data like temperature, pressure, humidity, wind speed, and much more. Not just numbers, but also interactive and colorful charts that make understanding the weather easy and enjoyable! Every detail is presented intuitively to help you plan your day better, whether you're organizing a vacation, an outdoor activity, or just deciding what to wear."
             imgSrc={locationLogo}
             imgAlt="Location Logo"
           />
           <InfoBox
             title="Galactic predictions"
-            text="Aren't you satisfied with the usual predictions? Then get ready for something spacey! Thanks to the NASA API, our web app offers you advanced predictions with super detailed data about the sun and the moon. Graphs and charts will reveal every secret of the sky!"
+            text="Ready for something beyond the ordinary? If traditional weather forecasts aren't cutting it, prepare for a cosmic upgrade! Using data directly from NASA's API, our web app delivers advanced predictions with incredibly detailed insights about the sun and celestial events. Explore the sky like never before with charts that unveil the mysteries of the cosmos!"
             imgSrc={earth}
             imgAlt="Earth"
           />
-          <InfoBox
+          {/*<InfoBox
             title="Interactive maps"
             text="Forget the old weather reports. With our interactive maps, you can see real-time data on earthly heat, sea level pressure, precipitation, and much more. It's like having a personal satellite!"
             imgSrc={mapsLogo}
             imgAlt="Maps Logo"
-          />
+          /> */}
           <InfoBox
             title="Customize your experience"
             text="If you sign in, you'll have the possibility to add your favorite locations and see the weather you're interested in directly. And if you want to always be one step ahead, turn on weather notifications so you'll never get caught unprepared by a storm!"
