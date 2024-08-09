@@ -49,4 +49,8 @@
   .slick-next {
     right: 10px;
   }
-  
+  .loading{
+    color:#f7f7f7;
+    margin-left:5%;
+    font-size:1.5rem;
+  }

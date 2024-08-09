@@ -10,7 +10,7 @@ import { AnimateOnChange } from 'react-animation';
 import SpaceWeatherTimeline from "../Components/Charts/SpaceWeatherTimeline";
 import CelestialEvents from "../Components/Advanced/CelestialEvents";
 import NaturalEvents from "../Components/Charts/NaturalEvents";
-import MarsRoverPhotos from "../Components/Advanced/MarsRoverPhotos";
+import MarsRoverPhotos from "../Components/Api_Img/MarsRoverPhotos";
 import NearEarthObjects from "../Components/Advanced/NearEarthObjects";
 import EarthImage from "../Components/Api_Img/EarthImage";
 const AdvancedScreen = () => {

@@ -10,6 +10,7 @@ const MarsRoverPhotos = () => {
   const [error, setError] = useState(null);
   const API_KEY = Api_Key_NASA;
 
+
   useEffect(() => {
     const fetchMostRecentPhotos = async () => {
       const today = new Date();
@@ -55,8 +56,8 @@ const MarsRoverPhotos = () => {
     fetchMostRecentPhotos();
   }, [API_KEY]);
 
-  if (loading) return <p>Caricamento delle foto in corso...</p>;
-  if (error) return <p>Errore nel caricamento delle foto: {error}</p>;
+  if (loading) return <p className="loading">Caricamento delle foto in corso...</p>;
+  if (error) return <p className="loading">Errore nel caricamento delle foto: {error}</p>;
 
   // Impostazioni dello slider
   const sliderSettings = {

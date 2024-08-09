@@ -53,7 +53,7 @@ body {
 
 #title-area {
   color: #F7F7F7;
-  margin-top: 15%;
+  margin-top: 20%;
   font-size: 0.8rem;
 }
 #title{
@@ -102,7 +102,7 @@ body {
   font-weight: bold;
   cursor: pointer;
   align-items: center;
-  font-size: 1rem;
+  font-size: 1.5rem;
   text-align: center;
   width: 150px;
   height: 50px;
@@ -245,7 +245,7 @@ h2 {
   justify-content: flex-start;
   align-items: center;
   width: 75%;
-  min-height: 50vh;
+  height:450px;
   font-family: "Roboto";
 }
 
@@ -276,7 +276,7 @@ h2 {
 
 .info-img {
   width: 450px;
-  height:400px;
+  height:550px;
 }
 
 .planet-area {
@@ -322,7 +322,7 @@ h2 {
   
   .info-box {
     width: 85%;
-    height: 550px;
+    height: 650px;
   }
   .info-img {
     width: 65%;
@@ -337,7 +337,9 @@ h2 {
     margin-top: 10px;
     margin-left: 25px;
   }
-
+.info-img{
+  margin-top:-10%;
+}
   
 
 }
@@ -366,7 +368,7 @@ h2 {
 
   .info-box {
     width: 65%;
-    height: 550px;
+    height: 650px;
   }
 
   .info-box-test {

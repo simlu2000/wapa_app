@@ -37,6 +37,7 @@ const NavBar = ({ user }) => {
                 {/* Aggiungi gli altri link qui se necessario */}
             </div>
             <div className="navbar-right">
+            <Link to="/AboutScreen" className="navbar-link">About</Link>
                 <div className="navbar-link" onMouseEnter={toggleClimateMenu} onMouseLeave={() => setIsClimateMenuOpen(false)}>
                     Climate
                     <span className="dropdown-arrow">▼</span>

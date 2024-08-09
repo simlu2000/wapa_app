@@ -5,7 +5,6 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 import "../../Styles/style_naturalevents.css";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
 const NaturalEventsChart = () => {
   const [eventsData, setEventsData] = useState([]);
   const [loading, setLoading] = useState(true);
