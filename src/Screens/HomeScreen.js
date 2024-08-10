@@ -16,6 +16,7 @@ import mapsLogo from "../img/mapsLogo.png";
 import locationLogo from "../img/locationLogo.png";
 import alarmLogo from "../img/alarmLogo.png";
 import earth from "../img/earth.png";
+import logo from "../img/logo.png"; // Aggiunta del logo
 
 const HomeScreen = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -40,24 +41,21 @@ const HomeScreen = () => {
         id="intro"
         className="container-data"
         style={{
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          height: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          transition: "background-image 0.5s ease-in-out",
+          
         }}
       >
-        
-        <div className="mini-container">
+        <div id="title-logo-container">
           <div id="title-area">
             <h1 id="title">
               Exact weather exactly for you.
             </h1>
           </div>
+          <div id="logo-area">
+            <img src={logo} alt="Logo" id="logo" />
+          </div>
+        </div>
+
+        <div className="mini-container">
           <div id="button-area">
             <button className="btn arrow-button">
               <a id="see" href="#about-area">
@@ -70,7 +68,6 @@ const HomeScreen = () => {
       </section>
 
       <section id="about-area" className="container-data">
-        
         <div id="about">
           <h2 id="small-text1">Stay up to date on the</h2>
           <div id="wapa-title">
@@ -92,12 +89,6 @@ const HomeScreen = () => {
             imgSrc={earth}
             imgAlt="Earth"
           />
-          {/*<InfoBox
-            title="Interactive maps"
-            text="Forget the old weather reports. With our interactive maps, you can see real-time data on earthly heat, sea level pressure, precipitation, and much more. It's like having a personal satellite!"
-            imgSrc={mapsLogo}
-            imgAlt="Maps Logo"
-          /> */}
           <InfoBox
             title="Customize your experience"
             text="If you sign in, you'll have the possibility to add your favorite locations and see the weather you're interested in directly. And if you want to always be one step ahead, turn on weather notifications so you'll never get caught unprepared by a storm!"
@@ -135,5 +126,3 @@ const InfoBox = ({ title, text, imgSrc, imgAlt, customComponent }) => (
 );
 
 export default HomeScreen;
-
-
