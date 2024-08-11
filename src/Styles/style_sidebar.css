@@ -1,71 +1,150 @@
+/* Stili generali per la sidebar */
 .sidebar {
-  width: 250px;
-  background-color: #000000;
-  color: #F7F7F7;
-  height: 100vh; /* La sidebar copre tutta l'altezza dello schermo */
-  padding-top: 80px; /* Sposta il contenuto della sidebar più in basso */
+  width: 60px;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 12px;
+  border: 1px solid rgba(209, 213, 219, 0.3);
+  color: #F7F7F7; /* Colore di default per il testo, se non specificato */
+  height: 100vh;
+  padding-top: 80px;
   position: fixed;
-  left: -250px; /* Nasconde la sidebar inizialmente */
+  left: 0;
   top: 0;
   z-index: 1000;
-  overflow-y: auto; /* Aggiunge una barra di scorrimento se il contenuto è troppo lungo */
-  transition: left 0.3s ease; /* Aggiunge una transizione quando la sidebar si apre/chiude */
+  overflow-y: auto;
+  transition: width 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%); /* Nascosto di default sui dispositivi mobili */
 }
-
+.sidebar-toggle{
+  visibility: hidden;
+}
+/* Mostra la sidebar completamente aperta */
 .sidebar.open {
-  left: 0; /* Mostra la sidebar quando è aperta */
+  width: 350px;
+  color: #000000; /* Colore di default quando la sidebar è aperta */
+  transform: translateX(0); /* Mostra la sidebar quando è aperta sui dispositivi mobili */
 }
 
-.sidebar-brand {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #F7F7F7;
-  text-decoration: none;
-  margin-bottom: 20px;
-  display: block;
-  text-align: center; 
+/* Espandi la sidebar al passaggio del mouse sui dispositivi di grandi dimensioni */
+@media (min-width: 768px) {
+  .sidebar {
+    transform: translateX(0); /* Mostra la sidebar quando è aperta */
+  }
+
+  .sidebar:hover {
+    width: 350px;
+    transform: translateX(0); /* Mostra la sidebar quando si passa sopra */
+  }
 }
 
-/* Stili per il pulsante di apertura/chiusura della sidebar */
-.sidebar-toggle {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #F7F7F7;
-  font-size: 2rem;
-  position: fixed;
-  left: 20px;
-  top: 20px;
-  z-index: 1100;
-  padding: 5px;
-}
-
-/* Stili per i link nella sidebar */
+/* Stili per le voci del menu */
 .sidebar-link {
-  color: #F7F7F7;
+  color: #000000; /* Colore del testo delle voci del menu */
   text-decoration: none;
-  padding: 15px 0;
+  padding: 25px 0;
   margin: 10px 0;
-  display: block;
+  display: flex;
+  align-items: center;
   font-size: 1.2rem;
   border-radius: 5px;
-  margin-left:15px;
-  margin-right:15px;
+  margin-left: 15px;
+  margin-right: 15px;
+  white-space: nowrap;
 }
 
-/* Effetto hover sui link del menu */
+/* Colore delle icone e svg */
+.sidebar-link i,
+.sidebar-link svg {
+  color: #000000;
+  font-size: 1.5rem;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+/* Colore del testo delle voci del menu in stato hover */
 .sidebar-link:hover {
-  background-image: linear-gradient(to right, #00d2ff 0%, #3a7bd5 51%, #00d2ff 100%);
+  background-color: #82cbff;
+  color: #000000; /* Assicurati che il testo rimanga nero anche quando si passa sopra con il mouse */
 }
 
-.btn-sidebar{
-  margin-top:100px;
+/* Stili specifici per dispositivi mobili */
+@media (max-width: 767px) {
+  .sidebar {
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar.open {
+    transform: translateX(0); /* Mostra la sidebar quando è aperta sui dispositivi mobili */
+  }
+
+  .sidebar-content {
+    padding: 20px;
+  }
+
+  .sidebar-link {
+    font-size: 1rem;
+    color: #F7F7F7; /* Colore del testo delle voci del menu sui dispositivi mobili */
+    padding: 15px 0;
+  }
+
+  .sidebar-link span {
+    display: block;
+    margin-left: 0;
+  }
+
+  .search-location-form {
+    margin-top: 10px;
+    padding-left: 0;
+  }
+
+  #search {
+    width: calc(100% - 50px);
+  }
+
+  .search-button {
+    margin-left: 0;
+  }
+
+  /* Pulsante per aprire/chiudere la sidebar su dispositivi mobili */
+  .sidebar-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 1100;
+    visibility: visible; /* Visibile solo su dispositivi mobili */
+  }
+
+  .sidebar-toggle:hover {
+    color: #82cbff;
+  }
+}
+
+@media (min-width: 768px) {
+  #toggle-area{
+    visibility: hidden;
+    margin-top:-20px
+  }
 }
 
 .search-location-form {
   display: flex;
   align-items: center;
   margin-top: 20px;
+  padding-left: 15px;
 }
 
 #search {
@@ -79,15 +158,15 @@
   outline: none;
   font-size: 1rem;
   margin-left: 15px;
-  margin-top:15px;
+  margin-top: 15px;
 }
 
 .search-button {
   background: none;
   border: none;
   cursor: pointer;
-  margin-left: 10px; 
-  margin-top:15px;
+  margin-left: 10px;
+  margin-top: 15px;
   padding: 8px;
   display: flex;
   align-items: center;
@@ -100,13 +179,8 @@
   font-size: 1.5rem;
 }
 
-.search-location-form::placeholder {
-  font-size: 1rem;
-}
-
-.btn-sidebar{
-  text-align:center;
-  background-image: linear-gradient(to right, #00d2ff 0%, #3a7bd5 51%, #00d2ff 100%);
-  margin-top:50px;
-
+.btn-sidebar {
+  text-align: center;
+  background-color: #82cbff;
+  margin-top: 50px;
 }

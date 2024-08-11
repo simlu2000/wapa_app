@@ -115,9 +115,9 @@ const UserProfileScreen = ({ user }) => {
       <section id="users-data" className="container-data">
         <h1>Your Profile</h1>
         <div id="user-area">
-          <label htmlFor="user-email">E-mail</label>
+          <label htmlFor="user-email">E-mail:</label>
           <input id="user-email" className="user-info" type="email" value={user.email} disabled />
-          <label htmlFor="user-name" id="label2">Name</label>
+          <label htmlFor="user-name" id="label2">Name:</label>
           <input id="user-name" className="user-info" type="text" value={user.displayName || "N/A"} disabled />
           <label id="label3">
             <input

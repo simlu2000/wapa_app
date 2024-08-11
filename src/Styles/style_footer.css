@@ -26,3 +26,8 @@
 #prp:hover, #about:hover {
   text-decoration: underline;
 }
+
+@media (max-width: 767px) {
+
+
+}

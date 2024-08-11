@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faInfoCircle, faCloudSun, faUser, faUserPlus, faSearch, faRocket, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import SearchLocation from './SearchLocation';
 import '../Styles/style_sidebar.css';
 
 const SideBar = ({ user }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isClimateMenuOpen, setIsClimateMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleSearch = (query) => {
@@ -13,35 +14,60 @@ const SideBar = ({ user }) => {
     closeMenu();
   };
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
   const closeMenu = () => {
     setIsMenuOpen(false);
-    setIsClimateMenuOpen(false);
-  };
-
-  const toggleClimateMenu = () => {
-    setIsClimateMenuOpen(!isClimateMenuOpen);
   };
 
   return (
     <>
-      <button className="sidebar-toggle" onClick={toggleMenu}>
-        ☰
-      </button>
-      <aside className={`sidebar ${isMenuOpen ? 'open' : ''}`}>
-        <Link to="/" className="sidebar-brand" onClick={closeMenu}>WAPA</Link>
-        <Link to="/AboutScreen" className="sidebar-link" onClick={closeMenu}>About</Link>
-        <Link to="/WeatherScreen" className="sidebar-link" onClick={closeMenu}>Weather</Link>
-        <Link to="/AdvancedScreen" className="sidebar-link" onClick={closeMenu}>Advanced</Link>
-        <SearchLocation onSearch={handleSearch} />
-        {user ? (
-          <Link to="/UserProfileScreen" className="sidebar-link btn-sidebar" onClick={closeMenu}>Profile</Link>
-        ) : (
-          <Link to="/SignUpScreen" className="sidebar-link btn-sidebar" onClick={closeMenu}>Sign Up</Link>
-        )}
+      <section id="toggle-area">
+        <button className="sidebar-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <FontAwesomeIcon icon={isMenuOpen ? faTimes : faBars} />
+        </button>
+      </section>
+      <aside
+        className={`sidebar ${isMenuOpen ? 'open' : ''}`}
+        onMouseEnter={() => setIsMenuOpen(true)}
+        onMouseLeave={() => setIsMenuOpen(false)}
+      >
+        <div className="sidebar-content">
+          <Link to="/" className="sidebar-link" onClick={closeMenu}>
+            <FontAwesomeIcon icon={faHome} />
+            {isMenuOpen && <span>Home</span>}
+          </Link>
+          <Link to="/AboutScreen" className="sidebar-link" onClick={closeMenu}>
+            <FontAwesomeIcon icon={faInfoCircle} />
+            {isMenuOpen && <span>About</span>}
+          </Link>
+          <Link to="/WeatherScreen" className="sidebar-link" onClick={closeMenu}>
+            <FontAwesomeIcon icon={faCloudSun} />
+            {isMenuOpen && <span>Weather</span>}
+          </Link>
+          <Link to="/AdvancedScreen" className="sidebar-link" onClick={closeMenu}>
+            <FontAwesomeIcon icon={faRocket} />
+            {isMenuOpen && <span>Advanced</span>}
+          </Link>
+
+          {isMenuOpen ? (
+            <SearchLocation onSearch={handleSearch} />
+          ) : (
+            <div className="sidebar-link">
+              <FontAwesomeIcon icon={faSearch} />
+            </div>
+          )}
+
+          {user ? (
+            <Link to="/UserProfileScreen" className="sidebar-link" onClick={closeMenu}>
+              <FontAwesomeIcon icon={faUser} />
+              {isMenuOpen && <span>Profile</span>}
+            </Link>
+          ) : (
+            <Link to="/SignUpScreen" className="sidebar-link" onClick={closeMenu}>
+              <FontAwesomeIcon icon={faUserPlus} />
+              {isMenuOpen && <span>Sign Up</span>}
+            </Link>
+          )}
+        </div>
       </aside>
     </>
   );
