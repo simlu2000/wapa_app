@@ -62,9 +62,9 @@ const AdvancedScreen = () => {
 
             <section id="second-container" className="mini-container">
 
-                <div id="timeline" >
-                    <h3 className="data-title">Predictions of space events and climate impacts</h3>
-                    <SpaceWeatherTimeline />
+                <div id="celestial" className="event-item">
+                    <h3 id="event-title" className="data-title">Celestial<br></br>events</h3>
+                    <CelestialEvents />
                 </div>
                 <div id="earth" className="event-item">
                     <h3 className="data-title">Earth image of today</h3>
@@ -83,14 +83,16 @@ const AdvancedScreen = () => {
                 </div>
             </section>
             <section id="four-container">
+
+                <div id="timeline" >
+                    <h3 className="data-title">Predictions of space events and climate impacts</h3>
+                    <SpaceWeatherTimeline />
+                </div>
                 <div id="mars" className="event-item">
                     <h3 className="data-title">Mars Rover Photos, Rover Curiosity</h3>
                     <MarsRoverPhotos />
                 </div>
-                <div id="celestial" className="event-item">
-                    <h3 id="event-title" className="data-title">Celestial<br></br>events</h3>
-                    <CelestialEvents />
-                </div>
+
 
             </section>
 

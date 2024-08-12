@@ -53,23 +53,23 @@ const Forecast = ({ forecast }) => {
     const getWeatherIcon = (weatherMain, size, color) => {
         switch (weatherMain) {
             case 'Clear':
-                return <FontAwesomeIcon icon={faSun} size={size} style={{ color }} />;
+                return <FontAwesomeIcon icon={faSun} size={size} style={{ color:"#ffd31f" }} />;
             case 'Clouds':
-                return <FontAwesomeIcon icon={faCloud} size={size} style={{ color }} />;
+                return <FontAwesomeIcon icon={faCloud} size={size} style={{ color:"#a7a7a7" }} />;
             case 'Rain':
-                return <FontAwesomeIcon icon={faCloudShowersHeavy} size={size} style={{ color }} />;
+                return <FontAwesomeIcon icon={faCloudShowersHeavy} size={size} style={{ color:"#003d75" }} />;
             case 'Snow':
-                return <FontAwesomeIcon icon={faSnowflake} size={size} style={{ color }} />;
+                return <FontAwesomeIcon icon={faSnowflake} size={size} style={{ color:"#cbcbcb" }} />;
             case 'Thunderstorm':
-                return <FontAwesomeIcon icon={faBolt} size={size} style={{ color }} />;
+                return <FontAwesomeIcon icon={faBolt} size={size} style={{ color:"#ffd31f" }} />;
             case 'Drizzle':
-                return <FontAwesomeIcon icon={faCloudRain} size={size} style={{ color }} />;
+                return <FontAwesomeIcon icon={faCloudRain} size={size} style={{ color:"#22a2e3" }} />;
             case 'Fog':
             case 'Mist':
             case 'Haze':
-                return <FontAwesomeIcon icon={faSmog} size={size} style={{ color }} />;
+                return <FontAwesomeIcon icon={faSmog} size={size} style={{ color:"#a7a7a7" }} />;
             default:
-                return <FontAwesomeIcon icon={faCloud} size={size} style={{ color }} />;
+                return <FontAwesomeIcon icon={faCloud} size={size} style={{ color:"#a7a7a7" }} />;
         }
     };
 
