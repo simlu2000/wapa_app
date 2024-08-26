@@ -791,3 +791,21 @@ h1 {
 }
 
 
+@media (max-width: 391px) {
+    .meteo-title{
+        font-size:2rem;
+        line-height: 20px;
+        margin-left:10%;
+    }
+    .forecast-container {
+        padding: 30px;
+    }
+    .forecast-item{
+        margin-left:0;
+    }
+
+    .light-chart {
+        margin-left: 5%;
+    }
+}
+
