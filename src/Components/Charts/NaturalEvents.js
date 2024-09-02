@@ -49,7 +49,7 @@ const NaturalEventsChart = () => {
 
   return (
     <section id="natural-events">
-      <h3 className="data-title"></h3>
+            <h2>Distribuzione degli Eventi Naturali per Categoria</h2> 
       <Bar 
         data={eventsData} 
         options={{

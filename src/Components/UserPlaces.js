@@ -42,28 +42,7 @@ const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSe
             console.error("Error removing location:", error);
         }
     };
-    const applyBackgroundGradient = (weatherMain) => {
-        switch (weatherMain) {
-            case 'Clear':
-                return 'linear-gradient(to top, #fff1eb 0%, #ace0f9 100%)';
-            case 'Clouds':
-                return 'linear-gradient(-20deg, #616161 0%, #9bc5c3 100%)';
-            case 'Rain':
-                return 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)';
-            case 'Snow':
-                return 'linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%)';
-            case 'Thunderstorm':
-                return 'linear-gradient(to right, #f83600 0%, #f9d423 100%)';
-            case 'Drizzle':
-                return 'linear-gradient(to right, #4CA1AF, #C4E0E5)';
-            case 'Fog':
-            case 'Mist':
-            case 'Haze':
-                return 'linear-gradient(to right, #757F9A, #D7DDE8)';
-            default:
-                return 'linear-gradient(to right, #83a4d4, #b6fbff)';
-        }
-    };
+    
 
     return (
         <section className="user-places-container" >
