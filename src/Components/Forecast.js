@@ -5,22 +5,15 @@ import { faSun, faCloudRain, faSnowflake, faBolt, faCloud, faCloudShowersHeavy, 
 import "../Styles/style_weatherscreen.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import animationData from '../Animations/Animation - 1720385851643.json';
-import Lottie from 'lottie-react-web';
+
+import "../Styles/style_forecast.css";
 
 const Forecast = ({ forecast }) => {
     
     if (!forecast) {
         return (
             <div className="loading-container">
-                <Lottie
-                    options={{
-                        animationData: animationData,
-                        loop: true,
-                        autoplay: true,
-                    }}
-                    style={{ width: '100%', height: '100%' }}
-                />
+                <h2>No forecast available</h2>
             </div>
         );
     }
@@ -140,14 +133,7 @@ const Forecast = ({ forecast }) => {
                 </Slider>
             ) : (
                 <div className="loading-container">
-                    <Lottie
-                        options={{
-                            animationData: animationData,
-                            loop: true,
-                            autoplay: true,
-                        }}
-                        style={{ width: '100%', height: '100%' }}
-                    />
+                    <h2>No forecast available</h2>
                 </div>
             )}
         </section>

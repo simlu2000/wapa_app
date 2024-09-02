@@ -11,11 +11,10 @@ const TempCharts = ({ initialTemperature }) => {
     const getOption = () => {
         return {
             title: {
-                text: "Temperature",
+                
                 left: "center",
                 textStyle: {
-                    color: "#F7F7F7",
-                    fontSize:20,
+                    
 
                 }
             },
@@ -32,8 +31,8 @@ const TempCharts = ({ initialTemperature }) => {
                     pointer: { show: false },
                     axisLine: { lineStyle: { width: 32 } },
                     axisTick: { distance: -40, splitNumber: 5, lineStyle: { width: 2, color: "#999" } },
-                    splitLine: { distance: -50, length: 14, lineStyle: { width: 2, color: "#F7F7F7" } },
-                    axisLabel: { distance: 5, color: "#F7F7F7", fontSize: 10 },
+                    splitLine: { distance: -50, length: 14, lineStyle: { width: 2, color: "#000000" } },
+                    axisLabel: { distance: 5, color: "#000000", fontSize: 10 },
                     detail: {
                         valueAnimation: true,
                         width: "60%",
@@ -43,7 +42,7 @@ const TempCharts = ({ initialTemperature }) => {
                         fontSize: 24,
                         fontWeight: "bolder",
                         formatter: "{value} °C",
-                        color: "#F7F7F7"
+                        color: "#000000"
                     },
                     data: [{ value: temperature }]
                 }
@@ -53,12 +52,12 @@ const TempCharts = ({ initialTemperature }) => {
 
     const chartStyle = { /*regolazione grandezza in base a grandezza schermo*/
         height: window.innerWidth < 576 ? "2rem" : "20rem",
-        width: window.innerWidth < 576 ? "2rem" : "20rem"
+        width: window.innerWidth < 576 ? "2rem" : "20rem",
         
     };
 
     return (
-        <div className="charts">
+        <div className="MeteoCharts">
             <ReactECharts option={getOption()} style={chartStyle} />
         </div>
     );

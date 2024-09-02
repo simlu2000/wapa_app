@@ -210,121 +210,8 @@ h1 {
     background-color: #F7F7F7;
 }
 
-/*----------------------------FORECAST------------*/
-.forecast-container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
-
-.forecast-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-    height: 200px;
-    max-width: 300px;
-    margin: 0 auto;
-    margin-left:9%;
-}
-
-.forecast-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.date {
-    font-size: 1rem;
-    margin-bottom: 10px;
-    color: #333;
-    font-weight: bold;
-    text-align: center;
-}
-
-.temp {
-    font-size: 1.2rem;
-    color: #666;
-    margin-top: 10px;
-    text-align: center;
-    margin-top: 10%;
-}
-
-.weatherIcon {
-    margin-left: 36%;
-    margin-top: 10%;
-}
-
-.slick-prev,
-.slick-next {
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    z-index: 2;
-}
-
-.slick-prev:hover,
-.slick-next:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
-.slick-prev:before,
-.slick-next:before {
-    font-size: 24px;
-    color: white;
-}
-
-.slick-dots li button:before {
-    font-size: 16px;
-    color: #333;
-}
-
-.slick-dots li.slick-active button:before {
-    color: #000;
-}
-
-
-/*--------------------------------------------WeatherMap-----------------------------------------------*/
-.map-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-top: 5%;
-    margin-left: 8%;
-    padding: 20px;
-    width: 100%;
-    color: #F7F7F7;
-}
-
-.weather-map {
-    width: 75%;
-    height: 400px;
-    border-radius: 25px;
-}
-
-.weather-map-area {
-    width: 65%;
-    height: 400px;
-    border-radius: 25px;
-
-}
-
-.map-title {
-    font-size: 3rem;
-    color: #000000;
-}
-
-#m3 {
-    margin-top: 0;
+.MeteoCharts{
+    margin-left:31%;
 }
 
 /*-------------------------------RESPONSIVE-------------------------------------*/
@@ -355,15 +242,7 @@ h1 {
         margin-left:0;
     }
 
-    .forecast-container {
-        width: 90%;
-        margin-left:5.5%;
-    }
-
-    .forecast-item {
-        width: 10%;
-    }
-
+    
     .charts-container {
         width: 97%;
         margin-top:2%;
@@ -405,24 +284,6 @@ h1 {
 
     .meteo-box-container {
         width: 97%;
-    }
-
-    .forecast-container {
-        width: 63%;
-        margin-left: 18.5%;
-    }
-
-    .forecast-item {
-        width: 12.5%;
-    }
-
-    .forecast-item .meteo-icon {
-        font-size: 0.5rem !important;
-        /*solo se necessario*/
-    }
-
-    .forecast-item .date {
-        font-size: 0.8rem;
     }
 
     .charts-container {
@@ -497,16 +358,6 @@ h1 {
         font-size: 1em;
     }
 
-    .forecast-container {
-        width: 60%;
-        margin-left: 20%;
-    }
-
-    .forecast-item {
-        width: 8%;
-        flex: 0 0 auto;
-    }
-
     .date {
         font-size: 0.1rem;
     }
@@ -556,14 +407,6 @@ h1 {
         margin-left: 30%;
     }
 
-    .forecast-container {
-        margin-left: 6%;
-    }
-
-    .forecast-item {
-        margin-left: 7%;
-    }
-
     .temp {
         font-size: 0.9rem;
     }
@@ -594,16 +437,6 @@ h1 {
     #search-location {
         margin-top: 10%;
         margin-left: 15%;
-    }
-
-    .forecast-container {
-        width: 46%;
-        margin-left: 27%;
-    }
-
-    .forecast-item {
-        width: 8%;
-        flex: 0 0 auto;
     }
 
     .date {
@@ -709,15 +542,6 @@ h1 {
         font-size: 1rem;
     }
 
-    .forecast-container {
-        margin-left: 36.5%;
-        width: 27%;
-    }
-
-    .forecast-item {
-        padding: 10px;
-        height: auto;
-    }
 
     .date {
         font-size: 1rem;
@@ -760,11 +584,6 @@ h1 {
         font-size: 0.75rem;
         padding: 0.5rem 1rem;
     }
-
-    .forecast-container {
-        padding: 10px;
-    }
-
     .progress {
         font-size: 8px;
     }
@@ -796,12 +615,6 @@ h1 {
         font-size:2rem;
         line-height: 20px;
         margin-left:10%;
-    }
-    .forecast-container {
-        padding: 30px;
-    }
-    .forecast-item{
-        margin-left:0;
     }
 
     .light-chart {

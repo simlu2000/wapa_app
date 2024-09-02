@@ -1,0 +1,184 @@
+.forecast-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom:5%;
+}
+
+.forecast-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    height: 200px;
+    max-width: 300px;
+    margin: 0 auto;
+    margin-left:9%;
+}
+
+.forecast-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.date {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+}
+
+.temp {
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 10px;
+    text-align: center;
+    margin-top: 10%;
+}
+
+.weatherIcon {
+    margin-left: 36%;
+    margin-top: 10%;
+}
+
+.slick-prev,
+.slick-next {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    z-index: 2;
+    background-color: #F7F7F7;
+    margin-right:45px;
+    margin-left:45px;
+
+}
+
+.slick-prev:hover,
+.slick-next:hover {
+    background-color: #000000;
+}
+
+.slick-prev:before,
+.slick-next:before {
+    font-size: 24px;
+    color: #000000;
+    
+}
+
+.slick-dots li button:before {
+    font-size: 6px;
+    color: #000000;
+    margin-top:30px;
+    
+}
+
+.slick-dots li.slick-active button:before {
+    color: #F7F7F7;
+    
+}
+
+
+@media (max-width: 1200px) {
+    .forecast-container {
+        width: 90%;
+        margin-left:5.5%;
+    }
+
+    .forecast-item {
+        width: 10%;
+    }
+
+}
+
+@media (max-width: 992px) {
+    .forecast-container {
+        width: 63%;
+        margin-left: 18.5%;
+    }
+
+    .forecast-item {
+        width: 12.5%;
+    }
+
+    .forecast-item .meteo-icon {
+        font-size: 0.5rem !important;
+        /*solo se necessario*/
+    }
+
+    .forecast-item .date {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .forecast-container {
+        width: 60%;
+        margin-left: 20%;
+    }
+
+    .forecast-item {
+        width: 8%;
+        flex: 0 0 auto;
+    }
+}
+
+@media (min-width: 1200px) {
+    .forecast-container {
+        margin-left: 6%;
+    }
+
+    .forecast-item {
+        margin-left: 7%;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .forecast-container {
+        width: 46%;
+        margin-left: 27%;
+        
+    }
+
+    .forecast-item {
+        width: 8%;
+        flex: 0 0 auto;
+    }
+
+}
+
+@media (max-width: 481px) {
+    .forecast-container {
+        margin-left: 36.5%;
+        width: 27%;
+        padding: 10px;
+
+    }
+
+    .forecast-item {
+        padding: 10px;
+        height: auto;
+    }
+
+}
+
+@media (max-width: 391px) {
+    .forecast-container {
+        padding: 30px;
+    }
+    .forecast-item{
+        margin-left:0;
+    }
+
+}

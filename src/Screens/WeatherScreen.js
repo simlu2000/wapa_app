@@ -5,20 +5,19 @@ import { auth } from '../Utils/firebase';
 import { addLocation, removeLocation, getUserLocalities } from '../Utils/userService';
 import WindCharts from '../Components/Charts/WindCharts';
 import TempCharts from '../Components/Charts/TempCharts';
+import TempMCharts from '../Components/Charts/TempMCharts';
+import MoreDataCharts from '../Components/Charts/MoreDataCharts';
 import PressureCharts from '../Components/Charts/PressureCharts';
 import Sunrise from '../Components/Charts/Sunrise';
 import Sunset from '../Components/Charts/Sunset';
 import Forecast from '../Components/Forecast';
-import TemperatureMap from '../Components/Maps/TemperatureMap';
-import PrecipitationMap from '../Components/Maps/PrecipitationMap';
-import WindMap from '../Components/Maps/WindMap';
+
 import PercentageBox from '../Components/PercentageBox';
 import UserPlaces from '../Components/UserPlaces';
 
 import '../Styles/style_weatherscreen.css';
-import Lottie from 'lottie-react-web';
-import 'leaflet/dist/leaflet.css';
-import animationData from '../Animations/Animation - 1720385851643.json';
+//import Lottie from 'lottie-react-web';
+//import animationData from '../Animations/Animation - 1720385851643.json';
 
 //import { Api_Key_OpenWeather } from '../Utils/API_KEYS';
 const Api_Key_OpenWeather = process.env.REACT_APP_Api_Key_OpenWeather;
@@ -220,7 +219,6 @@ const WeatherScreen = () => {
     };
     console.log('API Key OpenWeather:', process.env.REACT_APP_Api_Key_OpenWeather);
 
-
     return (
         <>
             <section
@@ -238,17 +236,17 @@ const WeatherScreen = () => {
                 <section className="mini-container">
                     <div id="meteo-title">
                         {loading ? (
-                            <Lottie
+                            /*<Lottie
                                 options={{
                                     animationData: animationData,
                                     loop: true,
                                     autoplay: true,
                                 }}
                                 style={{ width: 200, height: 200 }}
-                            />
+                            />*/ 
+                            <h1>Loading...</h1>
                         ) : (
                             <>
-                            
                                 <h1 className="meteo-title">In {city}:</h1>
                                 <h1 className="meteo-title">{weatherData.weather[0].description}</h1>
                                 <h1 className="meteo-title">feels {Math.floor(weatherData.main.feels_like)} C°</h1>
@@ -308,20 +306,13 @@ const WeatherScreen = () => {
                             </div>
                         </section>
                         <section id="temp-min" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Temp min {weatherData.main.temp_min} C°</h3>
-                            <div className="progress-bar">
-                                <div className="progress" style={{ width: `${weatherData.main.temp_min}%` }}>
-                                    <PercentageBox label={`${weatherData.main.temp_min} C°`} />
-                                </div>
-                            </div>
+                            <h3 className="meteo-box-label">Temp Min</h3>
+                            <TempMCharts initialTemperature={weatherData.main.temp_min}/>
                         </section>
                         <section id="temp-max" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Temp max {weatherData.main.temp_max} C°</h3>
-                            <div className="progress-bar">
-                                <div className="progress" style={{ width: `${weatherData.main.temp_max}%` }}>
-                                    <PercentageBox label={`${weatherData.main.temp_max} C°`} />
-                                </div>
-                            </div>
+                            <h3 className="meteo-box-label">Temp Max</h3>
+                            <TempMCharts initialTemperature={weatherData.main.temp_max}/>
+
                         </section>
                         <section id="lat" className="data-boxes meteo-box">
                             <h3 className="meteo-box-label">Lat {location.latitude}</h3>
@@ -337,20 +328,12 @@ const WeatherScreen = () => {
                             <Sunset sunsetTime={weatherData.sys.sunset} />
                         </section>
                         <section id="dew-point" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Dew Point {calculateDewPoint(weatherData.main.temp, weatherData.main.humidity).toFixed(1)} C°</h3>
-                            <div className="progress-bar">
-                                <div className="progress" style={{ width: `${calculateDewPoint(weatherData.main.temp, weatherData.main.humidity)}%` }}>
-                                    <PercentageBox label={`${calculateDewPoint(weatherData.main.temp, weatherData.main.humidity).toFixed(1)} C°`} />
-                                </div>
-                            </div>
+                            <h3 className="meteo-box-label">Dew Point</h3>
+                            <MoreDataCharts initialTemperature= {calculateDewPoint(weatherData.main.temp, weatherData.main.humidity).toFixed(1)}/>
                         </section>
                         <section id="air-pollution" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Air Pollution {airPollutionData ? airPollutionData.pm2_5 : 'N/A'} µg/m³</h3>
-                            <div className="progress-bar">
-                                <div className="progress" style={{ width: `${airPollutionData ? airPollutionData.pm2_5 : 0}%` }}>
-                                    <PercentageBox label={`${airPollutionData ? airPollutionData.pm2_5 : 'N/A'} µg/m³`} />
-                                </div>
-                            </div>
+                            <h3 className="meteo-box-label">Air Pollution  µg/m³</h3>
+                            <MoreDataCharts initialTemperature={airPollutionData ? airPollutionData.pm2_5 : 'N/A'}/>
                         </section>
                     </section>
 

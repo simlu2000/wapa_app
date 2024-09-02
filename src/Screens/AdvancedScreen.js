@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import AstronomicImage from "../Components/Api_Img/AstronomicImage";
 import "../Styles/style_advancedscreen.css";
-import Lottie from "lottie-react-web";
-import animationData from "../Animations/Animation - 1720795288441.json";
-import { AnimateOnChange } from 'react-animation';
+
 import SpaceWeatherTimeline from "../Components/Charts/SpaceWeatherTimeline";
 import CelestialEvents from "../Components/Advanced/CelestialEvents";
 import NaturalEvents from "../Components/Charts/NaturalEvents";
