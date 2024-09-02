@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Api_Key_NASA } from '../../Utils/API_KEYS';
+//import { Api_Key_NASA } from '../../Utils/API_KEYS';
 
 const AstronomicImage = ({ setBackgroundImage, setImageDate }) => {
     const [astronomicImageData, setAstronomicImageData] = useState(null);
     const [error, setError] = useState(null);
-    const apiKey = Api_Key_NASA;
+    const apiKey = process.env.REACT_APP_Api_Key_NASA;
 
     useEffect(() => {
         const fetchImage = async () => {

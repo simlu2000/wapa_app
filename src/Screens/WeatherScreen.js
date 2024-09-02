@@ -20,8 +20,8 @@ import Lottie from 'lottie-react-web';
 import 'leaflet/dist/leaflet.css';
 import animationData from '../Animations/Animation - 1720385851643.json';
 
-import { Api_Key_OpenWeather } from '../Utils/API_KEYS';
-
+//import { Api_Key_OpenWeather } from '../Utils/API_KEYS';
+const Api_Key_OpenWeather = process.env.REACT_APP_Api_Key_OpenWeather;
 const WeatherScreen = () => {
     const [weatherData, setWeatherData] = useState(null);
     const [airPollutionData, setAirPollutionData] = useState(null);
@@ -218,6 +218,8 @@ const WeatherScreen = () => {
             });
         });
     };
+    console.log('API Key OpenWeather:', process.env.REACT_APP_Api_Key_OpenWeather);
+
 
     return (
         <>
@@ -246,6 +248,7 @@ const WeatherScreen = () => {
                             />
                         ) : (
                             <>
+                            
                                 <h1 className="meteo-title">In {city}:</h1>
                                 <h1 className="meteo-title">{weatherData.weather[0].description}</h1>
                                 <h1 className="meteo-title">feels {Math.floor(weatherData.main.feels_like)} C°</h1>

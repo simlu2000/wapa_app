@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
-import {Api_Key_Unsplash} from "../../Utils/API_KEYS";
-
+//import {Api_Key_Unsplash} from "../../Utils/API_KEYS";
+const Api_Key_Unsplash=process.env.REACT_APP_Api_Key_Unsplash;
 const UnsplashFetching = ({ setBackgroundImage }) => {
   useEffect(() => {
     async function fetchImage() {

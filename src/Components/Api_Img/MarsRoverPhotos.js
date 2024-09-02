@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Slider from 'react-slick';
-import { Api_Key_NASA } from '../../Utils/API_KEYS';
+//import { Api_Key_NASA } from '../../Utils/API_KEYS';
 import "../../Styles/style_marsroverphotos.css"; // Assicurati di avere un file CSS per stilizzare il componente
 
 const MarsRoverPhotos = () => {
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const API_KEY = Api_Key_NASA;
+  const API_KEY = process.env.REACT_APP_Api_Key_NASA;
 
 
   useEffect(() => {

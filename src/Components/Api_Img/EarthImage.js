@@ -3,7 +3,7 @@ import axios from "axios";
 
 const EarthImage = ({ setBackgroundImageUrl }) => {
     const [imageUrl, setImageUrl] = useState('');
-    const apiKey = '8LrUPVfP91fRLfWacR9hjPpSmFalwWcaYrIr2Hcx'; // API Key NASA
+    const apiKey = process.env.REACT_APP_Api_Key_NASA;
 
     useEffect(() => {
         const fetchImage = async () => {

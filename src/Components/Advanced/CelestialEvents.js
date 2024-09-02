@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Api_Key_NASA } from '../../Utils/API_KEYS'; // Assicurati che questo sia il tuo file con la chiave API
+//import { Api_Key_NASA } from '../../Utils/API_KEYS'; // Assicurati che questo sia il tuo file con la chiave API
 import "../../Styles/style_celestialevents.css";
 
 const CelestialEvents = () => {
@@ -9,7 +9,7 @@ const CelestialEvents = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const API_KEY = Api_Key_NASA;
+    const API_KEY = process.env.REACT_APP_Api_Key_NASA;
     const url = 'https://api.nasa.gov/planetary/apod'; // Usa l'endpoint corretto
 
     const fetchCelestialEvents = async () => {

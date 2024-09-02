@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Slider from 'react-slick';
-import { Api_Key_NASA } from '../../Utils/API_KEYS';
+//import { Api_Key_NASA } from '../../Utils/API_KEYS';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import "../../Styles/style_object.css"; 
@@ -10,7 +10,7 @@ const NearEarthObjects = () => {
   const [objects, setObjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const API_KEY = Api_Key_NASA;
+  const API_KEY = process.env.REACT_APP_Api_Key_NASA;
 
   useEffect(() => {
     const fetchObjects = async () => {

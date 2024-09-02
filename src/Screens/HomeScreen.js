@@ -47,11 +47,9 @@ const HomeScreen = () => {
 
       <section id="about-area" className="container-data">
         <div id="about">
-          <h2 id="small-text1">Stay up to date on the</h2>
           <div id="wapa-title">
-            <h1 id="big-text">Weather</h1>
+            <h1 id="big-text">Stay up to date and know a lot of things.</h1>
           </div>
-          <h2 id="small-text2">and know a lot of things.</h2>
         </div>
 
         <div id="things" className="container-data">
