@@ -27,7 +27,7 @@ const HomeScreen = () => {
       <section id="intro" className="container-data">
         <div id="title-logo-container">
           <div id="title-area">
-            <h1 id="title">Exact weather 🌅<br />exactly for you</h1>
+            <h1 id="title">Exact weather exactly for you</h1>
             <h2 id="subtitle">And know a lot of things</h2>
           </div>
         </div>
