@@ -28,12 +28,12 @@ const HomeScreen = () => {
         <div id="title-logo-container">
           <div id="title-area">
             <h1 id="title">Exact weather 🌅<br />exactly for you</h1>
-            <h2>And know a lot of things</h2>
+            <h2 id="subtitle">And know a lot of things</h2>
           </div>
         </div>
 
         <div className="mini-container">
-          <div id="button-area">
+          <div className="button-area">
             <button className="btn arrow-button">
               <a id="see" href="#about-area">Discover</a>
               <span className="arrow"></span>
@@ -79,9 +79,12 @@ const HomeScreen = () => {
             Become part of our community and gain instant access to your favorite places, advanced predictions, and customizable experience.<br />
             💡 Don't wait! Your new WAPA experience starts here 💡
           </h3>
-          <button id="call-to-action-btn">
-            <Link to="/SignUpScreen">Join us!</Link>
-          </button>
+          <div className="button-area">
+            <button className="btn arrow-button">
+              <a id="see" href="#about-area"><Link to="/SignUpScreen">Join us!</Link></a>
+              <span className="arrow"></span>
+            </button>
+          </div>
         </div>
       </section>
     </>
