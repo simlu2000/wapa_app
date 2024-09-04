@@ -1,14 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
-
+/* Base Styles */
 body {
     font-family: "Inconsolata", monospace;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    /*per scroll orrizzontale*/
-    ;
 }
 
+/* General Styles */
 .centered-text {
     text-align: center;
     margin: 0 auto;
@@ -17,7 +15,7 @@ body {
 
 .title {
     font-size: 6rem;
-    margin-top:15%;
+    margin-top: 15%;
 }
 
 #subtitle {
@@ -38,23 +36,6 @@ body {
     font-size: 1em;
 }
 
-.options {
-    color: #F7F7F7;
-}
-
-.options.active {
-    color: lightblue;
-}
-
-#login-text {
-    color: black
-}
-
-.loading-text {
-    font-size: 1.5em;
-    color: #fff;
-}
-
 #advanced-intro {
     height: 100vh;
     display: flex;
@@ -64,226 +45,169 @@ body {
     background-color: #000000;
 }
 
-
-.container-data {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-
-}
-
-#planet-button-area {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 5%;
-    width: 100%;
-
-}
-
-
-#sun-btn {
-    background-image: linear-gradient(to right, #F09819 0%, #EDDE5D 51%, #F09819 100%);
-    margin: 10px;
-    padding: 15px 45px;
-    text-align: center;
-    text-transform: uppercase;
-    transition: 0.5s;
-    background-size: 200% auto;
-    color: white;
-    box-shadow: 0 0 20px #eee;
-    border-radius: 25px;
-    display: block;
-    border: none;
-
-}
-
-#sun-btn:hover {
-    background-position: right center;
-    color: #fff;
-    text-decoration: none;
-}
-
-
-#moon-btn {
-    background-image: linear-gradient(to right, #1D2B64 0%, #F8CDDA 51%, #1D2B64 100%);
-    margin: 10px;
-    padding: 15px 45px;
-    text-align: center;
-    text-transform: uppercase;
-    transition: 0.5s;
-    background-size: 200% auto;
-    color: white;
-    box-shadow: 0 0 20px #eee;
-    border: none;
-    border-radius: 25px;
-    display: block;
-}
-
-#moon-btn:hover {
-    background-position: right center;
-    color: #fff;
-    text-decoration: none;
-}
-
-.btn-planet {
-    color: #F7F7F7;
-}
-
-
-#universe-btn {
-    background-image: linear-gradient(to right, #FF512F 0%, #F09819 51%, #FF512F 100%);
-    display: flex;
-    color: #C2FFE9;
-    padding: 10px 16px;
-    border-radius: 25px;
-    border: none;
-    transition: all .3s ease;
-    font-weight: bold;
-    cursor: pointer;
-    align-items: center;
-    font-size: 1.3rem;
-    text-align: center;
-    width: 150px;
-    height: 50px;
-
-}
-
-#universe-text {
-    color: #F7F7F7;
-
-}
-
-#universe-btn:hover {
-    background-position: right center;
-    color: #fff;
-    text-decoration: none;
-}
-
-#universe-btn>.arrow {
-    width: 6px;
-    height: 6px;
-    border-right: 2px solid #C2FFE9;
-    border-bottom: 2px solid #C2FFE9;
-    position: relative;
-    transform: rotate(-45deg);
-    margin: 0 6px;
-    transition: all .3s ease;
-}
-
-#universe-btn>.arrow::before {
-    display: block;
-    background-color: currentColor;
-    width: 3px;
-    transform-origin: bottom right;
-    height: 2px;
-    position: absolute;
-    opacity: 0;
-    bottom: calc(-2px / 2);
-    transform: rotate(45deg);
-    transition: all .3s ease;
-    content: "";
-    right: 0;
-}
-
-#universe-btnn:hover>.arrow {
-    transform: rotate(-45deg) translate(4px, 4px);
-    border-color: text-hover-color;
-}
-
-#universe-btnn:hover>.arrow::before {
-    opacity: 1;
-    width: 8px;
-}
-
-#universe-btn:hover {
-    color: #fff;
-}
-
-/*-------------------------------CONTAINERS------------------*/
-#second-container,#third-container,#four-container {
+/* Containers */
+#second-container, #third-container, #four-container {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     padding: 20px;
     gap: 20px;
-    height:45%;
+    height: 45%;
     background-color: #000000;
 }
+
 .data-title {
     font-size: 3rem;
     margin-left: 5%;
     margin-top: 5%;
-    color:#F7F7F7;
+    color: #F7F7F7;
 }
 
 .event-item {
     flex: 1;
     min-width: 300px;
-    /* Assicurati che le colonne non diventino troppo strette */
-}
-#timeline{
-    width:55%;
-}
-#natural{
-    width:100%;
-    
-}
-#mars{
-    width:54%;
-}
-#objects{
-    width:45%;
-    margin-left:5%;
-
-
 }
 
-/*-----------------------THIRD CONTAINER----------------------------*/
-
-
-/*--------------------CELESTIAL EVENTS---------------------------------*/
-#celestial-events {
-    height: 400px;
-}
-#event-title{
-    margin-left:15%;
+#timeline {
+    width: 55%;
 }
 
-/*----------------------MARS ROVER PHOTOS--------------------------*/
-#mars{
-    height:auto;
-
+#natural {
+    width: 100%;
 }
 
-/*---------------------EARTH ------------------------------------*/
-.planet-area{
-    width:80%;
-    margin-left:15%;
+#mars {
+    width: 54%;
 }
 
+#objects {
+    width: 45%;
+    margin-left: 5%;
+}
 
-/*UNIVERSE*/
-#universe-text {
-    font-weight: bold;
-    font-family: sans-serif;
-    text-decoration: none;
-    background: rgba(0, 0, 0, 0) -webkit-gradient(linear, left top, right top, from(#90f3b3), color-stop(#90e9f3), color-stop(#909ff3), color-stop(#cc90f3), color-stop(#f390d1), color-stop(#f39a90), color-stop(#f3e590), to(#b8f390)) repeat scroll 0% 0%/200% 200%;
-    background: rgba(0, 0, 0, 0) linear-gradient(90deg, #90f3b3, #90e9f3, #909ff3, #cc90f3, #f390d1, #f39a90, #f3e590, #b8f390) repeat scroll 0% 0%/200% 200%;
-        background-clip: border-box;
-    color: transparent;
-    -webkit-background-clip: text;
-    background-clip: text;
-  }
-  
-  #universe-text:hover {
-    -webkit-animation: GradientAnimation 2s ease infinite;
-    animation: GradientAnimation 2s ease infinite;
-  }
-  
-  @keyframes GradientAnimation {
-    0% { background-position: 0% 50% }
-    50% { background-position: 100% 50% }
-    100% { background-position: 0% 50% }
-  }
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .title {
+        font-size: 5rem;
+    }
+
+    .data-title {
+        font-size: 2.5rem;
+    }
+
+    #timeline {
+        width: 50%;
+    }
+
+    #mars {
+        width: 60%;
+    }
+
+    #objects {
+        width: 40%;
+    }
+}
+
+@media (max-width: 992px) {
+    .title {
+        font-size: 4rem;
+    }
+
+    #subtitle {
+        font-size: 1em;
+    }
+
+    #image-date {
+        bottom: 30px;
+        right: 30px;
+        font-size: 0.9em;
+    }
+
+    #second-container, #third-container, #four-container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    #timeline, #mars, #objects {
+        width: 100%;
+    }
+
+    #natural {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 3rem;
+    }
+
+    #subtitle {
+        font-size: 0.9em;
+    }
+
+    .data-title {
+        font-size: 2rem;
+    }
+
+    #image-date {
+        font-size: 0.8em;
+    }
+
+    #second-container, #third-container, #four-container {
+        padding: 10px;
+    }
+
+    #timeline, #mars, #objects {
+        width: 100%;
+    }
+
+    #natural {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    #subtitle {
+        font-size: 0.8em;
+    }
+
+    .data-title {
+        font-size: 1.5rem;
+    }
+
+    #image-date {
+        font-size: 0.7em;
+    }
+
+    #advanced-intro {
+        height: auto;
+        padding: 20px;
+    }
+
+    #second-container, #third-container, #four-container {
+        padding: 5px;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .event-item {
+        min-width: 100%;
+        margin-bottom: 10px;
+    }
+
+    #timeline, #mars, #objects {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    h1{
+        font-size:3rem;
+        text-align: left;
+    }
+}
