@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import ReactECharts from "echarts-for-react";
+import React, { useState, useEffect } from 'react';
+import ReactECharts from 'echarts-for-react';
 
 // Parametri personalizzati
 const _panelImageURL = '/data/asset/img/custom-gauge-panel.png';
@@ -12,12 +12,25 @@ const _innerRadius = 170;
 const _pointerInnerRadius = 40;
 const _insidePanelRadius = 140;
 
-const DewPointCharts = ({ initialDewPoint }) => {
-    const [dewPoint, setDewPoint] = useState(initialDewPoint);
+const MoreDataCharts = ({ value }) => {
+    const [windowSize, setWindowSize] = useState({
+        width: window.innerWidth,
+        height: window.innerHeight
+    });
 
     useEffect(() => {
-        setDewPoint(initialDewPoint);
-    }, [initialDewPoint]);
+        const handleResize = () => {
+            setWindowSize({
+                width: window.innerWidth,
+                height: window.innerHeight
+            });
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    const { width } = windowSize;
 
     const renderItem = (params, api) => {
         const valOnRadian = api.value(1);
@@ -132,7 +145,7 @@ const DewPointCharts = ({ initialDewPoint }) => {
 
     const makeText = (valOnRadian) => {
         if (valOnRadian < -10) {
-            alert('illegal during val: ' + valOnRadian);
+            console.warn('illegal during val: ' + valOnRadian);
         }
         return ((valOnRadian / _valOnRadianMax) * 100).toFixed(0) + '%';
     };
@@ -143,7 +156,7 @@ const DewPointCharts = ({ initialDewPoint }) => {
         animationDurationUpdate: _animationDurationUpdate,
         animationEasingUpdate: _animationEasingUpdate,
         dataset: {
-            source: [[1, dewPoint]]
+            source: [[1, value]]
         },
         tooltip: {},
         angleAxis: {
@@ -167,25 +180,22 @@ const DewPointCharts = ({ initialDewPoint }) => {
         ]
     });
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const nextDewPoint = Math.round(Math.random() * _valOnRadianMax);
-            setDewPoint(nextDewPoint);
-        }, 3000);
-
-        return () => clearInterval(interval);
-    }, []);
-
     const chartStyle = {
-        height: window.innerWidth < 576 ? "2rem" : "20rem",
-        width: window.innerWidth < 576 ? "2rem" : "20rem"
+        height: width < 576 ? "0rem" : "20rem",
+        width: width < 576 ? "0rem" : "20rem"
     };
 
     return (
         <div className="MeteoCharts">
-            <ReactECharts option={getOption()} style={chartStyle} />
+            {width >= 576 ? (
+                <ReactECharts option={getOption()} style={chartStyle} />
+            ) : (
+                <div style={{ fontSize: "2rem", textAlign: "center", color: "rgb(0,50,190)" }}>
+                    {((value / _valOnRadianMax) * 100).toFixed(0)}%
+                </div>
+            )}
         </div>
     );
 };
 
-export default DewPointCharts;
+export default MoreDataCharts;

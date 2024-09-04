@@ -3,10 +3,19 @@ import ReactECharts from "echarts-for-react";
 
 const TempCharts = ({ initialTemperature }) => {
     const [temperature, setTemperature] = useState(initialTemperature);
-    
+
     useEffect(() => {
         setTemperature(initialTemperature);
     }, [initialTemperature]);
+
+    // Funzione per determinare la dimensione del font in base alla larghezza dello schermo
+    const getFontSize = () => {
+        if (window.innerWidth < 576) {
+            return 14; // Dimensione del font per smartphone
+        } else {
+            return 24; // Dimensione del font per schermi più grandi
+        }
+    };
 
     const getOption = () => {
         return {
@@ -14,8 +23,9 @@ const TempCharts = ({ initialTemperature }) => {
                 
                 left: "center",
                 textStyle: {
-                    
-
+                    color: "#000000",
+                    fontSize: 18,
+                    fontWeight: "bold"
                 }
             },
             series: [
@@ -36,10 +46,10 @@ const TempCharts = ({ initialTemperature }) => {
                     detail: {
                         valueAnimation: true,
                         width: "60%",
-                        lineHeight: 40,
+                        lineHeight: 30,
                         borderRadius: 8,
                         offsetCenter: [0, "-15%"],
-                        fontSize: 24,
+                        fontSize: getFontSize(), // Usa la funzione per determinare la dimensione
                         fontWeight: "bolder",
                         formatter: "{value} °C",
                         color: "#000000"
@@ -50,15 +60,9 @@ const TempCharts = ({ initialTemperature }) => {
         };
     };
 
-    const chartStyle = { /*regolazione grandezza in base a grandezza schermo*/
-        height: window.innerWidth < 576 ? "2rem" : "20rem",
-        width: window.innerWidth < 576 ? "2rem" : "20rem",
-        
-    };
-
     return (
         <div className="MeteoCharts">
-            <ReactECharts option={getOption()} style={chartStyle} />
+            <ReactECharts option={getOption()} />
         </div>
     );
 };

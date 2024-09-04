@@ -158,7 +158,7 @@
 
 }
 
-@media (max-width: 481px) {
+@media (max-width: 480px) {
     .forecast-container {
         margin-left: 36.5%;
         width: 27%;

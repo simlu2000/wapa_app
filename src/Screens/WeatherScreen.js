@@ -6,7 +6,7 @@ import { addLocation, removeLocation, getUserLocalities } from '../Utils/userSer
 import WindCharts from '../Components/Charts/WindCharts';
 import TempCharts from '../Components/Charts/TempCharts';
 import TempMCharts from '../Components/Charts/TempMCharts';
-import MoreDataCharts from '../Components/Charts/MoreDataCharts';
+import MoreDataCharts from '../Components/Charts/MoreDataCharts'; // Import MoreDataCharts
 import PressureCharts from '../Components/Charts/PressureCharts';
 import Sunrise from '../Components/Charts/Sunrise';
 import Sunset from '../Components/Charts/Sunset';
@@ -73,7 +73,7 @@ const WeatherScreen = () => {
                         axios.get(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${location.latitude}&lon=${location.longitude}&appid=${Api_Key_OpenWeather}`),
                         axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${location.latitude}&lon=${location.longitude}&appid=${Api_Key_OpenWeather}&units=metric`)
                     ]);
-                    
+
                     setWeatherData(weatherResponse.data);
                     setCity(weatherResponse.data.name);
                     setAirPollutionData(airPollutionResponse.data.list[0].components);
@@ -310,11 +310,11 @@ const WeatherScreen = () => {
                         </section>
                         <section id="dew-point" className="data-boxes meteo-box">
                             <h3 className="meteo-box-label">Dew Point</h3>
-                            <MoreDataCharts initialTemperature={calculateDewPoint(weatherData.main.temp, weatherData.main.humidity).toFixed(1)} />
+                            <MoreDataCharts value={calculateDewPoint(weatherData.main.temp, weatherData.main.humidity).toFixed(1)} />
                         </section>
                         <section id="air-pollution" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Air Pollution µg/m³</h3>
-                            <MoreDataCharts initialTemperature={airPollutionData ? airPollutionData.pm2_5 : 'N/A'} />
+                            <h3 className="meteo-box-label">Air Poll. µg/m³</h3>
+                            <MoreDataCharts value={airPollutionData ? airPollutionData.pm2_5 : 'N/A'} />
                         </section>
                     </section>
                 </section>

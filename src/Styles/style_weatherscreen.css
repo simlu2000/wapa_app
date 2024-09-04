@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
-
 /* Stili di base */
 * {
     box-sizing: border-box;
@@ -49,7 +47,6 @@ body {
     align-items: center;
     width: 100%;
     margin-top: 0;
-
 }
 
 .mini-container {
@@ -58,13 +55,10 @@ body {
 }
 
 #meteo-title {
-    margin-top: 20%;
-    margin-left: 10%;
-
+    margin-top: 10%;
 }
 
 h1 {
-
     font-size: 6.5em;
     word-break: break-word;
 }
@@ -73,8 +67,9 @@ h1 {
     margin-top: -50px;
     color: #F7F7F7;
 }
-.meteo-title,.meteo-subtitle{
-    color:#F7F7F7;
+
+.meteo-title, .meteo-subtitle {
+    color: #F7F7F7;
 }
 
 .sub-title {
@@ -130,8 +125,6 @@ h1 {
     transform: scale(1.05);
 }
 
-
-
 /*------------------------------------------Meteo area boxs-------------------------------------------*/
 .today-data {
     display: flex;
@@ -145,27 +138,34 @@ h1 {
 
 .charts-container {
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap; /* Modifica da row a wrap per la responsività */
+    justify-content: center; /* Centro orizzontalmente */
     gap: 25px;
     background-color: #000000;
     border-radius: 25px;
     padding: 20px;
     width: 90%;
-    margin-left:0;
-    margin-top:1%;
-
+    margin-left: 0;
+    margin-top: 1%;
 }
 
 .charts {
-    margin-top: 2%;
-    margin-left: 9%;
+    display: flex; /* Aggiungi per centrare il contenuto */
+    justify-content: center; /* Centro orizzontalmente */
+    align-items: center; /* Centro verticalmente */
+    width: 20rem; /* Imposta una larghezza fissa per i grafici */
+    height: 20rem; /* Imposta un'altezza fissa per i grafici */
+    margin: 0 auto; /* Centro orizzontalmente */
 }
 
 .light-chart {
-    margin-top: 5%;
-    margin-left: 30%;
+    display: flex; /* Aggiungi per centrare il contenuto */
+    justify-content: center; /* Centro orizzontalmente */
+    align-items: center; /* Centro verticalmente */
+    width: 20rem; /* Imposta una larghezza fissa per i grafici */
+    height: 20rem; /* Imposta un'altezza fissa per i grafici */
+    margin: 0 auto; /* Centro orizzontalmente */
 }
-
 
 .meteo-box-container {
     display: flex;
@@ -176,9 +176,8 @@ h1 {
     padding: 20px;
     width: 90%;
     margin-top: 25px;
-    color:#000000;
+    color: #000000;
 }
-
 
 .progress-bar {
     width: 100%;
@@ -199,7 +198,6 @@ h1 {
     transition: width 0.3s ease;
 }
 
-
 .data-boxes {
     flex: 1 0 40%;
     padding: 20px;
@@ -209,9 +207,14 @@ h1 {
     font-size: 1.5em;
     background-color: #F7F7F7;
 }
-
-.MeteoCharts{
-    margin-left:31%;
+.MeteoCharts {
+    display: flex;
+    justify-content: center; /* Centro orizzontalmente */
+    align-items: center; /* Centro verticalmente */
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    padding: 10px;
 }
 
 /*-------------------------------RESPONSIVE-------------------------------------*/
@@ -230,42 +233,30 @@ h1 {
         box-sizing: border-box;
     }
 
-    .container-1 .icon {
-        position: absolute;
-        left: 17px;
-        z-index: 1;
-    }
-
-
     .meteo-box-container {
         width: 98%;
-        margin-left:0;
+        margin-left: 0;
     }
 
-    
     .charts-container {
         width: 97%;
-        margin-top:2%;
-        margin-left:0;
+        margin-top: 2%;
+        margin-left: 0;
     }
 
     .charts {
         width: 18rem;
         height: 18rem;
-        margin-left: 2%;
-    }
-    #c1{
-        margin-left:10%;
-    }
-
-
-    .map-title {
-        font-size: 2rem;
     }
 
     .light-chart {
-        margin-left: 20%;
-
+        width: 18rem;
+        height: 18rem;
+    }
+}
+@media (max-width: 1024px) and (min-width:768) {
+    h1 {
+        margin-left: 25%;
     }
 }
 
@@ -290,52 +281,26 @@ h1 {
         width: 95%;
         display: flex;
         flex-direction: column;
-        flex-wrap: wrap;
-        justify-content: space-between;
         gap: 20px;
-        border-radius: 25px;
         padding: 20px;
         margin-top: 3%;
-        
     }
 
     .charts {
-        flex: 1 1 calc(33.333% - 40px);
-        margin-bottom: 20px;
-        margin-left: 25%;
-    }
-
-    #c1 {
-        margin-left: 25%;
-
+        width: 15rem;
+        height: 15rem;
     }
 
     .light-chart {
-        margin-left: 0;
+        width: 15rem;
+        height: 15rem;
     }
-
-    .map-section {
-        flex-direction: column;
-        margin-left: 33.5%;
-    }
-
-    .weather-map {
-        width: 100%;
-        height: 300px;
-        margin-bottom: 20px;
-    }
-
-    .map-title {
-        font-size: 2rem;
-    }
-
 }
 
 @media (max-width: 768px) {
     #weather-intro {
         width: 100%;
     }
-
 
     .charts-container {
         flex-direction: column;
@@ -344,22 +309,13 @@ h1 {
     }
 
     .charts {
-        margin-bottom: -20px;
         width: 300px;
-        margin-left: 0;
-    }
-
-    #c1 {
-        margin-left: 0;
+        height: 300px;
     }
 
     .data-boxes {
         padding: 10px;
         font-size: 1em;
-    }
-
-    .date {
-        font-size: 0.1rem;
     }
 
     .meteo-box-container {
@@ -372,253 +328,55 @@ h1 {
     }
 
     .light-chart {
-        margin-left: -4%;
-    }
-
-    #sunset,
-    #sunrise {
-        width: 25%;
-    }
-
-    .map-section {
-        flex-direction: column;
-        margin-left: 35%;
-    }
-
-    .weather-map {
-        width: 100%;
+        width: 300px;
         height: 300px;
-        margin-bottom: 20px;
+    }
+    .MeteoCharts {
+        padding: 5px;
     }
 
-
-}
-
-@media (min-width: 1200px) {
-    #meteo-title {
-        font-size: 0.8rem;
-    }
-
-    #c1 {
-        margin-left: 12.5%;
-    }
-
-    .light-chart {
-        margin-left: 30%;
-    }
-
-    .temp {
-        font-size: 0.9rem;
+    .echarts-for-react {
+        height: 15rem;
+        width: 15rem;
     }
 }
 
-@media (max-width: 576px) {
-    #meteo-title {
-        margin-left: 28%;
-        margin-top: 20%;
-        font-size: 0.1rem;
+@media (max-width: 480px) {
+    h1 {
+        font-size: 3.5em;
     }
 
-    .container-1 {
-        width: 65%;
-        height: 25px;
-        margin-left: 8%;
+    .mini-container {
+        height: auto;
     }
 
-    #search-location::placeholder {
-        font-size: 1.5rem;
-    }
-
-    .icon {
-        top: 40px;
-        margin-left: 40px;
-    }
-
-    #search-location {
-        margin-top: 10%;
-        margin-left: 15%;
-    }
-
-    .date {
-        font-size: 18px;
-        font-weight: bold;
-    }
-
-    .meteo-icon {
-        font-size: 48px;
-        margin-top: 10px;
-    }
-
-    .temp {
-        font-size: 16px;
-    }
-
-
-    .charts-container {
-        flex-direction: column;
-        align-items: center;
-        width: 95%;
+    .meteo-box-container, .charts-container {
+        padding: 10px;
     }
 
     .charts {
-        margin-bottom: -20px;
-        width: 300px;
-    }
-
-    .data-boxes {
-        padding: 10px;
-        font-size: 0.9em;
-    }
-
-    .meteo-box-container {
-        width: 95%;
-    }
-
-    .date {
-        font-size: 0.1rem;
-    }
-
-    #sunrise,
-    #sunset {
-        width: 65%;
-    }
-
-    .light-chart {
-        margin-left: 15%;
-    }
-
-    .map-section {
-        flex-direction: column;
-        margin-left: 15%;
-        gap: 20px;
-    }
-
-    .weather-map {
-        width: 85%;
-        height: 350px;
-        margin-bottom: 10%;
-    }
-
-    .weather-map-area {
         width: 100%;
-        margin-bottom: 10%;
+        height: auto;
     }
 
-    .map-title {
-        margin-top: 15%;
+    #meteo-title {
+        margin-left: 35%;
     }
-}
 
-@media (max-width: 481px) {
-    .title {
-        margin-left: 10%;
+    .meteo-title{
         font-size: 3rem;
-        line-height: 55px;   
-
-    }
-
-    .sub-title {
-        font-size: 1rem;
-        margin-left: 10%;
-    }
-
-    .today-data {
-        margin-top: 20px;
-    }
-
-    .charts-container,
-    .meteo-box-container {
-        padding: 10px;
-    }
-    .charts{
-        margin-left:-12%;
-    }
-    #c1{
-        margin-left:-7%;
-
     }
 
     .data-boxes {
-        font-size: 1rem;
+        font-size: 0.9em;
+        padding: 5px;
+    }
+    .MeteoCharts {
+        padding: 2px;
     }
 
-
-    .date {
-        font-size: 1rem;
-    }
-
-    .temp {
-        font-size: 0.875rem;
-    }
-
-    .weatherIcon {
-        margin-left: 35%;
-        margin-top: 5%;
-    }
-
-    .slick-prev,
-    .slick-next {
-        width: 30px;
-        height: 30px;
-    }
-
-    .slick-prev:before,
-    .slick-next:before {
-        font-size: 20px;
-    }
-
-    .map-section {
-        padding: 10px;
-    }
-
-    .weather-map,
-    .weather-map-area {
-        height: 200px;
-    }
-
-    .map-title {
-        font-size: 1.5rem;
-    }
-
-    .btn-go {
-        font-size: 0.75rem;
-        padding: 0.5rem 1rem;
-    }
-    .progress {
-        font-size: 8px;
-    }
-
-    .container {
-        padding: 10px;
-    }
-
-    #search-location::placeholder {
-        font-size: 1rem;
-
-    }
-
-    .today-data,
-    .charts-container,
-    .meteo-box-container {
-        padding: 10px;
-    }
-
-    .light-chart {
-        margin-left: -5%;
-    }
-
-}
-
-
-@media (max-width: 391px) {
-    .meteo-title{
-        font-size:2rem;
-        line-height: 20px;
-        margin-left:10%;
-    }
-
-    .light-chart {
-        margin-left: 5%;
+    .echarts-for-react {
+        height: 10rem;
+        width: 10rem;
     }
 }
-
