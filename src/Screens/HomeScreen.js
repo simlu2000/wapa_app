@@ -8,6 +8,7 @@ import Footer from "../Components/Footer";
 import "animate.css";
 import "../Styles/style_homescreen.css";
 /* Images */
+import logo from "../img/logo.png"
 import locationLogo from "../img/locationLogo.png";
 import alarmLogo from "../img/alarmLogo.png";
 import earth from "../img/earth.png";
@@ -27,8 +28,8 @@ const HomeScreen = () => {
       <section id="intro" className="container-data">
         <div id="title-logo-container">
           <div id="title-area">
-            <h1 id="title">Exact weather exactly for you</h1>
-            <h2 id="subtitle">And know a lot of things</h2>
+            <h1 id="intro-title">Exact weather exactly for you</h1>
+            <h2 id="into-subtitle">And know a lot of things</h2>
           </div>
         </div>
 
@@ -49,27 +50,35 @@ const HomeScreen = () => {
         </div>
 
         <div id="things" className="info-box-container">
-          <div className="info-box-large">
+          <div className="info-box-small">
+            <WapaBox
+                imgSrc={logo}
+                title="W-A-P-A"
+                text="Weather Advanced Predictions App. With Wapa you will updated about all weather conditions and advanced info about the universe. See here our features and enjoy with us!"
+
+              />
             <InfoBox
               title="Weather in one click"
               text="WAPA provides all the weather information you need in an instant. Simply enter your location and instantly discover essential data like temperature, pressure, humidity, wind speed, and much more."
-              imgSrc={locationLogo}
-              imgAlt="Location Logo"
             />
+            
           </div>
           <div className="info-box-small">
+          <WapaBox
+                imgSrc={alarmLogo}
+                title="Notifications"
+                text="Sign in to add your favorite locations (1-6) and see weather updates directly. Turn on weather notifications to stay prepared for any weather alarm like strange temperature or thunderstorm"
+              />
             <InfoBox
               title="Galactic predictions"
-              text="Using data directly from NASA's API, our web app delivers advanced predictions with incredibly detailed insights about natural events and the universe, like celestial events. You also can watch some daily photos about Mars and the Earth!"
-              //imgSrc={earth}
-              //imgAlt="Earth"
+              text="Using data directly from NASA's API, our web app delivers advanced predictions with incredibly detailed insights about natural events and the universe, like celestial events. 
+              You also can watch some daily photos about Mars and the Earth!"
+            
             />
-            <InfoBox
+            {/*<InfoBox
               title="Customize your experience"
               text="Sign in to add your favorite locations (1-6) and see weather updates directly. Turn on weather notifications to stay prepared for any weather alarm like strange temperature or thunderstorm."
-              //imgSrc={alarmLogo}
-              //imgAlt="Alarm Logo"
-            />
+            />*/}
           </div>
         </div>
 
@@ -97,9 +106,25 @@ const InfoBox = ({ title, text, imgSrc, imgAlt }) => (
       <h1 className="info-box-test">{title}</h1>
       <p className="info">{text}</p>
     </div>
-    <div className="mini-container right">
-      <img src={imgSrc} alt={imgAlt} className="info-img" loading="lazy" />
-    </div>
+    {imgSrc && (
+      <div className="mini-container right">
+        <img src={imgSrc} alt={imgAlt} className="info-img" loading="lazy" />
+      </div>
+    )}
+  </div>
+);
+
+
+const WapaBox = ({ title,text,imgSrc, imgAlt }) => (
+  <div className="info-box">
+    {imgSrc && (
+      <div>
+        <img src={imgSrc} alt={imgAlt} className="logo" loading="lazy" />
+        <h2 className="info-box-test">{title}</h2>
+        <h3 className="info-box-test">{text}</h3>
+
+      </div>
+    )}
   </div>
 );
 
