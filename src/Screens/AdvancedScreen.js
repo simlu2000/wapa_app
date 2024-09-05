@@ -44,7 +44,7 @@ const AdvancedScreen = () => {
                         <div id="button-area">
                             <div className="button-area">
                                 <button className="btn arrow-button">
-                                    <a id="see" href="#about-area">See more</a>
+                                    <a id="see" href="#celestial">See more</a>
                                     <span className="arrow"></span>
                                 </button>
                             </div>
