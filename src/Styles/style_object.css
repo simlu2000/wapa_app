@@ -5,7 +5,7 @@
   width: 87%;
   margin: 0 auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-left: 7%;
+  margin-left: 10%;
 }
 
 .neo-title {
@@ -78,8 +78,18 @@
 .slick-dots li.slick-active button:before {
   color: #333;
 }
+@media (max-width: 992px) {
+  .neo-container{
+    width:85%;
+    margin-left:7%;
+  }
+}
 
-@media (max-width: 768px) {
+@media (max-width: 769px) {
+  .neo-container{
+    width:85%;
+    margin-left:7%;
+  }
   .neo-item {
     margin: 10px 0;
   }
@@ -100,4 +110,13 @@
   .neo-date {
     font-size: 0.8em;
   }
+}
+
+@media (max-width: 480px) {
+  .neo-container{
+    width:90%;
+    margin-left:0;
+    
+  }
+
 }

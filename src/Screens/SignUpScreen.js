@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { auth, provider } from '../Utils/firebase';
 import { useNavigate } from 'react-router-dom';
 import { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { setUserData, getUserData } from '../Utils/userService'; 
+import { setUserData, getUserData } from '../Utils/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
 import '../Styles/style_signupscreen.css';
@@ -73,41 +73,42 @@ const SignUpScreen = () => {
 
   return (
     <>
-    <div class="background">
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-</div>
+      <div class="background">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
       <div className={`box-form ${isSignUp ? 'sign-up-mode' : ''}`} id="box">
         <div className="form-container sign-up">
           <button id="back" onClick={handleGoBack}>Go back</button>
           <form id="sign" onSubmit={handleSignUp}>
-            <h1 className="form-text">Create Account</h1>
+            <h1 id="signup" className="form-text">Sign Up</h1>
             <div className="social-icons">
               <a href="#" className="icon" onClick={handleGoogleSignIn}><FontAwesomeIcon icon={faGooglePlusG} /></a>
-              <a href="#" className="icon"><FontAwesomeIcon icon={faFacebookF} /></a>
             </div>
             <span>or use your email for registration</span>
-            <input type="text" placeholder="Name" />
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
+            <div id="user_data" >
+              <input id="name-user" type="text" placeholder="Name" />
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
+            </div>
             <button type="submit">Sign Up</button>
           </form>
         </div>
@@ -116,10 +117,9 @@ const SignUpScreen = () => {
             <h1 className="form-text">Sign In</h1>
             <div className="social-icons">
               <a href="#" className="icon" onClick={handleGoogleSignIn}><FontAwesomeIcon icon={faGooglePlusG} /></a>
-              <a href="#" className="icon"><FontAwesomeIcon icon={faFacebookF} /></a>
             </div>
             <span>or use your email and password</span>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
+            <input className="email-area" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
             <a href="#">Forget Your Password?</a>
             <button type="submit">Sign In</button>
@@ -133,7 +133,7 @@ const SignUpScreen = () => {
               <button className="hidden" id="login" onClick={toggleForm}>Sign In</button>
             </div>
             <div className={`toggle-panel toggle-right ${isSignUp ? 'hidden' : ''}`}>
-              <h1 className="form-text">Hello!</h1>
+              <h1 className="form-text">Hi!</h1>
               <p>Register with your personal details to use all of WAPA features</p>
               <button className="hidden" id="register" onClick={toggleForm}>Sign Up</button>
             </div>

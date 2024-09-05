@@ -45,8 +45,56 @@ body {
     background-color: #000000;
 }
 
+#universe-text {
+    background: linear-gradient(to right, #ff8a00 0%, #dd4c4f 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+}
+
+/*button area*/
+.arrow-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 16px;
+    width: 150px;
+    height: 50px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    background-color: #F7F7F7;
+    transition: background-color 0.3s ease;
+    color: #000;
+    text-decoration: none;
+}
+
+.arrow-button:hover {
+    background-color: #000;
+    color: #F7F7F7;
+}
+
+.arrow {
+    width: 6px;
+    height: 6px;
+    border-right: 2px solid #C2FFE9;
+    border-bottom: 2px solid #C2FFE9;
+    transform: rotate(-45deg);
+    margin-left: 6px;
+    transition: transform 0.3s ease;
+
+}
+
+.arrow-button:hover .arrow {
+    transform: rotate(-45deg) translate(4px, 4px);
+}
+
 /* Containers */
-#second-container, #third-container, #four-container {
+#second-container,
+#third-container,
+#four-container {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -58,8 +106,7 @@ body {
 
 .data-title {
     font-size: 3rem;
-    margin-left: 5%;
-    margin-top: 5%;
+    text-align: center;
     color: #F7F7F7;
 }
 
@@ -88,7 +135,11 @@ body {
 /* Responsive Styles */
 @media (max-width: 1200px) {
     .title {
-        font-size: 5rem;
+        font-size: 6rem;
+    }
+    #advanced-title{
+        text-align: center;
+        margin-left: 5%;
     }
 
     .data-title {
@@ -110,7 +161,22 @@ body {
 
 @media (max-width: 992px) {
     .title {
-        font-size: 4rem;
+        font-size: 6rem;
+    }
+    #advanced-title{
+        text-align: center;
+        margin-left: 5%;
+    }
+    #earth{
+        margin-left:5%;
+    }
+
+    #subtitle {
+        font-size: 0.9em;
+    }
+
+    .data-title {
+        font-size: 2rem;
     }
 
     #subtitle {
@@ -123,12 +189,16 @@ body {
         font-size: 0.9em;
     }
 
-    #second-container, #third-container, #four-container {
+    #second-container,
+    #third-container,
+    #four-container {
         flex-direction: column;
         height: auto;
     }
 
-    #timeline, #mars, #objects {
+    #timeline,
+    #mars,
+    #objects {
         width: 100%;
     }
 
@@ -137,9 +207,16 @@ body {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 769px) {
     .title {
-        font-size: 3rem;
+        font-size: 6rem;
+    }
+    #advanced-title{
+        text-align: center;
+        margin-left: 5%;
+    }
+    #earth{
+        margin-left:5%;
     }
 
     #subtitle {
@@ -154,11 +231,15 @@ body {
         font-size: 0.8em;
     }
 
-    #second-container, #third-container, #four-container {
+    #second-container,
+    #third-container,
+    #four-container {
         padding: 10px;
     }
 
-    #timeline, #mars, #objects {
+    #timeline,
+    #mars,
+    #objects {
         width: 100%;
     }
 
@@ -189,7 +270,9 @@ body {
         padding: 20px;
     }
 
-    #second-container, #third-container, #four-container {
+    #second-container,
+    #third-container,
+    #four-container {
         padding: 5px;
         flex-direction: column;
         align-items: stretch;
@@ -200,14 +283,22 @@ body {
         margin-bottom: 10px;
     }
 
-    #timeline, #mars, #objects {
+    #timeline,
+    #mars,
+    #objects {
         width: 100%;
     }
 }
 
 @media (max-width: 480px) {
-    h1{
-        font-size:3rem;
-        text-align: left;
+    .title {
+        font-size: 3rem;
+        text-align: center;
+    }
+    .data-title{
+        text-align: center;
+    }
+    #timeline{
+        display:none;
     }
 }

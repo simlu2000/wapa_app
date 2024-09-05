@@ -7,7 +7,7 @@
     height:auto;
     margin: auto;
     font-family: 'Arial, sans-serif';
-    margin-left:7%;
+    margin-left:0;
   }
 .photo-slide {
     position: relative;
@@ -53,4 +53,18 @@
     color:#f7f7f7;
     margin-left:5%;
     font-size:1.5rem;
+  }
+  
+  @media (max-width: 992px) {
+    #mars-area{
+      width:85%;
+      margin-left: 11.5%;
+    }
+  }
+
+  @media (max-width: 769px) {
+    #mars-area{
+      width:85%;
+      margin-left: 11.5%;
+    }
   }

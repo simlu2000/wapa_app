@@ -35,19 +35,19 @@ const AdvancedScreen = () => {
                     </div>
                     <div id="subtitle-area" className="centered-text">
                         <h2 id="subtitle">
-                            Explore the universe with real-time data on the Sun and Moon.<br />
-                            Uncover the secrets of the cosmos with detailed astronomical analyses.<br />
-                            From solar flares to moon phases, get the latest updates and forecasts.
+                            Explore the universe with real-time data.<br />
+                            Uncover the secrets of the cosmos and what happens  in the Earth.<br />
+                            
                         </h2>
                     </div>
                     <div>
                         <div id="button-area">
-                            <button id="universe-btn">
-                                <a id="universe-text" href="#second-container">
-                                    Universe
-                                </a>
-                                <span className="arrow"></span>
-                            </button>
+                            <div className="button-area">
+                                <button className="btn arrow-button">
+                                    <a id="see" href="#about-area">See more</a>
+                                    <span className="arrow"></span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     {imageDate && (
@@ -76,14 +76,12 @@ const AdvancedScreen = () => {
                     <NaturalEvents />
                 </div>
                 <div id="objects">
-                    <h3 className="data-title">Objects near Earth</h3>
                     <NearEarthObjects />
                 </div>
             </section>
             <section id="four-container">
 
                 <div id="timeline" >
-                    <h3 className="data-title">Predictions of space events and climate impacts</h3>
                     <SpaceWeatherTimeline />
                 </div>
                 <div id="mars" className="event-item">

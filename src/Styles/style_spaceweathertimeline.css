@@ -8,7 +8,7 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 90%;
-  margin-left: 5%;
+  margin-left: 10%;
   font-family: 'Arial, sans-serif';
 }
 
@@ -59,4 +59,25 @@
 .event-card p {
   margin: 0;
   color: #555;
+}
+
+
+@media (max-width: 992px) {
+  #space-weather-timeline{
+    width:85%;
+    margin-left: 11.5%;
+  }
+}
+
+@media (max-width: 769px) {
+  #space-weather-timeline{
+    width:85%;
+    margin-left: 11.5%;
+  }
+}
+
+@media (max-width: 480px) {
+  #space-weather-timeline{
+    visibility: hidden;
+  }
 }
