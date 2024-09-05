@@ -1,11 +1,10 @@
-//Gestisce la registrazione e l'accesso degli utenti, e interagisce con userService per gestire i dati dell'utente nel Realtime Database.
 import React, { useState } from 'react';
-import { auth, provider } from '../Utils/firebase';
+import { auth, provider } from '../Utils/firebase'; // Assicurati che 'provider' sia un'istanza di GoogleAuthProvider
 import { useNavigate } from 'react-router-dom';
 import { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { setUserData, getUserData } from '../Utils/userService';
+import { setUserData } from '../Utils/userService'; // Assicurati che 'setUserData' gestisca l'aggiornamento dei dati dell'utente
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebookF, faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
+import { faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
 import '../Styles/style_signupscreen.css';
 
 const SignUpScreen = () => {
@@ -13,7 +12,6 @@ const SignUpScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
 
   const toggleForm = () => {
     setIsSignUp(!isSignUp);
@@ -62,8 +60,12 @@ const SignUpScreen = () => {
 
       navigate('/WeatherScreen');
     } catch (error) {
-      console.error("Error during Google sign-in", error);
-      alert(error.message);
+      if (error.code === 'auth/cancelled-popup-request') {
+        console.log('Popup request cancelled.');
+      } else {
+        console.error("Error during Google sign-in", error);
+        alert(error.message);
+      }
     }
   };
 
@@ -73,27 +75,8 @@ const SignUpScreen = () => {
 
   return (
     <>
-      <div class="background">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+      <div className="background">
+        {/* Background Animation */}
       </div>
       <div className={`box-form ${isSignUp ? 'sign-up-mode' : ''}`} id="box">
         <div className="form-container sign-up">
@@ -101,10 +84,12 @@ const SignUpScreen = () => {
           <form id="sign" onSubmit={handleSignUp}>
             <h1 id="signup" className="form-text">Sign Up</h1>
             <div className="social-icons">
-              <a href="#" className="icon" onClick={handleGoogleSignIn}><FontAwesomeIcon icon={faGooglePlusG} /></a>
+              <a href="#" className="icon" onClick={handleGoogleSignIn}>
+                <FontAwesomeIcon icon={faGooglePlusG} />
+              </a>
             </div>
             <span>or use your email for registration</span>
-            <div id="user_data" >
+            <div id="user_data">
               <input id="name-user" type="text" placeholder="Name" />
               <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
               <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
@@ -116,7 +101,9 @@ const SignUpScreen = () => {
           <form onSubmit={handleSignIn}>
             <h1 className="form-text">Sign In</h1>
             <div className="social-icons">
-              <a href="#" className="icon" onClick={handleGoogleSignIn}><FontAwesomeIcon icon={faGooglePlusG} /></a>
+              <a href="#" className="icon" onClick={handleGoogleSignIn}>
+                <FontAwesomeIcon icon={faGooglePlusG} />
+              </a>
             </div>
             <span>or use your email and password</span>
             <input className="email-area" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
@@ -145,4 +132,3 @@ const SignUpScreen = () => {
 };
 
 export default SignUpScreen;
-
