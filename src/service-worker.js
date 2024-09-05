@@ -1,3 +1,4 @@
+// Importa le librerie necessarie, ad esempio Workbox
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { NetworkFirst, CacheFirst } from 'workbox-strategies';
 import { ExpirationPlugin } from 'workbox-expiration';
@@ -50,7 +51,6 @@ self.addEventListener('push', function(event) {
 // Handle notification click events
 self.addEventListener('notificationclick', function(event) {
   event.notification.close();
-
   event.waitUntil(
     clients.openWindow(event.notification.data.url || '/')
   );
@@ -67,4 +67,22 @@ self.addEventListener('sync', function(event) {
 async function syncData() {
   // Implement data synchronization logic here
   console.log('Syncing data...');
+}
+
+// Export the register function
+export function register() {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+
+      navigator.serviceWorker
+        .register(swUrl)
+        .then((registration) => {
+          console.log('SW registered: ', registration);
+        })
+        .catch((error) => {
+          console.error('SW registration failed: ', error);
+        });
+    });
+  }
 }
