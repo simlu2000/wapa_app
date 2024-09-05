@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals, no-undef */
 // Importa le librerie necessarie, ad esempio Workbox
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { NetworkFirst, CacheFirst } from 'workbox-strategies';
