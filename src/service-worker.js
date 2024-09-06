@@ -28,6 +28,7 @@ const cacheFirstStrategy = new CacheFirst({
 
 // Handle fetch events with custom strategies
 self.addEventListener('fetch', (event) => {
+  // Serve API requests using networkFirstStrategy
   if (event.request.url.includes('/api/')) {
     event.respondWith(networkFirstStrategy.handle({ event }));
   } else {
@@ -36,7 +37,7 @@ self.addEventListener('fetch', (event) => {
 });
 
 // Handle push events
-self.addEventListener('push', function(event) {
+self.addEventListener('push', (event) => {
   const data = event.data.json();
   const options = {
     body: data.body,
@@ -50,7 +51,7 @@ self.addEventListener('push', function(event) {
 });
 
 // Handle notification click events
-self.addEventListener('notificationclick', function(event) {
+self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   event.waitUntil(
     clients.openWindow(event.notification.data.url || '/')
@@ -58,7 +59,7 @@ self.addEventListener('notificationclick', function(event) {
 });
 
 // Handle background sync (optional)
-self.addEventListener('sync', function(event) {
+self.addEventListener('sync', (event) => {
   if (event.tag === 'sync-new-data') {
     event.waitUntil(syncData());
   }
@@ -70,20 +71,18 @@ async function syncData() {
   console.log('Syncing data...');
 }
 
-// Export the register function
-export function register() {
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+// Register the service worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
-      navigator.serviceWorker
-        .register(swUrl)
-        .then((registration) => {
-          console.log('SW registered: ', registration);
-        })
-        .catch((error) => {
-          console.error('SW registration failed: ', error);
-        });
-    });
-  }
+    navigator.serviceWorker
+      .register(swUrl)
+      .then((registration) => {
+        console.log('Service Worker registered:', registration);
+      })
+      .catch((error) => {
+        console.error('Service Worker registration failed:', error);
+      });
+  });
 }

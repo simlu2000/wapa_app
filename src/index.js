@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App'; // Import your App component
-import { BrowserRouter as Router } from 'react-router-dom';
+import App from './App';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import './index.css';
 
 ReactDOM.render(
-  <Router>
+  <React.StrictMode>
     <App />
-  </Router>,
+  </React.StrictMode>,
   document.getElementById('root')
 );
+
+// Abilita il service worker
+serviceWorkerRegistration.register();
