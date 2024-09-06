@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom'; 
+import { useLocation } from 'react-router-dom'; // Import useLocation for accessing navigation state
 import axios from 'axios';
 import { auth } from '../Utils/firebase';
 import { addLocation, removeLocation, getUserLocalities } from '../Utils/userService';

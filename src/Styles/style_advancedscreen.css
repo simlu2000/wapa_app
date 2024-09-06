@@ -301,4 +301,7 @@ body {
     #timeline{
         display:none;
     }
+    #earth{
+        margin-left: 0;
+    }
 }

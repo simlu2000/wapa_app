@@ -38,7 +38,7 @@ const Forecast = ({ forecast }) => {
         }
     };
 
-    const getWeatherIcon = (weatherMain, size, color) => {
+    const getWeatherIcon = (weatherMain, size) => {
         switch (weatherMain) {
             case 'Clear':
                 return <FontAwesomeIcon icon={faSun} size={size} style={{ color: "#ffd31f" }} />;
@@ -79,7 +79,7 @@ const Forecast = ({ forecast }) => {
             date,
             weatherMain,
             temperatures,
-            icon: getWeatherIcon(weatherMain, "4x", "#F7F7F7"),
+            icon: getWeatherIcon(weatherMain, "4x"),
             minTemp: Math.min(...temperatures),
             maxTemp: Math.max(...temperatures),
             hourlyData: dayData // Include dati orari

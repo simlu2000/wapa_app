@@ -1,77 +1,82 @@
 /* eslint-disable no-restricted-globals, no-undef */
-// Importa le librerie necessarie, ad esempio Workbox
+// Importa le librerie necessarie di Workbox
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { NetworkFirst, CacheFirst } from 'workbox-strategies';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 
-// Precache the app shell
+// Precache app shell (precaching delle risorse definite nel manifest)
 precacheAndRoute(self.__WB_MANIFEST);
 
-// Define custom caching strategies
+// Strategia NetworkFirst per le richieste API
 const networkFirstStrategy = new NetworkFirst({
   cacheName: 'network-first-cache',
 });
 
+// Strategia CacheFirst per altri asset (es. immagini, CSS, JS)
 const cacheFirstStrategy = new CacheFirst({
   cacheName: 'cache-first-cache',
   plugins: [
     new ExpirationPlugin({
-      maxEntries: 50,
-      maxAgeSeconds: 7 * 24 * 60 * 60, // Cache for a week
+      maxEntries: 50, // Numero massimo di elementi nella cache
+      maxAgeSeconds: 7 * 24 * 60 * 60, // Scadenza cache dopo una settimana
     }),
     new CacheableResponsePlugin({
-      statuses: [0, 200],
+      statuses: [0, 200], // Cacherà solo le risposte con stato 0 o 200
     }),
   ],
 });
 
-// Handle fetch events with custom strategies
+// Gestione degli eventi fetch con strategie personalizzate
 self.addEventListener('fetch', (event) => {
-  // Serve API requests using networkFirstStrategy
   if (event.request.url.includes('/api/')) {
+    // Usa NetworkFirst per le richieste API
     event.respondWith(networkFirstStrategy.handle({ event }));
   } else {
+    // Usa CacheFirst per altre risorse
     event.respondWith(cacheFirstStrategy.handle({ event }));
   }
 });
 
-// Handle push events
+// Gestione delle notifiche push
 self.addEventListener('push', (event) => {
-  const data = event.data.json();
+  const data = event.data.json(); // Recupera i dati dalla notifica push
   const options = {
     body: data.body,
     icon: 'icons/icon.png',
     badge: 'icons/badge.png',
   };
 
+  // Mostra la notifica
   event.waitUntil(
     self.registration.showNotification(data.title, options)
   );
 });
 
-// Handle notification click events
+// Gestione del clic su una notifica
 self.addEventListener('notificationclick', (event) => {
-  event.notification.close();
+  event.notification.close(); // Chiudi la notifica quando viene cliccata
+
+  // Apri una finestra o la pagina web associata alla notifica
   event.waitUntil(
     clients.openWindow(event.notification.data.url || '/')
   );
 });
 
-// Handle background sync (optional)
+// Gestione del background sync (sincronizzazione in background, opzionale)
 self.addEventListener('sync', (event) => {
   if (event.tag === 'sync-new-data') {
     event.waitUntil(syncData());
   }
 });
 
-// Example function for background sync
+// Funzione di sincronizzazione dei dati (esempio)
 async function syncData() {
-  // Implement data synchronization logic here
   console.log('Syncing data...');
+  // Implementa la logica di sincronizzazione dei dati qui
 }
 
-// Register the service worker
+// Registra il Service Worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
