@@ -2,14 +2,11 @@ import React from "react";
 import Slider from "react-slick";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faCloudRain, faSnowflake, faBolt, faCloud, faCloudShowersHeavy, faSmog } from '@fortawesome/free-solid-svg-icons';
-import "../Styles/style_weatherscreen.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-import "../Styles/style_forecast.css";
+import "../Styles/style_forecast.css"; // Assicurati che il percorso sia corretto
 
 const Forecast = ({ forecast }) => {
-    
     if (!forecast) {
         return (
             <div className="loading-container">
@@ -17,7 +14,6 @@ const Forecast = ({ forecast }) => {
             </div>
         );
     }
-
 
     const applyBackgroundGradient = (weatherMain) => {
         switch (weatherMain) {
@@ -42,31 +38,29 @@ const Forecast = ({ forecast }) => {
         }
     };
 
-   
     const getWeatherIcon = (weatherMain, size, color) => {
         switch (weatherMain) {
             case 'Clear':
-                return <FontAwesomeIcon icon={faSun} size={size} style={{ color:"#ffd31f" }} />;
+                return <FontAwesomeIcon icon={faSun} size={size} style={{ color: "#ffd31f" }} />;
             case 'Clouds':
-                return <FontAwesomeIcon icon={faCloud} size={size} style={{ color:"#a7a7a7" }} />;
+                return <FontAwesomeIcon icon={faCloud} size={size} style={{ color: "#a7a7a7" }} />;
             case 'Rain':
-                return <FontAwesomeIcon icon={faCloudShowersHeavy} size={size} style={{ color:"#003d75" }} />;
+                return <FontAwesomeIcon icon={faCloudShowersHeavy} size={size} style={{ color: "#003d75" }} />;
             case 'Snow':
-                return <FontAwesomeIcon icon={faSnowflake} size={size} style={{ color:"#cbcbcb" }} />;
+                return <FontAwesomeIcon icon={faSnowflake} size={size} style={{ color: "#cbcbcb" }} />;
             case 'Thunderstorm':
-                return <FontAwesomeIcon icon={faBolt} size={size} style={{ color:"#ffd31f" }} />;
+                return <FontAwesomeIcon icon={faBolt} size={size} style={{ color: "#ffd31f" }} />;
             case 'Drizzle':
-                return <FontAwesomeIcon icon={faCloudRain} size={size} style={{ color:"#22a2e3" }} />;
+                return <FontAwesomeIcon icon={faCloudRain} size={size} style={{ color: "#22a2e3" }} />;
             case 'Fog':
             case 'Mist':
             case 'Haze':
-                return <FontAwesomeIcon icon={faSmog} size={size} style={{ color:"#a7a7a7" }} />;
+                return <FontAwesomeIcon icon={faSmog} size={size} style={{ color: "#a7a7a7" }} />;
             default:
-                return <FontAwesomeIcon icon={faCloud} size={size} style={{ color:"#a7a7a7" }} />;
+                return <FontAwesomeIcon icon={faCloud} size={size} style={{ color: "#a7a7a7" }} />;
         }
     };
 
-    
     const dailyForecast = forecast.reduce((acc, item) => {
         const date = new Date(item.dt * 1000).toLocaleDateString();
         if (!acc[date]) {
@@ -76,7 +70,6 @@ const Forecast = ({ forecast }) => {
         return acc;
     }, {});
 
-   
     const forecastItems = Object.keys(dailyForecast).map((date, index) => {
         const dayData = dailyForecast[date];
         const temperatures = dayData.map(item => item.main.temp);
@@ -89,10 +82,10 @@ const Forecast = ({ forecast }) => {
             icon: getWeatherIcon(weatherMain, "4x", "#F7F7F7"),
             minTemp: Math.min(...temperatures),
             maxTemp: Math.max(...temperatures),
+            hourlyData: dayData // Include dati orari
         };
     });
 
-    
     const settings = {
         dots: true,
         infinite: false,
@@ -119,6 +112,28 @@ const Forecast = ({ forecast }) => {
         ],
     };
 
+    const hourlySettings = {
+        dots: false,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 3,
+                },
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 2,
+                },
+            },
+        ],
+    };
+
     return (
         <section className="forecast-container">
             {forecast ? (
@@ -128,6 +143,21 @@ const Forecast = ({ forecast }) => {
                             <h3 className="date">{item.date}</h3>
                             <div className="weatherIcon">{item.icon}</div>
                             <p className="temp">Min: {item.minTemp}°C Max: {item.maxTemp}°C</p>
+
+                            {/* Slider per le ore */}
+                            <Slider {...hourlySettings} className="hourly-slider">
+                                {item.hourlyData.map((hour, idx) => {
+                                    const time = new Date(hour.dt * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                                    const temp = Math.ceil(hour.main.temp); // Arrotonda la temperatura in eccesso
+                                    return (
+                                        <div key={idx} className="hourly-item">
+                                            <p>{time}</p>
+                                            <p>{temp}°C</p>
+                                            {getWeatherIcon(hour.weather[0].main, "2x")}
+                                        </div>
+                                    );
+                                })}
+                            </Slider>
                         </div>
                     ))}
                 </Slider>
