@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom'; // Import useLocation for accessing navigation state
+import { useLocation } from 'react-router-dom'; 
 import axios from 'axios';
 import { auth } from '../Utils/firebase';
 import { addLocation, removeLocation, getUserLocalities } from '../Utils/userService';
 import WindCharts from '../Components/Charts/WindCharts';
 import TempCharts from '../Components/Charts/TempCharts';
 import TempMCharts from '../Components/Charts/TempMCharts';
-import MoreDataCharts from '../Components/Charts/MoreDataCharts'; // Import MoreDataCharts
+import MoreDataCharts from '../Components/Charts/MoreDataCharts'; 
 import PressureCharts from '../Components/Charts/PressureCharts';
 import Sunrise from '../Components/Charts/Sunrise';
 import Sunset from '../Components/Charts/Sunset';
@@ -207,6 +207,7 @@ const WeatherScreen = () => {
             });
         });
     };
+
 
     return (
         <>

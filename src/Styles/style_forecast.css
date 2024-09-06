@@ -214,6 +214,9 @@
 @media (max-width: 391px) {
     .forecast-container {
         padding: 30px;
+        width:35%;
+        height: auto;
+
     }
     .forecast-item{
         margin-left:0;
