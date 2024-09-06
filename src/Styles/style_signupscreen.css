@@ -205,8 +205,8 @@ body {
     transform: translateX(200%);
 }
 
-footer {
-    visibility: hidden;
+#footer {
+    display:none;
 }
 
 .social-icons {
@@ -461,6 +461,34 @@ footer {
     box-shadow: -40vmin 0 5.538427752691435vmin currentColor;
 }
 
+
+
+.form-container.reset-password {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .form-container.reset-password form {
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .form-container.reset-password input {
+    width: 100%;
+    margin: 10px 0;
+  }
+  
+  .form-container.reset-password button {
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .reset-password p {
+    color: green;
+  }
+
+  
 @media (max-width: 480px) {
     #box{
         width:90%;

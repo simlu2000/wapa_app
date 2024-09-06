@@ -26,6 +26,15 @@
     color:#000000;
 }
 
+.forecast-container {
+    transition: width 0.3s ease, padding 0.3s ease; /* Animazione per larghezza e padding */
+}
+
+.forecast-item {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
 .forecast-item:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);

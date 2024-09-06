@@ -24,8 +24,8 @@ html, body {
   align-items: center;
   height: 100vh;
   padding: 0 20px;
-  background: linear-gradient(90deg, rgba(84,184,255,1) 2%, rgba(31,55,107,1) 72%, rgba(0,0,0,1) 100%);
-}
+  background: rgb(31,55,107);
+  background: linear-gradient(90deg, rgba(31,55,107,1) 0%, rgba(200,130,255,1) 50%, rgba(130,203,255,1) 100%);}
 
 .container {
   display: flex;
@@ -171,8 +171,8 @@ a:hover{
 }
 
 .info-box {
-  background: linear-gradient(90deg, rgba(84,184,255,1) 2%, rgba(31,55,107,1) 72%, rgba(0,0,0,1) 100%);
-  border-radius: 25px;
+  background: rgb(31,55,107);
+  background: linear-gradient(90deg, rgba(31,55,107,1) 0%, rgba(200,130,255,1) 50%, rgba(130,203,255,1) 100%);  border-radius: 25px;
   padding: 15px;
   color: #F7F7F7;
   box-sizing: border-box;
@@ -203,8 +203,8 @@ a:hover{
   height:50%;
 }
 #call-to-action-area {
-  background: linear-gradient(90deg, rgba(84,184,255,1) 2%, rgba(31,55,107,1) 72%, rgba(0,0,0,1) 100%);
-  border-radius: 25px;
+  background: rgb(31,55,107);
+  background: linear-gradient(90deg, rgba(31,55,107,1) 0%, rgba(200,130,255,1) 50%, rgba(130,203,255,1) 100%);  border-radius: 25px;
   color: #F7F7F7;
   text-align: center;
   padding: 20px;

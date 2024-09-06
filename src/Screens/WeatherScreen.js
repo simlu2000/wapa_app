@@ -13,6 +13,7 @@ import Sunset from '../Components/Charts/Sunset';
 import Forecast from '../Components/Forecast';
 import PercentageBox from '../Components/PercentageBox';
 import UserPlaces from '../Components/UserPlaces';
+import Loader from '../Components/loader';
 import '../Styles/style_weatherscreen.css';
 
 const Api_Key_OpenWeather = process.env.REACT_APP_Api_Key_OpenWeather;

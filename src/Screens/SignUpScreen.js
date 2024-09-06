@@ -75,8 +75,27 @@ const SignUpScreen = () => {
 
   return (
     <>
-      <div className="background">
-        {/* Background Animation */}
+      <div class="background">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
       <div className={`box-form ${isSignUp ? 'sign-up-mode' : ''}`} id="box">
         <div className="form-container sign-up">
