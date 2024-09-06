@@ -208,8 +208,6 @@ const WeatherScreen = () => {
         });
     };
 
-    console.log('API Key OpenWeather:', process.env.REACT_APP_Api_Key_OpenWeather);
-
     return (
         <>
             <section
