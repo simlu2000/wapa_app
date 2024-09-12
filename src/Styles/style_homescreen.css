@@ -178,8 +178,9 @@ a:hover{
 }
 
 .info-box {
-  background: rgb(31,55,107);
-  background: linear-gradient(90deg, rgba(31,55,107,1) 0%, rgba(200,130,255,1) 50%, rgba(130,203,255,1) 100%);  border-radius: 25px;
+  background-color:#70C1FF;
+  backdrop-filter: blur(30px);
+  border-radius: 25px;
   padding: 15px;
   color: #F7F7F7;
   box-sizing: border-box;

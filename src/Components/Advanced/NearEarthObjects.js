@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Slider from 'react-slick';
-//import { Api_Key_NASA } from '../../Utils/API_KEYS';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import "../../Styles/style_object.css"; 
@@ -33,8 +32,8 @@ const NearEarthObjects = () => {
     fetchObjects();
   }, [API_KEY]);
 
-  if (loading) return <p>Caricamento dei dati in corso...</p>;
-  if (error) return <p>Errore nel caricamento dei dati: {error}</p>;
+  if (loading) return <p>Loading data...</p>;
+  if (error) return <p>Error while loading data: {error}</p>;
 
   // Impostazioni dello slider per mostrare 5 oggetti per schermata
   const sliderSettings = {
@@ -81,17 +80,17 @@ const NearEarthObjects = () => {
             <div key={object.id} className="neo-item">
               <div className="neo-header">
                 <strong>{object.name}</strong>
-                <span className="neo-date">Data di avvicinamento: {object.close_approach_data[0]?.close_approach_date_full || 'N/A'}</span>
+                <span className="neo-date">Data of approach: {object.close_approach_data[0]?.close_approach_date_full || 'N/A'}</span>
               </div>
               <div className="neo-details">
                 <p>
-                  <strong>Diametro:</strong> {object.estimated_diameter.meters.estimated_diameter_min.toFixed(1)} - {object.estimated_diameter.meters.estimated_diameter_max.toFixed(1)} m
+                  <strong>Diameter:</strong> {object.estimated_diameter.meters.estimated_diameter_min.toFixed(1)} - {object.estimated_diameter.meters.estimated_diameter_max.toFixed(1)} m
                 </p>
                 <p>
-                  <strong>Velocità:</strong> {formattedVelocity} km/h
+                  <strong>Velocity:</strong> {formattedVelocity} km/h
                 </p>
                 <p>
-                  <strong>Distanza dalla Terra:</strong> {object.close_approach_data[0]?.miss_distance.kilometers || 'N/A'} km
+                  <strong>Distance form Earth:</strong> {object.close_approach_data[0]?.miss_distance.kilometers || 'N/A'} km
                 </p>
               </div>
             </div>

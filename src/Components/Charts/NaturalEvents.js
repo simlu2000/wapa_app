@@ -44,12 +44,12 @@ const NaturalEventsChart = () => {
     fetchEvents();
   }, []);
 
-  if (loading) return <p>Caricamento dei dati in corso...</p>;
-  if (error) return <p>Errore nel caricamento dei dati: {error}</p>;
+  if (loading) return <p>Loading data...</p>;
+  if (error) return <p>Error while loading data: {error}</p>;
 
   return (
     <section id="natural-events">
-            <h2>Distribuzione degli Eventi Naturali per Categoria</h2> 
+            <h2>Distribution of natural events by category</h2> 
       <Bar 
         data={eventsData} 
         options={{
@@ -60,7 +60,7 @@ const NaturalEventsChart = () => {
             },
             title: {
               display: true,
-              text: 'Distribuzione degli Eventi Naturali per Categoria',
+              text: 'Distributions of natural events by category',
             },
           },
         }}

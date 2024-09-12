@@ -55,8 +55,8 @@ const SpaceWeatherTimeline = () => {
     }
   }, [currentDate, eventData]);
 
-  if (loading) return <p>Caricamento dei dati in corso...</p>;
-  if (error) return <p>Errore nel caricamento dei dati: {error.message}</p>;
+  if (loading) return <p>Loading data...</p>;
+  if (error) return <p>Error while loading data: {error.message}</p>;
 
   const data = {
     labels: filteredEvents.map(event => event.date),
@@ -82,7 +82,7 @@ const SpaceWeatherTimeline = () => {
 
   return (
     <section id="space-weather-timeline">
-      <h2>Timeline delle Eruzioni Solari</h2>
+      <h2>Timeline of Solar Eruptions</h2>
       <div className="chart-container">
         <Line data={data} />
       </div>
@@ -99,7 +99,7 @@ const SpaceWeatherTimeline = () => {
                   </div>
                 ))
               ) : (
-                <p>Nessun evento trovato per questa data.</p>
+                <p>No data available for this date.</p>
               )}
             </div>
           </div>

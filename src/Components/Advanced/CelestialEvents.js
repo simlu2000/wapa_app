@@ -38,8 +38,8 @@ const CelestialEvents = () => {
     fetchCelestialEvents();
   }, []);
 
-  if (loading) return <p>Caricamento dei dati in corso...</p>;
-  if (error) return <p>Errore nel caricamento dei dati: {error}</p>;
+  if (loading) return <p>Loading data...</p>;
+  if (error) return <p>Error while loading data {error}</p>;
 
   return (
     <section id="celestial-events">
@@ -47,12 +47,12 @@ const CelestialEvents = () => {
         <ul>
           {events.map((event, idx) => (
             <li key={idx}>
-              <strong>{event.title || 'Nome dell\'evento'}</strong>: {event.explanation || 'Descrizione dell\'evento'} (Data: {event.date || 'Data non disponibile'})
+              <strong>{event.title || 'Event name'}</strong>: {event.explanation || 'Description'} (Data: {event.date || 'Data not available'})
             </li>
           ))}
         </ul>
       ) : (
-        <p>Nessun evento previsto.</p>
+        <p>No predicted data.</p>
       )}
     </section>
   );

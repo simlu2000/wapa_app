@@ -56,7 +56,7 @@ const HomeScreen = () => {
             <WapaBox
               imgSrc={logo}
               title="W-A-P-A"
-              text="Weather Advanced Predictions App. With Wapa you will be updated about all weather conditions and advanced info about the universe. See here our climatic features and enjoy your days with us!"
+              text="Weather Advanced Predictions App. With Wapa you will be updated about all weather conditions and advanced info about the universe. See our climatic features and enjoy your days with us!"
             />
             <InfoBox
               title="Weather in one click"
@@ -77,12 +77,12 @@ const HomeScreen = () => {
         </div>
 
         <div id="call-to-action-area">
-          <h2 id="call-to-action-text">🚀 Join WAPA Today! 🚀</h2>
+          <h2 id="call-to-action-text">🚀Join WAPA!🚀</h2>
           <h3 id="call-to-action-text2">
             Become part of our community and gain instant access to your favorite places, advanced predictions, and a customizable experience.<br />
             💡 Don't wait! Your new WAPA experience starts here 💡
             <div id="see" href="#about-area">
-                <Link to="/SignUpScreen">Join us!</Link>
+                <Link to="/SignUpScreen">Sign Up</Link>
               </div>
           </h3>
            
