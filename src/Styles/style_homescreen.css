@@ -6,7 +6,7 @@ html, body {
   height: 100%;
   font-family: "Inconsolata", monospace;
   overflow-x: hidden;
-  background-color: #F7F7F7;
+  background-color: #F5F5F5;
 }
 
 #root, .App {
@@ -22,10 +22,11 @@ html, body {
 #intro {
   display: flex;
   align-items: center;
-  height: 100vh;
+  height: 90vh;
   padding: 0 20px;
   position: relative;
   background-position: absolute;
+  background-color: #F5F5F5;
   /*background: rgb(31,55,107);
   background: linear-gradient(90deg, rgba(31,55,107,1) 0%, rgba(200,130,255,1) 50%, rgba(130,203,255,1) 100%);
   */
@@ -73,10 +74,17 @@ a:hover{
   margin: 0;
 }
 
+#discover-btn-area{
+  background-color: #F5F5F5;
+  margin-top: 0;
+}
+
 .button-area {
   display: flex;
   justify-content: center;
-  margin-top: 5%;
+  height:12vh;
+  border:none;
+  background-color: #F5F5F5;
 }
 
 .arrow-button {
@@ -111,7 +119,7 @@ a:hover{
 }
 
 #about-area {
-  background-color: #000000;
+  background-color: #F5F5F5;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -121,14 +129,14 @@ a:hover{
 
 #features-title {
   font-size: 4rem;
-  color: #F7F7F7;
+  color: #000000;
   margin-top: 10%;
   text-align: center;
 }
 
 #features-subtitle {
   font-size: 1.5rem;
-  color: #F7F7F7;
+  color: #000000;
   margin-top: -35px;
   text-align: center;
 }
@@ -210,6 +218,9 @@ a:hover{
 .logo{
   height:50%;
 }
+#see{
+  color: #F7F7F7;
+}
 #call-to-action-area {
   background: rgb(31,55,107);
   background: linear-gradient(90deg, rgba(31,55,107,1) 0%, rgba(200,130,255,1) 50%, rgba(130,203,255,1) 100%);  border-radius: 25px;
@@ -219,7 +230,7 @@ a:hover{
   width: 75%;
   margin-left: auto;
   margin-right: auto;
-
+  justify-content: center; 
 }
 
 #call-to-action-text {
@@ -232,19 +243,44 @@ a:hover{
   margin-top: 5px;
 }
 
+#join-btn {
+  color: #F7F7F7;
+  background-color: #F7F7F7;
+  opacity: 0.8;
+  border-radius: 25px;
+  font-size: 2rem;
+  width: auto;
+  height: 50px; 
+  padding: 10px 20px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; 
+}
+
 /*Animazione nuvole*/
 .weather-container {
   position: relative;
-  width: 100vh;
-  height: 100vh; 
   overflow: hidden;
+  
+
 }
 .weather-animation {
   position: relative;
   width: 100vw;
-  height: 100vh;
-}
+  height:   100vh;
+  pointer-events: none; /* Permette gli eventi del mouse e del touch di passare attraverso il canvas */
 
+}
+.weather-animation .canvas-container {
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 90vh;
+  pointer-events: auto; /* Abilita gli eventi del mouse e del touch per il canvas */
+}
 .centered-text {
   position: absolute;
   top: 50%;
@@ -317,11 +353,21 @@ canvas {
 
 @media (max-width: 480px) {
   #intro-title {
-    font-size: 4rem;
+    font-size: 3rem;
     text-align:left;
-    margin-top:55%;
   }
-
+  .weather-animation .canvas-container {
+    height: 100vh;
+  }
+  #intro{
+    height:90vh;
+  }
+  #dsc-btn{
+    margin-top: 10%;
+  }
+   #discover-btn-area{
+    height:15vh;
+   }
   .arrow-button {
     width: 100px;
     height: 35px;

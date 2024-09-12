@@ -1,5 +1,5 @@
 import React, { useState, useEffect, startTransition } from "react";
-import { createContext, useContext, useRef} from 'react';
+import { createContext, useContext, useRef } from 'react';
 
 import { Link } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
@@ -32,16 +32,17 @@ const HomeScreen = () => {
       <section id="intro" className="weather-container">
 
         <div id="title-logo-container" className="content">
-        <CloudBackground/>
-
-{/*
-          <div id="title-area">
-            <h1 id="intro-title">Exact weather exactly for you</h1>
-            <h2 id="into-subtitle">And know a lot of things</h2>
-          </div>
-          */}
+          <CloudBackground />
         </div>
+      </section>
 
+      <section id="discover-btn-area" className="button-area">
+        <button id="dsc-btn" className="btn arrow-button">
+          <div id="see" href="#about-area">
+            <a href="about-area">DISCOVER</a>
+          </div>
+          <span className="arrow"></span>
+        </button>
       </section>
 
       <section id="about-area" className="container-data">
@@ -80,16 +81,13 @@ const HomeScreen = () => {
           <h3 id="call-to-action-text2">
             Become part of our community and gain instant access to your favorite places, advanced predictions, and a customizable experience.<br />
             💡 Don't wait! Your new WAPA experience starts here 💡
-          </h3>
-          <div className="button-area">
-            <button className="btn arrow-button">
-              <div id="see" href="#about-area">
+            <div id="see" href="#about-area">
                 <Link to="/SignUpScreen">Join us!</Link>
               </div>
-              <span className="arrow"></span>
-            </button>
+          </h3>
+           
           </div>
-        </div>
+        
       </section>
     </>
   );

@@ -33,22 +33,10 @@ const AdvancedScreen = () => {
                         <h1 className="title">Navigate the <a id="universe-text"
                         >universe.</a></h1>
                     </div>
-                    <div id="subtitle-area" className="centered-text">
-                        <h2 id="subtitle">
-                            Explore the universe with real-time data.<br />
-                            Uncover the secrets of the cosmos and what happens  in the Earth.<br />
-                            
-                        </h2>
-                    </div>
-                    <div>
-                        <div id="button-area">
-                            <div className="button-area">
-                                <button className="btn arrow-button">
-                                    <a id="see" href="#celestial">See more</a>
-                                    <span className="arrow"></span>
-                                </button>
-                            </div>
-                        </div>
+
+                    <div id="seeUniverse">
+                        <a  href="#celestial">Fly!</a>
+                        <span className="arrow"></span>
                     </div>
                     {imageDate && (
                         <div id="image-date" className="image-date">
