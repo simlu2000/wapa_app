@@ -290,12 +290,19 @@ const WeatherScreen = () => {
                         </section>
                         <section id="temp-min" className="data-boxes meteo-box">
                             <h3 className="meteo-box-label">Temp Min</h3>
-                            <TempMCharts initialTemperature={weatherData.main.temp_min} />
+                            <div className="progress-bar">
+                                <div className="progress" style={{ width: `${weatherData.main.temp_min}%` }}>
+                                    <PercentageBox label={`${weatherData.main.temp_min}C°`} />
+                                </div>
+                            </div>
                         </section>
                         <section id="temp-max" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Temp Max</h3>
-                            <TempMCharts initialTemperature={weatherData.main.temp_max} />
-                        </section>
+                            <h3 className="meteo-box-label">Temp Max: {weatherData.main.temp_max} C°</h3>
+                            <div className="progress-bar">
+                                <div className="progress" style={{ width: `${weatherData.main.temp_max}%` }}>
+                                    <PercentageBox label={`${weatherData.main.temp_max}C°`} />
+                                </div>
+                            </div>                        </section>
                         <section id="lat" className="data-boxes meteo-box">
                             <h3 className="meteo-box-label">Lat {location.latitude}</h3>
                         </section>
