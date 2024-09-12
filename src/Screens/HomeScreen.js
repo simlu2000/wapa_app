@@ -38,8 +38,8 @@ const HomeScreen = () => {
 
       <section id="discover-btn-area" className="button-area">
         <button id="dsc-btn" className="btn arrow-button">
-          <div id="see" href="#about-area">
-            <a href="about-area">DISCOVER</a>
+          <div id="see" href="about-area">
+            <a href="#about-area">DISCOVER</a>
           </div>
           <span className="arrow"></span>
         </button>
