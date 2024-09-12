@@ -6,7 +6,7 @@ import { addLocation, removeLocation, getUserLocalities } from '../Utils/userSer
 import WindCharts from '../Components/Charts/WindCharts';
 import TempCharts from '../Components/Charts/TempCharts';
 import TempMCharts from '../Components/Charts/TempMCharts';
-import MoreDataCharts from '../Components/Charts/MoreDataCharts'; 
+import MoreDataCharts from '../Components/Charts/MoreDataCharts';
 import PressureCharts from '../Components/Charts/PressureCharts';
 import Sunrise from '../Components/Charts/Sunrise';
 import Sunset from '../Components/Charts/Sunset';
@@ -27,7 +27,7 @@ const WeatherScreen = () => {
     const [loading, setLoading] = useState(true);
     const [userLocalities, setUserLocalities] = useState([]);
     const [user, setUser] = useState(null);
-    const locationState = useLocation(); 
+    const locationState = useLocation();
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
@@ -143,6 +143,8 @@ const WeatherScreen = () => {
             case 'Clouds':
                 return 'linear-gradient(-20deg, #616161 0%, #9bc5c3 100%)';
             case 'Rain':
+                return 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)';
+            case 'Light Rain':
                 return 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)';
             case 'Snow':
                 return 'linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%)';

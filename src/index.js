@@ -1,15 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App'; // Import your App component
+import ReactDOM from 'react-dom/client'; // Importa 'react-dom/client' per React 18
+import App from './App'; // Importa il componente App
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
-ReactDOM.render(
+// Trova l'elemento radice
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// Renderizza l'app
+root.render(
   <Router>
     <App />
-  </Router>,
-  document.getElementById('root')
+  </Router>
 );
 
 // Abilita il service worker
