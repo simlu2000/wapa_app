@@ -244,7 +244,7 @@ body {
     height: 100vh;
     top: 0;
     left: 0;
-    background: #000000;
+    background: #F7F7F7;
     overflow: hidden;
 }
 
@@ -282,7 +282,7 @@ body {
 }
 
 .background span:nth-child(2) {
-    color: #4500bd;
+    color: #82cbff;
     top: 48%;
     left: 48%;
     animation-duration: 46s;
@@ -332,7 +332,7 @@ body {
 }
 
 .background span:nth-child(7) {
-    color: #4500bd;
+    color: #82cbff;
     top: 11%;
     left: 71%;
     animation-duration: 26s;
@@ -342,7 +342,7 @@ body {
 }
 
 .background span:nth-child(8) {
-    color: #4500bd;
+    color: #82cbff;
     top: 54%;
     left: 40%;
     animation-duration: 48s;
@@ -392,7 +392,7 @@ body {
 }
 
 .background span:nth-child(13) {
-    color: #4500bd;
+    color: #82cbff;
     top: 100%;
     left: 63%;
     animation-duration: 7s;
@@ -412,7 +412,7 @@ body {
 }
 
 .background span:nth-child(15) {
-    color: #4500bd;
+    color: #82cbff;
     top: 50%;
     left: 70%;
     animation-duration: 8s;
