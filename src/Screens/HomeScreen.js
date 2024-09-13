@@ -34,7 +34,8 @@ const HomeScreen = () => {
         
 
         <div id="title-logo-container" className="content">
-          <CloudBackground />
+          {/*<CloudBackground />*/}
+          <AnimatedBackground animationName="particleNetwork" />
         </div>
       </section>
 
