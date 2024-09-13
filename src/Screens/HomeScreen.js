@@ -14,6 +14,7 @@ import earth from "../img/earth.png";
 
 import { Canvas } from "@react-three/fiber";
 import { Clouds, Cloud, Sky as SkyImpl } from "@react-three/drei";
+import { AnimatedBackground } from 'animated-backgrounds';
 
 const HomeScreen = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -30,6 +31,7 @@ const HomeScreen = () => {
   return (
     <>
       <section id="intro" className="weather-container">
+        
 
         <div id="title-logo-container" className="content">
           <CloudBackground />
@@ -82,12 +84,12 @@ const HomeScreen = () => {
             Become part of our community and gain instant access to your favorite places, advanced predictions, and a customizable experience.<br />
             💡 Don't wait! Your new WAPA experience starts here 💡
             <div id="see" href="#about-area">
-                <Link to="/SignUpScreen">Sign Up</Link>
-              </div>
+              <Link to="/SignUpScreen">Sign Up</Link>
+            </div>
           </h3>
-           
-          </div>
-        
+
+        </div>
+
       </section>
     </>
   );
