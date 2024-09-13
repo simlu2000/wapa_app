@@ -115,6 +115,16 @@
     
 }
 
+/* Galaxy S20/S21 and similar devices */
+@media (max-width: 1440px) {
+    .forecast-container {
+        width: 85%;
+    }
+
+    .forecast-item {
+        width: 15%;
+    }
+}
 
 @media (max-width: 1200px) {
     .forecast-container {
@@ -127,6 +137,7 @@
     }
 
 }
+
 
 @media (max-width: 992px) {
     .forecast-container {
@@ -187,13 +198,36 @@
 }
 
 @media (max-width: 480px) {
+    .forecast-container {
+        margin-left: 36.5%;
+        width: 27%;
+        padding: 10px;
+        height: auto;
+
+    }
+
     .forecast-item {
-        width: 100% !important;
-        margin: 0 !important; 
+        padding: 10px;
+        height: auto;
     }
 
     .hourly-slider {
-        width: 100% !important; 
+        margin-top: 20px;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .hourly-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 1rem;
+        margin: 0 5px;
+    }
+    
+    .hourly-item p {
+        margin: 0;
+        text-align: center;
     }
 }
 
