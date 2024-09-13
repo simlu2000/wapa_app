@@ -58,7 +58,7 @@ const TempCharts = ({ initialTemperature }) => {
     };
 
     return (
-        <div className="charts">
+        <div id="tempChart" className="charts">
             <ReactECharts option={getOption()} style={chartStyle} />
         </div>
     );

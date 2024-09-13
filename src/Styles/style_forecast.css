@@ -190,7 +190,7 @@
 @media (max-width: 480px) {
     .forecast-container {
         margin-left: 36.5%;
-        width: 90%;
+        width: 27%;
         padding: 10px;
         height: auto;
 
@@ -232,4 +232,28 @@
         margin-left:0;
     }
 
+}
+@media (max-width: 361px) {
+    .forecast-container {
+        padding: 10px;
+        width:90vh;
+        height: auto;
+        margin-left:30%;
+
+
+    }
+    .forecast-item{
+        margin-left:0;
+    }
+    .slick-prev,
+    .slick-next {
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        z-index: 2;
+        background-color: #F7F7F7;
+        margin-right:5px;
+        margin-left:5px;
+    
+    }
 }
