@@ -118,11 +118,12 @@
 /* Galaxy S20/S21 and similar devices */
 @media (max-width: 1440px) {
     .forecast-container {
-        width: 85%;
+        width: 100%;
+        margin-left:5.5%;
     }
 
     .forecast-item {
-        width: 15%;
+        width: 90%;
     }
 }
 

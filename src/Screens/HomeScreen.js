@@ -80,10 +80,10 @@ const HomeScreen = () => {
         </div>
 
         <div id="call-to-action-area">
-          <h2 id="call-to-action-text">🚀Join WAPA!🚀</h2>
+          <h2 id="call-to-action-text">Join WAPA!🚀</h2>
           <h3 id="call-to-action-text2">
             Become part of our community and gain instant access to your favorite places, advanced predictions, and a customizable experience.<br />
-            💡 Don't wait! Your new WAPA experience starts here 💡
+            Don't wait! Your new WAPA experience starts here 💡
             <div id="signup-area">
               <h2><Link to="/SignUpScreen">Sign up</Link></h2>
             </div>
