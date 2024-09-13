@@ -118,7 +118,7 @@ const Forecast = ({ forecast }) => {
                             {item.hourlyData.map((hour, idx) => {
                                 const temp = Math.ceil(hour.main.temp);
                                 return (
-                                    <td className="info" key={idx}>
+                                    <td className="info-temp" key={idx}>
                                         {temp}°C {getWeatherIcon(hour.weather[0].main, "1x")}
                                     </td>
                                 );
