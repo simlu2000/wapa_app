@@ -11,6 +11,7 @@ import PressureCharts from '../Components/Charts/PressureCharts';
 import Sunrise from '../Components/Charts/Sunrise';
 import Sunset from '../Components/Charts/Sunset';
 import Forecast from '../Components/Forecast';
+import TodayForecast from '../Components/TodayForecast';
 import PercentageBox from '../Components/PercentageBox';
 import UserPlaces from '../Components/UserPlaces';
 import Loader from '../Components/loader';
@@ -242,13 +243,15 @@ const WeatherScreen = () => {
                     </div>
 
                     {forecastData && (
-                        <Forecast forecast={forecastData} isMobile={true} />
+                        <TodayForecast forecast={forecastData} isMobile={true} />
                     )}
                 </section>
             </section>
 
-            {weatherData && weatherData.clouds && (
+            {weatherData && weatherData.clouds && forecastData && (
                 <section id="meteo-area" className="today-data">
+                    <Forecast forecast={forecastData} isMobile={true} />
+
                     {user && (
                         <section id="loc" className="meteo-box-container" style={{
                             backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)'
@@ -267,7 +270,7 @@ const WeatherScreen = () => {
                         backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)'
                     }}>
                         <WindCharts windSpeed={weatherData.wind.speed} />
-                        <TempCharts initialTemperature={weatherData.main.temp} />
+                        {/*<TempCharts initialTemperature={weatherData.main.temp} />*/}
                         <PressureCharts initialPressure={weatherData.main.pressure} />
                     </div>
 

@@ -216,6 +216,11 @@ h1 {
     padding: 10px;
 }
 
+#tempChart{
+    display:block;
+    visibility: hidden;
+}
+
 /*-------------------------------RESPONSIVE-------------------------------------*/
 @media (max-width: 1200px) {
     #meteo-title {
@@ -359,10 +364,13 @@ h1 {
     }
 
     #meteo-title {
-        margin-left: 35%;
+        margin-left: 0;
+        margin-top:45%;
+
     }
 
     .meteo-title{
+        
         font-size: 3rem;
     }
 
@@ -380,12 +388,12 @@ h1 {
     }
     #tempChart{
         visibility: hidden;
-
+        display: block;
     }
     
 }
 
-@media (max-width: 390px) {
+@media (max-width: 391px) {
     #meteo-title {
         margin-left:0;
         margin-top: 35%;
@@ -401,7 +409,7 @@ h1 {
     }
     #tempChart{
         visibility: hidden;
-
+        display: block;
     }
     
   }
@@ -421,7 +429,7 @@ h1 {
         font-size:1rem;
     }
     #tempChart{
-        
+        display: block;
         visibility: hidden;
     }
     

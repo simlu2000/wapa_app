@@ -1,9 +1,6 @@
 import React from "react";
-import Slider from "react-slick";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faCloudRain, faSnowflake, faBolt, faCloud, faCloudShowersHeavy, faSmog } from '@fortawesome/free-solid-svg-icons';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import "../Styles/style_forecast.css"; // Assicurati che il percorso sia corretto
 
 const Forecast = ({ forecast }) => {
@@ -23,6 +20,8 @@ const Forecast = ({ forecast }) => {
                 return 'linear-gradient(-20deg, #616161 0%, #9bc5c3 100%)';
             case 'Rain':
                 return 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)';
+            case 'Light Rain':
+                return 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)';
             case 'Snow':
                 return 'linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%)';
             case 'Thunderstorm':
@@ -41,131 +40,93 @@ const Forecast = ({ forecast }) => {
     const getWeatherIcon = (weatherMain, size) => {
         switch (weatherMain) {
             case 'Clear':
-                return <FontAwesomeIcon icon={faSun} size={size} style={{ color: "#ffd31f" }} />;
+                return <FontAwesomeIcon icon={faSun} size={size} style={{ color: "#ffd31f", marginRight: '10px' }} />;
             case 'Clouds':
-                return <FontAwesomeIcon icon={faCloud} size={size} style={{ color: "#a7a7a7" }} />;
+                return <FontAwesomeIcon icon={faCloud} size={size} style={{ color: "#a7a7a7", marginRight: '10px' }} />;
             case 'Rain':
-                return <FontAwesomeIcon icon={faCloudShowersHeavy} size={size} style={{ color: "#003d75" }} />;
+                return <FontAwesomeIcon icon={faCloudShowersHeavy} size={size} style={{ color: "#003d75", marginRight: '10px' }} />;
             case 'Snow':
-                return <FontAwesomeIcon icon={faSnowflake} size={size} style={{ color: "#cbcbcb" }} />;
+                return <FontAwesomeIcon icon={faSnowflake} size={size} style={{ color: "#cbcbcb", marginRight: '10px' }} />;
             case 'Thunderstorm':
-                return <FontAwesomeIcon icon={faBolt} size={size} style={{ color: "#ffd31f" }} />;
+                return <FontAwesomeIcon icon={faBolt} size={size} style={{ color: "#ffd31f", marginRight: '10px' }} />;
             case 'Drizzle':
-                return <FontAwesomeIcon icon={faCloudRain} size={size} style={{ color: "#22a2e3" }} />;
+                return <FontAwesomeIcon icon={faCloudRain} size={size} style={{ color: "#22a2e3", marginRight: '10px' }} />;
             case 'Fog':
             case 'Mist':
             case 'Haze':
-                return <FontAwesomeIcon icon={faSmog} size={size} style={{ color: "#a7a7a7" }} />;
+                return <FontAwesomeIcon icon={faSmog} size={size} style={{ color: "#a7a7a7", marginRight: '10px' }} />;
             default:
-                return <FontAwesomeIcon icon={faCloud} size={size} style={{ color: "#a7a7a7" }} />;
+                return <FontAwesomeIcon icon={faCloud} size={size} style={{ color: "#a7a7a7", marginRight: '10px' }} />;
         }
     };
 
+    // Funzione per ottenere il giorno della settimana
+    const getDayOfWeek = (date) => {
+        const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        return days[date.getDay()];
+    };
+
+    // Filtriamo i dati dei giorni successivi, eliminando il giorno corrente
     const dailyForecast = forecast.reduce((acc, item) => {
-        const date = new Date(item.dt * 1000).toLocaleDateString();
-        if (!acc[date]) {
-            acc[date] = [];
+        const date = new Date(item.dt * 1000);
+        const today = new Date();
+        if (date.toLocaleDateString() !== today.toLocaleDateString()) {
+            const dayOfWeek = getDayOfWeek(date);
+            const formattedDate = `${dayOfWeek}`;
+            if (!acc[formattedDate]) {
+                acc[formattedDate] = [];
+            }
+            acc[formattedDate].push(item);
         }
-        acc[date].push(item);
         return acc;
     }, {});
 
-    const forecastItems = Object.keys(dailyForecast).map((date, index) => {
+    const forecastItems = Object.keys(dailyForecast).map((date) => {
         const dayData = dailyForecast[date];
-        const temperatures = dayData.map(item => item.main.temp);
         const weatherMain = dayData[0].weather[0].main;
 
         return {
             date,
             weatherMain,
-            temperatures,
+            hourlyData: dayData,
             icon: getWeatherIcon(weatherMain, "4x"),
-            minTemp: Math.min(...temperatures),
-            maxTemp: Math.max(...temperatures),
-            hourlyData: dayData // Include dati orari
         };
     });
 
-    const settings = {
-        dots: true,
-        infinite: false,
-        speed: 500,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        arrows: true,
-        autoplay: false,
-        responsive: [
-            {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                },
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                },
-            },
-        ],
-    };
-
-    const hourlySettings = {
-        dots: false,
-        infinite: false,
-        speed: 500,
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        responsive: [
-            {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: 3,
-                },
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 2,
-                },
-            },
-        ],
-    };
-
     return (
-        <section className="forecast-container">
-            {forecast ? (
-                <Slider {...settings}>
-                    {forecastItems.slice(0, 5).map((item, index) => (
-                        <div key={index} className="forecast-item" style={{ background: applyBackgroundGradient(item.weatherMain) }}>
-                            <h3 className="date">{item.date}</h3>
-                            <div className="weatherIcon">{item.icon}</div>
-                            <p className="temp">Min: {item.minTemp}°C Max: {item.maxTemp}°C</p>
-
-                            {/* Slider per le ore */}
-                            <Slider {...hourlySettings} className="hourly-slider">
-                                {item.hourlyData.map((hour, idx) => {
-                                    const time = new Date(hour.dt * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                                    const temp = Math.ceil(hour.main.temp); // Arrotonda la temperatura in eccesso
-                                    return (
-                                        <div key={idx} className="hourly-item">
-                                            <p>{time}</p>
-                                            <p>{temp}°C</p>
-                                            {getWeatherIcon(hour.weather[0].main, "2x")}
-                                        </div>
-                                    );
-                                })}
-                            </Slider>
-                        </div>
+        <section className="meteo-box-container forecast-container" style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'background-image 0.5s ease-in-out',
+        }}>
+            <table className="forecast-table">
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        {forecastItems[0].hourlyData.map((hour, idx) => {
+                            const time = new Date(hour.dt * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                            return <th className="hour" key={idx}>{time}</th>;
+                        })}
+                    </tr>
+                </thead>
+                <tbody>
+                    {forecastItems.map((item, index) => (
+                        <tr key={index} style={{ background: applyBackgroundGradient(item.weatherMain) }}>
+                            <td className="info">{item.date}</td>
+                            {item.hourlyData.map((hour, idx) => {
+                                const temp = Math.ceil(hour.main.temp);
+                                return (
+                                    <td className="info" key={idx}>
+                                        {temp}°C {getWeatherIcon(hour.weather[0].main, "1x")}
+                                    </td>
+                                );
+                            })}
+                        </tr>
                     ))}
-                </Slider>
-            ) : (
-                <div className="loading-container">
-                    <h2>No forecast available</h2>
-                </div>
-            )}
+                </tbody>
+            </table>
         </section>
     );
 };
