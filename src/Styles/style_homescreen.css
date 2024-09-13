@@ -62,7 +62,8 @@ body {
 
 a {
   text-decoration: none;
-  color: #000000
+  color:#F7F7F7;
+
 }
 
 a:hover {
@@ -92,14 +93,18 @@ a:hover {
   background-color: #F5F5F5;
 }
 
+#discover {font-size:1.2rem;}
+
 .arrow-button {
   display: flex;
   justify-content: center;
   align-items: center;
 
-  background-color: #F7F7F7;
+  background-color: #4158D0;
+  background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+
   transition: background-color 0.3s ease;
-  color: #000;
+  color: #F7F7F7;
   text-decoration: none;
 }
 
@@ -227,47 +232,51 @@ a:hover {
   height: 50%;
 }
 
-#see {
-  color: #F7F7F7;
-}
-
 #call-to-action-area {
   background: rgb(31, 55, 107);
   background: linear-gradient(90deg, rgba(31, 55, 107, 1) 0%, rgba(200, 130, 255, 1) 50%, rgba(130, 203, 255, 1) 100%);
-  border-radius: 25px;
-  color: #F7F7F7;
-  text-align: center;
-  padding: 20px;
-  width: 75%;
-  margin-left: auto;
-  margin-right: auto;
+  display: flex;
   justify-content: center;
-}
-
-#call-to-action-text {
-  font-size: 2rem;
-  margin: 0;
-}
-
-#call-to-action-text2 {
-  font-size: 1.2rem;
-  margin-top: 5px;
-}
-
-#join-btn {
-  color: #F7F7F7;
-  background-color: #F7F7F7;
-  opacity: 0.8;
+  align-items: center; 
+  flex-direction: column; 
+  height: 100%;  
+  text-align: center; 
   border-radius: 25px;
-  font-size: 2rem;
-  width: auto;
-  height: 50px;
-  padding: 10px 20px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
+  width:75%;
 }
+
+#signup-area {
+  margin-top: 50px;       
+}
+
+
+#signup-area h2 a {
+  background-color: white;
+  color: #000; 
+  padding: 10px 20px; 
+  border-radius: 5px; 
+  text-decoration: none; 
+  display: inline-block;
+  transition: background-color 0.3s ease; 
+}
+
+#signup-area h2 a:hover {
+  background-color: #000000;
+  color:#F7F7F7;
+
+}
+
+#call-to-action-text{
+  font-size:3rem;
+}
+
+#call-to-action-text2{
+  margin-left:15%;
+  margin-right:15%;
+  font-size:1.5rem;
+
+}
+
 
 /*Animazione nuvole*/
 .weather-container {

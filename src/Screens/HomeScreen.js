@@ -41,8 +41,8 @@ const HomeScreen = () => {
 
       <section id="discover-btn-area" className="button-area">
         <button id="dsc-btn" className="btn arrow-button">
-          <div id="see" href="about-area">
-            <a href="#about-area">DISCOVER</a>
+          <div id="see">
+            <a href="#about-area" id="discover">DISCOVER</a>
           </div>
           <span className="arrow"></span>
         </button>
@@ -84,8 +84,8 @@ const HomeScreen = () => {
           <h3 id="call-to-action-text2">
             Become part of our community and gain instant access to your favorite places, advanced predictions, and a customizable experience.<br />
             💡 Don't wait! Your new WAPA experience starts here 💡
-            <div id="see" href="#about-area">
-              <Link to="/SignUpScreen">Sign Up</Link>
+            <div id="signup-area">
+              <h2><Link to="/SignUpScreen">Sign up</Link></h2>
             </div>
           </h3>
 
