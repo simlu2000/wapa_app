@@ -1,8 +1,29 @@
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Clouds, Cloud, CameraControls, Sky as SkyImpl } from "@react-three/drei";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
+
 export default function App() {
+  // Gestisce la dimensione del Canvas quando la finestra viene ridimensionata
+  useEffect(() => {
+    const handleResize = () => {
+      const canvas = document.querySelector('canvas');
+      if (canvas) {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Imposta la dimensione iniziale
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <div className="weather-animation">
       <div className="canvas-container">
@@ -42,10 +63,41 @@ function Sky() {
   const cloud0 = useRef();
 
   useFrame((state, delta) => {
-    ref.current.rotation.y = Math.cos(state.clock.elapsedTime / 2) / 2;
-    ref.current.rotation.x = Math.sin(state.clock.elapsedTime / 2) / 2;
-    cloud0.current.rotation.y -= delta;
+    if (ref.current) {
+      ref.current.rotation.y = Math.cos(state.clock.elapsedTime / 2) / 2;
+      ref.current.rotation.x = Math.sin(state.clock.elapsedTime / 2) / 2;
+    }
+    if (cloud0.current) {
+      cloud0.current.rotation.y -= delta;
+    }
   });
+
+  useEffect(() => {
+    // Gestione del contesto WebGL
+    const canvas = document.querySelector('canvas');
+    const handleContextLost = (event) => {
+      event.preventDefault();
+      console.log('WebGL context lost!');
+      // Aggiungi logica per ripristinare il contesto se necessario
+    };
+
+    const handleContextRestored = () => {
+      console.log('WebGL context restored!');
+      // Aggiungi logica per ripristinare la scena se necessario
+    };
+
+    if (canvas) {
+      canvas.addEventListener('webglcontextlost', handleContextLost);
+      canvas.addEventListener('webglcontextrestored', handleContextRestored);
+    }
+
+    return () => {
+      if (canvas) {
+        canvas.removeEventListener('webglcontextlost', handleContextLost);
+        canvas.removeEventListener('webglcontextrestored', handleContextRestored);
+      }
+    };
+  }, []);
 
   return (
     <>
@@ -58,7 +110,6 @@ function Sky() {
           {/*<Cloud fade={10} speed={0.1} growth={4} volume={6} opacity={0.8} bounds={[6, 1, 1]} color="#c0c0dd" seed={5} position={[0, 0, 12]} />
           <Cloud concentrate="outside" growth={100} color="#ffccdd" opacity={1.25} seed={0.3} bounds={200} volume={200} />*/}
         </Clouds>
-
       </group>
     </>
   );

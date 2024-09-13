@@ -30,11 +30,26 @@ const cacheFirstStrategy = new CacheFirst({
 // Gestione degli eventi fetch con strategie personalizzate
 self.addEventListener('fetch', (event) => {
   if (event.request.url.includes('/api/')) {
-    // Usa NetworkFirst per le richieste API
-    event.respondWith(networkFirstStrategy.handle({ event }));
+    event.respondWith(
+      networkFirstStrategy.handle({ event }).catch(() => {
+        // Fallback se NetworkFirst fallisce
+        return caches.match('/fallback.json');
+      })
+    );
+  } else if (event.request.url.includes('/assets/')) {
+    event.respondWith(
+      cacheFirstStrategy.handle({ event }).catch(() => {
+        // Fallback se CacheFirst fallisce
+        return caches.match('/fallback.html');
+      })
+    );
   } else {
-    // Usa CacheFirst per altre risorse
-    event.respondWith(cacheFirstStrategy.handle({ event }));
+    event.respondWith(
+      fetch(event.request).catch(() => {
+        // Fallback se la richiesta di rete fallisce
+        return new Response('Offline');
+      })
+    );
   }
 });
 
