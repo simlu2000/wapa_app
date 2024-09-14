@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import * as d3 from 'd3';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown, faMoon } from '@fortawesome/free-solid-svg-icons';
 
 const Sunset = ({ sunsetTime }) => {
     useEffect(() => {
@@ -12,7 +12,8 @@ const Sunset = ({ sunsetTime }) => {
         const radius = Math.min(width, height) / 2 - 20;
 
         const colors = {
-            sunset: '#FFA500',
+            sunset: '#350151',
+            circle :"#350151"
         };
 
         //Pulizia elem precedenti
@@ -49,9 +50,9 @@ const Sunset = ({ sunsetTime }) => {
             .attr("text-anchor", "middle")
             .attr("dominant-baseline", "central")
             .attr("y", radius - 50)
-            .text(`${date.toLocaleTimeString()}`)
+            .text(`Sunset at ${date.toLocaleTimeString()}`)
             .attr("fill", colors.sunset)
-            .attr("font-size", 20);
+            .attr("font-size", 28);
     }, [sunsetTime]);
 
     const iconStyle = {
@@ -59,14 +60,14 @@ const Sunset = ({ sunsetTime }) => {
         top: '135px',
         left: '150px',
         transform: 'translate(-50%, -50%)',
-        color: '#FFA500',
+        color: '#350151',
         fontSize: '40px',
     };
 
     return (
         <div id="light2" className="light-chart" style={{ position: 'relative', width: '300px', height: '300px' }}>
             <svg id="sunset-chart"></svg>
-            <FontAwesomeIcon icon={faArrowDown} style={iconStyle} />
+            <FontAwesomeIcon icon={faMoon} style={iconStyle} />
         </div>
     );
 };

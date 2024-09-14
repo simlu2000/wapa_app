@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import * as d3 from 'd3';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUp,faSun } from '@fortawesome/free-solid-svg-icons';
 
 const Sunrise = ({ sunriseTime }) => {
     useEffect(() => {
@@ -22,7 +22,8 @@ const Sunrise = ({ sunriseTime }) => {
             .attr("width", width)
             .attr("height", height)
             .append("g")
-            .attr("transform", `translate(${width / 2}, ${height / 2})`);
+            .attr("transform", `translate(${width / 2}, ${height / 2})`)
+            .attr("color", colors.circle);
 
         // Scala per l'angolo
         const xScale = d3.scaleLinear()
@@ -49,9 +50,9 @@ const Sunrise = ({ sunriseTime }) => {
             .attr("text-anchor", "middle") 
             .attr("dominant-baseline", "central")
             .attr("y", radius - 50)
-            .text(`${date.toLocaleTimeString()}`)
+            .text(`Sunrise at ${date.toLocaleTimeString()}`)
             .attr("fill", colors.sunrise)
-            .attr("font-size", 20);
+            .attr("font-size", 28);
     }, [sunriseTime]);
 
     const iconStyle = {
@@ -66,7 +67,7 @@ const Sunrise = ({ sunriseTime }) => {
     return (
         <div className="light-chart" style={{ position: 'relative', width: '300px', height: '300px' }}>
             <svg id="sunrise-sunset-chart"></svg>
-            <FontAwesomeIcon icon={faArrowUp} style={iconStyle} />
+            <FontAwesomeIcon icon={faSun} style={iconStyle} />
         </div>
     );
 };

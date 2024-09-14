@@ -294,7 +294,7 @@ const WeatherScreen = () => {
                             </div>
                         </section>
                         <section id="temp-min" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Temp Min</h3>
+                            <h3 className="meteo-box-label">Temp Min: {weatherData.main.temp_min} C°</h3>
                             <div className="progress-bar">
                                 <div className="progress" style={{ width: `${weatherData.main.temp_min}%` }}>
                                     <PercentageBox label={`${weatherData.main.temp_min}C°`} />

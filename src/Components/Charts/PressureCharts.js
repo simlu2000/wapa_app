@@ -11,7 +11,7 @@ const PressureCharts = ({ initialPressure }) => {
     const getOption = () => {
         return {
             title: {
-                text: "Pressure",
+                text: "Atmospheric pressure",
                 left: "center",
                 textStyle: {
                     fontSize:20,
@@ -56,7 +56,7 @@ const PressureCharts = ({ initialPressure }) => {
                     data: [
                         {
                             value: pressure,
-                            name: 'Pressure',
+                            name: 'A. Pressure',
                             textStyle: {
                                 color: "#F7F7F7",
                             },
