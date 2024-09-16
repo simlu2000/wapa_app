@@ -99,11 +99,11 @@ const AdvancedScreen = () => {
                                 </h1>
                             </div>
 
-                            <div id="seeUniverse">
-                                <a href="#celestial" id="fly-button" onClick={handleFlyClick}>Fly!</a>
+                            <button id="central-button">
+                                <a href="#celestial" id="seeUniverse">EXPLORE</a>
                                 <span className="arrow"></span>
-                                <div id="missile"></div>
-                            </div>
+                            </button>
+
                             {imageDate && (
                                 <div id="image-date" className="image-date">
                                     <p>{imageDate}</p>
@@ -111,6 +111,8 @@ const AdvancedScreen = () => {
                             )}
                         </div>
                     </section>
+
+
 
                     <section id="second-container" className="mini-container">
                         <div id="celestial" className="event-item">
