@@ -47,10 +47,10 @@ const App = () => {
                 });
 
                 if (permissionResult !== 'granted') {
-                    throw new Error('Permessi per le notifiche non concessi.');
+                    throw new Error('No granted permissions');
                 }
             } catch (error) {
-                console.error('Errore nella richiesta dei permessi per le notifiche:', error);
+                console.error('Error while asking permissions:', error);
             }
         }
 

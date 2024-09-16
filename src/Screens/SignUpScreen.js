@@ -63,7 +63,7 @@ const SignUpScreen = () => {
   const handlePasswordReset = async (e) => {
   e.preventDefault();
   if (!resetEmail) {
-    alert('Inserisci un indirizzo email valido.');
+    alert('Insert a valid e-mail address');
     return;
   }
 

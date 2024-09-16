@@ -63,7 +63,7 @@ const UserProfileScreen = ({ user }) => {
       }
     });
     if (permissionResult_1 !== 'granted') {
-      throw new Error('Non sono stati concessi i permessi per le notifiche.');
+      throw new Error('No granted permissions');
     }
   }
 

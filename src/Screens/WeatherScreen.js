@@ -195,6 +195,11 @@ const WeatherScreen = () => {
                 title: 'Weather Alert',
                 body: 'Temperature extremely high! Drink a lot of water and avoid direct sun!',
             };
+        } else if (weatherData.main.temp < 25){
+            notificationPayload = {
+                title : 'Weather Alert TEST',
+                body : 'TEST: Temperature < 25'
+            }
         }
 
         if (notificationPayload) {
