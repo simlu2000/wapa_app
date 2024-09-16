@@ -76,7 +76,7 @@ const HomeScreen = () => {
             <WapaBox
               imgSrc={logo}
               title="W-A-P-A"
-              text="Weather Advanced Predictions App. With Wapa you will be updated about all weather conditions and advanced info about the universe. See our climatic features and enjoy all your days with us!"
+              text="Weather Advanced Predictions App. With Wapa you will be updated about all weather conditions and advanced informations about the universe. See our climatic features and enjoy all your days with us!"
             />
             <InfoBox
               title="Weather in one click"

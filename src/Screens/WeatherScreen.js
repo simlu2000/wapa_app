@@ -16,6 +16,8 @@ import PercentageBox from '../Components/PercentageBox';
 import UserPlaces from '../Components/UserPlaces';
 import Loader from '../Components/loader';
 import '../Styles/style_weatherscreen.css';
+import animationData from '../Animations/Animation - 1726518835813.json';
+import Lottie from 'react-lottie';
 
 const Api_Key_OpenWeather = process.env.REACT_APP_Api_Key_OpenWeather;
 
@@ -29,6 +31,30 @@ const WeatherScreen = () => {
     const [userLocalities, setUserLocalities] = useState([]);
     const [user, setUser] = useState(null);
     const locationState = useLocation();
+    const [isOffline, setIsOffline] = useState(!navigator.onLine);
+
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: animationData,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+        }
+    };
+
+    useEffect(() => {
+        const handleOnline = () => setIsOffline(false);
+        const handleOffline = () => setIsOffline(true);
+
+        window.addEventListener('online', handleOnline);
+        window.addEventListener('offline', handleOffline);
+
+        return () => {
+            window.removeEventListener('online', handleOnline);
+            window.removeEventListener('offline', handleOffline);
+        };
+    }, []);
+
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
@@ -42,8 +68,10 @@ const WeatherScreen = () => {
                 }
             }
         });
+
         return () => unsubscribe();
     }, []);
+
 
     useEffect(() => {
         const getUserLocation = () => {
@@ -195,10 +223,10 @@ const WeatherScreen = () => {
                 title: 'Weather Alert',
                 body: 'Temperature extremely high! Drink a lot of water and avoid direct sun!',
             };
-        } else if (weatherData.main.temp < 25){
+        } else if (weatherData.main.temp < 25) {
             notificationPayload = {
-                title : 'Weather Alert TEST',
-                body : 'TEST: Temperature < 25'
+                title: 'Weather Alert TEST',
+                body: 'TEST: Temperature < 25'
             }
         }
 
@@ -233,10 +261,13 @@ const WeatherScreen = () => {
                 }}
             >
                 <section className="mini-container">
-                    <div id="meteo-title">
-                        {loading ? (
-                            <h1>Loading...</h1>
-                        ) : (
+                    {loading ? (
+                        <div className="animation-container">
+                            <Lottie options={defaultOptions} height={200} width={200} />
+                        </div>
+                    ) : (
+                        <div id="meteo-title">
+
                             <>
                                 <h1 className="meteo-title">In {city}:</h1>
                                 <h1 className="meteo-title">{weatherData.weather[0].description}</h1>
@@ -244,8 +275,9 @@ const WeatherScreen = () => {
                                 <h2 className="meteo-subtitle">Min: {Math.floor(weatherData.main.temp_min)} °C</h2>
                                 <h2 className="meteo-subtitle">Max: {Math.floor(weatherData.main.temp_max)} °C</h2>
                             </>
-                        )}
-                    </div>
+
+                        </div>
+                    )}
 
                     {forecastData && (
                         <TodayForecast forecast={forecastData} isMobile={true} />

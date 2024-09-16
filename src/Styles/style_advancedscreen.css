@@ -8,24 +8,12 @@ body {
 
 }
 
-#seeUniverse {
-    background-color: #F7F7F7;
-    border-radius: 25px;
-    width: 25%;
+.animation-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 20px auto;
-    padding: 10px;
-}
-
-#seeUniverse a {
-    text-decoration: none;
-    color: #000;
-    font-size: 1.5rem;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
+    height: 100vh; 
+    width: 100vw;
 }
 
 /* General Styles */
@@ -76,46 +64,10 @@ body {
     background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
     border-radius:50px;
 } */
-
-@keyframes typing {
-    from {
-        width: 0;
-    }
-
-    to {
-        width: 100%;
-    }
-}
-
-@keyframes blink {
-
-    from,
-    to {
-        border-color: transparent;
-    }
-
-    50% {
-        border-color: black;
-    }
-}
-
-#universe-text {
-    display: inline-block;
-    border-right: 2px solid black;
-    white-space: nowrap;
-    overflow: hidden;
-    width: 0;
-    font-weight: bold;
+#universe{
     background-color: #4158D0;
     background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    animation: typing 3.5s steps(30, end), blink 0.75s step-end infinite;
-    vertical-align: bottom; /*allinamento testo al prec*/
-    width: 7ch; /*larghezza fissa basata su numero di caratteri*/
 }
-
 /*animazione volo*/
 #missile {
     width: 50px;

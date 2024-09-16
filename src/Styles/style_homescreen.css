@@ -162,14 +162,17 @@ a:hover {
 .info-box-test {
   text-align: center;
   color:#F7F7F7;
+  
 }
 
 .info-box-large p {
   font-size: 1.8rem;
+  
 }
 
 .info-box-small p {
   font-size: 1.3rem;
+  
 }
 
 .info-box-container {
@@ -205,6 +208,7 @@ a:hover {
   padding: 15px;
   color: #F7F7F7;
   box-sizing: border-box;
+  
 }
 
 
@@ -222,18 +226,24 @@ a:hover {
   justify-content: center;
   align-items: center;
   height: 100%;
+  
 }
 
 .info-box h1 {
-  font-size: 4rem;
+  font-size: 2rem;
   margin: 0;
   text-align: center;
+  margin-top:35%;
 }
-
+.info-box h2 {
+  font-size: 2rem;
+  margin-top:15%;
+}
 .info-box p {
   margin-left: 5%;
   margin-right: 5%;
   margin-top: 10%;
+  margin-bottom:20%;
   text-align: left;
   color:#F7F7F7;
 }
@@ -351,7 +361,7 @@ canvas {
     flex-direction: column;
     width: 90%;
   }
-
+  
   .info-box-large,
   .info-box-small {
     flex: none;
@@ -385,6 +395,7 @@ canvas {
   #features-title {
     font-size: 2.5rem;
   }
+  
 }
 
 @media only screen and (max-width: 600px) {
@@ -443,7 +454,7 @@ canvas {
   #features-subtitle {
     margin-top: -25px;
     font-size: 1rem;
-  }
+  } 
 
   .info-box h1 {
     font-size: 2rem;
