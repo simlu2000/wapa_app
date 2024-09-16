@@ -7,6 +7,7 @@ body {
     background-color: #000000;
 
 }
+
 #seeUniverse {
     background-color: #F7F7F7;
     border-radius: 25px;
@@ -15,7 +16,7 @@ body {
     justify-content: center;
     align-items: center;
     margin: 20px auto;
-    padding: 10px; 
+    padding: 10px;
 }
 
 #seeUniverse a {
@@ -26,6 +27,7 @@ body {
     display: flex;
     align-items: center;
 }
+
 /* General Styles */
 .centered-text {
     text-align: center;
@@ -65,13 +67,85 @@ body {
     background-color: #000000;
 }
 
+/*
 #universe-text {
-    background: linear-gradient(to right, #ff8a00 0%, #dd4c4f 100%);
+    /*background: linear-gradient(to right, #ff8a00 0%, #dd4c4f 100%);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    -webkit-text-fill-color: transparent; 
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+    border-radius:50px;
+} */
 
+@keyframes typing {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
 }
 
+@keyframes blink {
+
+    from,
+    to {
+        border-color: transparent;
+    }
+
+    50% {
+        border-color: black;
+    }
+}
+
+#universe-text {
+    display: inline-block;
+    border-right: 2px solid black;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+    font-weight: bold;
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: typing 3.5s steps(30, end), blink 0.75s step-end infinite;
+    vertical-align: bottom; /*allinamento testo al prec*/
+    width: 7ch; /*larghezza fissa basata su numero di caratteri*/
+}
+
+/*animazione volo*/
+#missile {
+    width: 50px;
+    height: 50px;
+    background: url('../img/spaceShip.png') no-repeat center center;
+    background-size: contain;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    visibility: hidden;
+}
+
+@keyframes fly {
+    0% {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        top: -10%;
+        left: 110%;
+        transform: translate(-50%, -50%) rotate(720deg);
+    }
+}
+
+.fly-animation {
+    visibility: visible;
+    animation: fly 2s linear forwards;
+}
 /*button area*/
 .arrow-button {
     display: flex;
@@ -157,7 +231,8 @@ body {
     .title {
         font-size: 6rem;
     }
-    #advanced-title{
+
+    #advanced-title {
         text-align: center;
         margin-left: 5%;
     }
@@ -183,12 +258,14 @@ body {
     .title {
         font-size: 6rem;
     }
-    #advanced-title{
+
+    #advanced-title {
         text-align: center;
         margin-left: 5%;
     }
-    #earth{
-        margin-left:5%;
+
+    #earth {
+        margin-left: 5%;
     }
 
     #subtitle {
@@ -231,12 +308,14 @@ body {
     .title {
         font-size: 6rem;
     }
-    #advanced-title{
+
+    #advanced-title {
         text-align: center;
         margin-left: 5%;
     }
-    #earth{
-        margin-left:5%;
+
+    #earth {
+        margin-left: 5%;
     }
 
     #subtitle {
@@ -315,13 +394,16 @@ body {
         font-size: 3rem;
         text-align: center;
     }
-    .data-title{
+
+    .data-title {
         text-align: center;
     }
-    #timeline{
-        display:none;
+
+    #timeline {
+        display: none;
     }
-    #earth{
+
+    #earth {
         margin-left: 0;
     }
 }

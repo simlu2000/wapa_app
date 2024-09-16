@@ -19,6 +19,7 @@ import { AnimatedBackground } from 'animated-backgrounds';
 const HomeScreen = () => {
   const [isVisible, setIsVisible] = useState(false);
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.5 });
+  const [isOffline, setIsOffline] = useState(!navigator.onLine);
 
   useEffect(() => {
     if (inView) {
@@ -26,16 +27,32 @@ const HomeScreen = () => {
         setIsVisible(true);
       });
     }
+    const handleOffline = () => setIsOffline(true);
+    const handleOnline = () => setIsOffline(false);
+
+    window.addEventListener("offline", handleOffline);
+    window.addEventListener("online", handleOnline);
+
+    return () => {
+      window.removeEventListener("offline", handleOffline);
+      window.removeEventListener("online", handleOnline);
+    };
   }, [inView]);
+
 
   return (
     <>
       <section id="intro" className="weather-container">
-        
+
 
         <div id="title-logo-container" className="content">
-          <CloudBackground />
-          
+          {!isOffline ? (
+            <CloudBackground />
+          ) : (
+            <div className="gradient-fallback">
+
+            </div>
+          )}
         </div>
       </section>
 
@@ -59,7 +76,7 @@ const HomeScreen = () => {
             <WapaBox
               imgSrc={logo}
               title="W-A-P-A"
-              text="Weather Advanced Predictions App. With Wapa you will be updated about all weather conditions and advanced info about the universe. See our climatic features and enjoy your days with us!"
+              text="Weather Advanced Predictions App. With Wapa you will be updated about all weather conditions and advanced info about the universe. See our climatic features and enjoy all your days with us!"
             />
             <InfoBox
               title="Weather in one click"
