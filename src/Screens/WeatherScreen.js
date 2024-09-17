@@ -225,7 +225,7 @@ const WeatherScreen = () => {
 
         if (notificationPayload && user) { //controllo anche se ce utente
             const now = new Date();
-            if (now.getHours() === 11 && now.getMinutes() === 5) {
+            if (now.getHours() === 11 && now.getMinutes() === 15) {
                 navigator.serviceWorker.ready.then(registration => {
                     registration.showNotification(notificationPayload.title, {
                         body: notificationPayload.body,
