@@ -32,7 +32,6 @@ const WeatherScreen = () => {
     const [user, setUser] = useState(null);
     const locationState = useLocation();
     const [isOffline, setIsOffline] = useState(!navigator.onLine);
-    const [notificationsEnabled, setNotificationsEnabled] = useState(false);
 
     const defaultOptions = {
         loop: true,
@@ -56,29 +55,6 @@ const WeatherScreen = () => {
         };
     }, []);
 
-    useEffect(() => {
-        if (Notification.permission === 'default') {
-            Notification.requestPermission().then(permission => {
-                if (permission === 'granted') {
-                    console.log('Notification permission granted.');
-                } else {
-                    console.error('Notification permission denied.');
-                }
-            });
-        }
-    }, []);
-    
-
-    const testNotification = () => {
-        if (Notification.permission === 'granted') {
-          new Notification('Test Notification', {
-            body: 'This is a test notification to check if notifications are working.',
-          });
-        } else {
-          console.log('Notification permission not granted.');
-        }
-      };
-      
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
@@ -132,7 +108,6 @@ const WeatherScreen = () => {
                     setCity(weatherResponse.data.name);
                     setAirPollutionData(airPollutionResponse.data.list[0].components);
                     setForecastData(forecastResponse.data.list);
-
                 } catch (error) {
                     console.error("Error during fetching weather data", error);
                 } finally {
@@ -228,30 +203,27 @@ const WeatherScreen = () => {
         const weatherMain = weatherData.weather[0].main;
         let notificationPayload = null;
 
-        //vedo se notifiche abilitate e invio notifiche se serve
-        const notificationsEnabled = JSON.parse(localStorage.getItem('notificationsEnabled'));
-
-        if (notificationsEnabled && weatherMain === 'Rain') {
+        if (weatherMain === 'Rain') {
             notificationPayload = {
                 title: 'Weather Alert',
                 body: 'Rain expected tomorrow, get your umbrella!',
             };
-        } else if (notificationsEnabled && weatherMain === 'Thunderstorm') {
+        } else if (weatherMain === 'Thunderstorm') {
             notificationPayload = {
                 title: 'Weather Alert',
                 body: 'Thunderstorm alert! Stay indoors and avoid outdoor activities!',
             };
-        } else if (notificationsEnabled && weatherData.main.temp < 0) {
+        } else if (weatherData.main.temp < 0) {
             notificationPayload = {
                 title: 'Weather Alert',
                 body: 'Temperature extremely low! Dress warmly!',
             };
-        } else if (notificationsEnabled && weatherData.main.temp > 35) {
+        } else if (weatherData.main.temp > 35) {
             notificationPayload = {
                 title: 'Weather Alert',
                 body: 'Temperature extremely high! Drink a lot of water and avoid direct sun!',
             };
-        } else if (notificationsEnabled && weatherData.main.temp < 25) {
+        } else if (weatherData.main.temp < 25) {
             notificationPayload = {
                 title: 'Weather Alert TEST',
                 body: 'TEST: Temperature < 25'
@@ -263,26 +235,24 @@ const WeatherScreen = () => {
         }
     };
 
-    const checkTimeAndNotify = () => {
+    const checkTimeAndNotify = (weatherData) => {
         const now = new Date();
         const hours = now.getHours();
         const minutes = now.getMinutes();
-    
-        if (user && hours === 10 && minutes === 50) {
+
+        if (user && hours === 11 && minutes === 50) {
             checkWeatherAndNotify(weatherData);
         }
     };
-    
+
     useEffect(() => {
         if (weatherData) {
-            const interval = setInterval(checkTimeAndNotify, 60000); // Controlla ogni minuto
-            return () => clearInterval(interval);
+            checkTimeAndNotify(weatherData);
         }
     }, [weatherData]);
-    
 
     const sendNotification = ({ title, body }) => {
-        if (Notification.permission === 'granted' && notificationsEnabled) {
+        if (Notification.permission === 'granted') {
             new Notification(title, { body });
         } else {
             console.log('Notification permission not granted.');
@@ -326,9 +296,6 @@ const WeatherScreen = () => {
 
                             <>
                                 <h1 className="meteo-title">In {city}:</h1>
-
-                                <button onClick={testNotification}>Test Notification</button>
-
                                 <h1 className="meteo-title">{weatherData.weather[0].description}</h1>
                                 <h1 className="meteo-title">Feels {Math.floor(weatherData.main.feels_like)} °C</h1>
                                 <h2 className="meteo-subtitle">Min: {Math.floor(weatherData.main.temp_min)} °C</h2>
