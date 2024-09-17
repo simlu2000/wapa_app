@@ -223,45 +223,51 @@ const WeatherScreen = () => {
     };
 
     const checkWeatherAndNotify = (weatherData) => {
-        if (!weatherData) return;
+    if (!weatherData) return;
 
-        const weatherMain = weatherData.weather[0].main;
-        let notificationPayload = null;
+    const weatherMain = weatherData.weather[0].main;
+    let notificationPayload = null;
 
-        //vedo se notifiche abilitate e invio notifiche se serve
-        const notificationsEnabled = JSON.parse(localStorage.getItem('notificationsEnabled'));
+    if (notificationsEnabled && weatherMain === 'Rain') {
+        notificationPayload = {
+            title: 'Weather Alert',
+            body: 'Rain expected tomorrow, get your umbrella!',
+        };
+    } else if (notificationsEnabled && weatherMain === 'Thunderstorm') {
+        notificationPayload = {
+            title: 'Weather Alert',
+            body: 'Thunderstorm alert! Stay indoors and avoid outdoor activities!',
+        };
+    } else if (notificationsEnabled && weatherData.main.temp < 0) {
+        notificationPayload = {
+            title: 'Weather Alert',
+            body: 'Temperature extremely low! Dress warmly!',
+        };
+    } else if (notificationsEnabled && weatherData.main.temp > 35) {
+        notificationPayload = {
+            title: 'Weather Alert',
+            body: 'Temperature extremely high! Drink a lot of water and avoid direct sun!',
+        };
+    } else if (notificationsEnabled && weatherData.main.temp < 25) {
+        notificationPayload = {
+            title: 'Weather Alert TEST',
+            body: 'TEST: Temperature < 25'
+        };
+    }
 
-        if (notificationsEnabled && weatherMain === 'Rain') {
-            notificationPayload = {
-                title: 'Weather Alert',
-                body: 'Rain expected tomorrow, get your umbrella!',
-            };
-        } else if (notificationsEnabled && weatherMain === 'Thunderstorm') {
-            notificationPayload = {
-                title: 'Weather Alert',
-                body: 'Thunderstorm alert! Stay indoors and avoid outdoor activities!',
-            };
-        } else if (notificationsEnabled && weatherData.main.temp < 0) {
-            notificationPayload = {
-                title: 'Weather Alert',
-                body: 'Temperature extremely low! Dress warmly!',
-            };
-        } else if (notificationsEnabled && weatherData.main.temp > 35) {
-            notificationPayload = {
-                title: 'Weather Alert',
-                body: 'Temperature extremely high! Drink a lot of water and avoid direct sun!',
-            };
-        } else if (notificationsEnabled && weatherData.main.temp < 25) {
-            notificationPayload = {
-                title: 'Weather Alert TEST',
-                body: 'TEST: Temperature < 25'
-            }
-        }
+    if (notificationPayload) {
+        sendNotification(notificationPayload);
+    }
+};
 
-        if (notificationPayload) {
-            sendNotification(notificationPayload);
-        }
-    };
+const sendNotification = ({ title, body }) => {
+    if (Notification.permission === 'granted' && notificationsEnabled) {
+        new Notification(title, { body });
+    } else {
+        console.log('Notification permission not granted.');
+    }
+};
+
 
     const checkTimeAndNotify = () => {
         const now = new Date();
@@ -321,7 +327,7 @@ const WeatherScreen = () => {
                             <>
                                 <h1 className="meteo-title">In {city}:</h1>
 
-                                <button onClick={testNotification}>Test Notification</button>
+                                {/*<button onClick={testNotification}>Test Notification</button>*/}
 
                                 <h1 className="meteo-title">{weatherData.weather[0].description}</h1>
                                 <h1 className="meteo-title">Feels {Math.floor(weatherData.main.feels_like)} °C</h1>
