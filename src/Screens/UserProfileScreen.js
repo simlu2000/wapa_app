@@ -1,15 +1,14 @@
+// UserProfileScreen.jsx
 import React, { useState, useEffect } from 'react';
-import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import "../Styles/style_userprofilescreen.css";
+import { getUserLocalities, addLocation, removeLocation } from '../Utils/userService';
 import UserPlaces from '../Components/UserPlaces';
-import { addLocation, removeLocation, getUserLocalities } from '../Utils/userService';
-import { auth } from '../Utils/firebase';
+import { signOut, auth } from '../Utils/firebase';
 
 const UserProfileScreen = ({ user }) => {
   const [userLocalities, setUserLocalities] = useState([]);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const navigate = useNavigate();
-  const [notificationsEnabled, setNotificationsEnabled] = useState(false); //gestione state toggle notifiche 
 
   useEffect(() => {
     const fetchUserLocalities = async () => {
@@ -27,19 +26,17 @@ const UserProfileScreen = ({ user }) => {
   }, [user]);
 
   useEffect(() => {
-    //recupera stato notifiche dal db o local storage
     const savedPreference = localStorage.getItem('notificationsEnabled');
     if (savedPreference !== null) {
       setNotificationsEnabled(JSON.parse(savedPreference));
     }
   }, []);
 
-  const handleToggleChange = async (event) => { //stato toggle
+  const handleToggleChange = async (event) => {
     const enabled = event.target.checked;
     setNotificationsEnabled(enabled);
-    //salva preferenza 
     localStorage.setItem('notificationsEnabled', JSON.stringify(enabled));
-
+  
     if (enabled) {
       try {
         await askPermission();
@@ -53,16 +50,11 @@ const UserProfileScreen = ({ user }) => {
   };
 
   async function askPermission() {
-    const permissionResult_1 = await new Promise(function (resolve, reject) {
-      const permissionResult = Notification.requestPermission(function (result) {
-        resolve(result);
-      });
-
-      if (permissionResult) {
-        permissionResult.then(resolve, reject);
-      }
+    const permissionResult = await new Promise((resolve, reject) => {
+      const permission = Notification.requestPermission();
+      resolve(permission);
     });
-    if (permissionResult_1 !== 'granted') {
+    if (permissionResult !== 'granted') {
       throw new Error('No granted permissions');
     }
   }
@@ -89,10 +81,6 @@ const UserProfileScreen = ({ user }) => {
         console.error("Error removing location:", error);
       }
     }
-  };
-
-  const handleSelectLocation = (location) => {
-    console.log(`Selected location: ${location}`);
   };
 
   const handleLogout = async () => {
@@ -131,11 +119,9 @@ const UserProfileScreen = ({ user }) => {
             userId={user.uid}
             onAddLocation={handleAddLocation}
             onRemoveLocation={handleRemoveLocation}
-            onSelectLocation={handleSelectLocation}
             getUserLocalities={getUserLocalities}
           />
         </div>
-
         <button onClick={handleLogout} id="logout-button">Log out</button>
       </section>
     </>
