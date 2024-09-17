@@ -6,8 +6,11 @@ const AboutScreen = () => {
 
     return (
         <>
-            <section className="container-data">
-                <h1>About WAPA</h1>
+            <section className="about-container">
+                <h1 id="wapa-title">About WAPA</h1>
+            </section>
+            <section className="info-container">
+                
             </section>
         </>
     )

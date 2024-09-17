@@ -1,9 +1,8 @@
-// Configura e inizializza Firebase, e imposta le connessioni a Authentication e Realtime Database.
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect } from 'firebase/auth';
 
-// La tua configurazione Firebase
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBUNi0MyQT0YhS8Fqu_oFGEQ_FQu2-3HE8",
   authDomain: "wapa-4ec0a.firebaseapp.com",
@@ -27,4 +26,33 @@ const provider = new GoogleAuthProvider();
 // Initialize Realtime Database
 const realtimeDb = getDatabase(app);
 
-export { auth, realtimeDb, provider };
+// Function to handle authentication
+const signInWithGoogle = () => {
+  const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    //mobile -> redirect
+    signInWithRedirect(auth, provider)
+      .then(result => {
+        // Handle success
+        console.log("Signed in with Google via redirect");
+      })
+      .catch(error => {
+        // Handle errors
+        console.error("Error during Google sign-in (redirect):", error.message);
+      });
+  } else {
+    //Desktop -> popups
+    signInWithPopup(auth, provider)
+      .then(result => {
+        // Handle success
+        console.log("Signed in with Google via popup");
+      })
+      .catch(error => {
+        // Handle errors
+        console.error("Error during Google sign-in (popup):", error.message);
+      });
+  }
+};
+
+export { auth, realtimeDb, provider, signInWithGoogle };

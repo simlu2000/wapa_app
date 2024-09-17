@@ -235,15 +235,36 @@ const WeatherScreen = () => {
         }
     };
 
-    const sendNotification = (payload) => {
-        navigator.serviceWorker.ready.then(function (registration) {
-            registration.showNotification(payload.title, {
-                body: payload.body,
-                icon: 'icon.png',
-                badge: 'badge.png'
-            });
-        });
+    const checkTimeAndNotify = (weatherData) => {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+
+        if(hours == 11 && minutes === 0){
+            checkWeatherAndNotify(weatherData);
+        }else{
+            console.log('Not now for the notification');
+        }
     };
+
+    // Imposta un intervallo per controllare il tempo ogni minuto
+    setInterval(() => {
+        checkTimeAndNotify(weatherData);
+    }, 60000); // 60,000 ms = 1 minuto
+
+    const sendNotification = (payload) => {
+        if ('Notification' in window && navigator.serviceWorker) {
+            navigator.serviceWorker.ready.then((registration) => {
+                registration.showNotification(payload.title, {
+                    body: payload.body,
+                    icon: '../img/logo.png'
+                });
+            });
+        } else {
+            console.log('Notifications are not supported.');
+        }
+    };
+    
 
 
     return (

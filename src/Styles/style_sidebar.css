@@ -1,4 +1,3 @@
-/* Stili generali per la sidebar */
 .sidebar {
   width: 60px;
   backdrop-filter: blur(16px) saturate(181%);
@@ -140,7 +139,7 @@
   }
 
   .sidebar-toggle:hover {
-    color: #82cbff;
+    color: #000000;
   }
 }
 
