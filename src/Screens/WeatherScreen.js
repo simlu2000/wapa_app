@@ -229,7 +229,7 @@ const WeatherScreen = () => {
                 navigator.serviceWorker.ready.then(registration => {
                     registration.showNotification(notificationPayload.title, {
                         body: notificationPayload.body,
-                        icon: 'path/to/icon.png'
+                        icon: '../img/logo.png',
                     });
                 });
             }
