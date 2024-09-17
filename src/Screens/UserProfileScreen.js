@@ -67,8 +67,6 @@ const UserProfileScreen = ({ user }) => {
     }
   }
 
-
-
   const handleAddLocation = async (location) => {
     if (user) {
       try {
@@ -116,9 +114,9 @@ const UserProfileScreen = ({ user }) => {
         <h1>Your Profile</h1>
         <div id="user-area">
           <label htmlFor="user-email">E-mail:</label>
-          <input id="user-email" className="user-info" type="email" value={user.email}  readOnly/>
+          <input id="user-email" className="user-info" type="email" value={user.email} readOnly />
           <label htmlFor="user-name" id="label2">Name:</label>
-          <input id="user-name" className="user-info" type="text" value={user.displayName || "N/A"} readOnly/>
+          <input id="user-name" className="user-info" type="text" value={user.displayName || "N/A"} readOnly />
           <label id="label3">
             <input
               type="checkbox"
@@ -137,7 +135,6 @@ const UserProfileScreen = ({ user }) => {
             getUserLocalities={getUserLocalities}
           />
         </div>
-
 
         <button onClick={handleLogout} id="logout-button">Log out</button>
       </section>
