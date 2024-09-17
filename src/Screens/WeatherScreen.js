@@ -224,10 +224,13 @@ const WeatherScreen = () => {
 
     const checkWeatherAndNotify = (weatherData) => {
         if (!weatherData) return;
-    
+
         const weatherMain = weatherData.weather[0].main;
         let notificationPayload = null;
-    
+
+        //vedo se notifiche abilitate e invio notifiche se serve
+        const notificationsEnabled = JSON.parse(localStorage.getItem('notificationsEnabled'));
+
         if (notificationsEnabled && weatherMain === 'Rain') {
             notificationPayload = {
                 title: 'Weather Alert',
@@ -252,30 +255,13 @@ const WeatherScreen = () => {
             notificationPayload = {
                 title: 'Weather Alert TEST',
                 body: 'TEST: Temperature < 25'
-            };
+            }
         }
-    
+
         if (notificationPayload) {
             sendNotification(notificationPayload);
         }
     };
-    
-    const sendNotification = ({ title, body }) => {
-        if (Notification.permission === 'granted' && notificationsEnabled) {
-            new Notification(title, { body });
-        } else {
-            console.log('Notification permission not granted.');
-        }
-    };
-
-    useEffect(() => {
-        const savedPreference = localStorage.getItem('notificationsEnabled');
-        if (savedPreference !== null) {
-            setNotificationsEnabled(JSON.parse(savedPreference));
-        }
-    }, []);
-    
-    
 
     const checkTimeAndNotify = () => {
         const now = new Date();
@@ -335,7 +321,7 @@ const WeatherScreen = () => {
                             <>
                                 <h1 className="meteo-title">In {city}:</h1>
 
-                                {/*<button onClick={testNotification}>Test Notification</button> */}
+                                <button onClick={testNotification}>Test Notification</button>
 
                                 <h1 className="meteo-title">{weatherData.weather[0].description}</h1>
                                 <h1 className="meteo-title">Feels {Math.floor(weatherData.main.feels_like)} °C</h1>
