@@ -223,7 +223,7 @@ const WeatherScreen = () => {
             };
         }
 
-        if (notificationPayload && user) {
+        if (notificationPayload && user) { //controllo anche se ce utente
             const now = new Date();
             if (now.getHours() === 11 && now.getMinutes() === 5) {
                 navigator.serviceWorker.ready.then(registration => {
