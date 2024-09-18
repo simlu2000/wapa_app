@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { getUserLocalities, addLocation, removeLocation } from '../Utils/userService';
 import UserPlaces from '../Components/UserPlaces';
 import { signOut, auth } from '../Utils/firebase';
+import '../Styles/style_userprofilescreen.css';
 
 const UserProfileScreen = ({ user }) => {
   const [userLocalities, setUserLocalities] = useState([]);

@@ -295,11 +295,18 @@ const WeatherScreen = () => {
                         <div id="meteo-title">
 
                             <>
+                                <h2 className="meteo-subtitle">
+                                    {new Date((new Date().getTime() + weatherData.timezone * 1000)).toLocaleTimeString('en-US', { timeZone: 'UTC' })}
+                                </h2>
+
                                 <h1 className="meteo-title">In {city}:</h1>
-                                <h1 className="meteo-title">{weatherData.weather[0].description}</h1>
-                                <h1 className="meteo-title">Feels {Math.floor(weatherData.main.feels_like)} °C</h1>
-                                <h2 className="meteo-subtitle">Min: {Math.floor(weatherData.main.temp_min)} °C</h2>
-                                <h2 className="meteo-subtitle">Max: {Math.floor(weatherData.main.temp_max)} °C</h2>
+                                <h1 className="meteo-title">{weatherData.weather[0].description}, feels {Math.floor(weatherData.main.feels_like)} °C</h1>
+                                {/*<h1 className="meteo-subtitle">Feels {Math.floor(weatherData.main.feels_like)} °C</h1>*/}
+                                <div>
+                                    <h2 className="meteo-subtitle">Min: {Math.floor(weatherData.main.temp_min)} °C</h2>
+                                    <h2 className="meteo-subtitle">Max: {Math.floor(weatherData.main.temp_max)} °C</h2>
+                                </div>
+
                             </>
 
                         </div>

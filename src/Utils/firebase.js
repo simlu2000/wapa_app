@@ -1,7 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
-import { getAuth,  GoogleAuthProvider, signInWithPopup, signInWithRedirect } from 'firebase/auth';
-import { signOut as firebaseSignOut} from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect } from 'firebase/auth';
+import { signOut as firebaseSignOut } from 'firebase/auth';
+
 // Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBUNi0MyQT0YhS8Fqu_oFGEQ_FQu2-3HE8",
@@ -14,43 +15,43 @@ const firebaseConfig = {
   measurementId: "G-X7QG13BHHM"
 };
 
-// Initialize Firebase
+//Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firebase Authentication
+//Initialize Firebase Authentication
 const auth = getAuth(app);
 export const signOut = firebaseSignOut; 
 
-// Google Auth Provider
+//Google Auth Provider
 const provider = new GoogleAuthProvider();
 
-// Initialize Realtime Database
+//Initialize Realtime Db
 const realtimeDb = getDatabase(app);
 
-// Function to handle authentication
+//handle authentication
 const signInWithGoogle = () => {
   const isMobile = /Mobi|Android/i.test(navigator.userAgent);
 
   if (isMobile) {
-    //mobile -> redirect
-    signInWithRedirect(auth, provider)
+    // Mobile -> redirect
+    return signInWithRedirect(auth, provider)
       .then(result => {
-        // Handle success
+        //success
         console.log("Signed in with Google via redirect");
       })
       .catch(error => {
-        // Handle errors
+        //error
         console.error("Error during Google sign-in (redirect):", error.message);
       });
   } else {
-    //Desktop -> popups
-    signInWithPopup(auth, provider)
+    // Desktop -> popup
+    return signInWithPopup(auth, provider)
       .then(result => {
-        // Handle success
+        //success
         console.log("Signed in with Google via popup");
       })
       .catch(error => {
-        // Handle errors
+        //error
         console.error("Error during Google sign-in (popup):", error.message);
       });
   }
