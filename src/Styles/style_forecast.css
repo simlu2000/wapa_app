@@ -13,6 +13,8 @@
     border-collapse: collapse;
     border-radius: 25px;
     overflow: hidden;
+    backdrop-filter: blur(4px);
+    background-color: #F7F7F7;
 }
 
 .forecast-table th,
@@ -50,8 +52,10 @@
 
 .today-forecast {
     display: flex;
-    justify-content: space-between;
+    justify-content:flex-start; /*l'uno accanto l'altro*/
     flex-wrap: wrap;
+   
+    
 }
 
 .today-forecast-item {
@@ -59,11 +63,12 @@
     align-items: center;
     justify-content: center;
     padding: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: none;
     border-radius: 10px;
-    background-color: #F7F7F7;
     margin-right: 10px;
     margin-bottom: 10px;
+    box-shadow: 8px 8px 8px #dedede;
+    background-color: #FFFFFF44;
 }
 
 .forecast-time {
@@ -82,6 +87,8 @@ p{
 .info{
     font-size:1.5rem;
 }
+
+
 
 /*Dispositivi mobili */
 @media (max-width: 768px) {

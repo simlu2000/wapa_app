@@ -202,8 +202,8 @@ a:hover {
 }
 
 .info-box {
-  background-color: #392089 ;
-  backdrop-filter: blur(30px);
+  background-color: #463189 ;
+  backdrop-filter: blur(19px);
   border-radius: 25px;
   padding: 15px;
   color: #F7F7F7;
