@@ -204,6 +204,10 @@ p{
     .forecast-container {
         padding: 10px;
     }
+    .today-forecast-item{
+        box-shadow:none;
+        
+    }
 
     .info{
         font-size: 0.9rem;

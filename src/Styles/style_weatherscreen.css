@@ -394,6 +394,10 @@ h1 {
 
     .meteo-title{ 
         font-size: 3rem;
+        text-shadow: none;
+    }
+    .meteo-subtitle{
+        text-shadow: none;
     }
 
     .data-boxes {

@@ -125,4 +125,7 @@ h2{
         margin-left:5%;
         width:35%;
     }
+    .user-places-container{
+        margin-left:0;
+    }
 }
