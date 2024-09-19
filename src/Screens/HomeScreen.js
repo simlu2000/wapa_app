@@ -1,12 +1,11 @@
 import React, { useState, useEffect, startTransition } from "react";
 import { Link } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
-import CloudBackground from "../Animations/CloudBackground"; // Importa il componente
+import CloudBackground from "../Animations/CloudBackground";
 import "animate.css";
 import "../Styles/style_homescreen.css";
 import logo from "../img/logo.png";
 import alarmLogo from "../img/alarmLogo.png";
-import Lottie from 'react-lottie';
 
 const HomeScreen = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -32,12 +31,6 @@ const HomeScreen = () => {
     };
   }, [inView]);
 
-  useEffect(() => {
-    //simulazione caricamento per 3 sec
-    const timer = setTimeout(() => setLoading(false), 3000);
-
-    return () => clearTimeout(timer); //pulizia timer
-  }, []);
 
   return (
    <>
@@ -46,9 +39,7 @@ const HomeScreen = () => {
 
           <div id="title-logo-container" className="content">
             {!isOffline ? (
-              <div className="gradient-fallback">
-              <h1>You are offline</h1>
-            </div>
+              <CloudBackground />
             ) : (
               <div className="gradient-fallback">
                 <h1>You are offline. Some features may not be available.</h1>
