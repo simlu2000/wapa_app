@@ -121,8 +121,8 @@ const UserProfileScreen = ({ user }) => {
         <div className="animation-container">
           <Lottie
             options={defaultOptions}
-            height={"200px"}
-            width={"200px"}
+            height={"150px"}
+            width={"150px"}
           />        </div>
       ) : (<>
         <section id="users-data" className="container-data">

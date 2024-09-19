@@ -14,7 +14,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; 
+    height: 100vh;
     width: 100vw;
 }
 
@@ -41,18 +41,20 @@ body {
     margin: 0;
 }
 
-.sub-box{
+.sub-box {
     background-color: #F7F7F7;
     border-radius: 25px;
-    width:100px;   
-    height:auto;
+    width: 100px;
+    height: auto;
     text-align: center;
     justify-content: center;
 }
-.sub-box-title{
-    color:#000000;
-    margin-top:5px;
+
+.sub-box-title {
+    color: #000000;
+    margin-top: 5px;
 }
+
 .container {
     display: flex;
     flex-direction: column;
@@ -88,7 +90,8 @@ h1 {
     color: #F7F7F7;
 }
 
-.meteo-title, .meteo-subtitle {
+.meteo-title,
+.meteo-subtitle {
     color: #F7F7F7;
     text-shadow: 1px 1px 1px #dedede;
 
@@ -160,8 +163,10 @@ h1 {
 
 .charts-container {
     display: flex;
-    flex-wrap: wrap; /* Modifica da row a wrap per la responsività */
-    justify-content: center; /* Centro orizzontalmente */
+    flex-wrap: wrap;
+    /* Modifica da row a wrap per la responsività */
+    justify-content: center;
+    /* Centro orizzontalmente */
     gap: 25px;
     background-color: #000000;
     border-radius: 25px;
@@ -172,21 +177,33 @@ h1 {
 }
 
 .charts {
-    display: flex; /* Aggiungi per centrare il contenuto */
-    justify-content: center; /* Centro orizzontalmente */
-    align-items: center; /* Centro verticalmente */
-    width: 20rem; /* Imposta una larghezza fissa per i grafici */
-    height: 20rem; /* Imposta un'altezza fissa per i grafici */
-    margin: 0 auto; /* Centro orizzontalmente */
+    display: flex;
+    /* Aggiungi per centrare il contenuto */
+    justify-content: center;
+    /* Centro orizzontalmente */
+    align-items: center;
+    /* Centro verticalmente */
+    width: 20rem;
+    /* Imposta una larghezza fissa per i grafici */
+    height: 20rem;
+    /* Imposta un'altezza fissa per i grafici */
+    margin: 0 auto;
+    /* Centro orizzontalmente */
 }
 
 .light-chart {
-    display: flex; /* Aggiungi per centrare il contenuto */
-    justify-content: center; /* Centro orizzontalmente */
-    align-items: center; /* Centro verticalmente */
-    width: 20rem; /* Imposta una larghezza fissa per i grafici */
-    height: 20rem; /* Imposta un'altezza fissa per i grafici */
-    margin: 0 auto; /* Centro orizzontalmente */
+    display: flex;
+    /* Aggiungi per centrare il contenuto */
+    justify-content: center;
+    /* Centro orizzontalmente */
+    align-items: center;
+    /* Centro verticalmente */
+    width: 20rem;
+    /* Imposta una larghezza fissa per i grafici */
+    height: 20rem;
+    /* Imposta un'altezza fissa per i grafici */
+    margin: 0 auto;
+    /* Centro orizzontalmente */
 }
 
 .meteo-box-container {
@@ -229,18 +246,19 @@ h1 {
     font-size: 1.5em;
     background-color: #F7F7F7;
 }
+
 .MeteoCharts {
     display: flex;
-    justify-content: center; 
-    align-items: center; 
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: auto;
     margin: 0 auto;
     padding: 10px;
 }
 
-#tempChart{
-    display:block;
+#tempChart {
+    display: block;
     visibility: hidden;
 }
 
@@ -250,8 +268,8 @@ h1 {
         width: 100%;
         text-align: left;
         margin: 0;
-        font-size: 0.9rem;
-        margin-left: 5%;
+        font-size: 0.6rem;
+        margin-left: 0;
         margin-top: 15%;
     }
 
@@ -280,7 +298,11 @@ h1 {
         width: 18rem;
         height: 18rem;
     }
+
+
+
 }
+
 @media (max-width: 1024px) and (min-width:768) {
     h1 {
         margin-left: 25%;
@@ -358,6 +380,7 @@ h1 {
         width: 300px;
         height: 300px;
     }
+
     .MeteoCharts {
         padding: 5px;
     }
@@ -377,7 +400,8 @@ h1 {
         height: auto;
     }
 
-    .meteo-box-container, .charts-container {
+    .meteo-box-container,
+    .charts-container {
         padding: 10px;
     }
 
@@ -388,15 +412,16 @@ h1 {
 
     #meteo-title {
         margin-left: 0;
-        margin-top:45%;
+        margin-top: 45%;
 
     }
 
-    .meteo-title{ 
+    .meteo-title {
         font-size: 3rem;
         text-shadow: none;
     }
-    .meteo-subtitle{
+
+    .meteo-subtitle {
         text-shadow: none;
     }
 
@@ -404,6 +429,7 @@ h1 {
         font-size: 0.9em;
         padding: 5px;
     }
+
     .MeteoCharts {
         padding: 2px;
     }
@@ -412,52 +438,57 @@ h1 {
         height: 10rem;
         width: 10rem;
     }
-    #tempChart{
+
+    #tempChart {
         visibility: hidden;
         display: block;
     }
-    
+
 }
 
 @media (max-width: 391px) {
     #meteo-title {
-        margin-left:0;
+        margin-left: 0;
         margin-top: 35%;
-    
-    }
-    .meteo-title{
-        font-size:2.7rem;
 
     }
-    .meteo-subtitle
-    {
-        font-size:1rem;
+
+    .meteo-title {
+        font-size: 2.7rem;
+
     }
-    #tempChart{
+
+    .meteo-subtitle {
+        font-size: 1rem;
+    }
+
+    #tempChart {
         visibility: hidden;
         display: block;
     }
-    
-  }
 
-  @media (max-width: 361px) {
+}
+
+@media (max-width: 361px) {
     #meteo-title {
-        margin-left:30%;
+        margin-left: 30%;
         margin-top: 25%;
-    
-    }
-    .meteo-title{
-        font-size:2.5rem;
 
     }
-    .meteo-subtitle
-    {
-        font-size:1rem;
+
+    .meteo-title {
+        font-size: 2.5rem;
+
     }
-    #tempChart{
+
+    .meteo-subtitle {
+        font-size: 1rem;
+    }
+
+    #tempChart {
         display: block;
         visibility: hidden;
     }
-    
 
-  }
+
+}
