@@ -1,7 +1,7 @@
 import React, { useState, useEffect, startTransition } from "react";
 import { Link } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
-import CloudBackground from "../Animations/CloudBackground";
+import CloudBackground from "../Animations/CloudBackground"; 
 import "animate.css";
 import "../Styles/style_homescreen.css";
 import logo from "../img/logo.png";
@@ -12,6 +12,15 @@ const HomeScreen = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.5 });
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
   const [loading, setLoading] = useState(true);
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice'
+    }
+  };
 
   useEffect(() => {
     if (inView) {
@@ -31,9 +40,16 @@ const HomeScreen = () => {
     };
   }, [inView]);
 
+  useEffect(() => {
+    //simulazione caricamento per 3 sec
+    const timer = setTimeout(() => setLoading(false), 3000);
+
+    return () => clearTimeout(timer); //pulizia timer
+  }, []);
 
   return (
-   <>
+    <>
+    
         <section id="intro" className="weather-container">
 
 
@@ -101,6 +117,7 @@ const HomeScreen = () => {
           </div>
 
         </section>
+    
     </>
   );
 };
