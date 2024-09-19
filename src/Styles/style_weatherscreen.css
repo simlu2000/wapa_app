@@ -268,7 +268,7 @@ h1 {
         width: 100%;
         text-align: left;
         margin: 0;
-        font-size: 0.6rem;
+        font-size: 0.4rem;
         margin-left: 0;
         margin-top: 15%;
     }
@@ -421,9 +421,6 @@ h1 {
         text-shadow: none;
     }
 
-    .meteo-subtitle {
-        text-shadow: none;
-    }
 
     .data-boxes {
         font-size: 0.9em;
