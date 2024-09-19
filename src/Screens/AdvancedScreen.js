@@ -71,7 +71,8 @@ const AdvancedScreen = () => {
         <>
             {loading ? (
                 <div className="animation-container">
-                    <Lottie options={defaultOptions} height={200} width={200} />
+                    <Lottie options={defaultOptions} height={"200px"}
+                        width={"200px"} />
                 </div>
             ) : (
                 <>

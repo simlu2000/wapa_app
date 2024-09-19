@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../Styles/style_userplaces.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAdd, faRemove } from '@fortawesome/free-solid-svg-icons';
 
 const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSelectLocation, getUserLocalities }) => {
     const [localities, setLocalities] = useState([]);
@@ -42,11 +44,11 @@ const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSe
             console.error("Error removing location:", error);
         }
     };
-    
+
 
     return (
         <section className="user-places-container" >
-            <h2 id="fav-text">Your favorite places</h2>
+            <h2 id="fav-text">Your places</h2>
             <input
                 type="text"
                 id="fav-insert"
@@ -60,13 +62,15 @@ const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSe
                 onClick={handleAddClick}
                 disabled={localities.length >= 6}
             >
-                Add
+                <FontAwesomeIcon icon={faAdd} style={{ color: "#F7F7F7"}} />
             </button>
             <ul>
                 {localities.map((loc) => (
                     <li key={loc}>
                         <button id="location" className="btn-loc" onClick={() => onSelectLocation(loc)}>{loc}</button>
-                        <button className="btn-del" id="bt1" onClick={() => handleRemoveClick(loc)}>Delete</button>
+                        <button className="btn-del" id="bt1" onClick={() => handleRemoveClick(loc)}>                
+                            <FontAwesomeIcon icon={faRemove} style={{ color: "#F7F7F7"}} />
+                        </button>
                     </li>
                 ))}
             </ul>

@@ -73,17 +73,17 @@ function Sky() {
   });
 
   useEffect(() => {
-    // Gestione del contesto WebGL
+    //gestione del contesto WebGL
     const canvas = document.querySelector('canvas');
     const handleContextLost = (event) => {
       event.preventDefault();
       console.log('WebGL context lost!');
-      // Aggiungi logica per ripristinare il contesto se necessario
+      //logica per ripristinare il contesto se necessario
     };
 
     const handleContextRestored = () => {
       console.log('WebGL context restored!');
-      // Aggiungi logica per ripristinare la scena se necessario
+      //logica per ripristinare la scena se necessario
     };
 
     if (canvas) {
