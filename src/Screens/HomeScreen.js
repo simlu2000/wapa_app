@@ -13,14 +13,6 @@ const HomeScreen = () => {
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
   const [loading, setLoading] = useState(true);
 
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice'
-    }
-  };
 
   useEffect(() => {
     if (inView) {
