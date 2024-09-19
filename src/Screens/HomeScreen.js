@@ -7,22 +7,12 @@ import "../Styles/style_homescreen.css";
 import logo from "../img/logo.png";
 import alarmLogo from "../img/alarmLogo.png";
 import Lottie from 'react-lottie';
-import animationData from '../Animations/Animation - 1721298712078.json';
 
 const HomeScreen = () => {
   const [isVisible, setIsVisible] = useState(false);
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.5 });
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
   const [loading, setLoading] = useState(true);
-
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice'
-    }
-  };
 
   useEffect(() => {
     if (inView) {
@@ -50,15 +40,7 @@ const HomeScreen = () => {
   }, []);
 
   return (
-    <>
-      {loading ? (
-        <div className="animation-container">
-          <Lottie
-            options={defaultOptions}
-            height={"200px"}
-            width={"200px"}
-          />        </div>
-      ) : (<>
+   <>
         <section id="intro" className="weather-container">
 
 
@@ -126,8 +108,6 @@ const HomeScreen = () => {
           </div>
 
         </section>
-      </>)}
-
     </>
   );
 };
