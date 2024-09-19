@@ -1,7 +1,6 @@
-//service-worker.js per la gestione della cache locale e notifiche push
 self.addEventListener('install', (event) => {
   console.log('Service worker installing...');
-  // Puoi aggiungere risorse alla cache durante l'installazione
+  // Aggiungi risorse alla cache durante l'installazione
   event.waitUntil(
     caches.open('static-cache-v1').then((cache) => {
       return cache.addAll([
@@ -17,12 +16,14 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   console.log('Service worker activating...');
-  // Rimuovere le cache obsolete
+  // Rimuovi le cache obsolete
   event.waitUntil(
     caches.keys().then((cacheNames) => {
+      console.log('Cache names:', cacheNames);
       return Promise.all(
         cacheNames.map((cacheName) => {
           if (cacheName !== 'static-cache-v1') {
+            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
@@ -34,11 +35,21 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   console.log('Service worker fetching:', event.request.url);
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
-    }).catch(() => {
-      return caches.match('/fallback.html'); // se la richiesta fallisce
-    })
+    fetch(event.request)
+      .then((response) => {
+        // Cache the response if the request is successful
+        const responseClone = response.clone();
+        caches.open('static-cache-v1').then((cache) => {
+          cache.put(event.request, responseClone);
+        });
+        return response;
+      })
+      .catch(() => {
+        // Fallback to cache if network fails
+        return caches.match(event.request).then((response) => {
+          return response || caches.match('/fallback.html');
+        });
+      })
   );
 });
 
