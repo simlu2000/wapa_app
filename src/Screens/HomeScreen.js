@@ -46,7 +46,9 @@ const HomeScreen = () => {
 
           <div id="title-logo-container" className="content">
             {!isOffline ? (
-              <CloudBackground />
+              <div className="gradient-fallback">
+              <h1>You are offline</h1>
+            </div>
             ) : (
               <div className="gradient-fallback">
                 <h1>You are offline. Some features may not be available.</h1>
