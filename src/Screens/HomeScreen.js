@@ -1,11 +1,13 @@
 import React, { useState, useEffect, startTransition } from "react";
 import { Link } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
-import CloudBackground from "../Animations/CloudBackground"; 
+import CloudBackground from "../Animations/CloudBackground";
 import "animate.css";
 import "../Styles/style_homescreen.css";
 import logo from "../img/logo.png";
 import alarmLogo from "../img/alarmLogo.png";
+import animationData from '../Animations/Animation - 1721298712078.json';
+import Lottie from 'react-lottie';
 
 const HomeScreen = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -39,9 +41,25 @@ const HomeScreen = () => {
     return () => clearTimeout(timer); //pulizia timer
   }, []);
 
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice'
+    }
+  };
+
   return (
     <>
-    
+      {loading ? (
+        <div className="animation-container">
+          <Lottie
+            options={defaultOptions}
+            height={"200px"}
+            width={"200px"}
+          />        </div>
+      ) : (<>
         <section id="intro" className="weather-container">
 
 
@@ -109,7 +127,7 @@ const HomeScreen = () => {
           </div>
 
         </section>
-    
+      </>)}
     </>
   );
 };
