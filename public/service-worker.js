@@ -32,33 +32,34 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   console.log('Service worker fetching:', event.request.url);
   
-  // Verifica se il metodo della richiesta è GET, altrimenti ignora
+  // Escludi tutte le richieste che non siano GET
   if (event.request.method !== 'GET') {
     return;
   }
 
   event.respondWith(
-    fetch(event.request)
-      .then((response) => {
+    caches.match(event.request).then((response) => {
+      if (response) {
+        return response;
+      }
+
+      return fetch(event.request).then((networkResponse) => {
         // Verifica che la risposta sia valida prima di metterla in cache
-        if (!response || response.status !== 200 || response.type !== 'basic') {
-          return response;
+        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+          return networkResponse;
         }
 
-        // Clona la risposta per metterla in cache
-        const responseClone = response.clone();
+        const responseClone = networkResponse.clone();
         caches.open('static-cache-v1').then((cache) => {
           cache.put(event.request, responseClone);
         });
-        
-        return response;
-      })
-      .catch(() => {
-        // Se la rete fallisce, cerca nella cache
-        return caches.match(event.request).then((response) => {
-          return response || caches.match('/fallback.html');
-        });
-      })
+
+        return networkResponse;
+      });
+    }).catch(() => {
+      // Se la rete fallisce, cerca nella cache il fallback
+      return caches.match('/fallback.html');
+    })
   );
 });
 
