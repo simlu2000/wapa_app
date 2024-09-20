@@ -40,6 +40,7 @@ const WeatherScreen = () => {
     const [extremeNotificationSent, setExtremeNotificationSent] = useState(false);
     const [rainyNotificationSent, setRainyNotificationSent] = useState(false);
     const [thunderstormNotificationSent, setThunderstormNotificationSent] = useState(false);
+    const [testNotificationSent, setTestNotificationSent] = useState(false);
 
     const defaultOptions = {
         loop: true,
@@ -234,7 +235,7 @@ const WeatherScreen = () => {
             }
 
             // Notifica pomeriggio
-            if (hours === 16 && minutes === 5 && !afternoonNotificationSent) {
+            if (hours === 14 && minutes === 0 && !afternoonNotificationSent) {
                 if ('serviceWorker' in navigator) {
                     navigator.serviceWorker.ready.then(registration => {
                         registration.showNotification("Questo pomeriggio il meteo sarà", {
@@ -290,6 +291,22 @@ const WeatherScreen = () => {
                         });
                     });
                     setThunderstormNotificationSent(true);
+                }
+            }
+
+             // Notifica test gradi
+             const test = weatherData.weather.some((condition) =>
+                ["broken clouds"].includes(condition.main)
+            );
+
+             if (test && !testNotificationSent) {
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.ready.then(registration => {
+                        registration.showNotification("BROKEN CLOUDS", {
+                            body: `Meteo in ${city}: ${weatherData.weather[0].description}, ${Math.floor(weatherData.main.temp)} °C`
+                        });
+                    });
+                    setTestNotificationSent(true);
                 }
             }
 
