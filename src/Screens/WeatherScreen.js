@@ -54,7 +54,7 @@ const WeatherScreen = () => {
         if (Notification.permission !== 'granted') {
             Notification.requestPermission().then(permission => {
                 if (permission === 'granted') {
-                    console.log("Notification permission granted.");
+                    console.log("Permesso per le notifiche concesso.");
                 }
             });
         }
@@ -73,24 +73,6 @@ const WeatherScreen = () => {
         };
     }, []);
 
-
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
-            setUser(currentUser);
-            if (currentUser) {
-                try {
-                    const localities = await getUserLocalities(currentUser.uid);
-                    setUserLocalities(localities);
-                } catch (error) {
-                    console.error('Error fetching user localities', error);
-                }
-            }
-        });
-
-        return () => unsubscribe();
-    }, []);
-
-
     useEffect(() => {
         const getUserLocation = () => {
             if (navigator.geolocation) {
@@ -102,18 +84,18 @@ const WeatherScreen = () => {
                         });
                     },
                     error => {
-                        console.error('Error retrieving user location', error);
+                        console.error('Errore nel recupero della posizione dell\'utente', error);
                     }
                 );
             } else {
-                console.error('Geolocation not permitted by the browser');
+                console.error('Geolocalizzazione non consentita dal browser');
             }
         };
         getUserLocation();
     }, []);
 
     useEffect(() => {
-        //registrazione
+        // Registrazione
         register();
 
         const fetchWeatherData = async () => {
@@ -130,7 +112,7 @@ const WeatherScreen = () => {
                     setAirPollutionData(airPollutionResponse.data.list[0].components);
                     setForecastData(forecastResponse.data.list);
                 } catch (error) {
-                    console.error("Error during fetching weather data", error);
+                    console.error("Errore durante il recupero dei dati meteorologici", error);
                 } finally {
                     setLoading(false);
                 }
@@ -162,7 +144,7 @@ const WeatherScreen = () => {
             );
             setForecastData(forecastResponse.data.list);
         } catch (error) {
-            console.error("Error. Location not found", error);
+            console.error("Errore. Località non trovata", error);
         }
     };
 
@@ -185,8 +167,6 @@ const WeatherScreen = () => {
     const handleSelectLocation = (location) => {
         fetchWeatherBySearchedLocation(location);
     };
-
-
 
     const applyBackgroundGradient = (weatherMain) => {
         switch (weatherMain) {
@@ -224,7 +204,7 @@ const WeatherScreen = () => {
         const user = auth.currentUser;
 
         if (!user) {
-            console.log("No logged user.");
+            console.log("Nessun utente loggato.");
             return;
         }
 
@@ -245,118 +225,78 @@ const WeatherScreen = () => {
             if (hours === 9 && minutes === 0 && !morningNotificationSent) {
                 if ('serviceWorker' in navigator) {
                     navigator.serviceWorker.ready.then(registration => {
-                        registration.showNotification("Today's Weather", {
-                            body: `Weather in ${city}: ${weatherData.weather[0].description}, ${Math.floor(weatherData.main.temp)} °C`
+                        registration.showNotification("Il meteo di oggi", {
+                            body: `Meteo in ${city}: ${weatherData.weather[0].description}, ${Math.floor(weatherData.main.temp)} °C`
                         });
                     });
                     setMorningNotificationSent(true);
                 }
             }
 
-            //Notifica pomeriggio
+            // Notifica pomeriggio
             if (hours === 14 && minutes === 0 && !afternoonNotificationSent) {
                 if ('serviceWorker' in navigator) {
                     navigator.serviceWorker.ready.then(registration => {
-                        registration.showNotification("This afternoon the weather will be ", {
-                            body: `Weather in ${city}: ${weatherData.weather[0].description}, ${Math.floor(weatherData.main.temp)} °C`
+                        registration.showNotification("Questo pomeriggio il meteo sarà", {
+                            body: `Meteo in ${city}: ${weatherData.weather[0].description}, ${Math.floor(weatherData.main.temp)} °C`
                         });
                     });
                     setAfternoonNotificationSent(true);
                 }
             }
 
-            // Notifica deLla sera
-            if (hours === 15 && minutes === 11 && !eveningNotificationSent) {
+            // Notifica della sera
+            if (hours === 18 && minutes === 0 && !eveningNotificationSent) {
                 if ('serviceWorker' in navigator) {
                     navigator.serviceWorker.ready.then(registration => {
-                        registration.showNotification("Tomorrow's Weather", {
-                            body: `Weather for tomorrow: ${forecastData[8].weather[0].description}, ${Math.floor(forecastData[8].main.temp)} °C`
+                        registration.showNotification("Aggiornamento meteo per la sera", {
+                            body: `Meteo in ${city}: ${weatherData.weather[0].description}, ${Math.floor(weatherData.main.temp)} °C`
                         });
                     });
                     setEveningNotificationSent(true);
                 }
             }
 
+            // Notifiche per condizioni estreme
             if (isExtremeTemp && !extremeNotificationSent) {
                 if ('serviceWorker' in navigator) {
                     navigator.serviceWorker.ready.then(registration => {
-                        registration.showNotification("Weather Alert!", {
-                            body: `Extreme Temperature: ${weatherData.main.temp} °C`
+                        registration.showNotification("Attenzione: Condizioni meteorologiche estreme", {
+                            body: `Temperatura attuale: ${Math.floor(weatherData.main.temp)} °C`
                         });
                     });
                     setExtremeNotificationSent(true);
                 }
             }
 
+            // Notifiche di pioggia
             if (isRainy && !rainyNotificationSent) {
                 if ('serviceWorker' in navigator) {
                     navigator.serviceWorker.ready.then(registration => {
-                        registration.showNotification("Weather Alert!", {
-                            body: "Now it's raining!"
+                        registration.showNotification("Attenzione: Previsione di pioggia", {
+                            body: `Si prevede pioggia oggi in ${city}.`
                         });
                     });
                     setRainyNotificationSent(true);
                 }
+            }
 
-                if (isThunderstorm && !thunderstormNotificationSent) {
-                    if ('serviceWorker' in navigator) {
-                        navigator.serviceWorker.ready.then(registration => {
-                            registration.showNotification("Weather Alert!", {
-                                body: "Thunderstorm!"
-                            });
+            // Notifiche temporalesche
+            if (isThunderstorm && !thunderstormNotificationSent) {
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.ready.then(registration => {
+                        registration.showNotification("Attenzione: Previsione di temporali", {
+                            body: `Attenzione, sono previsti temporali in ${city}.`
                         });
-                        setThunderstormNotificationSent(true);
-                    }
+                    });
+                    setThunderstormNotificationSent(true);
                 }
-
             }
 
         } catch (error) {
-            console.error("Error loading weather data or sending notification:", error);
+            console.error("Errore durante il controllo delle notifiche", error);
         }
     }
-
-
-    useEffect(() => {
-        if (weatherData) {
-            checkWeatherAndNotify(weatherData);
-        }
-    }, [weatherData]);
-
-    useEffect(() => {
-        const intervalId = setInterval(async () => {
-            if (location.latitude && location.longitude) {
-                try {
-                    const weatherResponse = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=${Api_Key_OpenWeather}&units=metric`);
-                    await checkWeatherAndNotify(weatherResponse.data);
-                } catch (error) {
-                    console.error("Error fetching weather data:", error);
-                }
-            }
-        }, 60000); //controlla ogni minuto
-
-        return () => clearInterval(intervalId); // Pulisci l'intervallo al momento della disattivazione
-    }, [location]);
-
-
-    const sendNotification = ({ title, body }) => {
-        if (Notification.permission === 'granted') {
-            new Notification("Notifications OK", { body });
-        } else {
-            console.log('Notification permission not granted.');
-        }
-    };
-
-    if (isOffline) {
-        return (
-            <div className="offline">
-                <Lottie options={defaultOptions} height={"200px"}
-                    width={"200px"} />
-                <h1>You are offline</h1>
-            </div>
-        );
-    }
-
     return (
         <>
             {loading ? (
