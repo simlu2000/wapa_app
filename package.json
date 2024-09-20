@@ -25,6 +25,7 @@
     "echarts-for-react": "^3.0.2",
     "echarts-liquidfill": "^3.1.0",
     "firebase": "^10.12.4",
+    "firebase-admin": "^12.5.0",
     "leaflet": "^1.9.4",
     "leva": "^0.9.35",
     "lottie-react": "^2.4.0",
