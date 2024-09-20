@@ -265,7 +265,7 @@ const WeatherScreen = () => {
             }
 
             // Notifica della sera
-            if (hours === 17 && minutes === 5 && !eveningNotificationSent) {
+            if (hours === 17 && minutes === 15 && !eveningNotificationSent) {
                 if ('serviceWorker' in navigator) {
                     navigator.serviceWorker.ready.then(registration => {
                         registration.showNotification("Aggiornamento meteo per la sera", {
