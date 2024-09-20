@@ -266,7 +266,7 @@ const WeatherScreen = () => {
             }
 
             // Notifica deLla sera
-            if (hours === 21 && minutes === 0 && !eveningNotificationSent) {
+            if (hours === 14 && minutes === 53 && !eveningNotificationSent) {
                 if ('serviceWorker' in navigator) {
                     navigator.serviceWorker.ready.then(registration => {
                         registration.showNotification("Tomorrow's Weather", {
