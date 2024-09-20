@@ -241,7 +241,7 @@ const WeatherScreen = () => {
             const isExtremeTemp = weatherData.main.temp < 5 || weatherData.main.temp > 35;
 
             // Notifica del mattino
-            if (hours === 9 && minutes === 0 && !morningNotificationSent) {
+            if (hours === 9 && minutes >= 0 && minutes < 10 && !morningNotificationSent) {
                 if ('serviceWorker' in navigator) {
                     navigator.serviceWorker.ready.then(registration => {
                         registration.showNotification("Il meteo di oggi", {
@@ -253,7 +253,7 @@ const WeatherScreen = () => {
             }
 
             // Notifica pomeriggio
-            if (hours === 14 && minutes === 0 && !afternoonNotificationSent) {
+            if (hours === 14 && minutes >= 0 && minutes < 10 && !afternoonNotificationSent) {
                 if ('serviceWorker' in navigator) {
                     navigator.serviceWorker.ready.then(registration => {
                         registration.showNotification("Questo pomeriggio il meteo sarà", {
@@ -265,7 +265,7 @@ const WeatherScreen = () => {
             }
 
             // Notifica della sera
-            if (hours === 17 && minutes === 15 && !eveningNotificationSent) {
+            if (hours === 17 && minutes >= 20 && minutes < 30  && !eveningNotificationSent) {
                 if ('serviceWorker' in navigator) {
                     navigator.serviceWorker.ready.then(registration => {
                         registration.showNotification("Aggiornamento meteo per la sera", {
