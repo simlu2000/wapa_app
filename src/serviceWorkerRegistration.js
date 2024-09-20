@@ -11,14 +11,11 @@ const registerValidSW = (swUrl) => {
       console.log('Service Worker registrato con successo:', registration);
 
       registration.onupdatefound = () => {
-        console.log('Nuovo Service Worker trovato. In fase di installazione...');
-
         const installingWorker = registration.installing;
         installingWorker.onstatechange = () => {
           if (installingWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
-              // Mostra notifica o ricarica la pagina
-              alert('Nuovo contenuto disponibile, ricarica la pagina.');
+              showUpdateNotification();
             } else {
               console.log('Contenuto precaricato per uso offline.');
             }
@@ -28,7 +25,29 @@ const registerValidSW = (swUrl) => {
     })
     .catch((error) => {
       console.error('Registrazione del Service Worker fallita:', error);
+      displayError('Registrazione del Service Worker fallita. Riprova più tardi.');
     });
+};
+
+const showUpdateNotification = () => {
+  const notification = document.createElement('div');
+  notification.textContent = 'Nuovo contenuto disponibile. Ricarica la pagina!';
+  notification.style.position = 'fixed';
+  notification.style.bottom = '20px';
+  notification.style.right = '20px';
+  notification.style.backgroundColor = '#fff';
+  notification.style.border = '1px solid #000';
+  notification.style.padding = '10px';
+  notification.style.zIndex = '1000';
+  
+  const reloadButton = document.createElement('button');
+  reloadButton.textContent = 'Ricarica';
+  reloadButton.onclick = () => {
+    window.location.reload();
+  };
+
+  notification.appendChild(reloadButton);
+  document.body.appendChild(notification);
 };
 
 const checkValidServiceWorker = (swUrl) => {
@@ -49,7 +68,22 @@ const checkValidServiceWorker = (swUrl) => {
     })
     .catch((error) => {
       console.error('Errore di rete durante la verifica del Service Worker:', error);
+      displayError('Errore di rete. Riprova più tardi.');
     });
+};
+
+const displayError = (message) => {
+  const errorNotification = document.createElement('div');
+  errorNotification.textContent = message;
+  errorNotification.style.position = 'fixed';
+  errorNotification.style.top = '20px';
+  errorNotification.style.left = '50%';
+  errorNotification.style.transform = 'translateX(-50%)';
+  errorNotification.style.backgroundColor = '#f44336';
+  errorNotification.style.color = '#fff';
+  errorNotification.style.padding = '10px';
+  errorNotification.style.zIndex = '1000';
+  document.body.appendChild(errorNotification);
 };
 
 export const register = () => {

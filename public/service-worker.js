@@ -1,6 +1,5 @@
 self.addEventListener('install', (event) => {
   console.log('Service worker installing...');
-  // Aggiungi risorse alla cache durante l'installazione
   event.waitUntil(
     caches.open('static-cache-v1').then((cache) => {
       return cache.addAll([
@@ -16,10 +15,8 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   console.log('Service worker activating...');
-  // Rimuovi le cache obsolete
   event.waitUntil(
     caches.keys().then((cacheNames) => {
-      console.log('Cache names:', cacheNames);
       return Promise.all(
         cacheNames.map((cacheName) => {
           if (cacheName !== 'static-cache-v1') {
@@ -37,7 +34,6 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     fetch(event.request)
       .then((response) => {
-        // Cache the response if the request is successful
         const responseClone = response.clone();
         caches.open('static-cache-v1').then((cache) => {
           cache.put(event.request, responseClone);
@@ -45,7 +41,6 @@ self.addEventListener('fetch', (event) => {
         return response;
       })
       .catch(() => {
-        // Fallback to cache if network fails
         return caches.match(event.request).then((response) => {
           return response || caches.match('/fallback.html');
         });
@@ -71,6 +66,8 @@ self.addEventListener('push', (event) => {
     self.registration.showNotification(data.title, options)
   );
 });
+
+
 
 // Gestire il click sulle notifiche push
 self.addEventListener('notificationclick', (event) => {

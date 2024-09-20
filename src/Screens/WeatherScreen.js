@@ -18,6 +18,8 @@ import Loader from '../Components/loader';
 import '../Styles/style_weatherscreen.css';
 import animationData from '../Animations/Animation - 1726518835813.json';
 import Lottie from 'react-lottie';
+import { getAuth } from 'firebase/auth';
+import { register } from '../../src/serviceWorkerRegistration';
 
 const Api_Key_OpenWeather = process.env.REACT_APP_Api_Key_OpenWeather;
 
@@ -32,6 +34,12 @@ const WeatherScreen = () => {
     const [user, setUser] = useState(null);
     const locationState = useLocation();
     const [isOffline, setIsOffline] = useState(!navigator.onLine);
+    const [morningNotificationSent, setMorningNotificationSent] = useState(false);
+    const [afternoonNotificationSent, setAfternoonNotificationSent] = useState(false);
+    const [eveningNotificationSent, setEveningNotificationSent] = useState(false);
+    const [extremeNotificationSent, setExtremeNotificationSent] = useState(false);
+    const [rainyNotificationSent, setRainyNotificationSent] = useState(false);
+    const [thunderstormNotificationSent, setThunderstormNotificationSent] = useState(false);
 
     const defaultOptions = {
         loop: true,
@@ -41,6 +49,16 @@ const WeatherScreen = () => {
             preserveAspectRatio: 'xMidYMid slice'
         }
     };
+
+    useEffect(() => {
+        if (Notification.permission !== 'granted') {
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    console.log("Notification permission granted.");
+                }
+            });
+        }
+    }, []);
 
     useEffect(() => {
         const handleOnline = () => setIsOffline(false);
@@ -95,6 +113,9 @@ const WeatherScreen = () => {
     }, []);
 
     useEffect(() => {
+        //registrazione
+        register();
+
         const fetchWeatherData = async () => {
             if (location.latitude && location.longitude) {
                 try {
@@ -165,7 +186,7 @@ const WeatherScreen = () => {
         fetchWeatherBySearchedLocation(location);
     };
 
-    
+
 
     const applyBackgroundGradient = (weatherMain) => {
         switch (weatherMain) {
@@ -199,63 +220,128 @@ const WeatherScreen = () => {
         return (y * alpha) / (x - alpha);
     };
 
-    const checkWeatherAndNotify = (weatherData) => {
-        if (!weatherData) return;
+    async function checkWeatherAndNotify(weatherData) {
+        const user = auth.currentUser;
 
-        const weatherMain = weatherData.weather[0].main;
-        let notificationPayload = null;
+        if (!user) {
+            console.log("No logged user.");
+            return;
+        }
 
-        if (weatherMain === 'Rain') {
-            notificationPayload = {
-                title: 'Weather Alert',
-                body: 'Rain expected tomorrow, get your umbrella!',
-            };
-        } else if (weatherMain === 'Thunderstorm') {
-            notificationPayload = {
-                title: 'Weather Alert',
-                body: 'Thunderstorm alert! Stay indoors and avoid outdoor activities!',
-            };
-        } else if (weatherData.main.temp < 0) {
-            notificationPayload = {
-                title: 'Weather Alert',
-                body: 'Temperature extremely low! Dress warmly!',
-            };
-        } else if (weatherData.main.temp > 35) {
-            notificationPayload = {
-                title: 'Weather Alert',
-                body: 'Temperature extremely high! Drink a lot of water and avoid direct sun!',
-            };
-        } else if (weatherData.main.temp < 25) {
-            notificationPayload = {
-                title: 'Weather Alert TEST',
-                body: 'TEST: Temperature < 25'
+        try {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+
+            const isRainy = weatherData.weather.some((condition) =>
+                ["Rain"].includes(condition.main)
+            );
+            const isThunderstorm = weatherData.weather.some((condition) =>
+                ["Thunderstorm"].includes(condition.main)
+            );
+            const isExtremeTemp = weatherData.main.temp < 5 || weatherData.main.temp > 35;
+
+            // Notifica del mattino
+            if (hours === 9 && minutes === 0 && !morningNotificationSent) {
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.ready.then(registration => {
+                        registration.showNotification("Today's Weather", {
+                            body: `Weather in ${city}: ${weatherData.weather[0].description}, ${Math.floor(weatherData.main.temp)} °C`
+                        });
+                    });
+                    setMorningNotificationSent(true);
+                }
             }
-        }
 
-        if (notificationPayload) {
-            sendNotification(notificationPayload);
-        }
-    };
+            //Notifica pomeriggio
+            if (hours === 14 && minutes === 0 && !afternoonNotificationSent) {
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.ready.then(registration => {
+                        registration.showNotification("This afternoon the weather will be ", {
+                            body: `Weather in ${city}: ${weatherData.weather[0].description}, ${Math.floor(weatherData.main.temp)} °C`
+                        });
+                    });
+                    setAfternoonNotificationSent(true);
+                }
+            }
 
-    const checkTimeAndNotify = (weatherData) => {
-        const now = new Date();
-        const hours = now.getHours();
-        const minutes = now.getMinutes();
+            // Notifica deLla sera
+            if (hours === 21 && minutes === 0 && !eveningNotificationSent) {
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.ready.then(registration => {
+                        registration.showNotification("Tomorrow's Weather", {
+                            body: `Weather for tomorrow: ${forecastData[8].weather[0].description}, ${Math.floor(forecastData[8].main.temp)} °C`
+                        });
+                    });
+                    setEveningNotificationSent(true);
+                }
+            }
 
-        if (user && hours === 11 && minutes === 50) {
-            checkWeatherAndNotify(weatherData);
+            if (isExtremeTemp && !extremeNotificationSent) {
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.ready.then(registration => {
+                        registration.showNotification("Weather Alert!", {
+                            body: `Extreme Temperature: ${weatherData.main.temp} °C`
+                        });
+                    });
+                    setExtremeNotificationSent(true);
+                }
+            }
+
+            if (isRainy && !rainyNotificationSent) {
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.ready.then(registration => {
+                        registration.showNotification("Weather Alert!", {
+                            body: "Now it's raining!"
+                        });
+                    });
+                    setRainyNotificationSent(true);
+                }
+
+                if (isThunderstorm && !thunderstormNotificationSent) {
+                    if ('serviceWorker' in navigator) {
+                        navigator.serviceWorker.ready.then(registration => {
+                            registration.showNotification("Weather Alert!", {
+                                body: "Thunderstorm!"
+                            });
+                        });
+                        setThunderstormNotificationSent(true);
+                    }
+                }
+
+            }
+
+        } catch (error) {
+            console.error("Error loading weather data or sending notification:", error);
         }
-    };
+    }
+
 
     useEffect(() => {
         if (weatherData) {
-            checkTimeAndNotify(weatherData);
+            checkWeatherAndNotify(weatherData);
         }
     }, [weatherData]);
 
+    useEffect(() => {
+        const intervalId = setInterval(async () => {
+            if (location.latitude && location.longitude) {
+                try {
+                    const weatherResponse = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=${Api_Key_OpenWeather}&units=metric`);
+                    await checkWeatherAndNotify(weatherResponse.data);
+                } catch (error) {
+                    console.error("Error fetching weather data:", error);
+                }
+            }
+        }, 60000); //controlla ogni minuto
+
+        return () => clearInterval(intervalId); // Pulisci l'intervallo al momento della disattivazione
+    }, [location]);
+
+
     const sendNotification = ({ title, body }) => {
         if (Notification.permission === 'granted') {
-            new Notification(title, { body });
+            new Notification("Notifications OK", { body });
         } else {
             console.log('Notification permission not granted.');
         }
