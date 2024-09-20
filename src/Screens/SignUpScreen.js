@@ -105,9 +105,7 @@ const SignUpScreen = () => {
               <button className="icon" onClick={handleGoogleSignIn}>
                 <FontAwesomeIcon icon={faGooglePlusG} />
               </button>
-              <button className="icon">
-                <FontAwesomeIcon icon={faFacebookF} />
-              </button>
+              
             </div>
             <span>or use your email for registration</span>
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
@@ -123,9 +121,7 @@ const SignUpScreen = () => {
               <button className="icon" onClick={handleGoogleSignIn}>
                 <FontAwesomeIcon icon={faGooglePlusG} />
               </button>
-              <button className="icon">
-                <FontAwesomeIcon icon={faFacebookF} />
-              </button>
+              
             </div>
             <span>or use your email and password</span>
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
