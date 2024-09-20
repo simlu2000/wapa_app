@@ -60,6 +60,7 @@ const WeatherScreen = () => {
         }
     }, []);
 
+    /*
     useEffect(() => {
         const testNotification = () => {
             if ('serviceWorker' in navigator) {
@@ -75,6 +76,7 @@ const WeatherScreen = () => {
     
         return () => clearInterval(intervalId); // Cleanup
     }, []);
+    */
     
 
     useEffect(() => {
@@ -263,7 +265,7 @@ const WeatherScreen = () => {
             }
 
             // Notifica della sera
-            if (hours === 18 && minutes === 0 && !eveningNotificationSent) {
+            if (hours === 17 && minutes === 5 && !eveningNotificationSent) {
                 if ('serviceWorker' in navigator) {
                     navigator.serviceWorker.ready.then(registration => {
                         registration.showNotification("Aggiornamento meteo per la sera", {
