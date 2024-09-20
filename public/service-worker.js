@@ -31,9 +31,16 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   console.log('Service worker fetching:', event.request.url);
+  
+  // Verifica se il metodo della richiesta è POST e se lo è, non cache
+  if (event.request.method === 'POST') {
+    return fetch(event.request);
+  }
+  
   event.respondWith(
     fetch(event.request)
       .then((response) => {
+        // Clona la risposta solo per le richieste GET
         const responseClone = response.clone();
         caches.open('static-cache-v1').then((cache) => {
           cache.put(event.request, responseClone);
@@ -66,8 +73,6 @@ self.addEventListener('push', (event) => {
     self.registration.showNotification(data.title, options)
   );
 });
-
-
 
 // Gestire il click sulle notifiche push
 self.addEventListener('notificationclick', (event) => {
