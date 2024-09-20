@@ -40,7 +40,6 @@ const WeatherScreen = () => {
     const [extremeNotificationSent, setExtremeNotificationSent] = useState(false);
     const [rainyNotificationSent, setRainyNotificationSent] = useState(false);
     const [thunderstormNotificationSent, setThunderstormNotificationSent] = useState(false);
-    const [testNotificationSent, setTestNotificationSent] = useState(false);
 
     const defaultOptions = {
         loop: true,
@@ -60,6 +59,23 @@ const WeatherScreen = () => {
             });
         }
     }, []);
+
+    useEffect(() => {
+        const testNotification = () => {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.ready.then(registration => {
+                    registration.showNotification("Test Notification", {
+                        body: `Questa è una notifica di test. Ora: ${new Date().toLocaleTimeString()}`,
+                    });
+                });
+            }
+        };
+    
+        const intervalId = setInterval(testNotification, 60000); // Ogni minuto
+    
+        return () => clearInterval(intervalId); // Cleanup
+    }, []);
+    
 
     useEffect(() => {
         const handleOnline = () => setIsOffline(false);
@@ -294,21 +310,7 @@ const WeatherScreen = () => {
                 }
             }
 
-             // Notifica test gradi
-             const test = weatherData.weather.some((condition) =>
-                ["broken clouds"].includes(condition.main)
-            );
-
-             if (test && !testNotificationSent) {
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.ready.then(registration => {
-                        registration.showNotification("BROKEN CLOUDS", {
-                            body: `Meteo in ${city}: ${weatherData.weather[0].description}, ${Math.floor(weatherData.main.temp)} °C`
-                        });
-                    });
-                    setTestNotificationSent(true);
-                }
-            }
+        
 
         } catch (error) {
             console.error("Errore durante il controllo delle notifiche", error);
