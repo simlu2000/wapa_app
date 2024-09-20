@@ -32,22 +32,29 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   console.log('Service worker fetching:', event.request.url);
   
-  // Verifica se il metodo della richiesta è POST e se lo è, non cache
-  if (event.request.method === 'POST') {
-    return fetch(event.request);
+  // Verifica se il metodo della richiesta è GET, altrimenti ignora
+  if (event.request.method !== 'GET') {
+    return;
   }
-  
+
   event.respondWith(
     fetch(event.request)
       .then((response) => {
-        // Clona la risposta solo per le richieste GET
+        // Verifica che la risposta sia valida prima di metterla in cache
+        if (!response || response.status !== 200 || response.type !== 'basic') {
+          return response;
+        }
+
+        // Clona la risposta per metterla in cache
         const responseClone = response.clone();
         caches.open('static-cache-v1').then((cache) => {
           cache.put(event.request, responseClone);
         });
+        
         return response;
       })
       .catch(() => {
+        // Se la rete fallisce, cerca nella cache
         return caches.match(event.request).then((response) => {
           return response || caches.match('/fallback.html');
         });
