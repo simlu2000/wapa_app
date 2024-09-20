@@ -234,7 +234,7 @@ const WeatherScreen = () => {
             }
 
             // Notifica pomeriggio
-            if (hours === 15 && minutes === 55 && !afternoonNotificationSent) {
+            if (hours === 16 && minutes === 5 && !afternoonNotificationSent) {
                 if ('serviceWorker' in navigator) {
                     navigator.serviceWorker.ready.then(registration => {
                         registration.showNotification("Questo pomeriggio il meteo sarà", {
