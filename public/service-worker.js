@@ -1,3 +1,6 @@
+/*Il service worker deve gestire l'installazione, l'attivazione, 
+il caching e l'invio di notifiche push.*/
+// Installazione del Service Worker
 self.addEventListener('install', (event) => {
   console.log('Service worker installing...');
   event.waitUntil(
@@ -13,6 +16,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
+// Attivazione del Service Worker
 self.addEventListener('activate', (event) => {
   console.log('Service worker activating...');
   event.waitUntil(
@@ -29,13 +33,11 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+// Gestione della cache per le richieste fetch
 self.addEventListener('fetch', (event) => {
   console.log('Service worker fetching:', event.request.url);
   
-  // Escludi tutte le richieste che non siano GET
-  if (event.request.method !== 'GET') {
-    return;
-  }
+  if (event.request.method !== 'GET') return;
 
   event.respondWith(
     caches.match(event.request).then((response) => {
@@ -44,7 +46,6 @@ self.addEventListener('fetch', (event) => {
       }
 
       return fetch(event.request).then((networkResponse) => {
-        // Verifica che la risposta sia valida prima di metterla in cache
         if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
           return networkResponse;
         }
@@ -56,10 +57,7 @@ self.addEventListener('fetch', (event) => {
 
         return networkResponse;
       });
-    }).catch(() => {
-      // Se la rete fallisce, cerca nella cache il fallback
-      return caches.match('/fallback.html');
-    })
+    }).catch(() => caches.match('/fallback.html'))
   );
 });
 
@@ -67,7 +65,7 @@ self.addEventListener('fetch', (event) => {
 self.addEventListener('push', (event) => {
   const data = event.data.json();
   console.log('Push notification received:', data);
-  
+
   const options = {
     body: data.body,
     icon: '/icons/icon-192x192.png',

@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect } from 'firebase/auth';
 import { signOut as firebaseSignOut } from 'firebase/auth';
 
@@ -15,20 +16,53 @@ const firebaseConfig = {
   measurementId: "G-X7QG13BHHM"
 };
 
-//Initialize Firebase
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-//Initialize Firebase Authentication
-const auth = getAuth(app);
-export const signOut = firebaseSignOut; 
+// Initialize Firebase Cloud Messaging
+const messaging = getMessaging(app);
 
-//Google Auth Provider
+// Request permission and get the FCM token
+const requestPermission = () => {
+  return Notification.requestPermission().then((permission) => {
+    if (permission === 'granted') {
+      console.log('Notification permission granted.');
+      // Get the FCM token
+      return getToken(messaging, { vapidKey: 'YOUR_PUBLIC_VAPID_KEY' })
+        .then((currentToken) => {
+          if (currentToken) {
+            console.log('FCM Token:', currentToken);
+            // Send the token to your server to store it
+          } else {
+            console.log('No registration token available. Request permission to generate one.');
+          }
+        })
+        .catch((err) => {
+          console.error('An error occurred while retrieving token. ', err);
+        });
+    } else {
+      console.log('Unable to get permission to notify.');
+    }
+  });
+};
+
+// Listen for messages when the app is in the foreground
+onMessage(messaging, (payload) => {
+  console.log('Message received. ', payload);
+  // Customize how the message is handled here
+});
+
+// Initialize Firebase Authentication
+const auth = getAuth(app);
+export const signOut = firebaseSignOut;
+
+// Google Auth Provider
 const provider = new GoogleAuthProvider();
 
-//Initialize Realtime Db
+// Initialize Realtime Database
 const realtimeDb = getDatabase(app);
 
-//handle authentication
+// Handle Google authentication
 const signInWithGoogle = () => {
   const isMobile = /Mobi|Android/i.test(navigator.userAgent);
 
@@ -36,25 +70,26 @@ const signInWithGoogle = () => {
     // Mobile -> redirect
     return signInWithRedirect(auth, provider)
       .then(result => {
-        //success
+        // Success
         console.log("Signed in with Google via redirect");
       })
       .catch(error => {
-        //error
+        // Error
         console.error("Error during Google sign-in (redirect):", error.message);
       });
   } else {
     // Desktop -> popup
     return signInWithPopup(auth, provider)
       .then(result => {
-        //success
+        // Success
         console.log("Signed in with Google via popup");
       })
       .catch(error => {
-        //error
+        // Error
         console.error("Error during Google sign-in (popup):", error.message);
       });
   }
 };
 
-export { auth, realtimeDb, provider, signInWithGoogle };
+// Export necessary components and functions
+export { auth, realtimeDb, provider, signInWithGoogle, requestPermission };
