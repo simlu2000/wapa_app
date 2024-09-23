@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client'; // Importa 'react-dom/client' per React 18
 import App from './App'; // Importa il componente App
 import { BrowserRouter as Router } from 'react-router-dom';
-import { register } from './serviceWorkerRegistration';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 // Trova l'elemento radice
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -16,4 +16,4 @@ root.render(
 );
 
 // Abilita il service worker
-register();
+serviceWorkerRegistration.register();

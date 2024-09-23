@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // Importa le librerie Firebase necessarie
 importScripts('https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging.js');
@@ -34,11 +35,16 @@ messaging.onMessage((payload) => {
 // Gestisci l'evento di clic sulla notifica
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
+=======
+self.addEventListener('install', (event) => {
+  console.log('Service worker installing...');
+>>>>>>> parent of 0f77c76 (notifications)
   event.waitUntil(
     clients.openWindow('/WeatherScreen')
   );
 });
 
+<<<<<<< HEAD
 // Gestisci gli eventi di background per le notifiche push
 self.addEventListener('push', (event) => {
   const payload = event.data ? event.data.json() : {};
@@ -59,6 +65,8 @@ self.addEventListener('install', (event) => {
 });
 
 // Gestisci l'attivazione del service worker
+=======
+>>>>>>> parent of 0f77c76 (notifications)
 self.addEventListener('activate', (event) => {
   console.log('Service Worker attivato');
   event.waitUntil(
@@ -73,6 +81,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+<<<<<<< HEAD
 
 // Gestisci il caching delle risorse
 self.addEventListener('fetch', (event) => {
@@ -82,6 +91,29 @@ self.addEventListener('fetch', (event) => {
       // solo richieste GET
       if (event.request.method === 'GET') {
         const responseClone = response.clone();
+=======
+self.addEventListener('fetch', (event) => {
+  console.log('Service worker fetching:', event.request.url);
+  
+  // Escludi tutte le richieste che non siano GET
+  if (event.request.method !== 'GET') {
+    return;
+  }
+
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      if (response) {
+        return response;
+      }
+
+      return fetch(event.request).then((networkResponse) => {
+        // Verifica che la risposta sia valida prima di metterla in cache
+        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+          return networkResponse;
+        }
+
+        const responseClone = networkResponse.clone();
+>>>>>>> parent of 0f77c76 (notifications)
         caches.open('static-cache-v1').then((cache) => {
           cache.put(event.request, responseClone);
         });
@@ -91,7 +123,42 @@ self.addEventListener('fetch', (event) => {
       return caches.match(event.request).then((response) => {
         return response || caches.match('/fallback.html');
       });
+<<<<<<< HEAD
+=======
+    }).catch(() => {
+      // Se la rete fallisce, cerca nella cache il fallback
+      return caches.match('/fallback.html');
+>>>>>>> parent of 0f77c76 (notifications)
     })
   );
 });
 
+<<<<<<< HEAD
+=======
+// Gestione delle notifiche push
+self.addEventListener('push', (event) => {
+  const data = event.data.json();
+  console.log('Push notification received:', data);
+  
+  const options = {
+    body: data.body,
+    icon: '/icons/icon-192x192.png',
+    badge: '/icons/badge-72x72.png',
+    data: {
+      url: data.url
+    }
+  };
+
+  event.waitUntil(
+    self.registration.showNotification(data.title, options)
+  );
+});
+
+// Gestire il click sulle notifiche push
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  event.waitUntil(
+    clients.openWindow(event.notification.data.url)
+  );
+});
+>>>>>>> parent of 0f77c76 (notifications)
