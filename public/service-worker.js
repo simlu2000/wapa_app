@@ -1,30 +1,73 @@
-/*Il service worker deve gestire l'installazione, l'attivazione, 
-il caching e l'invio di notifiche push.*/
-// Installazione del Service Worker
-self.addEventListener('install', (event) => {
-  console.log('Service worker installing...');
+// Importa le librerie Firebase necessarie
+importScripts('https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging.js');
+
+// Configurazione di Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyBUNi0MyQT0YhS8Fqu_oFGEQ_FQu2-3HE8",
+  authDomain: "wapa-4ec0a.firebaseapp.com",
+  databaseURL: "https://wapa-4ec0a-default-rtdb.europe-west1.firebasedatabase.app/",
+  projectId: "wapa-4ec0a",
+  storageBucket: "wapa-4ec0a.appspot.com",
+  messagingSenderId: "29586370547",
+  appId: "1:29586370547:web:cc1ca0286515ad3e57ec86",
+  measurementId: "G-X7QG13BHHM"
+};
+
+// Inizializza Firebase
+firebase.initializeApp(firebaseConfig);
+const messaging = firebase.messaging();
+
+// Gestisci le notifiche quando l'app è attiva
+messaging.onMessage((payload) => {
+  console.log('Messaggio ricevuto: ', payload);
+  
+  const notificationTitle = payload.notification.title;
+  const notificationOptions = {
+    body: payload.notification.body,
+    icon: '/firebase-logo.png'
+  };
+
+  return self.registration.showNotification(notificationTitle, notificationOptions);
+});
+
+// Gestisci l'evento di clic sulla notifica
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
   event.waitUntil(
-    caches.open('static-cache-v1').then((cache) => {
-      return cache.addAll([
-        '/',
-        '/index.html',
-        '/styles.css',
-        '/main.js',
-        '/fallback.html', // pagina di fallback
-      ]);
-    })
+    clients.openWindow('/WeatherScreen')
   );
 });
 
-// Attivazione del Service Worker
+// Gestisci gli eventi di background per le notifiche push
+self.addEventListener('push', (event) => {
+  const payload = event.data ? event.data.json() : {};
+  const notificationTitle = payload.notification.title || 'Nuova Notifica';
+  const notificationOptions = {
+    body: payload.notification.body || 'Hai una nuova notifica!',
+    icon: '/firebase-logo.png'
+  };
+
+  event.waitUntil(
+    self.registration.showNotification(notificationTitle, notificationOptions)
+  );
+});
+
+// Gestisci l'installazione del service worker
+self.addEventListener('install', (event) => {
+  console.log('Service Worker installato');
+});
+
+// Gestisci l'attivazione del service worker
 self.addEventListener('activate', (event) => {
-  console.log('Service worker activating...');
+  console.log('Service Worker attivato');
+  // Rimuovi le versioni obsolete del cache
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
+          // Rimuovi la cache se non è quella attuale
           if (cacheName !== 'static-cache-v1') {
-            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
@@ -33,57 +76,22 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Gestione della cache per le richieste fetch
+// Gestisci il caching delle risorse
 self.addEventListener('fetch', (event) => {
   console.log('Service worker fetching:', event.request.url);
-  
-  if (event.request.method !== 'GET') return;
-
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      if (response) {
-        return response;
-      }
-
-      return fetch(event.request).then((networkResponse) => {
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-          return networkResponse;
-        }
-
-        const responseClone = networkResponse.clone();
+    fetch(event.request).then((response) => {
+      if (event.request.method === 'GET') {
+        const responseClone = response.clone();
         caches.open('static-cache-v1').then((cache) => {
           cache.put(event.request, responseClone);
         });
-
-        return networkResponse;
+      }
+      return response;
+    }).catch(() => {
+      return caches.match(event.request).then((response) => {
+        return response || caches.match('/fallback.html');
       });
-    }).catch(() => caches.match('/fallback.html'))
-  );
-});
-
-// Gestione delle notifiche push
-self.addEventListener('push', (event) => {
-  const data = event.data.json();
-  console.log('Push notification received:', data);
-
-  const options = {
-    body: data.body,
-    icon: '/icons/icon-192x192.png',
-    badge: '/icons/badge-72x72.png',
-    data: {
-      url: data.url
-    }
-  };
-
-  event.waitUntil(
-    self.registration.showNotification(data.title, options)
-  );
-});
-
-// Gestire il click sulle notifiche push
-self.addEventListener('notificationclick', (event) => {
-  event.notification.close();
-  event.waitUntil(
-    clients.openWindow(event.notification.data.url)
+    })
   );
 });

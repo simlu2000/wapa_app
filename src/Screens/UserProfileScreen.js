@@ -1,4 +1,3 @@
-// UserProfileScreen.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUserLocalities, addLocation, removeLocation } from '../Utils/userService';
@@ -9,6 +8,7 @@ import animationData from '../Animations/Animation - 1721298712078.json';
 import Lottie from 'react-lottie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { getMessaging } from 'firebase/messaging';
 
 
 const UserProfileScreen = ({ user }) => {
@@ -16,6 +16,8 @@ const UserProfileScreen = ({ user }) => {
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [subscription, setSubscription] = useState(null);
+  const vapid_key = process.env.REACT_APP_vapid_key;
 
   const defaultOptions = {
     loop: true,
@@ -59,11 +61,16 @@ const UserProfileScreen = ({ user }) => {
     if (enabled) {
       try {
         await askPermission();
+        const subscription = await subscribeUser();
+        setSubscription(subscription);
         window.alert('Notifications turned on');
       } catch (error) {
         console.error('Error during the request of permissions', error);
       }
     } else {
+      if (subscription){
+        await unsubscribeUser(subscription);
+      }
       console.log('Notifications turned off');
     }
   };
@@ -77,6 +84,39 @@ const UserProfileScreen = ({ user }) => {
       throw new Error('No granted permissions');
     }
   }
+
+  async function subscribeUser() {
+    const messaging = getMessaging();
+    const registration = await navigator.serviceWorker.ready;
+    const subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(vapid_key)
+    });
+    console.log('Utente iscritto per le notifiche push:', subscription);
+    return subscription;
+}
+
+async function unsubscribeUser(subscription) {
+    const messaging = getMessaging();
+    await messaging.deleteToken(subscription);
+    console.log('Utente disiscritto dalle notifiche push:', subscription);
+}
+
+function urlBase64ToUint8Array(base64String) { //per convertire la chiave APID da Base64
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding)
+      .replace(/-/g, '+')
+      .replace(/_/g, '/');
+
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
 
   const handleAddLocation = async (location) => {
     if (user) {

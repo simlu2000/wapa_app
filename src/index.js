@@ -7,6 +7,7 @@ import { register } from './serviceWorkerRegistration';
 // Trova l'elemento radice
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
+
 // Renderizza l'app
 root.render(
   <Router>
