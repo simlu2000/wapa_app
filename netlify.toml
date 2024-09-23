@@ -1,6 +1,0 @@
-[build]
-  functions = "src/functions"
-  publish = "build" # o "dist" a seconda della tua configurazione
-
-[dev]
-  functions = "src/functions"

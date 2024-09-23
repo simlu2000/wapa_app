@@ -1,9 +1,7 @@
-/*Implementa anche la logica per richiedere permesso per inviare notifiche e recuperare token FCM quando utente loggato*/
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom'; // Import useLocation for accessing navigation state
 import axios from 'axios';
 import { auth } from '../Utils/firebase';
-import { getAuth } from 'firebase/auth';
 import { addLocation, removeLocation, getUserLocalities } from '../Utils/userService';
 import WindCharts from '../Components/Charts/WindCharts';
 import TempCharts from '../Components/Charts/TempCharts';
@@ -20,10 +18,10 @@ import Loader from '../Components/loader';
 import '../Styles/style_weatherscreen.css';
 import animationData from '../Animations/Animation - 1726518835813.json';
 import Lottie from 'react-lottie';
-import { getAuth } from 'firebase/auth';
-import { register } from '../../src/serviceWorkerRegistration';
+import { register } from '../serviceWorkerRegistration';
 
 const Api_Key_OpenWeather = process.env.REACT_APP_Api_Key_OpenWeather;
+const vapid_key = process.env.REACT_APP_vapid_key;
 
 const WeatherScreen = () => {
     const [weatherData, setWeatherData] = useState(null);
@@ -42,6 +40,8 @@ const WeatherScreen = () => {
     const [extremeNotificationSent, setExtremeNotificationSent] = useState(false);
     const [rainyNotificationSent, setRainyNotificationSent] = useState(false);
     const [thunderstormNotificationSent, setThunderstormNotificationSent] = useState(false);
+    const [testNotificationSent, setTestNotificationSent] = useState(false);
+    const [tomorrowForecastNotificationSent, setTomorrowForecastNotificationSent] = useState(false);
 
     const defaultOptions = {
         loop: true,
@@ -53,105 +53,18 @@ const WeatherScreen = () => {
     };
 
     useEffect(() => {
-        register();
         if (Notification.permission !== 'granted') {
             Notification.requestPermission().then(permission => {
                 if (permission === 'granted') {
                     console.log("Permesso per le notifiche concesso.");
+                    subscribeUserToPush();
                 }
             });
-        }
-    }, []);
-
-<<<<<<< HEAD
-    const subscribeUserToNotifications = async (subscription) => {
-        try {
-            const response = await axios.post('/api/notifications/subscribe', {
-                subscription,  // I dati della sottoscrizione push
-            });
-            console.log('Utente iscritto per le notifiche push:', response.data);
-        } catch (error) {
-            console.error('Error sending subscription to server:', error);
-        }
-    };
-
-    // Un esempio di come puoi chiamare questa funzione
-    const handleNotificationSubscription = async () => {
-        if ('serviceWorker' in navigator && 'PushManager' in window) {
-            try {
-                // Registriamo il service worker
-                const registration = await navigator.serviceWorker.register('/service-worker.js');
-
-                // Richiediamo il permesso di ricevere notifiche
-                const permission = await Notification.requestPermission();
-
-                if (permission === 'granted') {
-                    const subscription = await registration.pushManager.subscribe({
-                        userVisibleOnly: true,
-                        applicationServerKey: '<la tua chiave pubblica del server>'
-                    });
-
-                    // Iscriviamo l'utente alle notifiche sul server
-                    await subscribeUserToNotifications(subscription);
-                }
-            } catch (error) {
-                console.error('Errore durante la sottoscrizione alle notifiche:', error);
-            }
         } else {
-            console.warn('Notifiche Push non supportate dal browser.');
+            subscribeUserToPush();
         }
-    };
-
-    // Effettua la chiamata durante il ciclo di vita del componente React
-    useEffect(() => {
-        handleNotificationSubscription();
     }, []);
 
-    const subscribeUserToPush = async () => {
-        const registration = await navigator.serviceWorker.getRegistration();
-        const subscription = await registration.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: urlBase64ToUint8Array(vapid_key)
-        });
-        await sendSubscriptionToServer(subscription);
-    };
-
-    const sendSubscriptionToServer = async (subscription) => {
-        try {
-            await axios.post('/api/notifications/subscribe', subscription);
-            console.log('Subscription sent to server:', subscription);
-        } catch (error) {
-            console.error('Error sending subscription to server', error);
-        }
-    };
-
-    const urlBase64ToUint8Array = (base64String) => {
-        const padding = '='.repeat((4 - base64String.length % 4) % 4);
-        const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-        const rawData = window.atob(base64);
-        return new Uint8Array([...rawData].map(char => char.charCodeAt(0)));
-    };
-
-=======
-    /*
-    useEffect(() => {
-        const testNotification = () => {
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.ready.then(registration => {
-                    registration.showNotification("Test Notification", {
-                        body: `Questa è una notifica di test. Ora: ${new Date().toLocaleTimeString()}`,
-                    });
-                });
-            }
-        };
-    
-        const intervalId = setInterval(testNotification, 60000); // Ogni minuto
-    
-        return () => clearInterval(intervalId); // Cleanup
-    }, []);
-    */
-    
->>>>>>> parent of 0f77c76 (notifications)
 
     useEffect(() => {
         const handleOnline = () => setIsOffline(false);
@@ -166,10 +79,33 @@ const WeatherScreen = () => {
         };
     }, []);
 
-<<<<<<< HEAD
+    const sendSubscriptionToServer = async (subscription) => {
+        try {
+            await axios.post('/api/notifications/subscribe', subscription);
+            console.log('Subscription sent to server:', subscription);
+        } catch (error) {
+            console.error('Error sending subscription to server', error);
+        }
+    };
 
-=======
->>>>>>> parent of 0f77c76 (notifications)
+    const subscribeUserToPush = async () => {
+        const registration = await navigator.serviceWorker.getRegistration();
+        const subscription = await registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(vapid_key) // Conversione VAPID key
+        });
+
+        // Invio della subscription al server per salvare e gestire le notifiche
+        await sendSubscriptionToServer(subscription);
+    };
+
+    const urlBase64ToUint8Array = (base64String) => {
+        const padding = '='.repeat((4 - base64String.length % 4) % 4);
+        const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+        const rawData = window.atob(base64);
+        return new Uint8Array([...rawData].map(char => char.charCodeAt(0)));
+    };
+
     useEffect(() => {
         const getUserLocation = () => {
             if (navigator.geolocation) {
@@ -188,8 +124,12 @@ const WeatherScreen = () => {
                 console.error('Geolocalizzazione non consentita dal browser');
             }
         };
-        getUserLocation();
-    }, []);
+
+        // Verifica se la posizione è già stata impostata
+        if (location.latitude === null || location.longitude === null) {
+            getUserLocation();
+        }
+    }, [location]);
 
     useEffect(() => {
         // Registrazione
@@ -208,6 +148,9 @@ const WeatherScreen = () => {
                     setCity(weatherResponse.data.name);
                     setAirPollutionData(airPollutionResponse.data.list[0].components);
                     setForecastData(forecastResponse.data.list);
+
+                    // Controlla le condizioni meteorologiche e invia notifiche
+                    checkWeatherAndNotify(weatherResponse.data);
                 } catch (error) {
                     console.error("Errore durante il recupero dei dati meteorologici", error);
                 } finally {
@@ -223,6 +166,7 @@ const WeatherScreen = () => {
             fetchWeatherBySearchedLocation(locationState.state.query);
         }
     }, [locationState]);
+
 
     const fetchWeatherBySearchedLocation = async (searchLocation) => {
         try {
@@ -298,6 +242,8 @@ const WeatherScreen = () => {
     };
 
     async function checkWeatherAndNotify(weatherData) {
+        //dopo aver ricevuto dati meteo, la funzione verifica l'ora e le condizioni attuali
+        //se vengono rispettate alcune situazioni previste, invia notifica
         const user = auth.currentUser;
 
         if (!user) {
@@ -306,139 +252,69 @@ const WeatherScreen = () => {
         }
 
         try {
-<<<<<<< HEAD
-            await axios.post('/.netlify/functions/firebase', weatherData);
-=======
-            const now = new Date();
-            const hours = now.getHours();
-            const minutes = now.getMinutes();
+            const currentHour = new Date().getHours();
+            const currentMinutes = new Date().getMinutes();
+            const tomorrowForecast = forecastData && forecastData.length > 0 ? forecastData[8] : null; // Previsione per domani
+            const conditions = weatherData.weather[0].main;
+            const temp = weatherData.main.temp;
 
-            const isRainy = weatherData.weather.some((condition) =>
-                ["Rain"].includes(condition.main)
-            );
-            const isThunderstorm = weatherData.weather.some((condition) =>
-                ["Thunderstorm"].includes(condition.main)
-            );
-            const isExtremeTemp = weatherData.main.temp < 5 || weatherData.main.temp > 35;
-
-            // Notifica del mattino
-            if (hours === 9 && minutes >= 0 && minutes < 10 && !morningNotificationSent) {
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.ready.then(registration => {
-                        registration.showNotification("Il meteo di oggi", {
-                            body: `Meteo in ${city}: ${weatherData.weather[0].description}, ${Math.floor(weatherData.main.temp)} °C`
-                        });
-                    });
-                    setMorningNotificationSent(true);
-                }
+            if (currentHour === 9 && currentMinutes>= 0 && currentMinutes < 10 && !morningNotificationSent) {
+                await sendNotification(`Good morning! The expected temperature for today is ${temp}°C.`);
+                setMorningNotificationSent(true);
+            } else if (currentHour === 14 && currentMinutes>= 0 && currentMinutes < 10 && !afternoonNotificationSent) {
+                await sendNotification(`Good afternoon! The actual temperature is ${temp}°C.`);
+                setAfternoonNotificationSent(true);
+            } else if (currentHour === 18 && currentMinutes>= 0 && currentMinutes < 10 && !eveningNotificationSent) {
+                await sendNotification(`Good evening! The actual temperature is ${temp}°C.`);
+                setEveningNotificationSent(true);
+            } else if (currentHour === 21 && currentMinutes>= 0 && currentMinutes < 10 && !tomorrowForecastNotificationSent && tomorrowForecast) {
+                const tomorrowWeather = tomorrowForecast.weather[0].description;
+                const tomorrowTempMin = Math.floor(tomorrowForecast.main.temp_min);
+                const tomorrowTempMax = Math.floor(tomorrowForecast.main.temp_max);
+                await sendNotification(`🌅 Tomorrow's forecast: ${tomorrowWeather}, Min: ${tomorrowTempMin}°C, Max: ${tomorrowTempMax}°C.`);
+                setTomorrowForecastNotificationSent(true);
             }
 
-            // Notifica pomeriggio
-            if (hours === 14 && minutes >= 0 && minutes < 10 && !afternoonNotificationSent) {
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.ready.then(registration => {
-                        registration.showNotification("Questo pomeriggio il meteo sarà", {
-                            body: `Meteo in ${city}: ${weatherData.weather[0].description}, ${Math.floor(weatherData.main.temp)} °C`
-                        });
-                    });
-                    setAfternoonNotificationSent(true);
-                }
+            if (conditions === 'Thunderstorm' && !thunderstormNotificationSent) {
+                await sendNotification('⚡ Warning: a storm is expected!');
+                setThunderstormNotificationSent(true);
+            } else if (conditions === 'Rain' && !rainyNotificationSent) {
+                await sendNotification('🌧️ Warning: raining is expected!');
+                setRainyNotificationSent(true);
             }
 
-            // Notifica della sera
-            if (hours === 17 && minutes >= 20 && minutes < 30  && !eveningNotificationSent) {
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.ready.then(registration => {
-                        registration.showNotification("Aggiornamento meteo per la sera", {
-                            body: `Meteo in ${city}: ${weatherData.weather[0].description}, ${Math.floor(weatherData.main.temp)} °C`
-                        });
-                    });
-                    setEveningNotificationSent(true);
-                }
+            if (temp <= 0 && !extremeNotificationSent) {
+                await sendNotification('❄️ Warning: Extreme low temperature expected!');
+                setExtremeNotificationSent(true);
             }
-
-            // Notifiche per condizioni estreme
-            if (isExtremeTemp && !extremeNotificationSent) {
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.ready.then(registration => {
-                        registration.showNotification("Attenzione: Condizioni meteorologiche estreme", {
-                            body: `Temperatura attuale: ${Math.floor(weatherData.main.temp)} °C`
-                        });
-                    });
-                    setExtremeNotificationSent(true);
-                }
+            if (temp >= 35 && !extremeNotificationSent) {
+                await sendNotification('🔥 Warning: Extreme high temperature expected!');
+                setExtremeNotificationSent(true);
             }
-
-            // Notifiche di pioggia
-            if (isRainy && !rainyNotificationSent) {
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.ready.then(registration => {
-                        registration.showNotification("Attenzione: Previsione di pioggia", {
-                            body: `Si prevede pioggia oggi in ${city}.`
-                        });
-                    });
-                    setRainyNotificationSent(true);
-                }
+            if (temp > 20 && !testNotificationSent) {
+                await sendNotification('🔥 TEST NOTIFICATION');
+                setTestNotificationSent(true);
             }
-
-            // Notifiche temporalesche
-            if (isThunderstorm && !thunderstormNotificationSent) {
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.ready.then(registration => {
-                        registration.showNotification("Attenzione: Previsione di temporali", {
-                            body: `Attenzione, sono previsti temporali in ${city}.`
-                        });
-                    });
-                    setThunderstormNotificationSent(true);
-                }
-            }
-
-        
-
->>>>>>> parent of 0f77c76 (notifications)
         } catch (error) {
-            console.error("Errore durante il controllo delle notifiche", error);
+            console.error('Error during send notification', error);
         }
     }
-<<<<<<< HEAD
 
 
 
     //verifico permessi prima di mandare notifica
     //se permesso ok, usa l'API delle notifiche per mostrare un messaggio all'utente
-    const sendNotification = async (token, payload) => {
-        try {
-            const response = await axios.post('https://europe-west1-wapa-4ec0a.cloudfunctions.net/sendPushNotification', {
-                token,
-                payload
-            });
-            console.log('Notifica inviata:', response.data);
-        } catch (error) {
-            console.error('Errore nell\'invio della notifica:', error);
+    const sendNotification = async (message) => {
+        if (Notification.permission === 'granted') {
+            new Notification(message);
         }
     };
-
-    async function sendTokenToServer(token) {
-        try {
-            const userId = auth.currentUser.uid;
-            await axios.post('/api/notifications/subscribe', {
-                token,
-                userId
-            });
-            console.log('Token inviato con successo al server.');
-        } catch (error) {
-            console.error('Errore nell\'invio del token al server:', error);
-        }
-    }
-
 
     if (loading) {
         return <Loader />;
     }
 
 
-=======
->>>>>>> parent of 0f77c76 (notifications)
     return (
         <>
             {loading ? (
