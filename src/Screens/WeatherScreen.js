@@ -122,7 +122,7 @@ const WeatherScreen = () => {
 
     const sendSubscriptionToServer = async (subscription) => {
         try {
-            await axios.post('/api/notifications/subscribe', subscription);
+            await axios.post('/.netlify/functions/firebase', subscription);
             console.log('Subscription sent to server:', subscription);
         } catch (error) {
             console.error('Error sending subscription to server', error);
