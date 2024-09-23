@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom'; // Import useLocation for accessing navigation state
 import axios from 'axios';
 import { auth } from '../Utils/firebase';
-import { getAuth} from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 import { addLocation, removeLocation, getUserLocalities } from '../Utils/userService';
 import WindCharts from '../Components/Charts/WindCharts';
 import TempCharts from '../Components/Charts/TempCharts';
@@ -66,6 +66,49 @@ const WeatherScreen = () => {
         } else {
             subscribeUserToPush();
         }
+    }, []);
+
+    const subscribeUserToNotifications = async (subscription) => {
+        try {
+            const response = await axios.post('/api/notifications/subscribe', {
+                subscription,  // I dati della sottoscrizione push
+            });
+            console.log('Utente iscritto per le notifiche push:', response.data);
+        } catch (error) {
+            console.error('Error sending subscription to server:', error);
+        }
+    };
+
+    // Un esempio di come puoi chiamare questa funzione
+    const handleNotificationSubscription = async () => {
+        if ('serviceWorker' in navigator && 'PushManager' in window) {
+            try {
+                // Registriamo il service worker
+                const registration = await navigator.serviceWorker.register('/service-worker.js');
+
+                // Richiediamo il permesso di ricevere notifiche
+                const permission = await Notification.requestPermission();
+
+                if (permission === 'granted') {
+                    const subscription = await registration.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: '<la tua chiave pubblica del server>'
+                    });
+
+                    // Iscriviamo l'utente alle notifiche sul server
+                    await subscribeUserToNotifications(subscription);
+                }
+            } catch (error) {
+                console.error('Errore durante la sottoscrizione alle notifiche:', error);
+            }
+        } else {
+            console.warn('Notifiche Push non supportate dal browser.');
+        }
+    };
+
+    // Effettua la chiamata durante il ciclo di vita del componente React
+    useEffect(() => {
+        handleNotificationSubscription();
     }, []);
 
     const subscribeUserToPush = async () => {
@@ -266,19 +309,19 @@ const WeatherScreen = () => {
     //se permesso ok, usa l'API delle notifiche per mostrare un messaggio all'utente
     const sendNotification = async (token, payload) => {
         try {
-          const response = await axios.post('https://europe-west1-wapa-4ec0a.cloudfunctions.net/sendPushNotification', {
-            token,
-            payload
-          });
-          console.log('Notifica inviata:', response.data);
+            const response = await axios.post('https://europe-west1-wapa-4ec0a.cloudfunctions.net/sendPushNotification', {
+                token,
+                payload
+            });
+            console.log('Notifica inviata:', response.data);
         } catch (error) {
-          console.error('Errore nell\'invio della notifica:', error);
+            console.error('Errore nell\'invio della notifica:', error);
         }
-      };
-      
+    };
+
     async function sendTokenToServer(token) {
         try {
-            const userId = auth.currentUser.uid; 
+            const userId = auth.currentUser.uid;
             await axios.post('/api/notifications/subscribe', {
                 token,
                 userId
@@ -288,7 +331,7 @@ const WeatherScreen = () => {
             console.error('Errore nell\'invio del token al server:', error);
         }
     }
-    
+
 
     if (loading) {
         return <Loader />;

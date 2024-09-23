@@ -3,4 +3,4 @@
   publish = "build" # o "dist" a seconda della tua configurazione
 
 [dev]
-  functions = "functions"
+  functions = "src/functions"
