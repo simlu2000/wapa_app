@@ -96,4 +96,4 @@ exports.handler = async (event) => {
 };
 
 // Esporta auth e provider
-module.exports = { auth, provider }; // Aggiunta dell'export
+module.exports = { auth, provider };

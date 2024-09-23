@@ -61,26 +61,25 @@ self.addEventListener('install', (event) => {
 // Gestisci l'attivazione del service worker
 self.addEventListener('activate', (event) => {
   console.log('Service Worker attivato');
-  // Rimuovi le versioni obsolete del cache
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
-          // Rimuovi la cache se non è quella attuale
-          if (cacheName !== 'static-cache-v1') {
-            return caches.delete(cacheName);
-          }
+          // Rimuovi tutte le cache tranne quella attuale
+          return caches.delete(cacheName);
         })
       );
     })
   );
 });
 
+
 // Gestisci il caching delle risorse
 self.addEventListener('fetch', (event) => {
   console.log('Service worker fetching:', event.request.url);
   event.respondWith(
     fetch(event.request).then((response) => {
+      // solo richieste GET
       if (event.request.method === 'GET') {
         const responseClone = response.clone();
         caches.open('static-cache-v1').then((cache) => {
@@ -95,3 +94,4 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
+
