@@ -1,9 +1,10 @@
-import { initializeApp } from "firebase/app";
-import { getDatabase } from "firebase/database";
-import { getMessaging } from "firebase/messaging";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect } from 'firebase/auth';
+const { initializeApp } = require('firebase/app');
+const { getDatabase } = require('firebase/database');
+const { getMessaging } = require('firebase/messaging');
+const { getAuth, GoogleAuthProvider } = require('firebase/auth');
 const admin = require('firebase-admin');
 const axios = require('axios');
+
 
 // Inizializza Firebase Admin SDK usando variabili d'ambiente
 admin.initializeApp({
@@ -19,7 +20,7 @@ admin.initializeApp({
         "auth_provider_x509_cert_url": process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
         "client_x509_cert_url": process.env.FIREBASE_CLIENT_X509_CERT_URL
     }),
-    databaseURL: "https://wapa-4ec0a-default-rtdb.europe-west1.firebasedatabase.app/"
+    databaseURL: process.env.FIREBASE_DATABASE_URL;
 });
 
 // Funzione per inviare notifiche push
