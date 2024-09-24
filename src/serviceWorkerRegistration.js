@@ -75,17 +75,13 @@ function urlBase64ToUint8Array(base64String) {
   }
   return outputArray;
 }
-
-// Funzione che controlla se l'utente è loggato prima di registrare il service worker
 export const register = () => {
   if ('serviceWorker' in navigator) {
     const swUrl = '/service-worker.js';
 
-    // Ottieni l'oggetto di autenticazione di Firebase
     const auth = getAuth();
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        // Se l'utente è autenticato, registra il service worker
         console.log('Utente autenticato:', user);
         if (isLocalhost) {
           checkValidServiceWorker(swUrl);
@@ -93,18 +89,30 @@ export const register = () => {
           registerValidSW(swUrl);
         }
 
-        // Richiedi la sottoscrizione per le notifiche push
         const registration = await navigator.serviceWorker.ready;
-        if ('PushManager' in window) {
-          registration.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: urlBase64ToUint8Array(vapid_key)
-          }).then((subscription) => {
-            console.log('Utente iscritto per le notifiche push:', subscription);
-            // Puoi inviare la subscription al server qui se necessario
-          }).catch((error) => {
-            console.error('Errore durante la sottoscrizione alle notifiche push:', error);
-          });
+
+        if ('PushManager' in window && 'Notification' in window) {
+          const permission = await Notification.requestPermission();
+          if (permission === 'granted') {
+            registration.pushManager.getSubscription().then((subscription) => {
+              if (!subscription) {
+                return registration.pushManager.subscribe({
+                  userVisibleOnly: true,
+                  applicationServerKey: urlBase64ToUint8Array(vapid_key),
+                });
+              } else {
+                console.log('Utente già iscritto per le notifiche push:', subscription);
+                return subscription;
+              }
+            }).then((newSubscription) => {
+              if (newSubscription) {
+                console.log('Utente iscritto per le notifiche push:', newSubscription);
+              
+              }
+            }).catch((error) => {
+              console.error('Errore durante la sottoscrizione alle notifiche push:', error);
+            });
+          }
         }
       } else {
         console.log('Nessun utente autenticato.');
