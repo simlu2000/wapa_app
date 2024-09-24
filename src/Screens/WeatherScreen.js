@@ -55,18 +55,19 @@ const WeatherScreen = () => {
 
 
     useEffect(() => {
-        // Verifica se l'utente è autenticato quando il componente si monta
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
+        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                subscribeUserToPush(user);
+                console.log('Utente autenticato:', user);
+                subscribeUserToPush(user); //solo se l'utente è autenticato
             } else {
-                console.log("No logged user");
+                console.log('Nessun utente autenticato');
             }
         });
-
-        //pulizia effect
+    
+        //pulisco lo useEffect per evitare memory leak
         return () => unsubscribe();
     }, []);
+    
 
 
     useEffect(() => {
