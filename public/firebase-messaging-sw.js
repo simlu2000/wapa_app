@@ -1,7 +1,8 @@
+// Importa le librerie Firebase necessarie (compatibilità)
 importScripts('https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/9.15.0/firebase-messaging-compat.js');
 
-// La tua configurazione Firebase
+// Configurazione di Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyBUNi0MyQT0YhS8Fqu_oFGEQ_FQu2-3HE8",
     authDomain: "wapa-4ec0a.firebaseapp.com",
@@ -11,8 +12,7 @@ const firebaseConfig = {
     messagingSenderId: "29586370547",
     appId: "1:29586370547:web:cc1ca0286515ad3e57ec86",
     measurementId: "G-X7QG13BHHM"
-  };
-  
+};
 
 // Inizializza Firebase
 firebase.initializeApp(firebaseConfig);
@@ -24,11 +24,12 @@ const messaging = firebase.messaging();
 messaging.onBackgroundMessage((payload) => {
   console.log('Ricevuta una notifica in background: ', payload);
 
-  const notificationTitle = payload.notification.title;
+  const notificationTitle = payload.notification.title || 'Nuova Notifica';
   const notificationOptions = {
-    body: payload.notification.body,
-    icon: '/logo.png'
+    body: payload.notification.body || 'Hai una nuova notifica!',
+    icon: '/logo.png'  // Assicurati che l'icona sia accessibile
   };
 
+  // Mostra la notifica
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
