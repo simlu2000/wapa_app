@@ -31,21 +31,6 @@ const registerValidSW = (swUrl) => {
           }
         };
       };
-
-      // Gestire la ricezione delle notifiche push anche se l'app non è aperta
-      navigator.serviceWorker.ready.then((reg) => {
-        if ('PushManager' in window) {
-          reg.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: urlBase64ToUint8Array(vapid_key)
-          }).then((subscription) => {
-            console.log('Utente iscritto per le notifiche push:', subscription);
-            // Puoi inviare la subscription al server qui se necessario
-          }).catch((error) => {
-            console.error('Errore durante la sottoscrizione alle notifiche push:', error);
-          });
-        }
-      });
     })
     .catch((error) => {
       console.error('Registrazione del Service Worker fallita:', error);
@@ -98,7 +83,7 @@ export const register = () => {
 
     // Ottieni l'oggetto di autenticazione di Firebase
     const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         // Se l'utente è autenticato, registra il service worker
         console.log('Utente autenticato:', user);
@@ -106,6 +91,20 @@ export const register = () => {
           checkValidServiceWorker(swUrl);
         } else {
           registerValidSW(swUrl);
+        }
+
+        // Richiedi la sottoscrizione per le notifiche push
+        const registration = await navigator.serviceWorker.ready;
+        if ('PushManager' in window) {
+          registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(vapid_key)
+          }).then((subscription) => {
+            console.log('Utente iscritto per le notifiche push:', subscription);
+            // Puoi inviare la subscription al server qui se necessario
+          }).catch((error) => {
+            console.error('Errore durante la sottoscrizione alle notifiche push:', error);
+          });
         }
       } else {
         console.log('Nessun utente autenticato.');

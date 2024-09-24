@@ -107,22 +107,21 @@ const WeatherScreen = () => {
 
    
     const subscribeUserToPush = async (user) => {
-        // Verifica se l'utente è autenticato
         if (!user || !user.uid) {
             console.error("Errore: utente non autenticato.");
             return;
         }
     
-        // Invia la subscription solo se l'utente è autenticato
-        if ('serviceWorker' in navigator) {
+        if ('serviceWorker' in navigator && 'PushManager' in window) {
             try {
                 const registration = await navigator.serviceWorker.ready;
+                console.log('Registrazione Service Worker:', registration);
+    
                 const subscription = await registration.pushManager.subscribe({
                     userVisibleOnly: true,
                     applicationServerKey: urlBase64ToUint8Array(vapid_key),
                 });
     
-                // Invia il token al server
                 await fetch('/api/notifications/subscribe', {
                     method: 'POST',
                     body: JSON.stringify({
@@ -139,7 +138,7 @@ const WeatherScreen = () => {
                 console.error('Errore nell\'iscrizione alle notifiche:', error);
             }
         } else {
-            console.error('Service Workers non supportati nel browser.');
+            console.error('Service Workers o Push Notifications non supportati nel browser.');
         }
     };
     
@@ -149,8 +148,9 @@ const WeatherScreen = () => {
         const padding = '='.repeat((4 - base64String.length % 4) % 4);
         const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
         const rawData = window.atob(base64);
-        return new Uint8Array([...rawData].map(char => char.charCodeAt(0)));
+        return Uint8Array.from([...rawData].map(char => char.charCodeAt(0)));
     };
+    
 
     useEffect(() => {
         const getUserLocation = () => {
