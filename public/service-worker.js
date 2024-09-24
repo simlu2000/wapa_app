@@ -32,7 +32,6 @@ self.addEventListener('activate', (event) => {
     })
   );
 });
-
 // Gestione della cache per le richieste fetch
 self.addEventListener('fetch', (event) => {
   console.log('Service worker fetching:', event.request.url);
@@ -40,26 +39,27 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      if (response) {
-        return response;
-      }
+      caches.match(event.request).then((response) => {
+          if (response) {
+              return response;
+          }
 
-      return fetch(event.request).then((networkResponse) => {
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-          return networkResponse;
-        }
+          return fetch(event.request).then((networkResponse) => {
+              if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+                  return networkResponse;
+              }
 
-        const responseClone = networkResponse.clone();
-        caches.open('static-cache-v1').then((cache) => {
-          cache.put(event.request, responseClone);
-        });
+              const responseClone = networkResponse.clone();
+              caches.open('static-cache-v1').then((cache) => {
+                  cache.put(event.request, responseClone);
+              });
 
-        return networkResponse;
-      });
-    }).catch(() => caches.match('/fallback.html'))
+              return networkResponse;
+          });
+      }).catch(() => caches.match('/fallback.html'))
   );
 });
+
 
 // Gestione delle notifiche push
 self.addEventListener('push', (event) => {
