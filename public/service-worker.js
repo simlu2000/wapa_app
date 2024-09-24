@@ -10,7 +10,7 @@ self.addEventListener('install', (event) => {
         '/index.html',
         '/styles.css',
         '/main.js',
-        '/fallback.html', // pagina di fallback
+        '/fallback.html',
       ]);
     })
   );

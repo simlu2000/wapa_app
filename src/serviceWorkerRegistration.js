@@ -37,7 +37,7 @@ const registerValidSW = (swUrl) => {
             applicationServerKey: urlBase64ToUint8Array(vapid_key)
           }).then((subscription) => {
             console.log('Utente iscritto per le notifiche push:', subscription);
-            // Inviare il subscription endpoint al server per salvare l'iscrizione
+            
           });
         }
       });

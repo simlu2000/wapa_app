@@ -1,15 +1,20 @@
+require('dotenv').config(); //inclusione delle variabili d'ambiente
 const admin = require('firebase-admin');
 const express = require('express');
 const bodyParser = require('body-parser');
-const serviceAccount = require('./path/to/serviceAccountKey.json');
 
+// Configurazione Firebase Admin utilizzando variabili d'ambiente
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://wapa-4ec0a-default-rtdb.europe-west1.firebasedatabase.app/"
+    credential: admin.credential.cert({
+        projectId: process.env.FIREBASE_PROJECT_ID,
+        privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    }),
+    databaseURL: process.env.FIREBASE_DATABASE_URL,
 });
 
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json()); //body-parser per interpretare le richieste JSON
 
 // Funzione per inviare notifiche push
 function sendPushNotification(token, message) {
@@ -23,40 +28,38 @@ function sendPushNotification(token, message) {
 
     admin.messaging().send(payload)
         .then((response) => {
-            console.log('Message sent successfully:', response);
+            console.log('Messaggio inviato con successo:', response);
         })
         .catch((error) => {
-            console.error('Error sending message:', error);
+            console.error('Errore nell\'invio del messaggio:', error);
         });
 }
 
-// Endpoint per registrare il token
+// Endpoint per registrare il token FCM
 app.post('/api/notifications/subscribe', (req, res) => {
-    const { token, userId } = req.body; // Ottieni anche l'ID utente dal corpo della richiesta
+    const { token, userId } = req.body;
 
-    if (!userId) {
-        return res.status(400).send('User ID mancante.');
+    if (!token || !userId) {
+        return res.status(400).json({ message: 'Token o ID utente mancante.' });
     }
 
-    // Salva il token nel Realtime Database
+    // Salvo il token nel Realtime Database di Firebase
     admin.database().ref(`users/${userId}/fcmToken`).set(token)
         .then(() => {
-            res.status(200).send('Token registrato con successo.');
+            res.status(200).json({ message: 'Token registrato con successo.' });
         })
         .catch((error) => {
-            console.error('Error saving token:', error);
-            res.status(500).send('Errore nel salvataggio del token.');
+            console.error('Errore nel salvataggio del token:', error);
+            res.status(500).json({ message: 'Errore nel salvataggio del token.' });
         });
 });
 
-// Esempio di utilizzo della funzione
-const userDeviceToken = 'user_device_token'; // Sostituisci con il token del dispositivo dell'utente
-const alertMessage = 'Rain expected tomorrow, get your umbrella!';
+//utilizzo della funzione sendPushNotification
+const exampleToken = 'user_device_token'; // Sostituisci con un token reale
+const exampleMessage = 'Rain expected tomorrow, get your umbrella!';
+sendPushNotification(exampleToken, exampleMessage);
 
-// Invia un messaggio di esempio (puoi rimuovere questa parte se non necessaria)
-sendPushNotification(userDeviceToken, alertMessage);
-
-// Avvia il server
+// Avvio il server
 const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
     console.log(`Server in ascolto sulla porta ${PORT}`);
