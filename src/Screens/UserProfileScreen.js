@@ -132,14 +132,14 @@ const UserProfileScreen = ({ user }) => {
             <input id="user-email" className="user-info" type="email" value={user.email} readOnly />
             <label htmlFor="user-name" id="label2">Name:</label>
             <input id="user-name" className="user-info" type="text" value={user.displayName || "N/A"} readOnly />
-            <label id="label3">
+            {/*<label id="label3">
               <input
                 type="checkbox"
                 checked={notificationsEnabled}
                 onChange={handleToggleChange}
               />
               Notifications
-            </label>
+            </label>*/}
           </div>
           <div id="loc-area">
             <UserPlaces

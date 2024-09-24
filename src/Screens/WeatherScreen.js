@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom'; // Import useLocation for accessing navigation state
 import axios from 'axios';
 import { auth } from '../Utils/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 import { addLocation, removeLocation, getUserLocalities } from '../Utils/userService';
 import WindCharts from '../Components/Charts/WindCharts';
 import TempCharts from '../Components/Charts/TempCharts';
@@ -52,17 +53,33 @@ const WeatherScreen = () => {
         }
     };
 
+
     useEffect(() => {
-        if (Notification.permission !== 'granted') {
-            Notification.requestPermission().then(permission => {
-                if (permission === 'granted') {
-                    console.log("Permesso per le notifiche concesso.");
-                    subscribeUserToPush();
-                }
-            });
-        } else {
-            subscribeUserToPush();
-        }
+        // Verifica se l'utente è autenticato quando il componente si monta
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                subscribeUserToPush(user);
+            } else {
+                console.log("No logged user");
+            }
+        });
+
+        //pulizia effect
+        return () => unsubscribe();
+    }, []);
+
+
+    useEffect(() => {
+        Notification.requestPermission().then((permission) => {
+            if (permission === 'granted') {
+                console.log('Permesso per le notifiche concesso.');
+                subscribeUserToPush();
+
+            } else {
+                console.log('Permesso per le notifiche negato.');
+            }
+        });
+
     }, []);
 
 
@@ -88,16 +105,45 @@ const WeatherScreen = () => {
         }
     };
 
-    const subscribeUserToPush = async () => {
-        const registration = await navigator.serviceWorker.getRegistration();
-        const subscription = await registration.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: urlBase64ToUint8Array(vapid_key) // Conversione VAPID key
-        });
-
-        // Invio della subscription al server per salvare e gestire le notifiche
-        await sendSubscriptionToServer(subscription);
+   
+    const subscribeUserToPush = async (user) => {
+        // Verifica se l'utente è autenticato
+        if (!user || !user.uid) {
+            console.error("Errore: utente non autenticato.");
+            return;
+        }
+    
+        // Invia la subscription solo se l'utente è autenticato
+        if ('serviceWorker' in navigator) {
+            try {
+                const registration = await navigator.serviceWorker.ready;
+                const subscription = await registration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: urlBase64ToUint8Array(vapid_key),
+                });
+    
+                // Invia il token al server
+                await fetch('/api/notifications/subscribe', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        token: subscription.endpoint,
+                        userId: user.uid,
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+    
+                console.log('Iscrizione alle notifiche completata:', subscription);
+            } catch (error) {
+                console.error('Errore nell\'iscrizione alle notifiche:', error);
+            }
+        } else {
+            console.error('Service Workers non supportati nel browser.');
+        }
     };
+    
+    
 
     const urlBase64ToUint8Array = (base64String) => {
         const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -258,16 +304,16 @@ const WeatherScreen = () => {
             const conditions = weatherData.weather[0].main;
             const temp = weatherData.main.temp;
 
-            if (currentHour === 9 && currentMinutes>= 0 && currentMinutes < 10 && !morningNotificationSent) {
+            if (currentHour === 9 && currentMinutes >= 0 && currentMinutes < 10 && !morningNotificationSent) {
                 await sendNotification(`Good morning! The expected temperature for today is ${temp}°C.`);
                 setMorningNotificationSent(true);
-            } else if (currentHour === 14 && currentMinutes>= 0 && currentMinutes < 10 && !afternoonNotificationSent) {
+            } else if (currentHour === 14 && currentMinutes >= 0 && currentMinutes < 10 && !afternoonNotificationSent) {
                 await sendNotification(`Good afternoon! The actual temperature is ${temp}°C.`);
                 setAfternoonNotificationSent(true);
-            } else if (currentHour === 18 && currentMinutes>= 0 && currentMinutes < 10 && !eveningNotificationSent) {
+            } else if (currentHour === 18 && currentMinutes >= 0 && currentMinutes < 10 && !eveningNotificationSent) {
                 await sendNotification(`Good evening! The actual temperature is ${temp}°C.`);
                 setEveningNotificationSent(true);
-            } else if (currentHour === 21 && currentMinutes>= 0 && currentMinutes < 10 && !tomorrowForecastNotificationSent && tomorrowForecast) {
+            } else if (currentHour === 21 && currentMinutes >= 0 && currentMinutes < 10 && !tomorrowForecastNotificationSent && tomorrowForecast) {
                 const tomorrowWeather = tomorrowForecast.weather[0].description;
                 const tomorrowTempMin = Math.floor(tomorrowForecast.main.temp_min);
                 const tomorrowTempMax = Math.floor(tomorrowForecast.main.temp_max);

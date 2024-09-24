@@ -1,3 +1,6 @@
+// Aggiungi la verifica se l'utente è autenticato
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
   window.location.hostname === '[::1]' ||
@@ -37,7 +40,9 @@ const registerValidSW = (swUrl) => {
             applicationServerKey: urlBase64ToUint8Array(vapid_key)
           }).then((subscription) => {
             console.log('Utente iscritto per le notifiche push:', subscription);
-            
+            // Puoi inviare la subscription al server qui se necessario
+          }).catch((error) => {
+            console.error('Errore durante la sottoscrizione alle notifiche push:', error);
           });
         }
       });
@@ -47,7 +52,6 @@ const registerValidSW = (swUrl) => {
       displayError('Registrazione del Service Worker fallita. Riprova più tardi.');
     });
 };
-
 
 const displayError = (message) => {
   console.error(message);
@@ -87,15 +91,26 @@ function urlBase64ToUint8Array(base64String) {
   return outputArray;
 }
 
+// Funzione che controlla se l'utente è loggato prima di registrare il service worker
 export const register = () => {
   if ('serviceWorker' in navigator) {
     const swUrl = '/service-worker.js';
 
-    if (isLocalhost) {
-      checkValidServiceWorker(swUrl);
-    } else {
-      registerValidSW(swUrl);
-    }
+    // Ottieni l'oggetto di autenticazione di Firebase
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Se l'utente è autenticato, registra il service worker
+        console.log('Utente autenticato:', user);
+        if (isLocalhost) {
+          checkValidServiceWorker(swUrl);
+        } else {
+          registerValidSW(swUrl);
+        }
+      } else {
+        console.log('Nessun utente autenticato.');
+      }
+    });
   }
 };
 
