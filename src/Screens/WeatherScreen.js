@@ -107,21 +107,28 @@ const WeatherScreen = () => {
 
    
     const subscribeUserToPush = async (user) => {
+        // Verifica se l'utente è autenticato
         if (!user || !user.uid) {
             console.error("Errore: utente non autenticato.");
             return;
         }
     
-        if ('serviceWorker' in navigator && 'PushManager' in window) {
+        // Controlla se il browser supporta le notifiche. Ad esempio safari su mobile non le supporta
+        if (!("Notification" in window)) { 
+            console.error("Le notifiche push non sono supportate da questo browser.");
+            return;
+        }
+    
+        // Verifica che i Service Worker siano supportati
+        if ('serviceWorker' in navigator) {
             try {
                 const registration = await navigator.serviceWorker.ready;
-                console.log('Registrazione Service Worker:', registration);
-    
                 const subscription = await registration.pushManager.subscribe({
                     userVisibleOnly: true,
                     applicationServerKey: urlBase64ToUint8Array(vapid_key),
                 });
     
+                // Invia il token al server
                 await fetch('/api/notifications/subscribe', {
                     method: 'POST',
                     body: JSON.stringify({
@@ -138,9 +145,10 @@ const WeatherScreen = () => {
                 console.error('Errore nell\'iscrizione alle notifiche:', error);
             }
         } else {
-            console.error('Service Workers o Push Notifications non supportati nel browser.');
+            console.error('Service Workers non supportati nel browser.');
         }
     };
+    
     
     
 
