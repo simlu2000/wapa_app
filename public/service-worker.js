@@ -3,6 +3,7 @@ il caching e l'invio di notifiche push.*/
 // Installazione del Service Worker
 self.addEventListener('install', (event) => {
   console.log('Service worker installing...');
+  self.skipWaiting(); // Forza l'attivazione immediata del nuovo service worker
   event.waitUntil(
     caches.open('static-cache-v1').then((cache) => {
       return cache.addAll([
@@ -16,6 +17,10 @@ self.addEventListener('install', (event) => {
   );
 });
 
+
+// Attivazione del Service Worker
+//uso self.clients.claim() per far si che il service worker nuovo
+//prenda il controllo di tutte le scede aperte
 // Attivazione del Service Worker
 self.addEventListener('activate', (event) => {
   console.log('Service worker activating...');
@@ -31,7 +36,9 @@ self.addEventListener('activate', (event) => {
       );
     })
   );
+  self.clients.claim(); // Il nuovo service worker prende immediatamente il controllo
 });
+
 // Gestione della cache per le richieste fetch
 self.addEventListener('fetch', (event) => {
   console.log('Service worker fetching:', event.request.url);
