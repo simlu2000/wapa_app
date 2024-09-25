@@ -1,5 +1,3 @@
-/*Il service worker deve gestire l'installazione, l'attivazione, 
-il caching e l'invio di notifiche push.*/
 // Installazione del Service Worker
 self.addEventListener('install', (event) => {
   console.log('Service worker installing...');
@@ -17,10 +15,6 @@ self.addEventListener('install', (event) => {
   );
 });
 
-
-// Attivazione del Service Worker
-//uso self.clients.claim() per far si che il service worker nuovo
-//prenda il controllo di tutte le scede aperte
 // Attivazione del Service Worker
 self.addEventListener('activate', (event) => {
   console.log('Service worker activating...');
@@ -46,51 +40,23 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
   event.respondWith(
-      caches.match(event.request).then((response) => {
-          if (response) {
-              return response;
-          }
+    caches.match(event.request).then((response) => {
+      if (response) {
+        return response;
+      }
 
-          return fetch(event.request).then((networkResponse) => {
-              if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-                  return networkResponse;
-              }
+      return fetch(event.request).then((networkResponse) => {
+        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+          return networkResponse;
+        }
 
-              const responseClone = networkResponse.clone();
-              caches.open('static-cache-v1').then((cache) => {
-                  cache.put(event.request, responseClone);
-              });
+        const responseClone = networkResponse.clone();
+        caches.open('static-cache-v1').then((cache) => {
+          cache.put(event.request, responseClone);
+        });
 
-              return networkResponse;
-          });
-      }).catch(() => caches.match('/fallback.html'))
-  );
-});
-
-
-// Gestione delle notifiche push
-self.addEventListener('push', (event) => {
-  const data = event.data.json();
-  console.log('Push notification received:', data);
-
-  const options = {
-    body: data.body,
-    icon: '/icons/icon-192x192.png',
-    badge: '/icons/badge-72x72.png',
-    data: {
-      url: data.url
-    }
-  };
-
-  event.waitUntil(
-    self.registration.showNotification(data.title, options)
-  );
-});
-
-// Gestire il click sulle notifiche push
-self.addEventListener('notificationclick', (event) => {
-  event.notification.close();
-  event.waitUntil(
-    clients.openWindow(event.notification.data.url)
+        return networkResponse;
+      });
+    }).catch(() => caches.match('/fallback.html'))
   );
 });

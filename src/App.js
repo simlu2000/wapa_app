@@ -16,6 +16,14 @@ import AboutScreen from './Screens/AboutScreen';
 const App = () => {
     const [user, setUser] = useState(null);
 
+    //una volta rilevato un nuovo service worker, verrà ricaricata la pagina solo una volta, evitando ripetuti popup.
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          window.location.reload();
+        });
+      }
+
+      
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, user => {
             setUser(user ? user : null);

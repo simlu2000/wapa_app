@@ -6,8 +6,6 @@ const isLocalhost = Boolean(
   window.location.hostname.match(/^127(\.[0-9]+){0,3}$/)
 );
 
-const vapid_key = process.env.REACT_APP_vapid_key;
-
 const showUpdateNotification = () => {
   alert('Una nuova versione è disponibile. Si prega di aggiornare.');
 };
@@ -59,28 +57,12 @@ const checkValidServiceWorker = (swUrl) => {
     });
 };
 
-// Helper per convertire la chiave VAPID
-function urlBase64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - base64String.length % 4) % 4);
-  const base64 = (base64String + padding)
-    .replace(/-/g, '+')
-    .replace(/_/g, '/');
-
-  const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
-
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-  return outputArray;
-}
-
 export const register = () => {
   if ('serviceWorker' in navigator) {
     const swUrl = '/service-worker.js';
 
     const auth = getAuth();
-    onAuthStateChanged(auth, async (user) => {
+    onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log('Utente autenticato:', user);
         
@@ -90,45 +72,12 @@ export const register = () => {
         } else {
           registerValidSW(swUrl);
         }
-
-        const registration = await navigator.serviceWorker.ready;
-
-        // Verifica se il PushManager e Notification sono supportati
-        if ('PushManager' in window && 'Notification' in window) {
-          const permission = await Notification.requestPermission();
-          if (permission === 'granted') {
-            registration.pushManager.getSubscription().then((subscription) => {
-              if (!subscription) {
-                return registration.pushManager.subscribe({
-                  userVisibleOnly: true,
-                  applicationServerKey: urlBase64ToUint8Array(vapid_key),
-                });
-              } else {
-                console.log('Utente già iscritto per le notifiche push:', subscription);
-                return subscription;
-              }
-            }).then((newSubscription) => {
-              if (newSubscription) {
-                console.log('Utente iscritto per le notifiche push:', newSubscription);
-                // Logica per inviare il token al server
-              }
-            }).catch((error) => {
-              console.error('Errore durante la sottoscrizione alle notifiche push:', error);
-            });
-          } else {
-            console.warn('Permesso per le notifiche non concesso');
-          }
-        } else {
-          console.warn('Il browser non supporta le notifiche push o Notification non è disponibile.');
-        }
       } else {
-        console.log('Nessun utente autenticato. Disabilito le notifiche push.');
-        // Se necessario, potresti anche annullare la sottoscrizione push qui
+        console.log('Nessun utente autenticato.');
       }
     });
   }
 };
-
 
 export const unregister = () => {
   if ('serviceWorker' in navigator) {

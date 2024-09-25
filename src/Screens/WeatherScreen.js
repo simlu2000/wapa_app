@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom'; // Import useLocation for accessing navigation state
 import axios from 'axios';
 import { auth } from '../Utils/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
 import { addLocation, removeLocation, getUserLocalities } from '../Utils/userService';
 import WindCharts from '../Components/Charts/WindCharts';
 import TempCharts from '../Components/Charts/TempCharts';
@@ -19,10 +18,10 @@ import Loader from '../Components/loader';
 import '../Styles/style_weatherscreen.css';
 import animationData from '../Animations/Animation - 1726518835813.json';
 import Lottie from 'react-lottie';
-import { register } from '../serviceWorkerRegistration';
+import { getAuth } from 'firebase/auth';
+import { register } from '../../src/serviceWorkerRegistration';
 
 const Api_Key_OpenWeather = process.env.REACT_APP_Api_Key_OpenWeather;
-const vapid_key = process.env.REACT_APP_vapid_key;
 
 const WeatherScreen = () => {
     const [weatherData, setWeatherData] = useState(null);
@@ -35,15 +34,7 @@ const WeatherScreen = () => {
     const [user, setUser] = useState(null);
     const locationState = useLocation();
     const [isOffline, setIsOffline] = useState(!navigator.onLine);
-    const [morningNotificationSent, setMorningNotificationSent] = useState(false);
-    const [afternoonNotificationSent, setAfternoonNotificationSent] = useState(false);
-    const [eveningNotificationSent, setEveningNotificationSent] = useState(false);
-    const [extremeNotificationSent, setExtremeNotificationSent] = useState(false);
-    const [rainyNotificationSent, setRainyNotificationSent] = useState(false);
-    const [thunderstormNotificationSent, setThunderstormNotificationSent] = useState(false);
-    const [testNotificationSent, setTestNotificationSent] = useState(false);
-    const [tomorrowForecastNotificationSent, setTomorrowForecastNotificationSent] = useState(false);
-
+    
     const defaultOptions = {
         loop: true,
         autoplay: true,
@@ -52,34 +43,6 @@ const WeatherScreen = () => {
             preserveAspectRatio: 'xMidYMid slice'
         }
     };
-
-
-    useEffect(() => {
-        // Verifica se l'utente è autenticato quando il componente si monta
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                setUser(user);
-                subscribeUserToPush(user);
-            }
-        });
-
-        return () => unsubscribe();
-    }, []);
-
-
-    useEffect(() => {
-        Notification.requestPermission().then((permission) => {
-            if (permission === 'granted') {
-                console.log('Permesso per le notifiche concesso.');
-                subscribeUserToPush();
-
-            } else {
-                console.log('Permesso per le notifiche negato.');
-            }
-        });
-
-    }, []);
-
 
     useEffect(() => {
         const handleOnline = () => setIsOffline(false);
@@ -93,70 +56,6 @@ const WeatherScreen = () => {
             window.removeEventListener('offline', handleOffline);
         };
     }, []);
-
-    const sendSubscriptionToServer = async (subscription) => {
-        try {
-            await axios.post('/api/notifications/subscribe', subscription);
-            console.log('Subscription sent to server:', subscription);
-        } catch (error) {
-            console.error('Error sending subscription to server', error);
-        }
-    };
-
-
-    const subscribeUserToPush = async (user) => {
-        // Verifica se l'utente è autenticato
-        if (!user || !user.uid) {
-            console.error("Errore: utente non autenticato.");
-            return;
-        }
-
-        // Controlla se il browser supporta le notifiche. Ad esempio safari su mobile non le supporta
-        if (!("Notification" in window)) {
-            console.error("Le notifiche push non sono supportate da questo browser.");
-            return;
-        }
-
-        // Verifica che i Service Worker siano supportati
-        if ('serviceWorker' in navigator) {
-            try {
-                const registration = await navigator.serviceWorker.ready;
-                const subscription = await registration.pushManager.subscribe({
-                    userVisibleOnly: true,
-                    applicationServerKey: urlBase64ToUint8Array(vapid_key),
-                });
-
-                // Invia il token al server
-                await fetch('/api/notifications/subscribe', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        token: subscription.endpoint,
-                        userId: user.uid,
-                    }),
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-
-                console.log('Iscrizione alle notifiche completata:', subscription);
-            } catch (error) {
-                console.error('Errore nell\'iscrizione alle notifiche:', error);
-            }
-        } else {
-            console.error('Service Workers non supportati nel browser.');
-        }
-    };
-
-
-
-
-    const urlBase64ToUint8Array = (base64String) => {
-        const padding = '='.repeat((4 - base64String.length % 4) % 4);
-        const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-        const rawData = window.atob(base64);
-        return Uint8Array.from([...rawData].map(char => char.charCodeAt(0)));
-    };
-
 
     useEffect(() => {
         const getUserLocation = () => {
@@ -176,12 +75,8 @@ const WeatherScreen = () => {
                 console.error('Geolocalizzazione non consentita dal browser');
             }
         };
-
-        // Verifica se la posizione è già stata impostata
-        if (location.latitude === null || location.longitude === null) {
-            getUserLocation();
-        }
-    }, [location]);
+        getUserLocation();
+    }, []);
 
     useEffect(() => {
         // Registrazione
@@ -200,22 +95,6 @@ const WeatherScreen = () => {
                     setCity(weatherResponse.data.name);
                     setAirPollutionData(airPollutionResponse.data.list[0].components);
                     setForecastData(forecastResponse.data.list);
-
-                    // Controlla le condizioni meteorologiche e invia notifiche
-                    if ('Notification' in window) {
-                        // Controllo se l'utente è su iOS
-                        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window.MSStream);
-
-                        if (!isIOS) {
-                            checkWeatherAndNotify(weatherResponse.data);
-                        } else {
-                            console.log("Notifiche non supportate o disabilitate per iOS.");
-                            alert("Le notifiche push non sono supportate su iOS. Assicurati di controllare le previsioni meteo regolarmente!");
-
-                        }
-                    }
-
-
                 } catch (error) {
                     console.error("Errore durante il recupero dei dati meteorologici", error);
                 } finally {
@@ -231,7 +110,6 @@ const WeatherScreen = () => {
             fetchWeatherBySearchedLocation(locationState.state.query);
         }
     }, [locationState]);
-
 
     const fetchWeatherBySearchedLocation = async (searchLocation) => {
         try {
@@ -305,85 +183,6 @@ const WeatherScreen = () => {
         const alpha = (x * temp) / (y + temp) + Math.log(hum / 100);
         return (y * alpha) / (x - alpha);
     };
-
-    async function checkWeatherAndNotify(weatherData) {
-        const user = auth.currentUser;
-
-        if (!user) {
-            console.log("Nessun utente loggato.");
-            return;
-        }
-
-        // Controllo se l'utente è su iOS
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window.MSStream);
-        if (isIOS) {
-            console.log("Notifiche non inviate agli utenti su iOS.");
-            return; // Esci dalla funzione se l'utente è su iOS
-        }
-
-        try {
-            const currentHour = new Date().getHours();
-            const currentMinutes = new Date().getMinutes();
-            const tomorrowForecast = forecastData && forecastData.length > 0 ? forecastData[8] : null; // Previsione per domani
-            const conditions = weatherData.weather[0].main;
-            const temp = weatherData.main.temp;
-
-            if (currentHour === 9 && currentMinutes >= 0 && currentMinutes < 10 && !morningNotificationSent) {
-                await sendNotification(`Good morning! The expected temperature for today is ${temp}°C.`);
-                setMorningNotificationSent(true);
-            } else if (currentHour === 14 && currentMinutes >= 0 && currentMinutes < 10 && !afternoonNotificationSent) {
-                await sendNotification(`Good afternoon! The actual temperature is ${temp}°C.`);
-                setAfternoonNotificationSent(true);
-            } else if (currentHour === 18 && currentMinutes >= 0 && currentMinutes < 10 && !eveningNotificationSent) {
-                await sendNotification(`Good evening! The actual temperature is ${temp}°C.`);
-                setEveningNotificationSent(true);
-            } else if (currentHour === 21 && currentMinutes >= 0 && currentMinutes < 10 && !tomorrowForecastNotificationSent && tomorrowForecast) {
-                const tomorrowWeather = tomorrowForecast.weather[0].description;
-                const tomorrowTempMin = Math.floor(tomorrowForecast.main.temp_min);
-                const tomorrowTempMax = Math.floor(tomorrowForecast.main.temp_max);
-                await sendNotification(`🌅 Tomorrow's forecast: ${tomorrowWeather}, Min: ${tomorrowTempMin}°C, Max: ${tomorrowTempMax}°C.`);
-                setTomorrowForecastNotificationSent(true);
-            }
-
-            // Controllo delle condizioni meteorologiche per le notifiche di allerta
-            if (conditions === 'Thunderstorm' && !thunderstormNotificationSent) {
-                await sendNotification('⚡ Warning: a storm is expected!');
-                setThunderstormNotificationSent(true);
-            } else if (conditions === 'Rain' && !rainyNotificationSent) {
-                await sendNotification('🌧️ Warning: raining is expected!');
-                setRainyNotificationSent(true);
-            }
-
-            // Controllo della temperatura estrema
-            if (temp <= 0 && !extremeNotificationSent) {
-                await sendNotification('❄️ Warning: Extreme low temperature expected!');
-                setExtremeNotificationSent(true);
-            }
-            if (temp >= 35 && !extremeNotificationSent) {
-                await sendNotification('🔥 Warning: Extreme high temperature expected!');
-                setExtremeNotificationSent(true);
-            }
-
-        } catch (error) {
-            console.error("Errore durante il controllo delle notifiche", error);
-        }
-    }
-
-
-
-
-    //verifico permessi prima di mandare notifica
-    //se permesso ok, usa l'API delle notifiche per mostrare un messaggio all'utente
-    const sendNotification = async (message) => {
-        if (Notification.permission === 'granted') {
-            new Notification(message);
-        }
-    };
-
-    if (loading) {
-        return <Loader />;
-    }
-
 
     return (
         <>
