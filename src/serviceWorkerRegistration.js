@@ -118,6 +118,8 @@ export const register = () => {
           } else {
             console.warn('Permesso per le notifiche non concesso');
           }
+        } else {
+          console.warn('Il browser non supporta le notifiche push o Notification non è disponibile.');
         }
       } else {
         console.log('Nessun utente autenticato. Disabilito le notifiche push.');
@@ -126,6 +128,7 @@ export const register = () => {
     });
   }
 };
+
 
 export const unregister = () => {
   if ('serviceWorker' in navigator) {
