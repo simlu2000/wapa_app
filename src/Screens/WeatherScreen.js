@@ -210,6 +210,8 @@ const WeatherScreen = () => {
                             checkWeatherAndNotify(weatherResponse.data);
                         } else {
                             console.log("Notifiche non supportate o disabilitate per iOS.");
+                            alert("Le notifiche push non sono supportate su iOS. Assicurati di controllare le previsioni meteo regolarmente!");
+
                         }
                     }
 

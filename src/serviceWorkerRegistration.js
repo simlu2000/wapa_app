@@ -1,4 +1,3 @@
-// Aggiungi la verifica se l'utente è autenticato
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const isLocalhost = Boolean(
@@ -75,6 +74,7 @@ function urlBase64ToUint8Array(base64String) {
   }
   return outputArray;
 }
+
 export const register = () => {
   if ('serviceWorker' in navigator) {
     const swUrl = '/service-worker.js';
@@ -83,6 +83,8 @@ export const register = () => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         console.log('Utente autenticato:', user);
+        
+        // Controllo se sono in localhost
         if (isLocalhost) {
           checkValidServiceWorker(swUrl);
         } else {
@@ -91,6 +93,7 @@ export const register = () => {
 
         const registration = await navigator.serviceWorker.ready;
 
+        // Verifica se il PushManager e Notification sono supportati
         if ('PushManager' in window && 'Notification' in window) {
           const permission = await Notification.requestPermission();
           if (permission === 'granted') {
@@ -107,15 +110,18 @@ export const register = () => {
             }).then((newSubscription) => {
               if (newSubscription) {
                 console.log('Utente iscritto per le notifiche push:', newSubscription);
-              
+                // Logica per inviare il token al server
               }
             }).catch((error) => {
               console.error('Errore durante la sottoscrizione alle notifiche push:', error);
             });
+          } else {
+            console.warn('Permesso per le notifiche non concesso');
           }
         }
       } else {
-        console.log('Nessun utente autenticato.');
+        console.log('Nessun utente autenticato. Disabilito le notifiche push.');
+        // Se necessario, potresti anche annullare la sottoscrizione push qui
       }
     });
   }
