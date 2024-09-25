@@ -103,20 +103,20 @@ const WeatherScreen = () => {
         }
     };
 
-   
+
     const subscribeUserToPush = async (user) => {
         // Verifica se l'utente è autenticato
         if (!user || !user.uid) {
             console.error("Errore: utente non autenticato.");
             return;
         }
-    
+
         // Controlla se il browser supporta le notifiche. Ad esempio safari su mobile non le supporta
-        if (!("Notification" in window)) { 
+        if (!("Notification" in window)) {
             console.error("Le notifiche push non sono supportate da questo browser.");
             return;
         }
-    
+
         // Verifica che i Service Worker siano supportati
         if ('serviceWorker' in navigator) {
             try {
@@ -125,7 +125,7 @@ const WeatherScreen = () => {
                     userVisibleOnly: true,
                     applicationServerKey: urlBase64ToUint8Array(vapid_key),
                 });
-    
+
                 // Invia il token al server
                 await fetch('/api/notifications/subscribe', {
                     method: 'POST',
@@ -137,7 +137,7 @@ const WeatherScreen = () => {
                         'Content-Type': 'application/json',
                     },
                 });
-    
+
                 console.log('Iscrizione alle notifiche completata:', subscription);
             } catch (error) {
                 console.error('Errore nell\'iscrizione alle notifiche:', error);
@@ -146,9 +146,9 @@ const WeatherScreen = () => {
             console.error('Service Workers non supportati nel browser.');
         }
     };
-    
-    
-    
+
+
+
 
     const urlBase64ToUint8Array = (base64String) => {
         const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -156,7 +156,7 @@ const WeatherScreen = () => {
         const rawData = window.atob(base64);
         return Uint8Array.from([...rawData].map(char => char.charCodeAt(0)));
     };
-    
+
 
     useEffect(() => {
         const getUserLocation = () => {
@@ -202,7 +202,18 @@ const WeatherScreen = () => {
                     setForecastData(forecastResponse.data.list);
 
                     // Controlla le condizioni meteorologiche e invia notifiche
-                    checkWeatherAndNotify(weatherResponse.data);
+                    if ('Notification' in window) {
+                        // Controllo se l'utente è su iOS
+                        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window.MSStream);
+
+                        if (!isIOS) {
+                            checkWeatherAndNotify(weatherResponse.data);
+                        } else {
+                            console.log("Notifiche non supportate o disabilitate per iOS.");
+                        }
+                    }
+
+
                 } catch (error) {
                     console.error("Errore durante il recupero dei dati meteorologici", error);
                 } finally {
@@ -295,26 +306,26 @@ const WeatherScreen = () => {
 
     async function checkWeatherAndNotify(weatherData) {
         const user = auth.currentUser;
-    
+
         if (!user) {
             console.log("Nessun utente loggato.");
             return;
         }
-    
+
         // Controllo se l'utente è su iOS
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window.MSStream);
         if (isIOS) {
             console.log("Notifiche non inviate agli utenti su iOS.");
             return; // Esci dalla funzione se l'utente è su iOS
         }
-    
+
         try {
             const currentHour = new Date().getHours();
             const currentMinutes = new Date().getMinutes();
             const tomorrowForecast = forecastData && forecastData.length > 0 ? forecastData[8] : null; // Previsione per domani
             const conditions = weatherData.weather[0].main;
             const temp = weatherData.main.temp;
-    
+
             if (currentHour === 9 && currentMinutes >= 0 && currentMinutes < 10 && !morningNotificationSent) {
                 await sendNotification(`Good morning! The expected temperature for today is ${temp}°C.`);
                 setMorningNotificationSent(true);
@@ -331,7 +342,7 @@ const WeatherScreen = () => {
                 await sendNotification(`🌅 Tomorrow's forecast: ${tomorrowWeather}, Min: ${tomorrowTempMin}°C, Max: ${tomorrowTempMax}°C.`);
                 setTomorrowForecastNotificationSent(true);
             }
-    
+
             // Controllo delle condizioni meteorologiche per le notifiche di allerta
             if (conditions === 'Thunderstorm' && !thunderstormNotificationSent) {
                 await sendNotification('⚡ Warning: a storm is expected!');
@@ -340,7 +351,7 @@ const WeatherScreen = () => {
                 await sendNotification('🌧️ Warning: raining is expected!');
                 setRainyNotificationSent(true);
             }
-    
+
             // Controllo della temperatura estrema
             if (temp <= 0 && !extremeNotificationSent) {
                 await sendNotification('❄️ Warning: Extreme low temperature expected!');
@@ -350,12 +361,12 @@ const WeatherScreen = () => {
                 await sendNotification('🔥 Warning: Extreme high temperature expected!');
                 setExtremeNotificationSent(true);
             }
-    
+
         } catch (error) {
             console.error("Errore durante il controllo delle notifiche", error);
         }
     }
-    
+
 
 
 
