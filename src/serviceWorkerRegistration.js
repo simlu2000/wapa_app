@@ -1,4 +1,4 @@
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+// Questo file gestisce la registrazione del service worker
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
@@ -6,76 +6,59 @@ const isLocalhost = Boolean(
   window.location.hostname.match(/^127(\.[0-9]+){0,3}$/)
 );
 
-const showUpdateNotification = () => {
-  alert('Una nuova versione è disponibile. Si prega di aggiornare.');
-};
-
 const registerValidSW = (swUrl) => {
   navigator.serviceWorker
     .register(swUrl)
     .then((registration) => {
-      console.log('Service Worker registrato con successo:', registration);
-
+      console.log('Service Worker registrato:', registration);
+      // Rileva un nuovo service worker o aggiornamenti disponibili
+      registration.onupdateavailable = () => {
+        console.log('Aggiornamento del service worker disponibile');
+        // Puoi avvisare l'utente dell'aggiornamento qui, ad esempio tramite una notifica
+      };
       registration.onupdatefound = () => {
-        const installingWorker = registration.installing;
-        installingWorker.onstatechange = () => {
-          if (installingWorker.state === 'installed') {
-            if (navigator.serviceWorker.controller) {
-              showUpdateNotification();
-            } else {
-              console.log('Contenuto precaricato per uso offline.');
-            }
-          }
-        };
+        console.log('Nuovo service worker trovato');
       };
     })
     .catch((error) => {
       console.error('Registrazione del Service Worker fallita:', error);
-      displayError('Registrazione del Service Worker fallita. Riprova più tardi.');
     });
-};
-
-const displayError = (message) => {
-  console.error(message);
 };
 
 const checkValidServiceWorker = (swUrl) => {
   fetch(swUrl)
     .then((response) => {
-      if (response.status === 404 || response.headers.get('content-type').indexOf('javascript') === -1) {
+      if (
+        response.status === 404 ||
+        response.headers.get('content-type')?.indexOf('javascript') === -1
+      ) {
+        // Service worker non valido o non trovato, deregistra il worker
         navigator.serviceWorker.ready.then((registration) => {
           registration.unregister().then(() => {
             window.location.reload();
           });
         });
       } else {
+        // Registra il service worker valido
         registerValidSW(swUrl);
       }
     })
     .catch(() => {
-      console.log('Nessuna connessione Internet. L\'app funziona in modalità offline.');
+      console.error('Network error durante la verifica del service worker');
     });
 };
 
 export const register = () => {
   if ('serviceWorker' in navigator) {
-    const swUrl = '/service-worker.js';
+    const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log('Utente autenticato:', user);
-        
-        // Controllo se sono in localhost
-        if (isLocalhost) {
-          checkValidServiceWorker(swUrl);
-        } else {
-          registerValidSW(swUrl);
-        }
-      } else {
-        console.log('Nessun utente autenticato.');
-      }
-    });
+    if (isLocalhost) {
+      // Verifica se il service worker è valido su localhost
+      checkValidServiceWorker(swUrl);
+    } else {
+      // Registra il service worker per la produzione
+      registerValidSW(swUrl);
+    }
   }
 };
 
