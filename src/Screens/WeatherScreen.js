@@ -11,12 +11,17 @@ import PressureCharts from '../Components/Charts/PressureCharts';
 import Sunrise from '../Components/Charts/Sunrise';
 import Sunset from '../Components/Charts/Sunset';
 import Forecast from '../Components/Forecast';
+import TodayForecast from '../Components/TodayForecast';
 import PercentageBox from '../Components/PercentageBox';
 import UserPlaces from '../Components/UserPlaces';
 import Loader from '../Components/loader';
 import '../Styles/style_weatherscreen.css';
+import animationData from '../Animations/Animation - 1726518835813.json';
+import Lottie from 'react-lottie';
+import { register } from '../serviceWorkerRegistration';
 
 const Api_Key_OpenWeather = process.env.REACT_APP_Api_Key_OpenWeather;
+const vapid_key = process.env.REACT_APP_vapid_key;
 
 const WeatherScreen = () => {
     const [weatherData, setWeatherData] = useState(null);
@@ -28,22 +33,31 @@ const WeatherScreen = () => {
     const [userLocalities, setUserLocalities] = useState([]);
     const [user, setUser] = useState(null);
     const locationState = useLocation();
+    const [isOffline, setIsOffline] = useState(!navigator.onLine);
+   
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: animationData,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+        }
+    };
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
-            setUser(currentUser);
-            if (currentUser) {
-                try {
-                    const localities = await getUserLocalities(currentUser.uid);
-                    setUserLocalities(localities);
-                } catch (error) {
-                    console.error('Error fetching user localities', error);
-                }
-            }
-        });
-        return () => unsubscribe();
+        const handleOnline = () => setIsOffline(false);
+        const handleOffline = () => setIsOffline(true);
+
+        window.addEventListener('online', handleOnline);
+        window.addEventListener('offline', handleOffline);
+
+        return () => {
+            window.removeEventListener('online', handleOnline);
+            window.removeEventListener('offline', handleOffline);
+        };
     }, []);
 
+   
     useEffect(() => {
         const getUserLocation = () => {
             if (navigator.geolocation) {
@@ -55,17 +69,24 @@ const WeatherScreen = () => {
                         });
                     },
                     error => {
-                        console.error('Error retrieving user location', error);
+                        console.error('Errore nel recupero della posizione dell\'utente', error);
                     }
                 );
             } else {
-                console.error('Geolocation not permitted by the browser');
+                console.error('Geolocalizzazione non consentita dal browser');
             }
         };
-        getUserLocation();
-    }, []);
+
+        // Verifica se la posizione è già stata impostata
+        if (location.latitude === null || location.longitude === null) {
+            getUserLocation();
+        }
+    }, [location]);
 
     useEffect(() => {
+        // Registrazione
+        register();
+
         const fetchWeatherData = async () => {
             if (location.latitude && location.longitude) {
                 try {
@@ -79,8 +100,9 @@ const WeatherScreen = () => {
                     setCity(weatherResponse.data.name);
                     setAirPollutionData(airPollutionResponse.data.list[0].components);
                     setForecastData(forecastResponse.data.list);
+
                 } catch (error) {
-                    console.error("Error during fetching weather data", error);
+                    console.error("Errore durante il recupero dei dati meteorologici", error);
                 } finally {
                     setLoading(false);
                 }
@@ -94,6 +116,7 @@ const WeatherScreen = () => {
             fetchWeatherBySearchedLocation(locationState.state.query);
         }
     }, [locationState]);
+
 
     const fetchWeatherBySearchedLocation = async (searchLocation) => {
         try {
@@ -112,7 +135,7 @@ const WeatherScreen = () => {
             );
             setForecastData(forecastResponse.data.list);
         } catch (error) {
-            console.error("Error. Location not found", error);
+            console.error("Errore. Località non trovata", error);
         }
     };
 
@@ -168,166 +191,149 @@ const WeatherScreen = () => {
         return (y * alpha) / (x - alpha);
     };
 
-    const checkWeatherAndNotify = (weatherData) => {
-        if (!weatherData) return;
-
-        const weatherMain = weatherData.weather[0].main;
-        let notificationPayload = null;
-
-        if (weatherMain === 'Rain') {
-            notificationPayload = {
-                title: 'Weather Alert',
-                body: 'Rain expected tomorrow, get your umbrella!',
-            };
-        } else if (weatherMain === 'Thunderstorm') {
-            notificationPayload = {
-                title: 'Weather Alert',
-                body: 'Thunderstorm alert! Stay indoors and avoid outdoor activities!',
-            };
-        } else if (weatherData.main.temp < 0) {
-            notificationPayload = {
-                title: 'Weather Alert',
-                body: 'Temperature extremely low! Dress warmly!',
-            };
-        } else if (weatherData.main.temp > 35) {
-            notificationPayload = {
-                title: 'Weather Alert',
-                body: 'Temperature extremely high! Drink a lot of water and avoid direct sun!',
-            };
-        }
-
-        if (notificationPayload) {
-            sendNotification(notificationPayload);
-        }
-    };
-
-    const sendNotification = (payload) => {
-        navigator.serviceWorker.ready.then(function (registration) {
-            registration.showNotification(payload.title, {
-                body: payload.body,
-                icon: 'icon.png',
-                badge: 'badge.png'
-            });
-        });
-    };
+    if (loading) {
+        return <Loader />;
+    }
 
 
     return (
         <>
-            <section
-                id="weather-intro"
-                className="container-data"
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: 'background-image 0.5s ease-in-out',
-                    backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)',
-                }}
-            >
-                <section className="mini-container">
-                    <div id="meteo-title">
+            {loading ? (
+                <div className="animation-container">
+                    <Lottie
+                        options={defaultOptions}
+                        height={"200px"}
+                        width={"200px"}
+                    />        </div>
+            ) : (<>
+                <section
+                    id="weather-intro"
+                    className="container-data"
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'background-image 0.5s ease-in-out',
+                        backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)',
+                    }}
+                >
+                    <section className="mini-container">
                         {loading ? (
-                            <h1>Loading...</h1>
+                            <div className="animation-container">
+                                <Lottie options={defaultOptions} height={200} width={200} />
+                            </div>
                         ) : (
-                            <>
-                                <h1 className="meteo-title">In {city}:</h1>
-                                <h1 className="meteo-title">{weatherData.weather[0].description}</h1>
-                                <h1 className="meteo-title">Feels {Math.floor(weatherData.main.feels_like)} °C</h1>
-                                <h2 className="meteo-subtitle">Min: {Math.floor(weatherData.main.temp_min)} °C</h2>
-                                <h2 className="meteo-subtitle">Max: {Math.floor(weatherData.main.temp_max)} °C</h2>
-                            </>
+                            <div id="meteo-title">
+
+                                <>
+                                    <h2 className="meteo-subtitle">
+                                        {new Date((new Date().getTime() + weatherData.timezone * 1000)).toLocaleTimeString('en-US', { timeZone: 'UTC' })}
+                                    </h2>
+
+                                    <h1 className="meteo-title">In {city}:</h1>
+                                    <h1 className="meteo-title">{weatherData.weather[0].description}, feels {Math.floor(weatherData.main.feels_like)} °C</h1>
+                                    {/*<h1 className="meteo-subtitle">Feels {Math.floor(weatherData.main.feels_like)} °C</h1>*/}
+                                    <div>
+                                        <h2 className="meteo-subtitle">Min: {Math.floor(weatherData.main.temp_min)} °C</h2>
+                                        <h2 className="meteo-subtitle">Max: {Math.floor(weatherData.main.temp_max)} °C</h2>
+                                    </div>
+
+                                </>
+
+                            </div>
                         )}
-                    </div>
 
-                    {forecastData && (
-                        <Forecast forecast={forecastData} isMobile={true} />
-                    )}
-                </section>
-            </section>
-
-            {weatherData && weatherData.clouds && (
-                <section id="meteo-area" className="today-data">
-                    {user && (
-                        <section id="loc" className="meteo-box-container" style={{
-                            backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)'
-                        }}>
-                            <UserPlaces
-                                userId={user.uid}
-                                onAddLocation={handleAddLocation}
-                                onRemoveLocation={handleRemoveLocation}
-                                onSelectLocation={handleSelectLocation}
-                                getUserLocalities={getUserLocalities}
-                            />
-                        </section>
-                    )}
-
-                    <div className="charts-container" style={{
-                        backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)'
-                    }}>
-                        <WindCharts windSpeed={weatherData.wind.speed} />
-                        <TempCharts initialTemperature={weatherData.main.temp} />
-                        <PressureCharts initialPressure={weatherData.main.pressure} />
-                    </div>
-
-                    <section className="meteo-box-container" style={{
-                        backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)'
-                    }}>
-                        <section id="clouds" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Clouds {weatherData.clouds.all}%</h3>
-                            <div className="progress-bar">
-                                <div className="progress" style={{ width: `${weatherData.clouds.all}%` }}>
-                                    <PercentageBox label={`${weatherData.clouds.all}%`} />
-                                </div>
-                            </div>
-                        </section>
-                        <section id="humidity" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Humidity {weatherData.main.humidity}%</h3>
-                            <div className="progress-bar">
-                                <div className="progress" style={{ width: `${weatherData.main.humidity}%` }}>
-                                    <PercentageBox label={`${weatherData.main.humidity}%`} />
-                                </div>
-                            </div>
-                        </section>
-                        <section id="temp-min" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Temp Min</h3>
-                            <div className="progress-bar">
-                                <div className="progress" style={{ width: `${weatherData.main.temp_min}%` }}>
-                                    <PercentageBox label={`${weatherData.main.temp_min}C°`} />
-                                </div>
-                            </div>
-                        </section>
-                        <section id="temp-max" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Temp Max: {weatherData.main.temp_max} C°</h3>
-                            <div className="progress-bar">
-                                <div className="progress" style={{ width: `${weatherData.main.temp_max}%` }}>
-                                    <PercentageBox label={`${weatherData.main.temp_max}C°`} />
-                                </div>
-                            </div>                        </section>
-                        <section id="lat" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Lat {location.latitude}</h3>
-                        </section>
-                        <section id="lon" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Lon {location.longitude}</h3>
-                        </section>
-                        <section id="sunrise" className="data-boxes meteo-box">
-                            <Sunrise sunriseTime={weatherData.sys.sunrise} />
-                        </section>
-                        <section id="sunset" className="data-boxes meteo-box">
-                            <Sunset sunsetTime={weatherData.sys.sunset} />
-                        </section>
-                        <section id="dew-point" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Dew Point</h3>
-                            <MoreDataCharts value={calculateDewPoint(weatherData.main.temp, weatherData.main.humidity).toFixed(1)} />
-                        </section>
-                        <section id="air-pollution" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Air Poll. µg/m³</h3>
-                            <MoreDataCharts value={airPollutionData ? airPollutionData.pm2_5 : 'N/A'} />
-                        </section>
+                        {forecastData && (
+                            <TodayForecast forecast={forecastData} isMobile={true} />
+                        )}
                     </section>
                 </section>
-            )}
+
+                {weatherData && weatherData.clouds && forecastData && (
+                    <section id="meteo-area" className="today-data">
+                        <Forecast forecast={forecastData} isMobile={true} />
+
+                        {user && (
+                            <section id="loc" className="meteo-box-container" style={{
+                                backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)'
+                            }}>
+                                <UserPlaces
+                                    userId={user.uid}
+                                    onAddLocation={handleAddLocation}
+                                    onRemoveLocation={handleRemoveLocation}
+                                    onSelectLocation={handleSelectLocation}
+                                    getUserLocalities={getUserLocalities}
+                                />
+                            </section>
+                        )}
+
+                        <div className="charts-container" style={{
+                            backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)'
+                        }}>
+                            <WindCharts windSpeed={weatherData.wind.speed} />
+                            {/*<TempCharts initialTemperature={weatherData.main.temp} />*/}
+                            <PressureCharts initialPressure={weatherData.main.pressure} />
+                        </div>
+
+                        <section className="meteo-box-container" style={{
+                            backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)'
+                        }}>
+                            <section id="clouds" className="data-boxes meteo-box">
+                                <h3 className="meteo-box-label">Clouds {weatherData.clouds.all}%</h3>
+                                <div className="progress-bar">
+                                    <div className="progress" style={{ width: `${weatherData.clouds.all}%` }}>
+                                        <PercentageBox label={`${weatherData.clouds.all}%`} />
+                                    </div>
+                                </div>
+                            </section>
+                            <section id="humidity" className="data-boxes meteo-box">
+                                <h3 className="meteo-box-label">Humidity {weatherData.main.humidity}%</h3>
+                                <div className="progress-bar">
+                                    <div className="progress" style={{ width: `${weatherData.main.humidity}%` }}>
+                                        <PercentageBox label={`${weatherData.main.humidity}%`} />
+                                    </div>
+                                </div>
+                            </section>
+                            <section id="temp-min" className="data-boxes meteo-box">
+                                <h3 className="meteo-box-label">Temp Min: {weatherData.main.temp_min} C°</h3>
+                                <div className="progress-bar">
+                                    <div className="progress" style={{ width: `${weatherData.main.temp_min}%` }}>
+                                        <PercentageBox label={`${weatherData.main.temp_min}C°`} />
+                                    </div>
+                                </div>
+                            </section>
+                            <section id="temp-max" className="data-boxes meteo-box">
+                                <h3 className="meteo-box-label">Temp Max: {weatherData.main.temp_max} C°</h3>
+                                <div className="progress-bar">
+                                    <div className="progress" style={{ width: `${weatherData.main.temp_max}%` }}>
+                                        <PercentageBox label={`${weatherData.main.temp_max}C°`} />
+                                    </div>
+                                </div>                        </section>
+                            <section id="lat" className="data-boxes meteo-box">
+                                <h3 className="meteo-box-label">Lat {location.latitude}</h3>
+                            </section>
+                            <section id="lon" className="data-boxes meteo-box">
+                                <h3 className="meteo-box-label">Lon {location.longitude}</h3>
+                            </section>
+                            <section id="sunrise" className="data-boxes meteo-box">
+                                <Sunrise sunriseTime={weatherData.sys.sunrise} />
+                            </section>
+                            <section id="sunset" className="data-boxes meteo-box">
+                                <Sunset sunsetTime={weatherData.sys.sunset} />
+                            </section>
+                            <section id="dew-point" className="data-boxes meteo-box">
+                                <h3 className="meteo-box-label">Dew Point</h3>
+                                <MoreDataCharts value={calculateDewPoint(weatherData.main.temp, weatherData.main.humidity).toFixed(1)} />
+                            </section>
+                            <section id="air-pollution" className="data-boxes meteo-box">
+                                <h3 className="meteo-box-label">Air Poll. µg/m³</h3>
+                                <MoreDataCharts value={airPollutionData ? airPollutionData.pm2_5 : 'N/A'} />
+                            </section>
+                        </section>
+                    </section>
+                )}
+            </>)}
         </>
     );
 };
