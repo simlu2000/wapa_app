@@ -5,10 +5,7 @@ const isLocalhost = Boolean(
 );
 
 const vapid_key = process.env.REACT_APP_vapid_key;
-
-const showUpdateNotification = () => {
-  alert('Una nuova versione è disponibile. Si prega di aggiornare.');
-};
+ 
 
 const registerValidSW = (swUrl) => {
   navigator.serviceWorker
@@ -21,7 +18,7 @@ const registerValidSW = (swUrl) => {
         installingWorker.onstatechange = () => {
           if (installingWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
-              showUpdateNotification();
+              console.log("Nuova versione disponibile.")
             } else {
               console.log('Contenuto precaricato per uso offline.');
             }
@@ -29,18 +26,7 @@ const registerValidSW = (swUrl) => {
         };
       };
 
-      // Gestire la ricezione delle notifiche push anche se l'app non è aperta
-      navigator.serviceWorker.ready.then((reg) => {
-        if ('PushManager' in window) {
-          reg.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: urlBase64ToUint8Array(vapid_key)
-          }).then((subscription) => {
-            console.log('Utente iscritto per le notifiche push:', subscription);
-            // Inviare il subscription endpoint al server per salvare l'iscrizione
-          });
-        }
-      });
+      
     })
     .catch((error) => {
       console.error('Registrazione del Service Worker fallita:', error);

@@ -63,10 +63,12 @@ const WeatherScreen = () => {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     position => {
-                        setLocation({
-                            latitude: position.coords.latitude,
-                            longitude: position.coords.longitude
-                        });
+                        if (!location.latitude && !location.longitude) {
+                            setLocation({
+                                latitude: position.coords.latitude,
+                                longitude: position.coords.longitude
+                            });
+                        }
                     },
                     error => {
                         console.error('Errore nel recupero della posizione dell\'utente', error);
@@ -76,12 +78,13 @@ const WeatherScreen = () => {
                 console.error('Geolocalizzazione non consentita dal browser');
             }
         };
-
-        // Verifica se la posizione è già stata impostata
-        if (location.latitude === null || location.longitude === null) {
+    
+        // Verifica se la posizione è già stata impostata e non ricaricare se già impostata
+        if (!location.latitude || !location.longitude) {
             getUserLocation();
         }
-    }, [location]);
+    }, []);  // Rimuovi la dipendenza su location.latitude e location.longitude
+    
 
     useEffect(() => {
         // Registrazione
@@ -89,18 +92,18 @@ const WeatherScreen = () => {
 
         const fetchWeatherData = async () => {
             if (location.latitude && location.longitude) {
+                setLoading(true);
                 try {
                     const [weatherResponse, airPollutionResponse, forecastResponse] = await Promise.all([
                         axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=${Api_Key_OpenWeather}&units=metric`),
                         axios.get(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${location.latitude}&lon=${location.longitude}&appid=${Api_Key_OpenWeather}`),
                         axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${location.latitude}&lon=${location.longitude}&appid=${Api_Key_OpenWeather}&units=metric`)
                     ]);
-
+    
                     setWeatherData(weatherResponse.data);
                     setCity(weatherResponse.data.name);
                     setAirPollutionData(airPollutionResponse.data.list[0].components);
                     setForecastData(forecastResponse.data.list);
-
                 } catch (error) {
                     console.error("Errore durante il recupero dei dati meteorologici", error);
                 } finally {
@@ -109,7 +112,7 @@ const WeatherScreen = () => {
             }
         };
         fetchWeatherData();
-    }, [location]);
+    }, [location.latitude, location.longitude]);
 
     useEffect(() => {
         if (locationState.state?.query) {

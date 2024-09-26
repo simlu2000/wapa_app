@@ -19,10 +19,15 @@ const App = () => {
     //una volta rilevato un nuovo service worker, verrà ricaricata la pagina solo una volta, evitando ripetuti popup.
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.addEventListener('controllerchange', () => {
-          window.location.reload();
+          if (navigator.serviceWorker.controller) {
+            // Il nuovo Service Worker ha preso il controllo, ricarica la pagina
+            console.log('Nuovo Service Worker attivo, ricaricamento della pagina...');
+            window.location.reload();
+          }
         });
       }
-
+      
+      
       
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, user => {
