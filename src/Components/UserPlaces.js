@@ -10,7 +10,7 @@ const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSe
     useEffect(() => {
         const fetchLocalities = async () => {
             try {
-                const localitiesList = await getUserLocalities(userId);
+                const localitiesList = await fetchUserLocalities(userId);
                 setLocalities(localitiesList);
             } catch (error) {
                 console.error("Error fetching localities:", error);
@@ -20,13 +20,13 @@ const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSe
         if (userId) {
             fetchLocalities();
         }
-    }, [userId, getUserLocalities]);
+    }, [userId, fetchUserLocalities]);
 
     const handleAddClick = async () => {
         if (newLocation && localities.length < 6) {
             try {
                 await onAddLocation(newLocation);
-                const updatedLocalities = await getUserLocalities(userId);
+                const updatedLocalities = await fetchUserLocalities(userId);
                 setLocalities(updatedLocalities);
                 setNewLocation('');
             } catch (error) {
@@ -38,7 +38,7 @@ const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSe
     const handleRemoveClick = async (location) => {
         try {
             await onRemoveLocation(location);
-            const updatedLocalities = await getUserLocalities(userId);
+            const updatedLocalities = await fetchUserLocalities(userId);
             setLocalities(updatedLocalities);
         } catch (error) {
             console.error("Error removing location:", error);
@@ -49,15 +49,6 @@ const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSe
         console.log('UserPlaces props:', { userId, onAddLocation, onRemoveLocation, onSelectLocation });
     }, [userId, onAddLocation, onRemoveLocation, onSelectLocation]);
 
-    const getUserLocalities = async (userId) => {
-        const response = await fetch(`https://api.example.com/user/${userId}/localities`);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        return data.localities; // Assicurati che questa sia la struttura corretta della tua risposta
-    };
-    
     return (
         <section className="user-places-container">
             <h2 id="fav-text">Your Favorite Places</h2>

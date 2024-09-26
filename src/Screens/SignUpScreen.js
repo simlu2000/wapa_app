@@ -3,6 +3,7 @@ import { auth, provider } from '../Utils/firebase'; // Importa Firebase configur
 import { useNavigate } from 'react-router-dom';
 import {
   signInWithPopup,
+  signInWithRedirect,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -21,6 +22,11 @@ const SignUpScreen = () => {
   const [resetEmail, setResetEmail] = useState('');
   const [resetSent, setResetSent] = useState(false);
   const navigate = useNavigate();
+
+  // Funzione per rilevare se l'utente è su un dispositivo mobile
+  const isMobileDevice = () => {
+    return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  };
 
   const toggleForm = () => {
     setIsSignUp(!isSignUp);
@@ -51,21 +57,39 @@ const SignUpScreen = () => {
     }
   };
 
-  const handleGoogleSignIn = async () => {
-    try {
+  // Funzione per il login con Google
+  // Funzione per il login con Google
+const handleGoogleSignIn = async () => {
+  try {
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({
+      nonce: 'randomNonceValue',  // Imposta un valore nonce per evitare credenziali duplicate
+    });
+
+    if (isMobileDevice()) {
+      // Utilizza il redirect sui dispositivi mobili
+      await signInWithRedirect(auth, provider);
+    } else {
+      // Utilizza il popup sui desktop
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       await setUserData(user.uid, { email: user.email, localities: [] });
       navigate('/WeatherScreen');
-    } catch (error) {
-      console.error('Error during Google sign-in', error);
-      if (error.code === 'auth/popup-closed-by-user') {
-        alert('Popup closed before signing in');
-      } else {
-        alert('An error occurred during Google sign-in. Please try again.');
-      }
     }
-  };
+  } catch (error) {
+    console.error('Error during Google sign-in', error);
+    
+    // Gestione dell'errore disallowed_useragent
+    if (error.code === 'auth/disallowed_useragent') {
+      alert('Accesso non consentito con questo browser. Utilizza un browser supportato come Chrome o Safari.');
+    } else if (error.code === 'auth/popup-closed-by-user') {
+      alert('Popup chiuso prima del completamento del login');
+    } else {
+      alert('Si è verificato un errore durante il login con Google. Riprova.');
+    }
+  }
+};
+
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
@@ -105,7 +129,6 @@ const SignUpScreen = () => {
               <button className="icon" onClick={handleGoogleSignIn}>
                 <FontAwesomeIcon icon={faGooglePlusG} />
               </button>
-              
             </div>
             <span>or use your email for registration</span>
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
@@ -121,7 +144,6 @@ const SignUpScreen = () => {
               <button className="icon" onClick={handleGoogleSignIn}>
                 <FontAwesomeIcon icon={faGooglePlusG} />
               </button>
-              
             </div>
             <span>or use your email and password</span>
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />

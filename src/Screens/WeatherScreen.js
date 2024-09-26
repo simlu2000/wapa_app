@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom'; // Import useLocation for accessing navigation state
 import axios from 'axios';
 import { getAuth } from "firebase/auth";
-import { getDatabase, ref, set, get } from 'firebase/database'; 
+import { getDatabase, ref, set, get } from 'firebase/database';
 import { addLocation, removeLocation, getUserLocalities } from '../Utils/userService';
 import WindCharts from '../Components/Charts/WindCharts';
 import TempCharts from '../Components/Charts/TempCharts';
@@ -58,7 +58,7 @@ const WeatherScreen = () => {
         };
     }, []);
 
-   
+
     useEffect(() => {
         const getUserLocation = () => {
             if (navigator.geolocation) {
@@ -79,13 +79,14 @@ const WeatherScreen = () => {
                 console.error('Geolocalizzazione non consentita dal browser');
             }
         };
-    
+
         // Verifica se la posizione è già stata impostata e non ricaricare se già impostata
         if (!location.latitude || !location.longitude) {
             getUserLocation();
         }
-    }, [location.latitude, location.longitude]);  
-    
+    }, [location.latitude, location.longitude]);
+
+
 
     useEffect(() => {
         const fetchWeatherData = async () => {
@@ -97,7 +98,7 @@ const WeatherScreen = () => {
                         axios.get(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${location.latitude}&lon=${location.longitude}&appid=${Api_Key_OpenWeather}`),
                         axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${location.latitude}&lon=${location.longitude}&appid=${Api_Key_OpenWeather}&units=metric`)
                     ]);
-    
+
                     setWeatherData(weatherResponse.data);
                     setCity(weatherResponse.data.name);
                     setAirPollutionData(airPollutionResponse.data.list[0].components);
@@ -140,25 +141,48 @@ const WeatherScreen = () => {
         }
     };
 
+    useEffect(() => {
+        const fetchUserLocalities = async () => {
+          if (user) {
+            try {
+              const localities = await getUserLocalities(user.uid);
+              setUserLocalities(localities);
+              setLoading(false);
+            } catch (error) {
+              console.error("Error fetching user localities:", error);
+              setLoading(false);
+    
+            }
+          }
+        };
+    
+        fetchUserLocalities();
+      }, [user]);
+      
     const handleAddLocation = async (location) => {
         if (user) {
+          try {
             await addLocation(user.uid, location);
             const localities = await getUserLocalities(user.uid);
             setUserLocalities(localities);
+          } catch (error) {
+            console.error("Error adding location:", error);
+          }
         }
-    };
-
-    const handleRemoveLocation = async (location) => {
+      };
+    
+      const handleRemoveLocation = async (location) => {
         if (user) {
+          try {
             await removeLocation(user.uid, location);
             const localities = await getUserLocalities(user.uid);
             setUserLocalities(localities);
+          } catch (error) {
+            console.error("Error removing location:", error);
+          }
         }
-    };
-
-    const handleSelectLocation = (location) => {
-        fetchWeatherBySearchedLocation(location);
-    };
+      };
+ 
 
     const applyBackgroundGradient = (weatherMain) => {
         switch (weatherMain) {
@@ -197,7 +221,7 @@ const WeatherScreen = () => {
     }
 
     if (!weatherData) {
-        return <Loader/>;
+        return <Loader />;
     }
     const timezone = weatherData.timezone;
 
@@ -255,23 +279,21 @@ const WeatherScreen = () => {
                     </section>
                 </section>
 
+
+                {user && (
+                    <section id="loc" className="meteo-box-container">
+                        <UserPlaces
+                            userId={user.uid}
+                            onAddLocation={handleAddLocation}
+                            onRemoveLocation={handleRemoveLocation}
+                            getUserLocalities={getUserLocalities}
+                        />
+                    </section>
+                )}
+
                 {weatherData && weatherData.clouds && forecastData && (
                     <section id="meteo-area" className="today-data">
                         <Forecast forecast={forecastData} isMobile={true} />
-
-                        {user && (
-                            <section id="loc" className="meteo-box-container" style={{
-                                backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)'
-                            }}>
-                                <UserPlaces
-                                    userId={user.uid}
-                                    onAddLocation={handleAddLocation}
-                                    onRemoveLocation={handleRemoveLocation}
-                                    onSelectLocation={handleSelectLocation}
-                                    getUserLocalities={getUserLocalities}
-                                />
-                            </section>
-                        )}
 
                         <div className="charts-container" style={{
                             backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)'
