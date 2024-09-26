@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom'; // Import useLocation for accessing navigation state
 import axios from 'axios';
-import { auth, getAuth } from 'firebase/auth';
+import { getAuth } from "firebase/auth";
+import { getDatabase, ref, set, get } from 'firebase/database'; 
 import { addLocation, removeLocation, getUserLocalities } from '../Utils/userService';
 import WindCharts from '../Components/Charts/WindCharts';
 import TempCharts from '../Components/Charts/TempCharts';
@@ -20,7 +21,6 @@ import animationData from '../Animations/Animation - 1726518835813.json';
 import Lottie from 'react-lottie';
 import { register } from '../serviceWorkerRegistration';
 
-const Api_Key_OpenWeather = process.env.REACT_APP_Api_Key_OpenWeather;
 const vapid_key = process.env.REACT_APP_vapid_key;
 
 const WeatherScreen = () => {
@@ -34,7 +34,8 @@ const WeatherScreen = () => {
     const [user, setUser] = useState(null);
     const locationState = useLocation();
     const [isOffline, setIsOffline] = useState(!navigator.onLine);
-   
+    const Api_Key_OpenWeather = process.env.REACT_APP_Api_Key_OpenWeather;
+
     const defaultOptions = {
         loop: true,
         autoplay: true,
@@ -83,13 +84,10 @@ const WeatherScreen = () => {
         if (!location.latitude || !location.longitude) {
             getUserLocation();
         }
-    }, []);  // Rimuovi la dipendenza su location.latitude e location.longitude
+    }, [location.latitude, location.longitude]);  
     
 
     useEffect(() => {
-        // Registrazione
-        register();
-
         const fetchWeatherData = async () => {
             if (location.latitude && location.longitude) {
                 setLoading(true);
@@ -112,7 +110,7 @@ const WeatherScreen = () => {
             }
         };
         fetchWeatherData();
-    }, [location.latitude, location.longitude]);
+    }, [location]);
 
     useEffect(() => {
         if (locationState.state?.query) {
@@ -198,6 +196,10 @@ const WeatherScreen = () => {
         return <Loader />;
     }
 
+    if (!weatherData) {
+        return <Loader/>;
+    }
+    const timezone = weatherData.timezone;
 
     return (
         <>

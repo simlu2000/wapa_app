@@ -15,41 +15,6 @@ import AboutScreen from './Screens/AboutScreen';
 
 const App = () => {
     const [user, setUser] = useState(null);
-
-    //una volta rilevato un nuovo service worker, verrà ricaricata la pagina solo una volta, evitando ripetuti popup.
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
-          if (navigator.serviceWorker.controller) {
-            // Il nuovo Service Worker ha preso il controllo, ricarica la pagina
-            console.log('Nuovo Service Worker attivo, ricaricamento della pagina...');
-            window.location.reload();
-          }
-        });
-      }
-      
-      
-      
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, user => {
-            setUser(user ? user : null);
-        });
-
-        // Registrazione del Service Worker e richiesta dei permessi per le notifiche
-        if ('serviceWorker' in navigator && 'PushManager' in window) {
-            navigator.serviceWorker.register('/firebase-messaging-sw.js')
-                .then(function(swReg) {
-                    console.log('Service Worker registrato:', swReg);
-                })
-                .catch(function(error) {
-                    console.error('Errore nella registrazione del Service Worker:', error);
-                });
-        }
-
-       
-
-        return () => unsubscribe();
-    }, []);
-
     return (
         <div className='App'>
             <SideBar user={user} />
