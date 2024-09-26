@@ -308,9 +308,9 @@ const WeatherScreen = () => {
                         </div>
                     )}
 
-                    {forecastData && (
-                        <TodayForecast forecast={forecastData} isMobile={true} />
-                    )}
+                      {forecastData && (
+                            <TodayForecast forecast={forecastData} isMobile={true} />
+                        )}
                 </section>
             </section>
 
