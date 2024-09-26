@@ -49,12 +49,19 @@
 
 .today-forecast-container {
     margin-bottom: 20px;
+    width:100%;
+    max-width: 1200px;
+    min-width:300px;
+    padding:20px;
+    margin:0 auto;
 }
 
 .today-forecast {
     display: flex;
     justify-content:flex-start; /*l'uno accanto l'altro*/
     flex-wrap: wrap;
+    width:100%;
+    overflow-x:auto; /*scroll se troppo grande*/
    
 }
 .today-forecast-container h2{
@@ -89,6 +96,44 @@ p{
     font-size:1.5rem;
 }
 
+/*GRADIENT WEATHER LABELS*/
+.weather-labels {
+    margin-top: 10px;
+    width:90%;
+    display:flex;
+    justify-content: flex-start; /*a sx*/
+    flex-wrap: wrap; /*permette di andare a capo*/
+    color:#000000;
+    border-color: 2px solid #000000;
+    background-color: #F7F7F7;
+    border-radius: 10px;
+}
+
+.weather-labels-list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin:0;
+}
+
+.weather-label-item {
+    margin-right: 10px;
+    margin:5px;
+    display: flex;
+    align-items: left;
+    
+    
+}
+
+.weather-label-color {
+    width: 15px;
+    height: 15px;
+    margin-right: 10px;
+    display: inline-block;
+    border-radius: 50%;
+    
+}
+
 
 
 /*Dispositivi mobili */
@@ -96,6 +141,23 @@ p{
     .today-forecast-item {
         flex-basis: 100%;
         margin-right: 0;
+    }
+    .today-forecast-container{
+        width:95%;
+        padding:15px;
+    }
+    .weather-labels{
+        width:100%;
+
+    }
+    .weather-label-item{
+        margin-right: 5px;
+        width:auto;
+        text-align: center;
+    }
+    .weather-labels-list{
+        flex-direction: column;
+        width:100%;
     }
 }
 
@@ -179,6 +241,15 @@ p{
     .forecast-table .temp {
         font-size: 0.7rem;
     }
+    .today-forecast-container{
+        width:100%;
+        padding:10px;
+    }
+    .chart-container {
+        width: 100%; 
+        max-width: 1200px; 
+        margin: 0 auto; 
+    }
 }
 
 @media (max-width: 480px) {
@@ -204,6 +275,7 @@ p{
 @media (max-width: 391px) {
     .forecast-container {
         padding: 10px;
+        width:70%;
     }
     .today-forecast-item{
         box-shadow:none;

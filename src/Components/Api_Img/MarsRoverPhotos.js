@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Slider from 'react-slick';
-//import { Api_Key_NASA } from '../../Utils/API_KEYS';
 import "../../Styles/style_marsroverphotos.css"; // Assicurati di avere un file CSS per stilizzare il componente
 
 const MarsRoverPhotos = () => {
@@ -9,7 +8,6 @@ const MarsRoverPhotos = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const API_KEY = process.env.REACT_APP_Api_Key_NASA;
-
 
   useEffect(() => {
     const fetchMostRecentPhotos = async () => {
@@ -32,11 +30,16 @@ const MarsRoverPhotos = () => {
             },
           });
 
-          photosFound = response.data.photos;
+          // Controlla se 'photos' esiste e se è un array
+          if (Array.isArray(response.data.photos)) {
+            photosFound = response.data.photos;
 
-          // Se sono state trovate foto, aggiornare lo stato
-          if (photosFound.length > 0) {
-            setPhotos(photosFound.slice(0, 10)); // Mostra solo le prime 10 foto
+            // Se sono state trovate foto, aggiornare lo stato
+            if (photosFound.length > 0) {
+              setPhotos(photosFound.slice(0, 10)); // Mostra solo le prime 10 foto
+            }
+          } else {
+            console.error(`Nessuna foto trovata per la data ${dateString}.`);
           }
         } catch (error) {
           console.error(`Errore durante il fetch delle foto per la data ${formatDate(currentDate)}:`, error);

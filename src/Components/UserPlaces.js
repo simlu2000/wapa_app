@@ -3,7 +3,7 @@ import '../Styles/style_userplaces.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAdd, faRemove } from '@fortawesome/free-solid-svg-icons';
 
-const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSelectLocation, getUserLocalities }) => {
+const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSelectLocation, getUserLocalities: fetchUserLocalities }) => {
     const [localities, setLocalities] = useState([]);
     const [newLocation, setNewLocation] = useState('');
 
@@ -45,10 +45,22 @@ const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSe
         }
     };
 
+    useEffect(() => {
+        console.log('UserPlaces props:', { userId, onAddLocation, onRemoveLocation, onSelectLocation });
+    }, [userId, onAddLocation, onRemoveLocation, onSelectLocation]);
 
+    const getUserLocalities = async (userId) => {
+        const response = await fetch(`https://api.example.com/user/${userId}/localities`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data.localities; // Assicurati che questa sia la struttura corretta della tua risposta
+    };
+    
     return (
-        <section className="user-places-container" >
-            <h2 id="fav-text">Your places</h2>
+        <section className="user-places-container">
+            <h2 id="fav-text">Your Favorite Places</h2>
             <input
                 type="text"
                 id="fav-insert"
@@ -62,14 +74,16 @@ const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSe
                 onClick={handleAddClick}
                 disabled={localities.length >= 6}
             >
-                <FontAwesomeIcon icon={faAdd} style={{ color: "#F7F7F7"}} />
+                <FontAwesomeIcon icon={faAdd} style={{ color: "#F7F7F7" }} />
             </button>
             <ul>
                 {localities.map((loc) => (
                     <li key={loc}>
-                        <button id="location" className="btn-loc" onClick={() => onSelectLocation(loc)}>{loc}</button>
-                        <button className="btn-del" id="bt1" onClick={() => handleRemoveClick(loc)}>                
-                            <FontAwesomeIcon icon={faRemove} style={{ color: "#F7F7F7"}} />
+                        <button id="location" className="btn-loc" onClick={() => onSelectLocation(loc)}>
+                            {loc}
+                        </button>
+                        <button className="btn-del" id="bt1" onClick={() => handleRemoveClick(loc)}>
+                            <FontAwesomeIcon icon={faRemove} style={{ color: "#F7F7F7" }} />
                         </button>
                     </li>
                 ))}
