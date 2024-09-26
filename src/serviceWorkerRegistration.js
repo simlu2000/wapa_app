@@ -1,40 +1,73 @@
-// Controlla se il browser supporta i service worker e li registra
-export function register(config) { //verra poi chiamata in index.js
-  if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-          const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
-
-          navigator.serviceWorker
-              .register(swUrl)
-              .then((registration) => {
-                  console.log("Service Worker registrato:", registration);
-
-                  if (config && config.onSuccess) {
-                      config.onSuccess(registration);
-                  }
-              })
-              .catch((error) => {
-                  console.error("Registrazione Service Worker fallita:", error);
-                  if (config && config.onError) {
-                      config.onError(error);
-                  }
-              });
-      });
-  }
-}
-
-// Funzione per disattivare il service worker
-export function unregister() {
-  if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-          .getRegistrations()
-          .then((registrations) => {
-              for (let registration of registrations) {
-                  registration.unregister();
+const isLocalhost = Boolean(
+    window.location.hostname === 'localhost' ||
+    window.location.hostname === '[::1]' ||
+    window.location.hostname.match(/^127(\.[0-9]+){0,3}$/)
+  );
+  
+  const registerValidSW = (swUrl) => {
+    navigator.serviceWorker
+      .register(swUrl)
+      .then((registration) => {
+        console.log('Service Worker registrato con successo:', registration);
+  
+        registration.onupdatefound = () => {
+          console.log('Nuovo Service Worker trovato. In fase di installazione...');
+  
+          const installingWorker = registration.installing;
+          installingWorker.onstatechange = () => {
+            if (installingWorker.state === 'installed') {
+              if (navigator.serviceWorker.controller) {
+                // Mostra notifica o ricarica la pagina
+                alert('Nuovo contenuto disponibile, ricarica la pagina.');
+              } else {
+                console.log('Contenuto precaricato per uso offline.');
               }
-          })
-          .catch((error) => {
-              console.error("Disattivazione Service Worker fallita:", error);
+            }
+          };
+        };
+      })
+      .catch((error) => {
+        console.error('Registrazione del Service Worker fallita:', error);
+      });
+  };
+  
+  const checkValidServiceWorker = (swUrl) => {
+    fetch(swUrl)
+      .then((response) => {
+        if (
+          response.status === 404 ||
+          response.headers.get('content-type')?.indexOf('javascript') === -1
+        ) {
+          navigator.serviceWorker.ready.then((registration) => {
+            registration.unregister().then(() => {
+              window.location.reload();
+            });
           });
-  }
-}
+        } else {
+          registerValidSW(swUrl);
+        }
+      })
+      .catch((error) => {
+        console.error('Errore di rete durante la verifica del Service Worker:', error);
+      });
+  };
+  
+  export const register = () => {
+    if ('serviceWorker' in navigator) {
+      const swUrl = '/service-worker.js';
+  
+      if (isLocalhost) {
+        checkValidServiceWorker(swUrl);
+      } else {
+        registerValidSW(swUrl);
+      }
+    }
+  };
+  
+  export const unregister = () => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.unregister();
+      });
+    }
+  };

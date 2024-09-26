@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom'; // Import useLocation for accessing navigation state
 import axios from 'axios';
-import { getAuth } from "firebase/auth";
-import { getDatabase, ref, set, get } from 'firebase/database';
+import { auth } from '../Utils/firebase';
 import { addLocation, removeLocation, getUserLocalities } from '../Utils/userService';
 import WindCharts from '../Components/Charts/WindCharts';
 import TempCharts from '../Components/Charts/TempCharts';
@@ -19,9 +18,8 @@ import Loader from '../Components/loader';
 import '../Styles/style_weatherscreen.css';
 import animationData from '../Animations/Animation - 1726518835813.json';
 import Lottie from 'react-lottie';
-import { register } from '../serviceWorkerRegistration';
 
-const vapid_key = process.env.REACT_APP_vapid_key;
+const Api_Key_OpenWeather = process.env.REACT_APP_Api_Key_OpenWeather;
 
 const WeatherScreen = () => {
     const [weatherData, setWeatherData] = useState(null);
@@ -34,7 +32,6 @@ const WeatherScreen = () => {
     const [user, setUser] = useState(null);
     const locationState = useLocation();
     const [isOffline, setIsOffline] = useState(!navigator.onLine);
-    const Api_Key_OpenWeather = process.env.REACT_APP_Api_Key_OpenWeather;
 
     const defaultOptions = {
         loop: true,
@@ -60,38 +57,46 @@ const WeatherScreen = () => {
 
 
     useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
+            setUser(currentUser);
+            if (currentUser) {
+                try {
+                    const localities = await getUserLocalities(currentUser.uid);
+                    setUserLocalities(localities);
+                } catch (error) {
+                    console.error('Error fetching user localities', error);
+                }
+            }
+        });
+
+        return () => unsubscribe();
+    }, []);
+
+
+    useEffect(() => {
         const getUserLocation = () => {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     position => {
-                        if (!location.latitude && !location.longitude) {
-                            setLocation({
-                                latitude: position.coords.latitude,
-                                longitude: position.coords.longitude
-                            });
-                        }
+                        setLocation({
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude
+                        });
                     },
                     error => {
-                        console.error('Errore nel recupero della posizione dell\'utente', error);
+                        console.error('Error retrieving user location', error);
                     }
                 );
             } else {
-                console.error('Geolocalizzazione non consentita dal browser');
+                console.error('Geolocation not permitted by the browser');
             }
         };
-
-        // Verifica se la posizione è già stata impostata e non ricaricare se già impostata
-        if (!location.latitude || !location.longitude) {
-            getUserLocation();
-        }
-    }, [location.latitude, location.longitude]);
-
-
+        getUserLocation();
+    }, []);
 
     useEffect(() => {
         const fetchWeatherData = async () => {
             if (location.latitude && location.longitude) {
-                setLoading(true);
                 try {
                     const [weatherResponse, airPollutionResponse, forecastResponse] = await Promise.all([
                         axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=${Api_Key_OpenWeather}&units=metric`),
@@ -104,7 +109,7 @@ const WeatherScreen = () => {
                     setAirPollutionData(airPollutionResponse.data.list[0].components);
                     setForecastData(forecastResponse.data.list);
                 } catch (error) {
-                    console.error("Errore durante il recupero dei dati meteorologici", error);
+                    console.error("Error during fetching weather data", error);
                 } finally {
                     setLoading(false);
                 }
@@ -118,7 +123,6 @@ const WeatherScreen = () => {
             fetchWeatherBySearchedLocation(locationState.state.query);
         }
     }, [locationState]);
-
 
     const fetchWeatherBySearchedLocation = async (searchLocation) => {
         try {
@@ -137,52 +141,29 @@ const WeatherScreen = () => {
             );
             setForecastData(forecastResponse.data.list);
         } catch (error) {
-            console.error("Errore. Località non trovata", error);
+            console.error("Error. Location not found", error);
         }
     };
 
-    useEffect(() => {
-        const fetchUserLocalities = async () => {
-          if (user) {
-            try {
-              const localities = await getUserLocalities(user.uid);
-              setUserLocalities(localities);
-              setLoading(false);
-            } catch (error) {
-              console.error("Error fetching user localities:", error);
-              setLoading(false);
-    
-            }
-          }
-        };
-    
-        fetchUserLocalities();
-      }, [user]);
-      
     const handleAddLocation = async (location) => {
         if (user) {
-          try {
             await addLocation(user.uid, location);
             const localities = await getUserLocalities(user.uid);
             setUserLocalities(localities);
-          } catch (error) {
-            console.error("Error adding location:", error);
-          }
         }
-      };
-    
-      const handleRemoveLocation = async (location) => {
+    };
+
+    const handleRemoveLocation = async (location) => {
         if (user) {
-          try {
             await removeLocation(user.uid, location);
             const localities = await getUserLocalities(user.uid);
             setUserLocalities(localities);
-          } catch (error) {
-            console.error("Error removing location:", error);
-          }
         }
-      };
- 
+    };
+
+    const handleSelectLocation = (location) => {
+        fetchWeatherBySearchedLocation(location);
+    };
 
     const applyBackgroundGradient = (weatherMain) => {
         switch (weatherMain) {
@@ -216,151 +197,206 @@ const WeatherScreen = () => {
         return (y * alpha) / (x - alpha);
     };
 
+    const checkWeatherAndNotify = (weatherData) => {
+        if (!weatherData) return;
+
+        const weatherMain = weatherData.weather[0].main;
+        let notificationPayload = null;
+
+        if (weatherMain === 'Rain') {
+            notificationPayload = {
+                title: 'Weather Alert',
+                body: 'Rain expected tomorrow, get your umbrella!',
+            };
+        } else if (weatherMain === 'Thunderstorm') {
+            notificationPayload = {
+                title: 'Weather Alert',
+                body: 'Thunderstorm alert! Stay indoors and avoid outdoor activities!',
+            };
+        } else if (weatherData.main.temp < 0) {
+            notificationPayload = {
+                title: 'Weather Alert',
+                body: 'Temperature extremely low! Dress warmly!',
+            };
+        } else if (weatherData.main.temp > 35) {
+            notificationPayload = {
+                title: 'Weather Alert',
+                body: 'Temperature extremely high! Drink a lot of water and avoid direct sun!',
+            };
+        } else if (weatherData.main.temp < 25) {
+            notificationPayload = {
+                title: 'Weather Alert TEST',
+                body: 'TEST: Temperature < 25'
+            }
+        }
+
+        if (notificationPayload) {
+            sendNotification(notificationPayload);
+        }
+    };
+
+    const checkTimeAndNotify = (weatherData) => {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+
+        if (user && hours === 11 && minutes === 50) {
+            checkWeatherAndNotify(weatherData);
+        }
+    };
+
+    useEffect(() => {
+        if (weatherData) {
+            checkTimeAndNotify(weatherData);
+        }
+    }, [weatherData]);
+
+    const sendNotification = ({ title, body }) => {
+        if (Notification.permission === 'granted') {
+            new Notification(title, { body });
+        } else {
+            console.log('Notification permission not granted.');
+        }
+    };
+
     if (loading) {
         return <Loader />;
     }
 
-    if (!weatherData) {
-        return <Loader />;
+    if (isOffline) {
+        return (
+            <div className="offline">
+                <Lottie options={defaultOptions} height={400} width={400} />
+                <h1>You are offline</h1>
+            </div>
+        );
     }
-    const timezone = weatherData.timezone;
 
     return (
         <>
-            {loading ? (
-                <div className="animation-container">
-                    <Lottie
-                        options={defaultOptions}
-                        height={"200px"}
-                        width={"200px"}
-                    />        </div>
-            ) : (<>
-                <section
-                    id="weather-intro"
-                    className="container-data"
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        transition: 'background-image 0.5s ease-in-out',
-                        backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)',
-                    }}
-                >
-                    <section className="mini-container">
-                        {loading ? (
-                            <div className="animation-container">
-                                <Lottie options={defaultOptions} height={200} width={200} />
-                            </div>
-                        ) : (
-                            <div id="meteo-title">
-
-                                <>
-                                    <h2 className="meteo-subtitle">
-                                        {new Date((new Date().getTime() + weatherData.timezone * 1000)).toLocaleTimeString('en-US', { timeZone: 'UTC' })}
-                                    </h2>
-
-                                    <h1 className="meteo-title">In {city}:</h1>
-                                    <h1 className="meteo-title">{weatherData.weather[0].description}, feels {Math.floor(weatherData.main.feels_like)} °C</h1>
-                                    {/*<h1 className="meteo-subtitle">Feels {Math.floor(weatherData.main.feels_like)} °C</h1>*/}
-                                    <div>
-                                        <h2 className="meteo-subtitle">Min: {Math.floor(weatherData.main.temp_min)} °C</h2>
-                                        <h2 className="meteo-subtitle">Max: {Math.floor(weatherData.main.temp_max)} °C</h2>
-                                    </div>
-
-                                </>
-
-                            </div>
-                        )}
-
-                        {forecastData && (
-                            <TodayForecast forecast={forecastData} isMobile={true} />
-                        )}
-                    </section>
-                </section>
-
-
-                {user && (
-                    <section id="loc" className="meteo-box-container">
-                        <UserPlaces
-                            userId={user.uid}
-                            onAddLocation={handleAddLocation}
-                            onRemoveLocation={handleRemoveLocation}
-                            getUserLocalities={getUserLocalities}
-                        />
-                    </section>
-                )}
-
-                {weatherData && weatherData.clouds && forecastData && (
-                    <section id="meteo-area" className="today-data">
-                        <Forecast forecast={forecastData} isMobile={true} />
-
-                        <div className="charts-container" style={{
-                            backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)'
-                        }}>
-                            <WindCharts windSpeed={weatherData.wind.speed} />
-                            {/*<TempCharts initialTemperature={weatherData.main.temp} />*/}
-                            <PressureCharts initialPressure={weatherData.main.pressure} />
+            <section
+                id="weather-intro"
+                className="container-data"
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'background-image 0.5s ease-in-out',
+                    backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)',
+                }}
+            >
+                <section className="mini-container">
+                    {loading ? (
+                        <div className="animation-container">
+                            <Lottie options={defaultOptions} height={200} width={200} />
                         </div>
+                    ) : (
+                        <div id="meteo-title">
 
-                        <section className="meteo-box-container" style={{
+                            <>
+                                <h1 className="meteo-title">In {city}:</h1>
+                                <h1 className="meteo-title">{weatherData.weather[0].description}, feels {Math.floor(weatherData.main.feels_like)} °C</h1>
+                                {/*<h1 className="meteo-subtitle">Feels {Math.floor(weatherData.main.feels_like)} °C</h1>*/}
+                                <div>
+                                    <h2 className="meteo-subtitle">Min: {Math.floor(weatherData.main.temp_min)} °C</h2>
+                                    <h2 className="meteo-subtitle">Max: {Math.floor(weatherData.main.temp_max)} °C</h2>
+                                </div>
+
+                            </>
+
+                        </div>
+                    )}
+
+                    {forecastData && (
+                        <TodayForecast forecast={forecastData} isMobile={true} />
+                    )}
+                </section>
+            </section>
+
+            {weatherData && weatherData.clouds && forecastData && (
+                <section id="meteo-area" className="today-data">
+                    <Forecast forecast={forecastData} isMobile={true} />
+
+                    {user && (
+                        <section id="loc" className="meteo-box-container" style={{
                             backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)'
                         }}>
-                            <section id="clouds" className="data-boxes meteo-box">
-                                <h3 className="meteo-box-label">Clouds {weatherData.clouds.all}%</h3>
-                                <div className="progress-bar">
-                                    <div className="progress" style={{ width: `${weatherData.clouds.all}%` }}>
-                                        <PercentageBox label={`${weatherData.clouds.all}%`} />
-                                    </div>
+                            <UserPlaces
+                                userId={user.uid}
+                                onAddLocation={handleAddLocation}
+                                onRemoveLocation={handleRemoveLocation}
+                                onSelectLocation={handleSelectLocation}
+                                getUserLocalities={getUserLocalities}
+                            />
+                        </section>
+                    )}
+
+                    <div className="charts-container" style={{
+                        backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)'
+                    }}>
+                        <WindCharts windSpeed={weatherData.wind.speed} />
+                        {/*<TempCharts initialTemperature={weatherData.main.temp} />*/}
+                        <PressureCharts initialPressure={weatherData.main.pressure} />
+                    </div>
+
+                    <section className="meteo-box-container" style={{
+                        backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)'
+                    }}>
+                        <section id="clouds" className="data-boxes meteo-box">
+                            <h3 className="meteo-box-label">Clouds {weatherData.clouds.all}%</h3>
+                            <div className="progress-bar">
+                                <div className="progress" style={{ width: `${weatherData.clouds.all}%` }}>
+                                    <PercentageBox label={`${weatherData.clouds.all}%`} />
                                 </div>
-                            </section>
-                            <section id="humidity" className="data-boxes meteo-box">
-                                <h3 className="meteo-box-label">Humidity {weatherData.main.humidity}%</h3>
-                                <div className="progress-bar">
-                                    <div className="progress" style={{ width: `${weatherData.main.humidity}%` }}>
-                                        <PercentageBox label={`${weatherData.main.humidity}%`} />
-                                    </div>
+                            </div>
+                        </section>
+                        <section id="humidity" className="data-boxes meteo-box">
+                            <h3 className="meteo-box-label">Humidity {weatherData.main.humidity}%</h3>
+                            <div className="progress-bar">
+                                <div className="progress" style={{ width: `${weatherData.main.humidity}%` }}>
+                                    <PercentageBox label={`${weatherData.main.humidity}%`} />
                                 </div>
-                            </section>
-                            <section id="temp-min" className="data-boxes meteo-box">
-                                <h3 className="meteo-box-label">Temp Min: {weatherData.main.temp_min} C°</h3>
-                                <div className="progress-bar">
-                                    <div className="progress" style={{ width: `${weatherData.main.temp_min}%` }}>
-                                        <PercentageBox label={`${weatherData.main.temp_min}C°`} />
-                                    </div>
+                            </div>
+                        </section>
+                        <section id="temp-min" className="data-boxes meteo-box">
+                            <h3 className="meteo-box-label">Temp Min: {weatherData.main.temp_min} C°</h3>
+                            <div className="progress-bar">
+                                <div className="progress" style={{ width: `${weatherData.main.temp_min}%` }}>
+                                    <PercentageBox label={`${weatherData.main.temp_min}C°`} />
                                 </div>
-                            </section>
-                            <section id="temp-max" className="data-boxes meteo-box">
-                                <h3 className="meteo-box-label">Temp Max: {weatherData.main.temp_max} C°</h3>
-                                <div className="progress-bar">
-                                    <div className="progress" style={{ width: `${weatherData.main.temp_max}%` }}>
-                                        <PercentageBox label={`${weatherData.main.temp_max}C°`} />
-                                    </div>
-                                </div>                        </section>
-                            <section id="lat" className="data-boxes meteo-box">
-                                <h3 className="meteo-box-label">Lat {location.latitude}</h3>
-                            </section>
-                            <section id="lon" className="data-boxes meteo-box">
-                                <h3 className="meteo-box-label">Lon {location.longitude}</h3>
-                            </section>
-                            <section id="sunrise" className="data-boxes meteo-box">
-                                <Sunrise sunriseTime={weatherData.sys.sunrise} />
-                            </section>
-                            <section id="sunset" className="data-boxes meteo-box">
-                                <Sunset sunsetTime={weatherData.sys.sunset} />
-                            </section>
-                            <section id="dew-point" className="data-boxes meteo-box">
-                                <h3 className="meteo-box-label">Dew Point</h3>
-                                <MoreDataCharts value={calculateDewPoint(weatherData.main.temp, weatherData.main.humidity).toFixed(1)} />
-                            </section>
-                            <section id="air-pollution" className="data-boxes meteo-box">
-                                <h3 className="meteo-box-label">Air Poll. µg/m³</h3>
-                                <MoreDataCharts value={airPollutionData ? airPollutionData.pm2_5 : 'N/A'} />
-                            </section>
+                            </div>
+                        </section>
+                        <section id="temp-max" className="data-boxes meteo-box">
+                            <h3 className="meteo-box-label">Temp Max: {weatherData.main.temp_max} C°</h3>
+                            <div className="progress-bar">
+                                <div className="progress" style={{ width: `${weatherData.main.temp_max}%` }}>
+                                    <PercentageBox label={`${weatherData.main.temp_max}C°`} />
+                                </div>
+                            </div>                        </section>
+                        <section id="lat" className="data-boxes meteo-box">
+                            <h3 className="meteo-box-label">Lat {location.latitude}</h3>
+                        </section>
+                        <section id="lon" className="data-boxes meteo-box">
+                            <h3 className="meteo-box-label">Lon {location.longitude}</h3>
+                        </section>
+                        <section id="sunrise" className="data-boxes meteo-box">
+                            <Sunrise sunriseTime={weatherData.sys.sunrise} />
+                        </section>
+                        <section id="sunset" className="data-boxes meteo-box">
+                            <Sunset sunsetTime={weatherData.sys.sunset} />
+                        </section>
+                        <section id="dew-point" className="data-boxes meteo-box">
+                            <h3 className="meteo-box-label">Dew Point</h3>
+                            <MoreDataCharts value={calculateDewPoint(weatherData.main.temp, weatherData.main.humidity).toFixed(1)} />
+                        </section>
+                        <section id="air-pollution" className="data-boxes meteo-box">
+                            <h3 className="meteo-box-label">Air Poll. µg/m³</h3>
+                            <MoreDataCharts value={airPollutionData ? airPollutionData.pm2_5 : 'N/A'} />
                         </section>
                     </section>
-                )}
-            </>)}
+                </section>
+            )}
         </>
     );
 };
