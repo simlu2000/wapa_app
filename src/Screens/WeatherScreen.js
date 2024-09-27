@@ -18,9 +18,20 @@ import Loader from '../Components/loader';
 import '../Styles/style_weatherscreen.css';
 import animationData from '../Animations/Animation - 1726518835813.json';
 import Lottie from 'react-lottie';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 
 const Api_Key_OpenWeather = process.env.REACT_APP_Api_Key_OpenWeather;
 
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',
+    iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+});
 const WeatherScreen = () => {
     const [weatherData, setWeatherData] = useState(null);
     const [airPollutionData, setAirPollutionData] = useState(null);
@@ -32,6 +43,7 @@ const WeatherScreen = () => {
     const [user, setUser] = useState(null);
     const locationState = useLocation();
     const [isOffline, setIsOffline] = useState(!navigator.onLine);
+    const { latitude, longitude } = location;
 
     const defaultOptions = {
         loop: true,
@@ -308,9 +320,9 @@ const WeatherScreen = () => {
                         </div>
                     )}
 
-                      {forecastData && (
-                            <TodayForecast forecast={forecastData} isMobile={true} />
-                        )}
+                    {forecastData && (
+                        <TodayForecast forecast={forecastData} isMobile={true} />
+                    )}
                 </section>
             </section>
 
@@ -373,19 +385,18 @@ const WeatherScreen = () => {
                                 <div className="progress" style={{ width: `${weatherData.main.temp_max}%` }}>
                                     <PercentageBox label={`${weatherData.main.temp_max}C°`} />
                                 </div>
-                            </div>                        </section>
-                        <section id="lat" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Lat {location.latitude}</h3>
+                            </div>
                         </section>
-                        <section id="lon" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Lon {location.longitude}</h3>
-                        </section>
+
+                        
+
                         <section id="sunrise" className="data-boxes meteo-box">
                             <Sunrise sunriseTime={weatherData.sys.sunrise} />
                         </section>
                         <section id="sunset" className="data-boxes meteo-box">
                             <Sunset sunsetTime={weatherData.sys.sunset} />
                         </section>
+                        
                         <section id="dew-point" className="data-boxes meteo-box">
                             <h3 className="meteo-box-label">Dew Point</h3>
                             <MoreDataCharts value={calculateDewPoint(weatherData.main.temp, weatherData.main.humidity).toFixed(1)} />
@@ -393,6 +404,23 @@ const WeatherScreen = () => {
                         <section id="air-pollution" className="data-boxes meteo-box">
                             <h3 className="meteo-box-label">Air Poll. µg/m³</h3>
                             <MoreDataCharts value={airPollutionData ? airPollutionData.pm2_5 : 'N/A'} />
+                        </section>
+                        <section id="map" className="data-boxes meteo-box">
+                            <MapContainer
+                                center={[location.latitude, location.longitude]}
+                                zoom={13}
+                                style={{ height: '400px', width: '100%', borderRadius: '25px' }}
+                            >
+                                <TileLayer
+                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                />
+                                <Marker position={[location.latitude, location.longitude]}>
+                                    <Popup>
+                                        You are here! <br /> Latitude: {location.latitude}, Longitude: {location.longitude}.
+                                    </Popup>
+                                </Marker>
+                            </MapContainer>
                         </section>
                     </section>
                 </section>
