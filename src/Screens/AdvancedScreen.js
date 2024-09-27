@@ -113,16 +113,14 @@ const AdvancedScreen = () => {
                         </div>
                     </section>
 
-
-
                     <section id="second-container" className="mini-container">
-                        <div id="celestial" className="event-item">
-                            <h3 id="event-title" className="data-title">Celestial<br />events</h3>
-                            <CelestialEvents />
-                        </div>
                         <div id="earth" className="event-item">
                             <h3 className="data-title">Earth image of today</h3>
                             <EarthImage />
+                        </div>
+                        <div id="celestial" className="event-item">
+                            <h3 id="event-title" className="data-title">Celestial<br />events</h3>
+                            <CelestialEvents />
                         </div>
                     </section>
                     <section id="third-container">

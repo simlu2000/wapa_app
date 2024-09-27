@@ -10,7 +10,7 @@ const CelestialEvents = () => {
 
   useEffect(() => {
     const API_KEY = process.env.REACT_APP_Api_Key_NASA;
-    const url = 'https://api.nasa.gov/planetary/apod'; // Usa l'endpoint corretto
+    const url = 'https://api.nasa.gov/planetary/apod'; 
 
     const fetchCelestialEvents = async () => {
       try {
