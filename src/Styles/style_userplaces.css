@@ -4,10 +4,10 @@
     border-radius:25px;
     margin-top: 15%;
     margin-bottom:15%;
+
 }
 .user-places-container h2{
     color:#F7F7F7;
-    margin-top: -15%;
 }
 .user-places-container ul {
     list-style-type: none;
@@ -16,6 +16,9 @@
 
 }
 
+.places-text{
+    margin-top:-5%;
+}
 
 .add-loc{
     margin-left:15px;
