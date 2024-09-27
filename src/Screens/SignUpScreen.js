@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { auth, provider } from '../Utils/firebase'; // Importa Firebase configurato
+import { auth, provider } from '../Utils/firebase'; 
 import { useNavigate } from 'react-router-dom';
 import {
   signInWithPopup,
@@ -11,7 +11,7 @@ import {
 } from 'firebase/auth';
 import { setUserData } from '../Utils/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebookF, faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
+import { faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
 import '../Styles/style_signupscreen.css';
 
 const SignUpScreen = () => {

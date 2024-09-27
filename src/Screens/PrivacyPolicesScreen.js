@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import '../Styles/style_privacypolicesscreen.css';
 
 const PrivacyPolicesScreen = () => {

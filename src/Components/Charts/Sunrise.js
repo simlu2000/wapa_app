@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import * as d3 from 'd3';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowUp,faSun } from '@fortawesome/free-solid-svg-icons';
+import { faSun } from '@fortawesome/free-solid-svg-icons';
 
 const Sunrise = ({ sunriseTime }) => {
     useEffect(() => {

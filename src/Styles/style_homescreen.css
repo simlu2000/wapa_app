@@ -218,12 +218,12 @@ a:hover {
 }
 
 .info-box p {
-  margin-left: 3%; 
-  margin-right: 3%; 
-  margin-top: 3%; 
+  margin-left: 5%; 
+  margin-right: 5%; 
+  margin-top: 5%; 
   margin-bottom: 5%; 
   color:#F7F7F7;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 
 }
 
@@ -245,7 +245,7 @@ a:hover {
 }
 
 .info-box h1, .info-box h2 {
-  font-size: 3.5rem;
+  font-size: 2.5rem;
   /*margin: 0;
   text-align: center;*/
   margin-top: 10%;
@@ -266,8 +266,8 @@ a:hover {
   flex-direction: column;
   height: 100%;
   text-align: center;
-  border-radius: 25px;
-  width: 75%;
+  border-radius: 50px;
+  width: 100%;
 }
 
 #signup-area {
@@ -371,7 +371,7 @@ canvas {
 @media (max-width: 1024px) {
   .info-box-container {
     flex-direction: column;
-    width: 90%;
+    width: 70%;
   }
 
   .info-box-large,
@@ -386,7 +386,12 @@ canvas {
 
   #features-subtitle {
     font-size: 1.2rem;
+  } 
+
+  #intro-title {
+    font-size: 5rem;
   }
+
 }
 
 @media (max-width: 768px) {
@@ -425,7 +430,10 @@ canvas {
 @media only screen and (max-width: 600px) {
   #intro {
     height: 100vh;
-    /* Assicurati che il canvas copra l'intero schermo */
+  }
+
+  #intro-title {
+    font-size: 3rem;
   }
 
   .info-box{
@@ -437,7 +445,7 @@ canvas {
     font-size:2rem;
   }
   .info-box-container{
-    width:100%;
+    width:80%;
     gap:10px;
   }
   .cloud-background {
@@ -461,6 +469,10 @@ canvas {
     text-align: left;
   }
 
+  .info-box-container{
+    width:95%;
+    gap:10px;
+  }
   .weather-animation .canvas-container {
     height: 100vh;
   }
