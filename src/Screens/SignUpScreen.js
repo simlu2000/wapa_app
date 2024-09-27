@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { auth, provider } from '../Utils/firebase'; 
+import { auth, provider } from '../Utils/firebase'; // Importa Firebase configurato
 import { useNavigate } from 'react-router-dom';
 import {
   signInWithPopup,
-  signInWithRedirect,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -11,7 +10,7 @@ import {
 } from 'firebase/auth';
 import { setUserData } from '../Utils/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
+import { faFacebookF, faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
 import '../Styles/style_signupscreen.css';
 
 const SignUpScreen = () => {
@@ -22,11 +21,6 @@ const SignUpScreen = () => {
   const [resetEmail, setResetEmail] = useState('');
   const [resetSent, setResetSent] = useState(false);
   const navigate = useNavigate();
-
-  // Funzione per rilevare se l'utente è su un dispositivo mobile
-  const isMobileDevice = () => {
-    return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  };
 
   const toggleForm = () => {
     setIsSignUp(!isSignUp);
@@ -57,39 +51,19 @@ const SignUpScreen = () => {
     }
   };
 
-  // Funzione per il login con Google
-  // Funzione per il login con Google
-const handleGoogleSignIn = async () => {
-  try {
-    const provider = new GoogleAuthProvider();
-    provider.setCustomParameters({
-      nonce: 'randomNonceValue',  // Imposta un valore nonce per evitare credenziali duplicate
-    });
-
-    if (isMobileDevice()) {
-      // Utilizza il redirect sui dispositivi mobili
-      await signInWithRedirect(auth, provider);
-    } else {
-      // Utilizza il popup sui desktop
+  const handleGoogleSignIn = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       await setUserData(user.uid, { email: user.email, localities: [] });
       navigate('/WeatherScreen');
+    } catch (error) {
+      console.error('Error during Google sign-in', error);
+      alert('An error occurred during Google sign-in. Please try again.');
     }
-  } catch (error) {
-    console.error('Error during Google sign-in', error);
-    
-    // Gestione dell'errore disallowed_useragent
-    if (error.code === 'auth/disallowed_useragent') {
-      alert('Accesso non consentito con questo browser. Utilizza un browser supportato come Chrome o Safari.');
-    } else if (error.code === 'auth/popup-closed-by-user') {
-      alert('Popup chiuso prima del completamento del login');
-    } else {
-      alert('Si è verificato un errore durante il login con Google. Riprova.');
-    }
-  }
-};
-
+  };
+  
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
@@ -129,6 +103,9 @@ const handleGoogleSignIn = async () => {
               <button className="icon" onClick={handleGoogleSignIn}>
                 <FontAwesomeIcon icon={faGooglePlusG} />
               </button>
+              <button className="icon">
+                <FontAwesomeIcon icon={faFacebookF} />
+              </button>
             </div>
             <span>or use your email for registration</span>
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
@@ -143,6 +120,9 @@ const handleGoogleSignIn = async () => {
             <div className="social-icons">
               <button className="icon" onClick={handleGoogleSignIn}>
                 <FontAwesomeIcon icon={faGooglePlusG} />
+              </button>
+              <button className="icon">
+                <FontAwesomeIcon icon={faFacebookF} />
               </button>
             </div>
             <span>or use your email and password</span>
