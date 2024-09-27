@@ -51,7 +51,7 @@ const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSe
 
     return (
         <section className="user-places-container">
-            <h2 id="fav-text">Your Favorite Places</h2>
+            <h2 id="fav-text" className="places-text">Your Favorite Places</h2>
             <input
                 type="text"
                 id="fav-insert"

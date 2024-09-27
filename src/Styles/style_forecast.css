@@ -100,7 +100,7 @@ p{
 /*GRADIENT WEATHER LABELS*/
 .weather-labels {
     margin-top: 10px;
-    width:90%;
+    width:75%;
     display:flex;
     justify-content: flex-start; /*a sx*/
     flex-wrap: wrap; /*permette di andare a capo*/

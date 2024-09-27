@@ -77,11 +77,12 @@ body {
 }
 
 #meteo-title {
-    margin-top: 10%;
+    margin-top: 30%;
+    
 }
 
 h1 {
-    font-size: 6.5em;
+    font-size: 4.5em;
     word-break: break-word;
 }
 
