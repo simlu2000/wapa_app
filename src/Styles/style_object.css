@@ -32,6 +32,39 @@
   margin: 5px 0;
 }
 
+/*frecce */
+.custom-arrow {
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.custom-arrow-next {
+  right: 5px; 
+  top:60%;
+}
+
+.custom-arrow-prev {
+  left: 5px; 
+  top:60%;
+
+}
+
+.custom-arrow::before {
+  font-size: 20px;
+  color: #000000; 
+}
+
+.custom-arrow:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+
 @media (max-width: 1024px) {
   .neo-title {
     font-size: 1.75rem;
@@ -53,6 +86,10 @@
 }
 
 @media (max-width: 480px) {
+  .neo-container {
+    width:100%;
+    margin-left:-5%;
+  }
   .neo-title {
     font-size: 1.25rem;
   }

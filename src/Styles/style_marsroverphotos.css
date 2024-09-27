@@ -39,7 +39,9 @@
   
   .slick-prev, .slick-next {
     z-index: 1;
-    color: #e67e22; 
+    width:40px;
+    height:40px;
+    z-index:1;
   }
   
   .slick-prev {
@@ -49,8 +51,15 @@
   .slick-next {
     right: 10px;
   }
+  .slick-prev:before, .slick-next:before{
+    font-size:20px;
+    color:#000000;
+  }
+  .slick-prev:hover, .slick-next:hover{
+    background:#333;
+  }
   .loading{
-    color:#f7f7f7;
+    color:#000000;
     margin-left:5%;
     font-size:1.5rem;
   }
@@ -66,5 +75,14 @@
     #mars-area{
       width:85%;
       margin-left: 11.5%;
+    }
+  }
+  @media (max-width: 480px) {
+    #mars-area{
+      width:90%;
+      margin-left: 5%;
+    }
+    .photo-slide {
+      height:300px;
     }
   }
