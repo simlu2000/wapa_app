@@ -42,7 +42,6 @@ const App = () => {
           <Route path='/AboutScreen' element={<AboutScreen />} />
         </Routes>
       </div>
-      <Footer />
     </div>
   );
 }
