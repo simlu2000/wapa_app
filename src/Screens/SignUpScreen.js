@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { auth, provider } from '../Utils/firebase'; // Importa Firebase configurato
+import { auth, provider } from '../Utils/firebase'; 
 import { useNavigate } from 'react-router-dom';
 import {
   signInWithPopup,
@@ -7,7 +7,6 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
-  signInWithRedirect,
 } from 'firebase/auth';
 import { setUserData } from '../Utils/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -37,7 +36,7 @@ const SignUpScreen = () => {
       navigate('/WeatherScreen');
     } catch (error) {
       console.error('Error during registration', error);
-      alert('Registration failed. Please check your details and try again.');
+      alert(error.message);
     }
   };
 
@@ -48,45 +47,38 @@ const SignUpScreen = () => {
       navigate('/WeatherScreen');
     } catch (error) {
       console.error('Error during sign-in', error);
-      alert('Sign-in failed. Please check your credentials and try again.');
+      alert(error.message);
     }
   };
 
   const handleGoogleSignIn = async () => {
     try {
-      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-      if (isMobile) {
-        await signInWithRedirect(auth, provider);
-      } else {
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-        await setUserData(user.uid, { email: user.email, localities: [] });
-        navigate('/WeatherScreen');
-      }
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      await setUserData(user.uid, { email: user.email, localities: [] });
+      navigate('/WeatherScreen');
     } catch (error) {
-      if (error.code === 'auth/popup-closed-by-user') {
-        alert('You closed the popup before completing the sign-in. Please try again.');
-      } else {
-        console.error("Error during Google Authentication: ", error);
-        alert('An error occurred during Google sign-in. Please try again.');
-      }
+      console.error('Error during Google sign-in', error);
+      alert('An error occurred during Google sign-in. Please try again.');
     }
   };
+  
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
     if (!resetEmail) {
-      alert('Please enter a valid email address.');
+      alert('Insert a valid e-mail address');
       return;
     }
 
     try {
       await sendPasswordResetEmail(auth, resetEmail);
       setResetSent(true);
-      alert(`An email has been sent to ${resetEmail}. Follow the instructions to reset your password.`);
+      alert(`An email has been sent to ${resetEmail}`);
     } catch (error) {
       console.error('Error during password reset', error);
-      alert('Failed to send password reset email. Please try again later.');
+      alert('Error during password reset. Try again later.');
     }
   };
 
@@ -108,7 +100,7 @@ const SignUpScreen = () => {
           <form id="sign" onSubmit={handleSignUp}>
             <h1 className="form-text">Create Account</h1>
             <div className="social-icons">
-              <button className="icon" onClick={(e) => { e.preventDefault(); handleGoogleSignIn(); }}>
+              <button className="icon" onClick={handleGoogleSignIn}>
                 <FontAwesomeIcon icon={faGooglePlusG} />
               </button>
             </div>
@@ -123,7 +115,7 @@ const SignUpScreen = () => {
           <form onSubmit={handleSignIn}>
             <h1 className="form-text">Sign In</h1>
             <div className="social-icons">
-              <button className="icon" onClick={(e) => { e.preventDefault(); handleGoogleSignIn(); }}>
+              <button className="icon" onClick={handleGoogleSignIn}>
                 <FontAwesomeIcon icon={faGooglePlusG} />
               </button>
             </div>
