@@ -5,7 +5,7 @@ import CloudBackground from "../Animations/CloudBackground";
 import "animate.css";
 import "../Styles/style_homescreen.css";
 import logo from "../img/logo.png";
-import alarmLogo from "../img/alarmLogo.png";
+import locationLogo from "../img/locationLogo";
 
 const HomeScreen = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -84,9 +84,9 @@ const HomeScreen = () => {
             </div>
             <div className="info-box-small">
               <WapaBox
-                imgSrc={alarmLogo}
-                title="Notifications"
-                text="Sign in to add your favorite locations (1-6) and see weather updates directly. Turn on weather notifications to stay prepared for any weather alarms like strange temperatures or thunderstorms."
+                imgSrc={locationLogo}
+                title="Locations"
+                text="Sign in to add your favorite locations (1-6) and see weather updates directly with only a click."
                 loading="lazy"
               />
               <InfoBox
