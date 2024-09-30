@@ -54,13 +54,21 @@ const SignUpScreen = () => {
   const handleGoogleSignIn = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      await setUserData(user.uid, { email: user.email, localities: [] });
-      navigate('/WeatherScreen');
+      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+      if (isMobile) {
+        await signInWithRedirect(auth, provider);
+      } else {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        await setUserData(user.uid, { email: user.email, localities: [] });
+        navigate('/WeatherScreen');
+      }
     } catch (error) {
-      console.error('Error during Google sign-in', error);
-      alert('An error occurred during Google sign-in. Please try again.');
+      if (error.code === 'auth/popup-closed-by-user') {
+        alert('You closed the popup before complete it. Please retry.');
+      } else {
+        console.error("Error during Google Authentication: ", error);
+      }
     }
   };
   
@@ -100,7 +108,7 @@ const SignUpScreen = () => {
           <form id="sign" onSubmit={handleSignUp}>
             <h1 className="form-text">Create Account</h1>
             <div className="social-icons">
-              <button className="icon" onClick={handleGoogleSignIn}>
+              <button className="icon" onClick={(e) => { e.preventDefault(); handleGoogleSignIn(); }}>
                 <FontAwesomeIcon icon={faGooglePlusG} />
               </button>
               <button className="icon">
@@ -118,7 +126,7 @@ const SignUpScreen = () => {
           <form onSubmit={handleSignIn}>
             <h1 className="form-text">Sign In</h1>
             <div className="social-icons">
-              <button className="icon" onClick={handleGoogleSignIn}>
+              <button className="icon" onClick={(e) => { e.preventDefault(); handleGoogleSignIn(); }}>
                 <FontAwesomeIcon icon={faGooglePlusG} />
               </button>
               <button className="icon">
