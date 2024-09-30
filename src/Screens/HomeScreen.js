@@ -5,7 +5,7 @@ import CloudBackground from "../Animations/CloudBackground";
 import "animate.css";
 import "../Styles/style_homescreen.css";
 import logo from "../img/logo.png";
-import locationLogo from "../img/locationLogo";
+import locationLogo from "../img/locationLogo.png";
 
 const HomeScreen = () => {
   const [isVisible, setIsVisible] = useState(false);
