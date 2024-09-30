@@ -120,7 +120,7 @@ a:hover {
 }
 
 .arrow-button:hover {
-  background-color: #000;
+  background-color: #000000;
   color: #F7F7F7;
 }
 
@@ -177,7 +177,7 @@ a:hover {
 
 .info-box {
   padding: 5px; 
-  background-color: #463189;
+  background-color: #09235A;
   border-radius: 50px;
 }
 
