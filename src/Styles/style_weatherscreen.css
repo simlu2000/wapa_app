@@ -151,7 +151,7 @@ h1 {
     transform: scale(1.05);
 }
 
-/*------------------------------------------Meteo area boxs-------------------------------------------*/
+/*------------------------------------------Meteo area boxes-------------------------------------------*/
 .today-data {
     display: flex;
     flex-direction: column;
@@ -249,7 +249,7 @@ h1 {
     visibility: hidden;
 }
 
-/*-------------------------------RESPONSIVE-------------------------------------*/
+/*----------------------------------------------Responsive---------------------------------*/
 @media (max-width: 1200px) {
     #meteo-title {
         width: 100%;
@@ -285,9 +285,6 @@ h1 {
         width: 18rem;
         height: 18rem;
     }
-
-
-
 }
 
 @media (max-width: 1024px) and (min-width:768) {
@@ -457,12 +454,10 @@ h1 {
     #meteo-title {
         margin-left: 0;
         margin-top: 70%;
-
     }
 
     .meteo-title {
         font-size: 2.5rem;
-
     }
 
     .meteo-subtitle {
@@ -473,6 +468,4 @@ h1 {
         display: block;
         visibility: hidden;
     }
-
-
 }

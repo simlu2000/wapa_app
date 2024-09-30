@@ -1,25 +1,25 @@
-.about-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 30vh; 
+#wapa-title {
+  text-align: center;
+  font-size: 3.5rem;
+  color: #000000;
 }
-  
-  #wapa-title {
-    text-align: center;
-    font-size: 3.5rem; 
-    color: #000000;
-  }
-  .sidebar-toggle {
-    color:#000000;
-    background-color: #F7F7F7;
-    border-radius: 15px;
-  }
 
-  .info-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 0;
-  }
-  
+.about-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30vh;
+}
+
+.sidebar-toggle {
+  color: #000000;
+  background-color: #F7F7F7;
+  border-radius: 15px;
+}
+
+.info-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0;
+}

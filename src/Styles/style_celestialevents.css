@@ -46,7 +46,8 @@
     text-align: center;
     color: #7f8c8d;
   }
-
+  
+/*----------------------------------------------Responsive---------------------------------*/
   @media (max-width: 992px) {
     #celestial-events{
       width:85%;

@@ -57,6 +57,8 @@
     margin-top: 15%;
 }
 
+
+/*Today forecasts*/
 .today-forecast {
     display: flex;
     justify-content:flex-start; /*l'uno accanto l'altro*/
@@ -135,9 +137,7 @@ p{
     
 }
 
-
-
-/*Dispositivi mobili */
+/*----------------------------------------------Responsive---------------------------------*/
 @media (max-width: 768px) {
     .today-forecast-item {
         flex-basis: 100%;
@@ -282,7 +282,6 @@ p{
         box-shadow:none;
         
     }
-
     .info{
         font-size: 0.9rem;
     }

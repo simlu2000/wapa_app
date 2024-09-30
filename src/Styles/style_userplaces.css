@@ -1,10 +1,9 @@
-/*------------------------------------------FAVORITE PLACES AREA-----------------------------------------*/
+/*------------------------------------------Favorite places area-----------------------------------------*/
 .user-places-container{
     width:95%;
     border-radius:25px;
     margin-top: 15%;
     margin-bottom:15%;
-
 }
 .user-places-container h2{
     color:#F7F7F7;
@@ -13,7 +12,6 @@
     list-style-type: none;
     padding: 0;
     margin-left:5%
-
 }
 
 .places-text{
@@ -47,7 +45,6 @@
     padding: 5px 0;
     border-bottom: 3px solid #F7F7F7;
     font-size:2rem;
-
 }
 
 .user-places-container button {
@@ -71,9 +68,8 @@
     background-color:#F7F7F7;
     color:#000000;
     margin-left:0
-
-
 }
+
 #location:hover{
     background-color: blue;
     color:#F7F7F7;
@@ -87,6 +83,7 @@
     margin-top:15px;
 }
 
+/*----------------------------------------------Responsive---------------------------------*/
 @media (max-width: 992px) {
     #loc-area{
         margin-bottom:25%;
@@ -96,7 +93,6 @@
     .user-places-container{
         width:90%;
         border-radius:25px;
-
     }
     .user-places-container ul {
         margin-left:5px;
@@ -109,21 +105,17 @@
         width:95%;
         margin-left:1%;
     }
-
 }
 
 @media (max-width: 576px) {
-
     .user-places-container{
         margin-left:5%;
     }
-    
 }
 
 @media (max-width: 481px) {
     #loc{
         margin-bottom: 5%;
-        
     }
     #fav-insert{
         width:55%;

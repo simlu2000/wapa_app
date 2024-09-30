@@ -30,9 +30,6 @@ body {
   position: relative;
   background-position: absolute;
   background-color: #F5F5F5;
-  /*background: rgb(31,55,107);
-  background: linear-gradient(90deg, rgba(31,55,107,1) 0%, rgba(200,130,255,1) 50%, rgba(130,203,255,1) 100%);
-  */
 }
 
 /*fallback gradient*/
@@ -142,6 +139,7 @@ a:hover {
   transform: rotate(-45deg) translate(4px, 4px);
 }
 
+/*-----------------------------------------------features---------------------------------------------*/
 #about-area {
   background-color: #F5F5F5;
   display: flex;
@@ -163,40 +161,6 @@ a:hover {
   color: #000000;
   margin-top: -35px;
   text-align: center;
-}
-
-
-.info-box-test {
-  text-align: center;
-  color: #F7F7F7;
-
-}
-
-.info-box-large p {
-  font-size: 1.8rem;
-
-}
-
-.info-box-small p {
-  font-size: 1.3rem;
-
-}
-
-
-.info-box-small {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 10px;
-  min-height: 300px;
-  margin-left: 1%; 
-}
-
-.info-box-large {
-  flex: 1;
-  min-height: 300px;
-  margin-left: 2%; 
 }
 
 .info-box-container {
@@ -227,6 +191,35 @@ a:hover {
 
 }
 
+.info-box-test {
+  text-align: center;
+  color: #F7F7F7;
+
+}
+
+.info-box-large p {
+  font-size: 1.8rem;
+}
+.info-box-large {
+  flex: 1;
+  min-height: 300px;
+  margin-left: 2%; 
+}
+
+.info-box-small p {
+  font-size: 1.3rem;
+}
+
+.info-box-small {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 300px;
+  margin-left: 1%; 
+}
+
 .info-box img {
   max-width: 60%;
   height: auto;
@@ -241,22 +234,19 @@ a:hover {
   justify-content: center;
   align-items: center;
   height: 100%;
-
 }
 
 .info-box h1, .info-box h2 {
   font-size: 2.5rem;
-  /*margin: 0;
-  text-align: center;*/
   margin-top: 10%;
-
 }
-
 
 .logo {
   height: 50%;
 }
 
+
+/*----------------------------------------Call to action area-----------------------------------------------*/
 #call-to-action-area {
   background: rgb(31, 55, 107);
   background: linear-gradient(90deg, rgba(31, 55, 107, 1) 0%, rgba(200, 130, 255, 1) 50%, rgba(130, 203, 255, 1) 100%);
@@ -274,7 +264,6 @@ a:hover {
   margin-top: 50px;
 }
 
-
 #signup-area h2 a {
   background-color: white;
   color: #000;
@@ -288,13 +277,11 @@ a:hover {
 #signup-area h2 a:hover {
   background-color: #000000;
   color: #F7F7F7;
-
 }
 
 #call-to-action-text {
   font-size: 3rem;
   color:#F7F7F7;
-
 }
 
 #call-to-action-text2 {
@@ -306,7 +293,7 @@ a:hover {
 }
 
 
-/*Animazione nuvole*/
+/*----------------------------------------------Clouds animation----------------------------------------*/
 .weather-container {
   position: relative;
   overflow: hidden;
@@ -318,9 +305,7 @@ a:hover {
   position: relative;
   width: 100vw;
   height: 100vh;
-  pointer-events: none;
-  /* Permette gli eventi del mouse e del touch di passare attraverso il canvas */
-
+  pointer-events: none;   /* Permette gli eventi del mouse e del touch di passare attraverso il canvas */
 }
 
 .weather-animation .canvas-container {
@@ -330,8 +315,7 @@ a:hover {
   left: 0;
   width: 100%;
   height: 90vh;
-  pointer-events: auto;
-  /* Abilita gli eventi del mouse e del touch per il canvas */
+  pointer-events: auto;   /* Abilita gli eventi del mouse e del touch per il canvas */
 }
 
 .centered-text {
@@ -347,17 +331,15 @@ a:hover {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .centered-text h2{
   color:#F7F7F7;
-
 }
 
 canvas {
   width: 100%;
   height: 100%;
 }
-
-
 
 #intro {
   position: relative;
@@ -368,6 +350,7 @@ canvas {
 }
 
 
+/*----------------------------------------------Responsive---------------------------------*/
 @media (max-width: 1024px) {
   .info-box-container {
     flex-direction: column;

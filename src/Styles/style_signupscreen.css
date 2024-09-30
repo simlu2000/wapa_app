@@ -29,7 +29,7 @@ body {
 
 .form-text {
     font-size: 3rem;
-    color:#000000;
+    color: #000000;
 }
 
 #sign {
@@ -205,10 +205,6 @@ body {
     transform: translateX(200%);
 }
 
-#footer {
-    display:none;
-}
-
 .social-icons {
 
     margin-top: -30px;
@@ -238,6 +234,7 @@ body {
     }
 }
 
+/*Animated background*/
 .background {
     position: fixed;
     width: 100vw;
@@ -259,7 +256,6 @@ body {
     animation-timing-function: linear;
     animation-iteration-count: infinite;
 }
-
 
 .background span:nth-child(0) {
     color: #ceadff;
@@ -462,54 +458,55 @@ body {
 }
 
 
-
 .form-container.reset-password {
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  
-  .form-container.reset-password form {
+}
+
+.form-container.reset-password form {
     width: 100%;
     max-width: 400px;
-  }
-  
-  .form-container.reset-password input {
+}
+
+.form-container.reset-password input {
     width: 100%;
     margin: 10px 0;
-  }
-  
-  .form-container.reset-password button {
+}
+
+.form-container.reset-password button {
     width: 100%;
     margin-top: 10px;
-  }
-  
-  .reset-password p {
+}
+
+.reset-password p {
     color: green;
-  }
+}
 
-  
+
+/*----------------------------------------------Responsive---------------------------------*/
 @media (max-width: 480px) {
-    #box{
-        width:90%;
+    #box {
+        width: 90%;
     }
-    .form-text{
-        font-size:2.2rem;
-    }
-    .social-icons{
-        margin-top:5%;
-    }
-    .email-area{
 
+    .form-text {
+        font-size: 2.2rem;
     }
-    #name-user{
+
+    .social-icons {
+        margin-top: 5%;
+    }
+
+    #name-user {
         margin-top: -150px;
     }
-    #back{
-        margin-left:5%;
-    }
-    #signup{
-        margin-top:-25px;
+
+    #back {
+        margin-left: 5%;
     }
 
+    #signup {
+        margin-top: -25px;
+    }
 }

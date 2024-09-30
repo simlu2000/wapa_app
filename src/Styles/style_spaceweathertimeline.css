@@ -1,4 +1,4 @@
-/* Importa il CSS di slick-carousel nel tuo file CSS globale o nel componente */
+/*Carousels style*/
 @import "~slick-carousel/slick/slick.css";
 @import "~slick-carousel/slick/slick-theme.css";
 
@@ -21,7 +21,7 @@
 .chart-container {
   margin-bottom: 20px;
   position: relative;
-  height: 400px; /* Imposta una altezza fissa per evitare ridimensionamenti */
+  height: 400px; /*altezza fissa per evitare ridimensionamenti*/
 }
 
 .slider-item {
@@ -62,6 +62,7 @@
 }
 
 
+/*----------------------------------------------Responsive---------------------------------*/
 @media (max-width: 992px) {
   #space-weather-timeline{
     width:85%;

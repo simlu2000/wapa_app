@@ -1,4 +1,3 @@
-/* Base Styles */
 body {
     font-family: "Inconsolata", monospace;
     margin: 0;
@@ -16,7 +15,6 @@ body {
     width: 100vw;
 }
 
-/* General Styles */
 .centered-text {
     text-align: center;
     margin: 0 auto;
@@ -44,17 +42,6 @@ body {
     border-radius: 5px;
     color: #F7F7F7;
     font-size: 1em;
-}
-
-
-#advanced-intro {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #000000;
-    position: relative;
 }
 
 #advanced-intro {
@@ -117,7 +104,6 @@ body {
     transform: rotate(-45deg) translate(4px, 4px);
 }
 
-/* Containers */
 #second-container,
 #third-container,
 #four-container {
@@ -158,7 +144,7 @@ body {
     margin-left: 5%;
 }
 
-/* Responsive Styles */
+/*----------------------------------------------Responsive---------------------------------*/
 @media (max-width: 1200px) {
     .title {
         font-size: 6rem;

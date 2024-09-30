@@ -31,7 +31,7 @@
   transform: translateX(0);
 }
 
-/* Espandi la sidebar al passaggio del mouse sui dispositivi di grandi dimensioni */
+/* Espansione sidebar al passaggio del mouse sui dispositivi di grandi dimensioni */
 @media (min-width: 768px) {
   .sidebar {
     transform: translateX(0);
@@ -45,7 +45,7 @@
   }
 }
 
-/* Stili per le voci del menu */
+/*Voci del menu */
 .sidebar-link {
   color: #000000;
   text-decoration: none;
@@ -60,7 +60,7 @@
   white-space: nowrap;
 }
 
-/* Colore delle icone e svg */
+/*Colore delle icone e svg */
 .sidebar-link i,
 .sidebar-link svg {
   color: #000000;
@@ -69,13 +69,13 @@
   vertical-align: middle;
 }
 
-/* Colore del testo delle voci del menu in stato hover */
+/*Testo delle voci del menu in stato hover */
 .sidebar-link:hover {
   background-color: #82cbff;
   color: #000000;
 }
 
-/* Stili specifici per dispositivi mobili */
+/*----------------------------------------------Responsive---------------------------------*/
 @media (max-width: 767px) {
   .sidebar {
     width: 100%;
@@ -98,7 +98,6 @@
   .sidebar-link {
     font-size: 1rem;
     color: #F7F7F7;
-    /* Colore del testo delle voci del menu sui dispositivi mobili */
     padding: 15px 0;
   }
 
