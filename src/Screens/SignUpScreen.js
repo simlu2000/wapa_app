@@ -37,7 +37,7 @@ const SignUpScreen = () => {
       navigate('/WeatherScreen');
     } catch (error) {
       console.error('Error during registration', error);
-      alert(error.message);
+      alert('Registration failed. Please check your details and try again.');
     }
   };
 
@@ -48,13 +48,12 @@ const SignUpScreen = () => {
       navigate('/WeatherScreen');
     } catch (error) {
       console.error('Error during sign-in', error);
-      alert(error.message);
+      alert('Sign-in failed. Please check your credentials and try again.');
     }
   };
 
   const handleGoogleSignIn = async () => {
     try {
-      const provider = new GoogleAuthProvider();
       const isMobile = /Mobi|Android/i.test(navigator.userAgent);
       if (isMobile) {
         await signInWithRedirect(auth, provider);
@@ -66,28 +65,28 @@ const SignUpScreen = () => {
       }
     } catch (error) {
       if (error.code === 'auth/popup-closed-by-user') {
-        alert('You closed the popup before complete it. Please retry.');
+        alert('You closed the popup before completing the sign-in. Please try again.');
       } else {
         console.error("Error during Google Authentication: ", error);
+        alert('An error occurred during Google sign-in. Please try again.');
       }
     }
   };
-  
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
     if (!resetEmail) {
-      alert('Insert a valid e-mail address');
+      alert('Please enter a valid email address.');
       return;
     }
 
     try {
       await sendPasswordResetEmail(auth, resetEmail);
       setResetSent(true);
-      alert(`An email has been sent to ${resetEmail}`);
+      alert(`An email has been sent to ${resetEmail}. Follow the instructions to reset your password.`);
     } catch (error) {
       console.error('Error during password reset', error);
-      alert('Error during password reset. Try again later.');
+      alert('Failed to send password reset email. Please try again later.');
     }
   };
 
