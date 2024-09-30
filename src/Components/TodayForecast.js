@@ -68,6 +68,7 @@ const TodayForecast = ({ forecast }) => {
                 yAxisID: 'y',
                 borderRadius:50,                
             },
+            
         ],
     };
 
@@ -81,7 +82,7 @@ const TodayForecast = ({ forecast }) => {
                 bottom: 0,
                 left: 0 
             },
-            color:'#F7F7F7',
+            color:'#000000',
         },
         scales: {
             x: {
@@ -89,25 +90,25 @@ const TodayForecast = ({ forecast }) => {
                 ticks: {
                     autoSkip: true,
                     maxTicksLimit: 5,
-                    color:'#F7F7F7',
+                    color:'#000000',
 
                 },
                 title:{
                     display:true,
                     text:'Time',
-                    color:'#F7F7F7',
+                    color:'#000000',
                 }
             },
             y: {
                 beginAtZero: true,
                 ticks: {
                     padding: 5,
-                    color:'#F7F7F7',
+                    color:'#000000',
                 },
                 title:{
                     display:true,
                     text:'Temperature (°C)',
-                    color:'#F7F7F7',
+                    color:'#000000',
                 },
             },
         },

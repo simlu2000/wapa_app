@@ -81,6 +81,7 @@ body {
     
 }
 
+
 h1 {
     font-size: 4.5em;
     word-break: break-word;
@@ -96,6 +97,13 @@ h1 {
     color: #F7F7F7;
     text-shadow: 1px 1px 1px #dedede;
 
+}
+#max{
+    margin-bottom:15%;
+
+}
+#place{
+    margin-top:-10%;
 }
 
 .sub-title {
@@ -151,7 +159,11 @@ h1 {
     transform: scale(1.05);
 }
 
+
 /*------------------------------------------Meteo area boxes-------------------------------------------*/
+#today-area{
+    margin-top:-15%;
+}
 .today-data {
     display: flex;
     flex-direction: column;

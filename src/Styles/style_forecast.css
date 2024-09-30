@@ -65,10 +65,11 @@
     flex-wrap: wrap;
     width:100%;
     overflow-x:auto; /*scroll se troppo grande*/
+    
    
 }
 .today-forecast-container h2{
-    color:#F7F7F7;
+    color:#000000;
 }
 .today-forecast-item {
     display: flex;
