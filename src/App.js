@@ -3,7 +3,6 @@ import { Route, Routes } from 'react-router-dom';
 import { auth } from './Utils/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import SideBar from "./Components/Sidebar";
-import Footer from "./Components/Footer";
 import HomeScreen from "./Screens/HomeScreen";
 import WeatherScreen from './Screens/WeatherScreen';
 import AdvancedScreen from './Screens/AdvancedScreen';
