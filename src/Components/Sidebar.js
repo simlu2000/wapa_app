@@ -104,18 +104,7 @@ const SideBar = ({ user }) => {
             </Link>
           )}
 
-          {user && (
-            <section id="user-places" className="sidebar-link">
-              <UserPlaces
-                userId={user.uid}
-                onAddLocation={handleAddLocation}
-                onRemoveLocation={handleRemoveLocation}
-                onSelectLocation={handleSelectLocation}
-                getUserLocalities={getUserLocalities}
-                weatherData={null} // Pass `weatherData` if needed
-              />
-            </section>
-          )}
+         
         </div>
       </aside>
     </>
