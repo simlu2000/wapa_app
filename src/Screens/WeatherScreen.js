@@ -234,7 +234,7 @@ const WeatherScreen = () => {
     };
     const handleSearch = (query) => {
         navigate('/WeatherScreen', { state: { query } });
-      };
+    };
 
     if (loading) {
         return <Loader />;
@@ -279,11 +279,10 @@ const WeatherScreen = () => {
                                     <h2 className="meteo-subtitle">Min: {Math.floor(weatherData.main.temp_min)} °C</h2>
                                     <h2 id="max" className="meteo-subtitle">Max: {Math.floor(weatherData.main.temp_max)} °C</h2>
                                 </div>
-
-                            </>
-                            
                                 <SearchLocation onSearch={handleSearch} />
-                            
+                            </>
+
+
 
                         </div>
                     )}
