@@ -86,7 +86,7 @@ const HomeScreen = () => {
               <WapaBox
                 imgSrc={locationLogo}
                 title="Locations"
-                text="Sign in to add your favorite locations (1-6) and see weather updates directly with only a click."
+                text="Join us and add (with a max of six) or remove your favorites locations directly from the weather screen or your reserved page. Then with only a click in one city you can see a lot of informations!"
                 loading="lazy"
               />
               <InfoBox

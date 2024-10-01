@@ -115,14 +115,14 @@ const TodayForecast = ({ forecast }) => {
         plugins: {
             legend: {
                 labels: {
-                    color: 'white', // Colore del testo della legenda
+                    color: 'white', 
                 },
             },
         },
     };
     
 
-    // Lista delle condizioni meteo con i rispettivi colori
+    //condizioni meteo con i rispettivi colori
     const weatherConditions = [
         { label: 'Clear', color: 'rgba(255, 223, 70, 0.7)' },
         { label: 'Clouds', color: 'rgba(150, 150, 150, 0.7)' },

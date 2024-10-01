@@ -3,7 +3,8 @@
     width:95%;
     border-radius:25px;
     margin-top: 15%;
-    margin-bottom:15%;
+    margin-left:0;
+    
 }
 .user-places-container h2{
     color:#F7F7F7;
@@ -11,11 +12,6 @@
 .user-places-container ul {
     list-style-type: none;
     padding: 0;
-    margin-left:5%
-}
-
-.places-text{
-    margin-top:-5%;
 }
 
 .add-loc{

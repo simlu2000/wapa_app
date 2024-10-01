@@ -1,22 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faInfoCircle, faCloudSun, faUser, faUserPlus, faSearch, faRocket, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import SearchLocation from './SearchLocation';
 import '../Styles/style_sidebar.css';
+import UserPlaces from './UserPlaces';
+import { addLocation, removeLocation, getUserLocalities } from '../Utils/userService';
 
 const SideBar = ({ user }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const [localities, setLocalities] = useState([]);
 
-  const handleSearch = (query) => {
-    navigate('/WeatherScreen', { state: { query } });
-    closeMenu();
-  };
 
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
+
+  const handleAddLocation = async (location) => {
+    if (user) {
+      try {
+        await addLocation(user.uid, location);
+        const updatedLocalities = await getUserLocalities(user.uid);
+        setLocalities(updatedLocalities);
+      } catch (error) {
+        console.error("Error adding location:", error);
+      }
+    }
+  };
+
+  const handleRemoveLocation = async (location) => {
+    if (user) {
+      try {
+        await removeLocation(user.uid, location);
+        const updatedLocalities = await getUserLocalities(user.uid);
+        setLocalities(updatedLocalities);
+      } catch (error) {
+        console.error("Error removing location:", error);
+      }
+    }
+  };
+
+  const handleSelectLocation = (location) => {
+    navigate('/WeatherScreen', { state: { query: location } });
+    closeMenu();
+  };
+
+  useEffect(() => {
+    const fetchLocalities = async () => {
+      if (user) {
+        try {
+          const localitiesList = await getUserLocalities(user.uid);
+          setLocalities(localitiesList);
+        } catch (error) {
+          console.error("Error fetching localities:", error);
+        }
+      }
+    };
+
+    fetchLocalities();
+  }, [user]);
 
   return (
     <>
@@ -48,13 +91,6 @@ const SideBar = ({ user }) => {
             {isMenuOpen && <span>Advanced</span>}
           </Link>
 
-          {isMenuOpen ? (
-            <SearchLocation onSearch={handleSearch} />
-          ) : (
-            <div className="sidebar-link">
-              <FontAwesomeIcon icon={faSearch} />
-            </div>
-          )}
 
           {user ? (
             <Link to="/UserProfileScreen" className="sidebar-link" onClick={closeMenu}>
@@ -66,6 +102,19 @@ const SideBar = ({ user }) => {
               <FontAwesomeIcon icon={faUserPlus} />
               {isMenuOpen && <span>Sign Up</span>}
             </Link>
+          )}
+
+          {user && (
+            <section id="user-places" className="sidebar-link">
+              <UserPlaces
+                userId={user.uid}
+                onAddLocation={handleAddLocation}
+                onRemoveLocation={handleRemoveLocation}
+                onSelectLocation={handleSelectLocation}
+                getUserLocalities={getUserLocalities}
+                weatherData={null} // Pass `weatherData` if needed
+              />
+            </section>
           )}
         </div>
       </aside>

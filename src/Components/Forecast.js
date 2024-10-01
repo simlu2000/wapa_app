@@ -101,6 +101,7 @@ const Forecast = ({ forecast }) => {
             justifyContent: 'center',
             transition: 'background-image 0.5s ease-in-out',
         }}>
+            <h2>Next 5 days</h2>
             <table className="forecast-table">
                 <thead>
                     <tr>

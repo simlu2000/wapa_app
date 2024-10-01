@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom'; // Import useLocation for accessing navigation state
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../Utils/firebase';
 import { addLocation, removeLocation, getUserLocalities } from '../Utils/userService';
 import WindCharts from '../Components/Charts/WindCharts';
@@ -13,7 +14,7 @@ import Sunset from '../Components/Charts/Sunset';
 import Forecast from '../Components/Forecast';
 import TodayForecast from '../Components/TodayForecast';
 import PercentageBox from '../Components/PercentageBox';
-import UserPlaces from '../Components/UserPlaces';
+import SearchLocation from '../Components/SearchLocation';
 import Loader from '../Components/loader';
 import '../Styles/style_weatherscreen.css';
 import animationData from '../Animations/Animation - 1726518835813.json';
@@ -44,6 +45,8 @@ const WeatherScreen = () => {
     const locationState = useLocation();
     const [isOffline, setIsOffline] = useState(!navigator.onLine);
     const { latitude, longitude } = location;
+    const navigate = useNavigate();
+
 
     const defaultOptions = {
         loop: true,
@@ -84,27 +87,6 @@ const WeatherScreen = () => {
         return () => unsubscribe();
     }, []);
 
-
-    useEffect(() => {
-        const getUserLocation = () => {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    position => {
-                        setLocation({
-                            latitude: position.coords.latitude,
-                            longitude: position.coords.longitude
-                        });
-                    },
-                    error => {
-                        console.error('Error retrieving user location', error);
-                    }
-                );
-            } else {
-                console.error('Geolocation not permitted by the browser');
-            }
-        };
-        getUserLocation();
-    }, []);
 
     useEffect(() => {
         const fetchWeatherData = async () => {
@@ -155,26 +137,6 @@ const WeatherScreen = () => {
         } catch (error) {
             console.error("Error. Location not found", error);
         }
-    };
-
-    const handleAddLocation = async (location) => {
-        if (user) {
-            await addLocation(user.uid, location);
-            const localities = await getUserLocalities(user.uid);
-            setUserLocalities(localities);
-        }
-    };
-
-    const handleRemoveLocation = async (location) => {
-        if (user) {
-            await removeLocation(user.uid, location);
-            const localities = await getUserLocalities(user.uid);
-            setUserLocalities(localities);
-        }
-    };
-
-    const handleSelectLocation = (location) => {
-        fetchWeatherBySearchedLocation(location);
     };
 
     const applyBackgroundGradient = (weatherMain) => {
@@ -270,6 +232,9 @@ const WeatherScreen = () => {
             console.log('Notification permission not granted.');
         }
     };
+    const handleSearch = (query) => {
+        navigate('/WeatherScreen', { state: { query } });
+      };
 
     if (loading) {
         return <Loader />;
@@ -307,7 +272,7 @@ const WeatherScreen = () => {
                         <div id="meteo-title">
 
                             <>
-                                <h1  id="place" className="meteo-title">In {city}:</h1>
+                                <h1 id="place" className="meteo-title">In {city}:</h1>
                                 <h1 className="meteo-title">{weatherData.weather[0].description}, feels {Math.floor(weatherData.main.feels_like)} °C</h1>
                                 {/*<h1 className="meteo-subtitle">Feels {Math.floor(weatherData.main.feels_like)} °C</h1>*/}
                                 <div>
@@ -316,37 +281,28 @@ const WeatherScreen = () => {
                                 </div>
 
                             </>
+                            
+                                <SearchLocation onSearch={handleSearch} />
+                            
 
                         </div>
                     )}
 
-                   
+
                 </section>
             </section>
 
+            <Forecast forecast={forecastData} isMobile={true} />
+
             {forecastData && (
                 <section id="today-area" >
-                        <TodayForecast forecast={forecastData} isMobile={true} />
-                        </section>
-                    )}
+                    <TodayForecast forecast={forecastData} isMobile={true} />
+                </section>
+            )}
 
             {weatherData && weatherData.clouds && forecastData && (
                 <section id="meteo-area" className="today-data">
-                    <Forecast forecast={forecastData} isMobile={true} />
 
-                    {user && (
-                        <section id="loc" className="meteo-box-container" style={{
-                            backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)'
-                        }}>
-                            <UserPlaces
-                                userId={user.uid}
-                                onAddLocation={handleAddLocation}
-                                onRemoveLocation={handleRemoveLocation}
-                                onSelectLocation={handleSelectLocation}
-                                getUserLocalities={getUserLocalities}
-                            />
-                        </section>
-                    )}
 
                     <div className="charts-container" style={{
                         backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)'
@@ -392,7 +348,7 @@ const WeatherScreen = () => {
                             </div>
                         </section>
 
-                        
+
 
                         <section id="sunrise" className="data-boxes meteo-box">
                             <Sunrise sunriseTime={weatherData.sys.sunrise} />
@@ -400,7 +356,7 @@ const WeatherScreen = () => {
                         <section id="sunset" className="data-boxes meteo-box">
                             <Sunset sunsetTime={weatherData.sys.sunset} />
                         </section>
-                        
+
                         <section id="dew-point" className="data-boxes meteo-box">
                             <h3 className="meteo-box-label">Dew Point</h3>
                             <MoreDataCharts value={calculateDewPoint(weatherData.main.temp, weatherData.main.humidity).toFixed(1)} />
