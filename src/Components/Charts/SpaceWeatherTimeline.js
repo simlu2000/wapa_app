@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Slider from 'react-slick';
 import { Line } from 'react-chartjs-2';
-import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
 import { Api_Key_NASA } from '../../Utils/API_KEYS';
 import "../../Styles/style_spaceweathertimeline.css";
 
 // Registrazione dei componenti di chart.js
-Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 const SpaceWeatherTimeline = () => {
   const [eventData, setEventData] = useState([]);
