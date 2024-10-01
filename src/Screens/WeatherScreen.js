@@ -43,6 +43,7 @@ const defaultOptions = {
     }
 };
 
+
 const WeatherScreen = () => {
     const [weatherData, setWeatherData] = useState(null);
     const [airPollutionData, setAirPollutionData] = useState(null);
@@ -56,6 +57,7 @@ const WeatherScreen = () => {
     const [isOffline, setIsOffline] = useState(!navigator.onLine);
     const navigate = useNavigate();
 
+    // Gestione dello stato online/offline
     useEffect(() => {
         const handleOnlineStatusChange = () => setIsOffline(!navigator.onLine);
 
@@ -68,6 +70,7 @@ const WeatherScreen = () => {
         };
     }, []);
 
+    // Autenticazione e recupero delle località utente
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
             setUser(currentUser);
@@ -84,24 +87,45 @@ const WeatherScreen = () => {
         return () => unsubscribe();
     }, []);
 
+    // Recupero dati meteo in base alla posizione
     useEffect(() => {
         if (location.latitude && location.longitude) {
             fetchWeatherData(location.latitude, location.longitude);
+        } else if (!locationState.state?.query) {
+            // Se non è stata selezionata una città, usa il GPS per ottenere la posizione dell'utente
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        setLocation({
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                        });
+                    },
+                    (error) => {
+                        console.error('Error getting location', error);
+                    }
+                );
+            } else {
+                console.error('Geolocation is not supported by this browser');
+            }
         }
-    }, [location]);
+    }, [locationState, location]);
 
+    // Recupero dati meteo in base alla città cercata
     useEffect(() => {
         if (locationState.state?.query) {
             fetchWeatherBySearchedLocation(locationState.state.query);
         }
     }, [locationState]);
 
+    // Notifiche meteo
     useEffect(() => {
         if (weatherData) {
             checkTimeAndNotify(weatherData);
         }
     }, [weatherData]);
 
+    // Funzione per recuperare i dati meteo
     const fetchWeatherData = async (latitude, longitude) => {
         try {
             const [weatherResponse, airPollutionResponse, forecastResponse] = await Promise.all([
@@ -121,6 +145,7 @@ const WeatherScreen = () => {
         }
     };
 
+    // Funzione per recuperare i dati meteo in base alla località cercata
     const fetchWeatherBySearchedLocation = async (searchLocation) => {
         try {
             const response = await axios.get(
@@ -142,6 +167,7 @@ const WeatherScreen = () => {
         }
     };
 
+    // Applicazione dello sfondo gradiente in base al meteo
     const applyBackgroundGradient = (weatherMain) => {
         const gradients = {
             Clear: 'linear-gradient(to top, #fff1eb 0%, #ace0f9 100%)',
@@ -158,6 +184,7 @@ const WeatherScreen = () => {
         return gradients[weatherMain] || 'linear-gradient(to right, #83a4d4, #b6fbff)';
     };
 
+    // Controllo del meteo e invio notifiche
     const checkWeatherAndNotify = (weatherData) => {
         if (!weatherData) return;
 
@@ -197,6 +224,7 @@ const WeatherScreen = () => {
         }
     };
 
+    // Controllo del tempo e invio notifiche a una certa ora
     const checkTimeAndNotify = (weatherData) => {
         const now = new Date();
         const hours = now.getHours();
@@ -207,12 +235,10 @@ const WeatherScreen = () => {
         }
     };
 
-    const sendNotification = ({ title, body }) => {
-        if (Notification.permission === 'granted') {
-            new Notification(title, { body });
-        } else {
-            console.log('Notification permission not granted.');
-        }
+    // Funzione per inviare notifiche
+    const sendNotification = (payload) => {
+        // Implementa la logica per inviare notifiche, come ad esempio tramite Firebase Cloud Messaging
+        console.log('Sending notification:', payload);
     };
 
     const handleSearch = (query) => {
@@ -225,21 +251,6 @@ const WeatherScreen = () => {
         const alpha = (x * temp) / (y + temp) + Math.log(hum / 100);
         return (y * alpha) / (x - alpha);
     };
-
-
-    if (loading) {
-        return <Loader />;
-    }
-
-    if (isOffline) {
-        return (
-            <div className="offline">
-                <Lottie options={defaultOptions} height={400} width={400} />
-                <h1>You are offline</h1>
-            </div>
-        );
-    }
-
 
     return (
         <>

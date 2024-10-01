@@ -99,7 +99,7 @@ h1 {
 
 }
 #max{
-    margin-bottom:15%;
+    margin-bottom:10%;
 }
 #place{
     margin-top:-10%;
@@ -166,8 +166,8 @@ h1 {
 .search-location-form {
     display: flex;
     align-items: center;
-    margin-top: 20px;
     margin-bottom:5%;
+    width:50%;
   }
   
   #search {
@@ -180,7 +180,7 @@ h1 {
     box-sizing: border-box;
     outline: none;
     font-size: 1rem;
-    margin-left: 15px;
+    margin-left:0;
     margin-top: 15px;
   }
   

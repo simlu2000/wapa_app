@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { auth, provider } from '../Utils/firebase'; 
+import { auth, provider } from '../Utils/firebase'; // Importa Firebase configurato
 import { useNavigate } from 'react-router-dom';
 import {
   signInWithPopup,
@@ -10,7 +10,7 @@ import {
 } from 'firebase/auth';
 import { setUserData } from '../Utils/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
+import { faFacebookF, faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
 import '../Styles/style_signupscreen.css';
 
 const SignUpScreen = () => {
@@ -53,17 +53,19 @@ const SignUpScreen = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       await setUserData(user.uid, { email: user.email, localities: [] });
       navigate('/WeatherScreen');
     } catch (error) {
       console.error('Error during Google sign-in', error);
-      alert('An error occurred during Google sign-in. Please try again.');
+      if (error.code === 'auth/popup-closed-by-user') {
+        alert('Popup closed before signing in');
+      } else {
+        alert('An error occurred during Google sign-in. Please try again.');
+      }
     }
   };
-  
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
