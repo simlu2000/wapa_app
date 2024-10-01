@@ -268,9 +268,7 @@ const WeatherScreen = () => {
             >
                 <section className="mini-container">
                     {loading ? (
-                        <div className="animation-container">
-                            <Lottie options={defaultOptions} height={200} width={200} />
-                        </div>
+                        <Loader/>
                     ) : (
                         <div id="meteo-title">
 

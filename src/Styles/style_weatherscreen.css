@@ -181,7 +181,6 @@ h1 {
     outline: none;
     font-size: 1rem;
     margin-left:0;
-    margin-top: 15px;
   }
   
   .search-button {
@@ -491,6 +490,9 @@ h1 {
         margin-left: 0;
         margin-top: 35%;
 
+    }
+    .meteo-title{
+        margin-top: 40%;
     }
 
     .meteo-title {
