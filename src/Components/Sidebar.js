@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faInfoCircle, faCloudSun, faUser, faUserPlus, faSearch, faRocket, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faInfoCircle, faCloudSun, faUser, faUserPlus, faSearch, faRocket, faBars, faTimes, faCity, faStar } from '@fortawesome/free-solid-svg-icons';
 import SearchLocation from './SearchLocation';
 import '../Styles/style_sidebar.css';
 import UserPlaces from './UserPlaces';
@@ -106,16 +106,23 @@ const SideBar = ({ user }) => {
 
           {user && (
             <section id="user-places" className="sidebar-link">
-              <UserPlaces
-                userId={user.uid}
-                onAddLocation={handleAddLocation}
-                onRemoveLocation={handleRemoveLocation}
-                onSelectLocation={handleSelectLocation}
-                getUserLocalities={getUserLocalities}
-                weatherData={null} // Pass `weatherData` if needed
-              />
+              {isMenuOpen ? (
+                <UserPlaces
+                  userId={user.uid}
+                  onAddLocation={handleAddLocation}
+                  onRemoveLocation={handleRemoveLocation}
+                  onSelectLocation={handleSelectLocation}
+                  getUserLocalities={getUserLocalities}
+                  weatherData={null}
+                />
+              ) : (
+                <div>
+                  <FontAwesomeIcon icon={faStar} />
+                </div>
+              )}
             </section>
           )}
+
         </div>
       </aside>
     </>
