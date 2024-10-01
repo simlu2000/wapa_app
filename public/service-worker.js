@@ -1,4 +1,4 @@
-const CACHE_NAME = 'static-cache-v2'; // Aggiorna la versione della cache
+const CACHE_NAME = 'static-cache-v2'; 
 
 // Installazione del Service Worker
 self.addEventListener('install', (event) => {
