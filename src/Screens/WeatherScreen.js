@@ -33,6 +33,16 @@ L.Icon.Default.mergeOptions({
     iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
     shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
 });
+
+const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+        preserveAspectRatio: 'xMidYMid slice'
+    }
+};
+
 const WeatherScreen = () => {
     const [weatherData, setWeatherData] = useState(null);
     const [airPollutionData, setAirPollutionData] = useState(null);
@@ -44,32 +54,19 @@ const WeatherScreen = () => {
     const [user, setUser] = useState(null);
     const locationState = useLocation();
     const [isOffline, setIsOffline] = useState(!navigator.onLine);
-    const { latitude, longitude } = location;
     const navigate = useNavigate();
 
-
-    const defaultOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: animationData,
-        rendererSettings: {
-            preserveAspectRatio: 'xMidYMid slice'
-        }
-    };
-
     useEffect(() => {
-        const handleOnline = () => setIsOffline(false);
-        const handleOffline = () => setIsOffline(true);
+        const handleOnlineStatusChange = () => setIsOffline(!navigator.onLine);
 
-        window.addEventListener('online', handleOnline);
-        window.addEventListener('offline', handleOffline);
+        window.addEventListener('online', handleOnlineStatusChange);
+        window.addEventListener('offline', handleOnlineStatusChange);
 
         return () => {
-            window.removeEventListener('online', handleOnline);
-            window.removeEventListener('offline', handleOffline);
+            window.removeEventListener('online', handleOnlineStatusChange);
+            window.removeEventListener('offline', handleOnlineStatusChange);
         };
     }, []);
-
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
@@ -87,29 +84,10 @@ const WeatherScreen = () => {
         return () => unsubscribe();
     }, []);
 
-
     useEffect(() => {
-        const fetchWeatherData = async () => {
-            if (location.latitude && location.longitude) {
-                try {
-                    const [weatherResponse, airPollutionResponse, forecastResponse] = await Promise.all([
-                        axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=${Api_Key_OpenWeather}&units=metric`),
-                        axios.get(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${location.latitude}&lon=${location.longitude}&appid=${Api_Key_OpenWeather}`),
-                        axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${location.latitude}&lon=${location.longitude}&appid=${Api_Key_OpenWeather}&units=metric`)
-                    ]);
-
-                    setWeatherData(weatherResponse.data);
-                    setCity(weatherResponse.data.name);
-                    setAirPollutionData(airPollutionResponse.data.list[0].components);
-                    setForecastData(forecastResponse.data.list);
-                } catch (error) {
-                    console.error("Error during fetching weather data", error);
-                } finally {
-                    setLoading(false);
-                }
-            }
-        };
-        fetchWeatherData();
+        if (location.latitude && location.longitude) {
+            fetchWeatherData(location.latitude, location.longitude);
+        }
     }, [location]);
 
     useEffect(() => {
@@ -117,6 +95,31 @@ const WeatherScreen = () => {
             fetchWeatherBySearchedLocation(locationState.state.query);
         }
     }, [locationState]);
+
+    useEffect(() => {
+        if (weatherData) {
+            checkTimeAndNotify(weatherData);
+        }
+    }, [weatherData]);
+
+    const fetchWeatherData = async (latitude, longitude) => {
+        try {
+            const [weatherResponse, airPollutionResponse, forecastResponse] = await Promise.all([
+                axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${Api_Key_OpenWeather}&units=metric`),
+                axios.get(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${Api_Key_OpenWeather}`),
+                axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${Api_Key_OpenWeather}&units=metric`)
+            ]);
+
+            setWeatherData(weatherResponse.data);
+            setCity(weatherResponse.data.name);
+            setAirPollutionData(airPollutionResponse.data.list[0].components);
+            setForecastData(forecastResponse.data.list);
+        } catch (error) {
+            console.error("Error during fetching weather data", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const fetchWeatherBySearchedLocation = async (searchLocation) => {
         try {
@@ -140,41 +143,26 @@ const WeatherScreen = () => {
     };
 
     const applyBackgroundGradient = (weatherMain) => {
-        switch (weatherMain) {
-            case 'Clear':
-                return 'linear-gradient(to top, #fff1eb 0%, #ace0f9 100%)';
-            case 'Clouds':
-                return 'linear-gradient(-20deg, #616161 0%, #9bc5c3 100%)';
-            case 'Rain':
-                return 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)';
-            case 'Light Rain':
-                return 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)';
-            case 'Snow':
-                return 'linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%)';
-            case 'Thunderstorm':
-                return 'linear-gradient(to right, #f83600 0%, #f9d423 100%)';
-            case 'Drizzle':
-                return 'linear-gradient(to right, #4CA1AF, #C4E0E5)';
-            case 'Fog':
-            case 'Mist':
-            case 'Haze':
-                return 'linear-gradient(to right, #757F9A, #D7DDE8)';
-            default:
-                return 'linear-gradient(to right, #83a4d4, #b6fbff)';
-        }
-    };
-
-    const calculateDewPoint = (temp, hum) => {
-        const x = 17.27;
-        const y = 237.7;
-        const alpha = (x * temp) / (y + temp) + Math.log(hum / 100);
-        return (y * alpha) / (x - alpha);
+        const gradients = {
+            Clear: 'linear-gradient(to top, #fff1eb 0%, #ace0f9 100%)',
+            Clouds: 'linear-gradient(-20deg, #616161 0%, #9bc5c3 100%)',
+            Rain: 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)',
+            'Light Rain': 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)',
+            Snow: 'linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%)',
+            Thunderstorm: 'linear-gradient(to right, #f83600 0%, #f9d423 100%)',
+            Drizzle: 'linear-gradient(to right, #4CA1AF, #C4E0E5)',
+            Fog: 'linear-gradient(to right, #757F9A, #D7DDE8)',
+            Mist: 'linear-gradient(to right, #757F9A, #D7DDE8)',
+            Haze: 'linear-gradient(to right, #757F9A, #D7DDE8)',
+        };
+        return gradients[weatherMain] || 'linear-gradient(to right, #83a4d4, #b6fbff)';
     };
 
     const checkWeatherAndNotify = (weatherData) => {
         if (!weatherData) return;
 
         const weatherMain = weatherData.weather[0].main;
+        const temp = weatherData.main.temp;
         let notificationPayload = null;
 
         if (weatherMain === 'Rain') {
@@ -187,21 +175,21 @@ const WeatherScreen = () => {
                 title: 'Weather Alert',
                 body: 'Thunderstorm alert! Stay indoors and avoid outdoor activities!',
             };
-        } else if (weatherData.main.temp < 0) {
+        } else if (temp < 0) {
             notificationPayload = {
                 title: 'Weather Alert',
                 body: 'Temperature extremely low! Dress warmly!',
             };
-        } else if (weatherData.main.temp > 35) {
+        } else if (temp > 35) {
             notificationPayload = {
                 title: 'Weather Alert',
                 body: 'Temperature extremely high! Drink a lot of water and avoid direct sun!',
             };
-        } else if (weatherData.main.temp < 25) {
+        } else if (temp < 25) {
             notificationPayload = {
                 title: 'Weather Alert TEST',
-                body: 'TEST: Temperature < 25'
-            }
+                body: 'TEST: Temperature < 25',
+            };
         }
 
         if (notificationPayload) {
@@ -219,12 +207,6 @@ const WeatherScreen = () => {
         }
     };
 
-    useEffect(() => {
-        if (weatherData) {
-            checkTimeAndNotify(weatherData);
-        }
-    }, [weatherData]);
-
     const sendNotification = ({ title, body }) => {
         if (Notification.permission === 'granted') {
             new Notification(title, { body });
@@ -232,9 +214,18 @@ const WeatherScreen = () => {
             console.log('Notification permission not granted.');
         }
     };
+
     const handleSearch = (query) => {
         navigate('/WeatherScreen', { state: { query } });
     };
+    
+    const calculateDewPoint = (temp, hum) => {
+        const x = 17.27;
+        const y = 237.7;
+        const alpha = (x * temp) / (y + temp) + Math.log(hum / 100);
+        return (y * alpha) / (x - alpha);
+    };
+
 
     if (loading) {
         return <Loader />;
@@ -248,6 +239,7 @@ const WeatherScreen = () => {
             </div>
         );
     }
+
 
     return (
         <>
@@ -280,6 +272,7 @@ const WeatherScreen = () => {
                                     <h2 id="max" className="meteo-subtitle">Max: {Math.floor(weatherData.main.temp_max)} °C</h2>
                                 </div>
                                 <SearchLocation onSearch={handleSearch} />
+
                             </>
 
 
