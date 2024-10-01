@@ -274,7 +274,7 @@ const WeatherScreen = () => {
 
                             <>
                                 <h1 id="place" className="meteo-title">In {city}:</h1>
-                                <h1 className="meteo-title">{weatherData.weather[0].description}, feels {Math.floor(weatherData.main.feels_like)} °C</h1>
+                                <h1 id="place-subtitle" className="meteo-title">{weatherData.weather[0].description}, feels {Math.floor(weatherData.main.feels_like)} °C</h1>
                                 {/*<h1 className="meteo-subtitle">Feels {Math.floor(weatherData.main.feels_like)} °C</h1>*/}
                                 <div>
                                     <h2 className="meteo-subtitle">Min: {Math.floor(weatherData.main.temp_min)} °C</h2>

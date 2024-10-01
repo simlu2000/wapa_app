@@ -308,16 +308,23 @@ h1 {
 }
 
 /*----------------------------------------------Responsive---------------------------------*/
+
 @media (max-width: 1200px) {
     #meteo-title {
         width: 100%;
         text-align: left;
         margin: 0;
-        font-size: 0.4rem;
+        font-size: 0.8rem;
         margin-left: 0;
-        margin-top: 15%;
+        margin-top: 45%;
     }
 
+    #max{
+        margin-bottom:10%;
+    }
+    .search-location-form {
+        margin-bottom:25%;
+      }
     #weather-intro {
         padding: 10px;
         box-sizing: border-box;
@@ -349,20 +356,29 @@ h1 {
     h1 {
         margin-left: 25%;
     }
+    
 }
 
 @media (max-width: 992px) {
     #meteo-title {
         text-align: left;
         margin: 0;
-        font-size: 0.8rem;
-        margin-top: 20%;
+        font-size: 0.6rem;
+        margin-top: 40%;
+        margin-left:0;
     }
 
     #weather-intro {
         padding: 10px;
         box-sizing: border-box;
     }
+
+    #max{
+        margin-bottom:10%;
+    }
+    .search-location-form {
+        margin-bottom:25%;
+      }
 
     .meteo-box-container {
         width: 97%;
@@ -388,7 +404,7 @@ h1 {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 769px) {
     #weather-intro {
         width: 100%;
     }
@@ -413,9 +429,16 @@ h1 {
         width: 95%;
     }
 
+    #max{
+        margin-bottom:10%;
+    }
+    .search-location-form {
+        margin-bottom:25%;
+      }
     #meteo-title {
-        margin-left: 20%;
-        font-size: 0.7rem;
+        margin-left: 0;
+        font-size: 0.6rem;
+        margin-top:55%;
     }
 
     .light-chart {
@@ -526,6 +549,13 @@ h1 {
 
     .meteo-subtitle {
         font-size: 1rem;
+    }
+    #place-subtitle{
+        margin-top:0;
+    }
+
+    #max{
+        margin-bottom:15%;
     }
 
     #tempChart {
