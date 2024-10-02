@@ -50,8 +50,8 @@ const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSe
     }, [userId, onAddLocation, onRemoveLocation, onSelectLocation]);
 
     return (
-        
-        <section className="user-places-container">            
+
+        <section className="user-places-container">
             <input
                 type="text"
                 id="fav-insert"
@@ -61,21 +61,22 @@ const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSe
                 placeholder="Add new location"
             />
             <button
-                className="add-loc"
+                id="add-loc"
                 onClick={handleAddClick}
                 disabled={localities.length >= 6}
             >
-                <FontAwesomeIcon icon={faAdd} style={{ color: "#F7F7F7" }} />
+                <FontAwesomeIcon icon={faAdd} style={{ color: "#F7F7F7", }} />
             </button>
             <ul>
                 {localities.map((loc) => (
                     <li key={loc}>
                         <button id="location" className="btn-loc" onClick={() => onSelectLocation(loc)}>
                             {loc}
+                            <button className="btn-del" id="bt1" onClick={() => handleRemoveClick(loc)}>
+                                <FontAwesomeIcon icon={faRemove} style={{ color: "#000000" }} />
+                            </button>
                         </button>
-                        <button className="btn-del" id="bt1" onClick={() => handleRemoveClick(loc)}>
-                            <FontAwesomeIcon icon={faRemove} style={{ color: "#F7F7F7" }} />
-                        </button>
+
                     </li>
                 ))}
             </ul>

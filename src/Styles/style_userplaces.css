@@ -45,8 +45,6 @@
     margin-right:0; 
     padding: 5px 10px; 
     border: none; 
-    background-color:#82cbff;
-    color: white; 
     border-radius: 25px;
     cursor: pointer; 
 }
@@ -58,14 +56,22 @@
 #location{
     font-size:1rem;
     border-radius:25px;
-    background-color:#F7F7F7;
     color:#000000;
-    margin-left:0
+    margin-left:0;
+    backdrop-filter: blur(5px);
+
 }
 
 #location:hover{
     background-color: blue;
     color:#F7F7F7;
+}
+
+#add-loc{
+    background-color: #82cbff;
+    color:#F7F7F7;
+    margin-left:5%;
+    width:40px;
 }
 
 /*----------------------------------------------Responsive---------------------------------*/
