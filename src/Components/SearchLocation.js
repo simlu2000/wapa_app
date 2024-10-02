@@ -25,7 +25,7 @@ const SearchLocation = ({ onSearch }) => {
             <button type="submit" className="search-button">
                 <FontAwesomeIcon icon={faSearch} />
             </button>
-        </form>
+        </form> 
     );
 };
 

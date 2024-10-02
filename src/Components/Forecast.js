@@ -7,7 +7,7 @@ const Forecast = ({ forecast }) => {
     if (!forecast) {
         return (
             <div className="loading-container">
-                <h2>No forecast available</h2>
+                
             </div>
         );
     }

@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    outline:none;
 }
 
 body {
@@ -165,22 +166,21 @@ h1 {
 
 .search-location-form {
     display: flex;
-    align-items: center;
     margin-bottom:5%;
     width:50%;
   }
   
   #search {
     width: calc(100% - 60px);
-    height: 40px;
+    height: 50px;
     padding: 0 15px;
-    border: 1px solid #F7F7F7;
+    border:3px solid #47BFFF;
     border-radius: 25px;
-    background-color: #F7F7F7;
     box-sizing: border-box;
     outline: none;
     font-size: 1rem;
     margin-left:0;
+
   }
   
   .search-button {
@@ -188,17 +188,21 @@ h1 {
     border: none;
     cursor: pointer;
     margin-left: 10px;
-    margin-top: 15px;
-    padding: 8px;
+    height:50px;
+    margin-top: 0;
+    padding: 18px;
     display: flex;
     align-items: center;
     border-radius: 50%;
     background-color: #F7F7F7;
     color: #000000;
+    border:3px solid #47BFFF;
+
   }
-  
-  .search-button .fa-search {
-    font-size: 1.5rem;
+  .search-button:hover{
+    background-color: #000000;
+    color:#F7F7F7;
+    border:3px solid #47BFFF;
   }
   
   .btn-sidebar {
@@ -364,7 +368,7 @@ h1 {
         text-align: left;
         margin: 0;
         font-size: 0.6rem;
-        margin-top: 40%;
+        margin-top: 70%;
         margin-left:0;
     }
 
@@ -376,8 +380,11 @@ h1 {
     #max{
         margin-bottom:10%;
     }
+
     .search-location-form {
         margin-bottom:25%;
+        width:70%;
+
       }
 
     .meteo-box-container {
@@ -438,8 +445,16 @@ h1 {
     #meteo-title {
         margin-left: 0;
         font-size: 0.6rem;
-        margin-top:55%;
+        margin-top:75%;
     }
+    .meteo-title{
+        margin-top:-5%;
+    }
+    .search-location-form {
+        width:70%;
+        margin-bottom:35%;
+      }
+
 
     .light-chart {
         width: 300px;
@@ -477,14 +492,19 @@ h1 {
 
     #meteo-title {
         margin-left: 0;
-        margin-top: 45%;
+        margin-top: 75%;
 
     }
 
     .meteo-title {
         font-size: 3rem;
         text-shadow: none;
+        margin-top: -10%;
     }
+
+    .search-location-form {
+        width:70%;
+      }
 
 
     .data-boxes {
@@ -511,11 +531,11 @@ h1 {
 @media (max-width: 391px) {
     #meteo-title {
         margin-left: 0;
-        margin-top: 35%;
+        margin-top: 65%;
 
     }
     .meteo-title{
-        margin-top: 40%;
+        margin-top: -10%;
     }
 
     .meteo-title {
@@ -523,8 +543,13 @@ h1 {
 
     }
 
+    .search-location-form {
+        width:70%;
+        margin-bottom:10%;
+      }
+
     #max{
-        margin-bottom:35%;
+        margin-bottom:15%;
     }
     .meteo-subtitle {
         font-size: 1rem;
@@ -557,6 +582,10 @@ h1 {
     #max{
         margin-bottom:15%;
     }
+
+    .search-location-form {
+        width:70%;
+      }
 
     #tempChart {
         display: block;
