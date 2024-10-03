@@ -27,25 +27,33 @@ self.addEventListener('install', event => {
 // Gestione della cache per le richieste fetch
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then(cachedResponse => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-      return fetch(event.request).then(networkResponse => {
-        // Cloniamo la risposta di rete per poterla cacheare e poi servire
-        const responseClone = networkResponse.clone();
-        if (event.request.url.startsWith('https://apis.google.com')) {
-          // Evitiamo di cacheare risorse di Google per evitare problemi
-          return networkResponse;
+    caches.match(event.request)
+      .then(response => {
+        if (response) {
+          console.log('found ', event.request.url, ' in cache');
+          return response;
         }
-        caches.open(CACHE_NAME).then(cache => {
-          cache.put(event.request, responseClone);
+        console.log('Resource not found in cache, fetching:', event.request.url);
+        return fetch(event.request).then(networkResponse => {
+          // Cloniamo la risposta di rete per metterla in cache e poi servirla
+          let responseClone = networkResponse.clone();
+          
+          // Controlliamo se la risorsa non è una di quelle di Google
+          if (!event.request.url.includes('apis.google.com')) {
+            caches.open(CACHE_NAME).then(cache => {
+              cache.put(event.request, responseClone);
+            });
+          }
+
+          return networkResponse;
         });
-        return networkResponse;
-      });
-    })
+      }).catch(error => {
+        return new Response("Network error happened", { "status": 408, "headers": { "Content-Type": "text/plain" } });
+      })
   );
 });
+
+
 
 
 // Gestione delle notifiche push
