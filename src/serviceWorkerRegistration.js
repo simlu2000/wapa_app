@@ -1,3 +1,4 @@
+//Determinazione del contesto locale (isLocalhost) per adattare la logica di registrazione del Service Worker, evitando problemi in ambienti di sviluppo.
 const isLocalhost = Boolean(
     window.location.hostname === 'localhost' ||
     window.location.hostname === '[::1]' ||

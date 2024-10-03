@@ -7,9 +7,11 @@ import HomeScreen from "./Screens/HomeScreen";
 import WeatherScreen from './Screens/WeatherScreen';
 import AdvancedScreen from './Screens/AdvancedScreen';
 import SignUpScreen from './Screens/SignUpScreen';
+import PasswordReset from './Screens/PasswordResetScreen';
 import PrivacyPolicesScreen from './Screens/PrivacyPolicesScreen';
 import UserProfileScreen from './Screens/UserProfileScreen';
 import AboutScreen from './Screens/AboutScreen';
+import PasswordResetScreen from './Screens/PasswordResetScreen';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -37,6 +39,7 @@ const App = () => {
           <Route path='/WeatherScreen' element={<WeatherScreen />} />
           <Route path='/AdvancedScreen' element={<AdvancedScreen />} />
           <Route path='/SignUpScreen' element={<SignUpScreen />} />
+          <Route path='/PasswordResetScreen'element={<PasswordResetScreen />} />
           <Route path='/PrivacyPolicesScreen' element={<PrivacyPolicesScreen />} />
           <Route path='/UserProfileScreen' element={<UserProfileScreen user={user} />} />
           <Route path='/AboutScreen' element={<AboutScreen />} />

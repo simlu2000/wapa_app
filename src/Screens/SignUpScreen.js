@@ -1,5 +1,6 @@
 //Gestisce la registrazione e l'accesso degli utenti, e interagisce con userService per gestire i dati dell'utente nel Realtime Database.
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 import { auth, provider } from '../Utils/firebase';
 import { useNavigate } from 'react-router-dom';
 import { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
@@ -121,7 +122,7 @@ const SignUpScreen = () => {
             <span>or use your email and password</span>
             <input className="email-area" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-            <a href="#">Forget Your Password?</a>
+            <h2><Link to="/PasswordResetScreen">Forget Your Password?</Link></h2>
             <button type="submit">Sign In</button>
           </form>
         </div>
