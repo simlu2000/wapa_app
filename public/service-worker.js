@@ -45,9 +45,12 @@ self.addEventListener('fetch', event => {
           // Cloniamo la risposta di rete per metterla in cache e poi servirla
           let responseClone = networkResponse.clone();
 
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, responseClone);
-          });
+          // Solo aggiungi alla cache se non è una richiesta POST
+          if (event.request.method !== 'POST') {
+            caches.open(CACHE_NAME).then(cache => {
+              cache.put(event.request, responseClone);
+            });
+          }
 
           return networkResponse;
         });
@@ -57,6 +60,7 @@ self.addEventListener('fetch', event => {
       })
   );
 });
+
 
 
 
