@@ -1,79 +1,48 @@
-const CACHE_NAME = 'static-cache-v2'; 
+const CACHE_NAME = 'pages-cache-v1';
+
+const filesToCache = [
+  '/',
+  '/index.html',
+  '/styles.css',
+  '/main.js',
+  '/fallback.html',
+  '/manifest.json',
+  '/icons/logo-144x144.png',
+  '/src/img/WAPA_logo.png',
+];
 
 // Installazione del Service Worker
-self.addEventListener('install', (event) => {
+self.addEventListener('install', event => {
   console.log('Service worker installing...');
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll([
-        '/',
-        '/index.html',
-        '/styles.css',
-        '/main.js',
-        '/fallback.html',
-        '/manifest.json',
-        '/icons/logo-144x144.png',
-        '/src/img/WAPA_logo.png',
-      ]);
+    caches.open(CACHE_NAME).then(cache => {
+      console.log('Adding static files to cache');
+      return cache.addAll(filesToCache);
     })
   );
   self.skipWaiting();
 });
 
-// Attivazione del Service Worker
-self.addEventListener('activate', (event) => {
-  console.log('Service worker activating...');
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
-  );
-  self.clients.claim();
-});
-
 // Gestione della cache per le richieste fetch
-self.addEventListener('fetch', (event) => {
-  console.log('Service worker fetching:', event.request.url);
-
-  // Escludi il service worker da caching
-  if (event.request.url.includes('service-worker.js')) {
-    return;
-  }
-
-  // Evita di cacheare le API o altre risorse dinamiche
-  if (event.request.url.includes('api.openweathermap.org') || event.request.url.includes('googleapis.com')) {
-    return fetch(event.request);
-  }
-
-  if (event.request.method !== 'GET') return;
-
+self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then((response) => {
+    caches.match(event.request).then(response => {
       if (response) {
-        return response; // Restituisce la risposta dalla cache
+        console.log('Found', event.request.url, 'in cache');
+        return response;
       }
-
-      return fetch(event.request).then((networkResponse) => {
-        // Salva nella cache solo le risorse con una risposta valida
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-          return networkResponse;
+      console.log('Resource not found in cache, fetching:', event.request.url);
+      return fetch(event.request).then(response => {
+        if (!response || response.status !== 200 || response.type !== 'basic') {
+          return response;
         }
-
-        const responseClone = networkResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => {
+        let responseClone = response.clone();
+        caches.open(CACHE_NAME).then(cache => {
           cache.put(event.request, responseClone);
         });
-
-        return networkResponse;
+        return response;
       });
-    }).catch(() => caches.match('/fallback.html')) // Fallback in caso di errore
+    }).catch(() => caches.match('/fallback.html'))
   );
 });
 
