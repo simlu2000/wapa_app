@@ -4,6 +4,7 @@ const filesToCache = [
   '/',
   '/index.html',
   '/styles.css',
+  '/Styles/style_homescreen.css',
   '/main.js',
   '/fallback.html',
   '/manifest.json',
