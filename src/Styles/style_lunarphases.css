@@ -1,14 +1,11 @@
-
 #lunar_phases{
     background-color: #000000;
+
 }
 .info-moon{
     color:white;
 }
-#phases{
-    text-align: left;
-    margin-left:0;
-}
+
 .lunar-phase {
     padding: 20px;
     background-color: #000000; 
@@ -17,13 +14,16 @@
 .info-container {
     display: flex;
     align-items: center; 
-    border: 2px solid #ccc;
     border-radius: 25px; 
     padding: 15px; 
     margin: 10px 0; 
-    background-color: #ffffff; 
 }
 
 .info-container p {
     margin-left: 10px; 
+    color:white;
+
+}
+.line{
+    width:30%;
 }

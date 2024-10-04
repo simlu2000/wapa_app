@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoon, faCircle } from '@fortawesome/free-solid-svg-icons';
+import { faMoon, faCalendar, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 
 const LunarPhases = () => {
     const [lunarPhase, setLunarPhase] = useState({});
@@ -41,15 +41,17 @@ const LunarPhases = () => {
         <div className="lunar-phase">
             <h3 className="data-title">Lunar Phases for today</h3>
             <div className="info-container">
-                <FontAwesomeIcon icon={faMoon} />
+                <FontAwesomeIcon icon={faMoon} color={'#F7F7F7'} />
                 <p>Phase: {lunarPhase.Phase || 'N/A'}</p>
             </div>
+            <hr className="line"></hr>
             <div className="info-container">
-                <FontAwesomeIcon icon={faCircle} />
+                <FontAwesomeIcon icon={faLightbulb} color={'#F7F7F7'}/>
                 <p>Illumination: {lunarPhase.Illumination || 'N/A'}%</p>
             </div>
+            <hr className="line"></hr>
             <div className="info-container">
-                <FontAwesomeIcon icon={faCircle} />
+                <FontAwesomeIcon icon={faCalendar} color={'#F7F7F7'} />
                 <p>Date: {lunarPhase.TargetDate ? new Date(lunarPhase.TargetDate * 1000).toLocaleDateString() : 'N/A'}</p>
             </div>
         </div>
