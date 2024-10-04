@@ -82,8 +82,9 @@
     #mars-area{
       width:90%;
       margin-left: 5%;
+      height:auto;
     }
     .photo-slide {
-      height:300px;
+      height:100px;
     }
   }

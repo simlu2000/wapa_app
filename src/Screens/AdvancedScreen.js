@@ -9,6 +9,8 @@ import NearEarthObjects from "../Components/Advanced/NearEarthObjects";
 import EarthImage from "../Components/Api_Img/EarthImage";
 import animationData from '../Animations/Animation - 1726519636363.json';
 import Lottie from 'react-lottie';
+import LunarPhases from "../Components/Advanced/LunarPhases";
+import "../Styles/style_lunarphases.css";
 
 const AdvancedScreen = () => {
     const [backgroundImage, setBackgroundImage] = useState("");
@@ -101,9 +103,10 @@ const AdvancedScreen = () => {
                             </div>
 
                             <button id="central-button">
-                                <a href="#celestial" id="seeUniverse">EXPLORE</a>
+                                <a href="#phases" id="seeUniverse">EXPLORE</a>
                                 <span className="arrow"></span>
                             </button>
+
 
                             {imageDate && (
                                 <div id="image-date" className="image-date">
@@ -113,11 +116,17 @@ const AdvancedScreen = () => {
                         </div>
                     </section>
 
+                    <div id="phases">
+                        <LunarPhases />
+                    </div>
+
                     <section id="second-container" className="mini-container">
                         <div id="earth" className="event-item">
                             <h3 className="data-title">Earth image of today</h3>
                             <EarthImage />
                         </div>
+
+
                         <div id="celestial" className="event-item">
                             <h3 id="event-title" className="data-title">Celestial<br />events</h3>
                             <CelestialEvents />
@@ -142,7 +151,8 @@ const AdvancedScreen = () => {
                         </div>
                     </section>
                 </>
-            )}
+            )
+            }
         </>
     );
 }
