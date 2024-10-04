@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import { auth, provider } from '../Utils/firebase';
 import { useNavigate } from 'react-router-dom';
-import { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithRedirect } from 'firebase/auth';
 import { setUserData, getUserData } from '../Utils/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
@@ -53,15 +53,21 @@ const SignUpScreen = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      const result = await signInWithPopup(auth, provider);
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      const user = result.user;
+      if (window.innerWidth <= 768) {
+        //dispositivi mobili: redirct
+        await signInWithRedirect(auth, provider);
+      } else {
+        //desktop: popup
+        const result = await signInWithPopup(auth, provider);
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const user = result.user;
 
-      // Memorizza i dati dell'utente nel Realtime Database
-      await setUserData(user.uid, { email: user.email, localities: [] });
+        // Memorizza i dati dell'utente nel Realtime Database
+        await setUserData(user.uid, { email: user.email, localities: [] });
 
-      navigate('/WeatherScreen');
+        navigate('/WeatherScreen');
+      }
+
     } catch (error) {
       console.error("Error during Google sign-in", error);
       alert(error.message);

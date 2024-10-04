@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Link} from "react-router-dom";
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import '../Styles/style_passwordreset.css';
 
@@ -31,7 +32,8 @@ function PasswordReset() {
                     required
                 />
                 <button id="send" type="submit">Send reset email</button>
-                <button id="return" type="submit">Return to SignUp</button>
+                <button id="return" type="submit"><Link to="/SignUpScreen"><a id="ret">Return to SignUp</a></Link></button>
+            
             </form>
             {message && <p>{message}</p>}
         </div>
