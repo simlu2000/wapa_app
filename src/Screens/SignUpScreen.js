@@ -54,26 +54,29 @@ const SignUpScreen = () => {
   const handleGoogleSignIn = async () => {
     try {
       if (window.innerWidth <= 768) {
-        //dispositivi mobili: redirct
+        // dispositivi mobili: redirect
         await signInWithRedirect(auth, provider);
       } else {
-        //desktop: popup
+        // desktop: popup
         const result = await signInWithPopup(auth, provider);
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const user = result.user;
-
+  
         // Memorizza i dati dell'utente nel Realtime Database
         await setUserData(user.uid, { email: user.email, localities: [] });
-
+  
         navigate('/WeatherScreen');
       }
-
     } catch (error) {
-      console.error("Error during Google sign-in", error);
-      alert(error.message);
+      if (error.code === 'auth/popup-closed-by-user') {
+        alert('The popup was closed before completing the sign-in. Please try again.');
+      } else {
+        console.error("Error during Google sign-in", error);
+        alert(error.message);
+      }
     }
   };
-
+  
   const handleGoBack = () => {
     setIsSignUp(false);
   };
