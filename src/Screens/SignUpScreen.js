@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { auth, provider } from '../Utils/firebase';
 import { useNavigate, Link } from 'react-router-dom';
-import { signInWithRedirect, getRedirectResult, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, getRedirectResult } from 'firebase/auth';
 import { setUserData } from '../Utils/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
@@ -21,7 +21,7 @@ const SignUpScreen = () => {
         if (result) {
           const user = result.user;
           await setUserData(user.uid, { email: user.email, localities: [] });
-          navigate('/WeatherScreen');
+          navigate('/WeatherScreen'); // Reindirizza a WeatherScreen dopo l'accesso
         }
       } catch (error) {
         console.error("Error during Google sign-in redirect", error);
@@ -68,7 +68,7 @@ const SignUpScreen = () => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       await setUserData(user.uid, { email: user.email, localities: [] });
-      navigate('/WeatherScreen');
+      navigate('/WeatherScreen'); // Reindirizza a WeatherScreen dopo la registrazione
     } catch (error) {
       console.error("Error during registration", error);
       alert(error.message);
@@ -82,17 +82,19 @@ const SignUpScreen = () => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      navigate('/WeatherScreen');
+      navigate('/WeatherScreen'); // Reindirizza a WeatherScreen dopo l'accesso
     } catch (error) {
       console.error("Error during sign-in", error);
       alert(error.message);
     }
   };
 
-  const handleGoogleSignIn = async (e) => {
-    e.preventDefault();
+  const handleGoogleSignIn = async () => {
     try {
-      await signInWithRedirect(auth, provider);
+      const userCredential = await signInWithPopup(auth, provider);
+      const user = userCredential.user;
+      await setUserData(user.uid, { email: user.email, localities: [] });
+      navigate('/WeatherScreen'); // Reindirizza a WeatherScreen dopo l'accesso con Google
     } catch (error) {
       console.error("Error during Google sign-in", error);
       alert(error.message);
@@ -115,9 +117,7 @@ const SignUpScreen = () => {
           <form id="sign" onSubmit={handleSignUp}>
             <h1 id="signup" className="form-text">Sign Up</h1>
             <div className="social-icons">
-              <a href="#" className="icon" onClick={handleGoogleSignIn}>
-                <FontAwesomeIcon icon={faGooglePlusG} />
-              </a>
+              <a href="#" className="icon" onClick={handleGoogleSignIn}><FontAwesomeIcon icon={faGooglePlusG} /></a>
             </div>
             <span>or use your email for registration</span>
             <div id="user_data">
@@ -132,9 +132,7 @@ const SignUpScreen = () => {
           <form onSubmit={handleSignIn}>
             <h1 className="form-text">Sign In</h1>
             <div className="social-icons">
-              <a href="#" className="icon" onClick={handleGoogleSignIn}>
-                <FontAwesomeIcon icon={faGooglePlusG} />
-              </a>
+              <a href="#" className="icon" onClick={handleGoogleSignIn}><FontAwesomeIcon icon={faGooglePlusG} /></a>
             </div>
             <span>or use your email and password</span>
             <input className="email-area" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
