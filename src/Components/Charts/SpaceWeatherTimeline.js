@@ -82,7 +82,6 @@ const SpaceWeatherTimeline = () => {
 
   return (
     <section id="space-weather-timeline">
-      <h2>Timeline of Solar Eruptions</h2>
       <div className="chart-container">
         <Line data={data} />
       </div>

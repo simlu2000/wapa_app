@@ -94,7 +94,6 @@ const NearEarthObjects = () => {
 };
 return (
   <div className="neo-container">
-    <h3 className="neo-title">Objects near Earth</h3>
     <Slider {...sliderSettings}>
       {objects.map(object => {
         const velocity = object.close_approach_data[0]?.relative_velocity.kilometers_per_hour;

@@ -3,7 +3,9 @@
   max-width: 1200px;
   margin: 0 auto;
 }
-
+#objects {
+  width: 60%;
+}
 .neo-title {
   text-align: center;
   font-size: 2rem;
@@ -18,6 +20,7 @@
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
+  height:280px;
 }
 
 .neo-item:hover {
@@ -65,6 +68,11 @@
 }
 
 /*----------------------------------------------Responsive---------------------------------*/
+@media (max-width:1200px){
+  #objects {
+    width: 40%;
+}
+}
 @media (max-width: 1024px) {
   .neo-title {
     font-size: 1.75rem;

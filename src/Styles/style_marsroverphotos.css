@@ -3,23 +3,21 @@
     background-color: #f5f7fa;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width:98%;
+    width:80%;
     height:auto;
     margin: auto;
     font-family: 'Arial, sans-serif';
-    margin-left:0;
   }
 .photo-slide {
     position: relative;
     text-align: center;
     background: #f7f7f7;
     padding: 10px;
-    height:700px;
+    height:auto;
   }
   
   .photo-slide img {
     width: 100%;
-   
     height: auto;
     border-radius: 8px;
   }

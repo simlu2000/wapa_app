@@ -132,17 +132,20 @@ const AdvancedScreen = () => {
                             <CelestialEvents />
                         </div>
                     </section>
+
                     <section id="third-container">
                         <div id="natural" className="event-item">
                             <h3 className="data-title">Natural events by category</h3>
                             <NaturalEvents />
                         </div>
                         <div id="objects">
+                        <h3 className="data-title">Objects near Earth</h3>
                             <NearEarthObjects />
                         </div>
-                    </section>
-                    <section id="four-container">
+
+
                         <div id="timeline">
+                            <h3 className="data-title">Timeline of Solar Eruptions</h3>
                             <SpaceWeatherTimeline />
                         </div>
                         <div id="mars" className="event-item">
