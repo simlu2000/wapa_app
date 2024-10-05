@@ -18,7 +18,7 @@ const SignUpScreen = () => {
     const fetchRedirectResult = async () => {
       try {
         const result = await getRedirectResult(auth);
-        if (result) {
+        if (result && result.user) {
           const user = result.user;
           await setUserData(user.uid, { email: user.email, localities: [] });
           navigate('/WeatherScreen');
@@ -91,14 +91,7 @@ const SignUpScreen = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      if (window.innerWidth <= 768) {
-        await signInWithRedirect(auth, provider);
-      } else {
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-        await setUserData(user.uid, { email: user.email, localities: [] });
-        navigate('/WeatherScreen');
-      }
+      await signInWithRedirect(auth, provider);
     } catch (error) {
       console.error("Error during Google sign-in", error);
       alert(error.message);
