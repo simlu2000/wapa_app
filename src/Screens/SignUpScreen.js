@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { auth, provider } from '../Utils/firebase'; 
+import { auth, provider } from '../Utils/firebase';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   signInWithPopup,
@@ -42,17 +42,26 @@ const SignUpScreen = () => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
+    console.log('Attempting to sign in with:', email, password);
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log('Sign-in successful:', userCredential);
       navigate('/WeatherScreen');
     } catch (error) {
-      console.error('Error during sign-in', error);
+      console.error('Error during sign-in:', error);
       alert(error.message);
     }
   };
 
+
   const handleGoogleSignIn = async () => {
     try {
+      if (window.innerWidth <= 768) {
+        const result = await signInWithRedirect(auth, provider);
+        const user = result.user;
+        await setUserData(user.uid, { email: user.email, localities: [] });
+        navigate('/WeatherScreen');
+      }
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       await setUserData(user.uid, { email: user.email, localities: [] });
