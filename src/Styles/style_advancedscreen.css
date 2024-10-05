@@ -288,4 +288,8 @@ body {
     #earth {
         margin-left: 0;
     }
+    #celestial{
+        display: none;
+      }
+  
 }
