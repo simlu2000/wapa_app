@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { auth, provider } from '../Utils/firebase'; // Importa Firebase configurato
-import { useNavigate } from 'react-router-dom';
+import { auth, provider } from '../Utils/firebase'; 
+import { useNavigate, Link } from 'react-router-dom';
 import {
   signInWithPopup,
   GoogleAuthProvider,
@@ -105,7 +105,7 @@ const SignUpScreen = () => {
               <button className="icon" onClick={handleGoogleSignIn}>
                 <FontAwesomeIcon icon={faGooglePlusG} />
               </button>
-              
+
             </div>
             <span>or use your email for registration</span>
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
@@ -121,7 +121,7 @@ const SignUpScreen = () => {
               <button className="icon" onClick={handleGoogleSignIn}>
                 <FontAwesomeIcon icon={faGooglePlusG} />
               </button>
-              
+
             </div>
             <span>or use your email and password</span>
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
@@ -133,17 +133,7 @@ const SignUpScreen = () => {
 
         {isReset && (
           <div className="form-container reset-password">
-            <form onSubmit={handlePasswordReset}>
-              <h1 className="form-text">Reset Password</h1>
-              {resetSent ? (
-                <p>An email has been sent to {resetEmail}. Follow the instructions to reset your password.</p>
-              ) : (
-                <>
-                  <input type="email" value={resetEmail} onChange={(e) => setResetEmail(e.target.value)} placeholder="Email" required />
-                  <button type="submit">Send Password Reset Email</button>
-                </>
-              )}
-            </form>
+            <Link to="/SignUpScreen"><h1 className="form-text">Reset Password</h1></Link>
           </div>
         )}
 
