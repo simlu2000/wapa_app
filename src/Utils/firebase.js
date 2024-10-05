@@ -64,14 +64,14 @@ const realtimeDb = getDatabase(app);
 
 // Handle Google authentication (using redirect for all devices)
 const signInWithGoogle = () => {
-  return signInWithRedirect(auth, provider)
+  return signInWithPopup(auth, provider)
     .then(result => {
       // Success
-      console.log("Signed in with Google via redirect");
+      console.log("Signed in with Google via popup");
     })
     .catch(error => {
       // Error
-      console.error("Error during Google sign-in (redirect):", error.message);
+      console.error("Error during Google sign-in (popup):", error.message);
     });
 };
 
