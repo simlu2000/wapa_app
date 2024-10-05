@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { auth, provider } from '../Utils/firebase';
 import { useNavigate, Link } from 'react-router-dom';
-import { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithRedirect, getRedirectResult } from 'firebase/auth';
+import { signInWithRedirect, getRedirectResult, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { setUserData } from '../Utils/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
@@ -89,14 +89,10 @@ const SignUpScreen = () => {
     }
   };
 
-  const handleGoogleSignIn = async () => {
+  const handleGoogleSignIn = async (e) => {
+    e.preventDefault();
     try {
-      
-        const result = await signInWithRedirect(auth, provider);
-        const user = result.user;
-        await setUserData(user.uid, { email: user.email, localities: [] });
-        navigate('/WeatherScreen');
-      
+      await signInWithRedirect(auth, provider);
     } catch (error) {
       console.error("Error during Google sign-in", error);
       alert(error.message);
@@ -119,7 +115,9 @@ const SignUpScreen = () => {
           <form id="sign" onSubmit={handleSignUp}>
             <h1 id="signup" className="form-text">Sign Up</h1>
             <div className="social-icons">
-              <a href="#" className="icon" onClick={handleGoogleSignIn}><FontAwesomeIcon icon={faGooglePlusG} /></a>
+              <a href="#" className="icon" onClick={handleGoogleSignIn}>
+                <FontAwesomeIcon icon={faGooglePlusG} />
+              </a>
             </div>
             <span>or use your email for registration</span>
             <div id="user_data">
@@ -134,7 +132,9 @@ const SignUpScreen = () => {
           <form onSubmit={handleSignIn}>
             <h1 className="form-text">Sign In</h1>
             <div className="social-icons">
-              <a href="#" className="icon" onClick={handleGoogleSignIn}><FontAwesomeIcon icon={faGooglePlusG} /></a>
+              <a href="#" className="icon" onClick={handleGoogleSignIn}>
+                <FontAwesomeIcon icon={faGooglePlusG} />
+              </a>
             </div>
             <span>or use your email and password</span>
             <input className="email-area" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
