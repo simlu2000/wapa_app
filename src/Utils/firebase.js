@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
 import { signOut as firebaseSignOut } from 'firebase/auth';
 
 // Firebase configuration
@@ -62,34 +62,18 @@ const provider = new GoogleAuthProvider();
 // Initialize Realtime Database
 const realtimeDb = getDatabase(app);
 
-// Handle Google authentication
+// Handle Google authentication (using redirect for all devices)
 const signInWithGoogle = () => {
-  const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-
-  if (isMobile) {
-    // Mobile -> redirect
-    return signInWithRedirect(auth, provider)
-      .then(result => {
-        // Success
-        console.log("Signed in with Google via redirect");
-      })
-      .catch(error => {
-        // Error
-        console.error("Error during Google sign-in (redirect):", error.message);
-      });
-  } else {
-    // Desktop -> popup
-    return signInWithPopup(auth, provider)
-      .then(result => {
-        // Success
-        console.log("Signed in with Google via popup");
-      })
-      .catch(error => {
-        // Error
-        console.error("Error during Google sign-in (popup):", error.message);
-      });
-  }
+  return signInWithRedirect(auth, provider)
+    .then(result => {
+      // Success
+      console.log("Signed in with Google via redirect");
+    })
+    .catch(error => {
+      // Error
+      console.error("Error during Google sign-in (redirect):", error.message);
+    });
 };
 
-// Export necessary components and functions
+
 export { auth, realtimeDb, provider, signInWithGoogle, requestPermission };

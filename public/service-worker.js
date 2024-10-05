@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pages-cache-v1';
+const CACHE_NAME = 'pages-cache-v2'; // Incrementa la versione
 
 const filesToCache = [
   '/',
@@ -16,6 +16,19 @@ const filesToCache = [
 self.addEventListener('install', event => {
   console.log('Service worker installing...');
   event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (cacheName !== CACHE_NAME) {
+            console.log('Deleting old cache:', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+
+  event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
       console.log('Adding static files to cache');
       return cache.addAll(filesToCache);
@@ -26,7 +39,6 @@ self.addEventListener('install', event => {
 
 // Gestione della cache per le richieste fetch
 self.addEventListener('fetch', event => {
-  // Escludiamo le richieste a Google API
   if (event.request.url.includes('apis.google.com')) {
     console.log('Google API request, skipping service worker for:', event.request.url);
     return;
@@ -42,27 +54,19 @@ self.addEventListener('fetch', event => {
 
         console.log('Resource not found in cache, fetching:', event.request.url);
         return fetch(event.request).then(networkResponse => {
-          // Cloniamo la risposta di rete per metterla in cache e poi servirla
           let responseClone = networkResponse.clone();
-
-          // Solo aggiungi alla cache se non è una richiesta POST
           if (event.request.method !== 'POST') {
             caches.open(CACHE_NAME).then(cache => {
               cache.put(event.request, responseClone);
             });
           }
-
           return networkResponse;
         });
       }).catch(() => {
-        // Restituiamo una pagina di fallback in caso di errore di rete
         return caches.match('/fallback.html');
       })
   );
 });
-
-
-
 
 // Gestione delle notifiche push
 self.addEventListener('push', (event) => {
