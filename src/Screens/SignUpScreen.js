@@ -91,12 +91,14 @@ const SignUpScreen = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      
-        const result = await signInWithRedirect(auth, provider);
+      if (window.innerWidth <= 768) {
+        await signInWithRedirect(auth, provider);
+      } else {
+        const result = await signInWithPopup(auth, provider);
         const user = result.user;
         await setUserData(user.uid, { email: user.email, localities: [] });
         navigate('/WeatherScreen');
-      
+      }
     } catch (error) {
       console.error("Error during Google sign-in", error);
       alert(error.message);
