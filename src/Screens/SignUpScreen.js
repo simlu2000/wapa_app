@@ -1,23 +1,45 @@
-//Gestisce la registrazione e l'accesso degli utenti, e interagisce con userService per gestire i dati dell'utente nel Realtime Database.
-import React, { useState } from 'react';
-import { Link } from "react-router-dom";
-import { auth, provider } from '../Utils/firebase';
+import React, { useEffect, useState } from 'react';
+import { auth, provider } from '../Utils/firebase'; 
 import { useNavigate } from 'react-router-dom';
-import { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithRedirect } from 'firebase/auth';
-import { setUserData, getUserData } from '../Utils/userService';
+import {
+  signInWithPopup,
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signInWithRedirect,
+  getRedirectResult,
+} from 'firebase/auth';
+import { setUserData } from '../Utils/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
 import '../Styles/style_signupscreen.css';
 
 const SignUpScreen = () => {
   const [isSignUp, setIsSignUp] = useState(false);
+  const [isReset, setIsReset] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [resetEmail, setResetEmail] = useState('');
+  const [resetSent, setResetSent] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    // Controlla il risultato del redirect all'avvio del componente
+    const checkRedirectResult = async () => {
+      const result = await getRedirectResult(auth);
+      if (result) {
+        const user = result.user;
+        await setUserData(user.uid, { email: user.email, localities: [] });
+        navigate('/WeatherScreen');
+      }
+    };
+    checkRedirectResult();
+  }, [navigate]);
 
   const toggleForm = () => {
     setIsSignUp(!isSignUp);
+    setIsReset(false);
   };
 
   const handleSignUp = async (e) => {
@@ -25,12 +47,10 @@ const SignUpScreen = () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
-      // Memorizza i dati dell'utente nel Realtime Database
       await setUserData(user.uid, { email: user.email, localities: [] });
       navigate('/WeatherScreen');
     } catch (error) {
-      console.error("Error during registration", error);
+      console.error('Error during registration', error);
       alert(error.message);
     }
   };
@@ -39,93 +59,103 @@ const SignUpScreen = () => {
     e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-
-      // Recupera i dati dell'utente se necessario
-      // const userData = await getUserData(user.uid); // Se vuoi recuperare i dati dell'utente all'accesso
-
       navigate('/WeatherScreen');
     } catch (error) {
-      console.error("Error during sign-in", error);
+      console.error('Error during sign-in', error);
       alert(error.message);
     }
   };
 
   const handleGoogleSignIn = async () => {
     try {
-      const result = await signInWithRedirect(auth, provider);
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
+      const result = await signInWithPopup(auth, provider);
       const user = result.user;
-
-      // Memorizza i dati dell'utente nel Realtime Database
       await setUserData(user.uid, { email: user.email, localities: [] });
-
       navigate('/WeatherScreen');
     } catch (error) {
-      console.error("Error during Google sign-in", error);
-      alert(error.message);
+      console.error('Error during Google sign-in', error);
+      alert('An error occurred during Google sign-in. Please try again.');
+    }
+  };
+
+  const handlePasswordReset = async (e) => {
+    e.preventDefault();
+    if (!resetEmail) {
+      alert('Insert a valid e-mail address');
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, resetEmail);
+      setResetSent(true);
+      alert(`An email has been sent to ${resetEmail}`);
+    } catch (error) {
+      console.error('Error during password reset', error);
+      alert('Error during password reset. Try again later.');
     }
   };
 
   const handleGoBack = () => {
     setIsSignUp(false);
+    setIsReset(false);
   };
 
   return (
     <>
       <div className="background">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+        {/* Background effects */}
+        {[...Array(20)].map((_, i) => <span key={i}></span>)}
       </div>
+
       <div className={`box-form ${isSignUp ? 'sign-up-mode' : ''}`} id="box">
-        <div className="form-container sign-up">
+        <div className={`form-container sign-up ${isSignUp ? '' : 'hidden'}`}>
           <button id="back" onClick={handleGoBack}>Go back</button>
           <form id="sign" onSubmit={handleSignUp}>
-            <h1 id="signup" className="form-text">Sign Up</h1>
+            <h1 className="form-text">Create Account</h1>
             <div className="social-icons">
-              <a href="#" className="icon" onClick={handleGoogleSignIn}><FontAwesomeIcon icon={faGooglePlusG} /></a>
+              <button type="button" className="icon" onClick={handleGoogleSignIn}>
+                <FontAwesomeIcon icon={faGooglePlusG} />
+              </button>
             </div>
             <span>or use your email for registration</span>
-            <div id="user_data" >
-              <input id="name-user" type="text" placeholder="Name" />
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-            </div>
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
             <button type="submit">Sign Up</button>
           </form>
         </div>
-        <div className="form-container sign-in">
+
+        <div className={`form-container sign-in ${isReset ? 'hidden' : ''}`}>
           <form onSubmit={handleSignIn}>
             <h1 className="form-text">Sign In</h1>
             <div className="social-icons">
-              <a href="#" className="icon" onClick={handleGoogleSignIn}><FontAwesomeIcon icon={faGooglePlusG} /></a>
+              <button type="button" className="icon" onClick={handleGoogleSignIn}>
+                <FontAwesomeIcon icon={faGooglePlusG} />
+              </button>
             </div>
             <span>or use your email and password</span>
-            <input className="email-area" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-            <h2><Link to="/PasswordResetScreen">Forget Your Password?</Link></h2>
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
+            <a href="#" onClick={(e) => { e.preventDefault(); setIsReset(true); setIsSignUp(false); }}>Forgot Your Password?</a>
             <button type="submit">Sign In</button>
           </form>
         </div>
+
+        {isReset && (
+          <div className="form-container reset-password">
+            <form onSubmit={handlePasswordReset}>
+              <h1 className="form-text">Reset Password</h1>
+              {resetSent ? (
+                <p>An email has been sent to {resetEmail}. Follow the instructions to reset your password.</p>
+              ) : (
+                <>
+                  <input type="email" value={resetEmail} onChange={(e) => setResetEmail(e.target.value)} placeholder="Email" required />
+                  <button type="submit">Send Password Reset Email</button>
+                </>
+              )}
+            </form>
+          </div>
+        )}
+
         <div className="toggle-container">
           <div className="toggle">
             <div className={`toggle-panel toggle-left ${isSignUp ? '' : 'hidden'}`}>
@@ -134,7 +164,7 @@ const SignUpScreen = () => {
               <button className="hidden" id="login" onClick={toggleForm}>Sign In</button>
             </div>
             <div className={`toggle-panel toggle-right ${isSignUp ? 'hidden' : ''}`}>
-              <h1 className="form-text">Hi!</h1>
+              <h1 className="form-text">Hello!</h1>
               <p>Register with your personal details to use all of WAPA features</p>
               <button className="hidden" id="register" onClick={toggleForm}>Sign Up</button>
             </div>
