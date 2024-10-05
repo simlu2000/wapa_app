@@ -1,9 +1,8 @@
-//Gestisce la registrazione e l'accesso degli utenti, e interagisce con userService per gestire i dati dell'utente nel Realtime Database.
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { auth, provider } from '../Utils/firebase';
-import { useNavigate } from 'react-router-dom';
-import { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { setUserData, getUserData } from '../Utils/userService';
+import { useNavigate, Link } from 'react-router-dom';
+import { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithRedirect, getRedirectResult } from 'firebase/auth';
+import { setUserData } from '../Utils/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
 import '../Styles/style_signupscreen.css';
@@ -12,20 +11,62 @@ const SignUpScreen = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({ email: '', password: '' });
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchRedirectResult = async () => {
+      try {
+        const result = await getRedirectResult(auth);
+        if (result) {
+          const user = result.user;
+          await setUserData(user.uid, { email: user.email, localities: [] });
+          navigate('/WeatherScreen');
+        }
+      } catch (error) {
+        console.error("Error during Google sign-in redirect", error);
+        alert(error.message);
+      }
+    };
+
+    fetchRedirectResult();
+  }, [navigate]);
 
   const toggleForm = () => {
     setIsSignUp(!isSignUp);
   };
 
+  const validateFields = () => {
+    let valid = true;
+    let errors = { email: '', password: '' };
+
+    if (!email) {
+      errors.email = 'Email is required';
+      valid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      errors.email = 'Email address is invalid';
+      valid = false;
+    }
+
+    if (!password) {
+      errors.password = 'Password is required';
+      valid = false;
+    } else if (password.length < 6) {
+      errors.password = 'Password must be at least 6 characters';
+      valid = false;
+    }
+
+    setErrors(errors);
+    return valid;
+  };
+
   const handleSignUp = async (e) => {
     e.preventDefault();
+    if (!validateFields()) return;
+
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
-      // Memorizza i dati dell'utente nel Realtime Database
       await setUserData(user.uid, { email: user.email, localities: [] });
       navigate('/WeatherScreen');
     } catch (error) {
@@ -36,13 +77,11 @@ const SignUpScreen = () => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
+    if (!validateFields()) return;
+
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
-      // Recupera i dati dell'utente se necessario
-      // const userData = await getUserData(user.uid); // Se vuoi recuperare i dati dell'utente all'accesso
-
       navigate('/WeatherScreen');
     } catch (error) {
       console.error("Error during sign-in", error);
@@ -52,15 +91,14 @@ const SignUpScreen = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      const result = await signInWithPopup(auth, provider);
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      const user = result.user;
-
-      // Memorizza i dati dell'utente nel Realtime Database
-      await setUserData(user.uid, { email: user.email, localities: [] });
-
-      navigate('/WeatherScreen');
+      if (window.innerWidth <= 768) {
+        await signInWithRedirect(auth, provider);
+      } else {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        await setUserData(user.uid, { email: user.email, localities: [] });
+        navigate('/WeatherScreen');
+      }
     } catch (error) {
       console.error("Error during Google sign-in", error);
       alert(error.message);
@@ -73,27 +111,9 @@ const SignUpScreen = () => {
 
   return (
     <>
-      <div class="background">
+      <div className="background">
         <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+        {/* Altri span rimossi per brevità */}
       </div>
       <div className={`box-form ${isSignUp ? 'sign-up-mode' : ''}`} id="box">
         <div className="form-container sign-up">
@@ -104,7 +124,7 @@ const SignUpScreen = () => {
               <a href="#" className="icon" onClick={handleGoogleSignIn}><FontAwesomeIcon icon={faGooglePlusG} /></a>
             </div>
             <span>or use your email for registration</span>
-            <div id="user_data" >
+            <div id="user_data">
               <input id="name-user" type="text" placeholder="Name" />
               <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
               <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
@@ -121,7 +141,7 @@ const SignUpScreen = () => {
             <span>or use your email and password</span>
             <input className="email-area" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-            <a href="#">Forget Your Password?</a>
+            <Link to="/PasswordResetScreen"><a>Forget Your Password?</a></Link>
             <button type="submit">Sign In</button>
           </form>
         </div>
