@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { auth, provider } from '../Utils/firebase'; 
+import { auth, provider } from '../Utils/firebase';
 import { useNavigate } from 'react-router-dom';
 import {
   signInWithPopup,
@@ -22,16 +22,21 @@ const SignUpScreen = () => {
   const [password, setPassword] = useState('');
   const [resetEmail, setResetEmail] = useState('');
   const [resetSent, setResetSent] = useState(false);
+  const [isSigningInWithPopup, setIsSigningInWithPopup] = useState(false); // Stato per gestire il caricamento del popup
   const navigate = useNavigate();
 
   useEffect(() => {
     // Controlla il risultato del redirect all'avvio del componente
     const checkRedirectResult = async () => {
-      const result = await getRedirectResult(auth);
-      if (result) {
-        const user = result.user;
-        await setUserData(user.uid, { email: user.email, localities: [] });
-        navigate('/WeatherScreen');
+      try {
+        const result = await getRedirectResult(auth);
+        if (result) {
+          const user = result.user;
+          await setUserData(user.uid, { email: user.email, localities: [] });
+          navigate('/WeatherScreen');
+        }
+      } catch (error) {
+        console.error('Error during redirect sign-in:', error);
       }
     };
     checkRedirectResult();
@@ -68,13 +73,22 @@ const SignUpScreen = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      await setUserData(user.uid, { email: user.email, localities: [] });
-      navigate('/WeatherScreen');
+      setIsSigningInWithPopup(true); // Mostra il messaggio di caricamento
+      if (window.innerWidth < 768) {
+        // Usa il redirect per dispositivi mobili
+        await signInWithRedirect(auth, provider);
+      } else {
+        await signInWithPopup(auth, provider);
+      }
     } catch (error) {
-      console.error('Error during Google sign-in', error);
-      alert('An error occurred during Google sign-in. Please try again.');
+      if (error.code === 'auth/popup-closed-by-user') {
+        console.warn('Popup di autenticazione chiuso dall\'utente. Riprova.');
+      } else {
+        console.error('Error during Google sign-in', error);
+        alert('An error occurred during Google sign-in. Please try again.');
+      }
+    } finally {
+      setIsSigningInWithPopup(false); // Nascondi il messaggio di caricamento
     }
   };
 
@@ -103,11 +117,15 @@ const SignUpScreen = () => {
   return (
     <>
       <div className="background">
-        {/* Background effects */}
         {[...Array(20)].map((_, i) => <span key={i}></span>)}
       </div>
 
       <div className={`box-form ${isSignUp ? 'sign-up-mode' : ''}`} id="box">
+        {isSigningInWithPopup && (
+          <div className="loading-message">
+            <p>Autenticazione in corso, per favore attendi...</p>
+          </div>
+        )}
         <div className={`form-container sign-up ${isSignUp ? '' : 'hidden'}`}>
           <button id="back" onClick={handleGoBack}>Go back</button>
           <form id="sign" onSubmit={handleSignUp}>
