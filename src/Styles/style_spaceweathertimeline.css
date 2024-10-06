@@ -24,7 +24,7 @@
 .chart-container {
   margin-bottom: 20px;
   position: relative;
-  height: 400px; /*altezza fissa per evitare ridimensionamenti*/
+  height: 400px;
 }
 
 .slider-item {

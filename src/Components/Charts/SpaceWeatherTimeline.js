@@ -18,11 +18,19 @@ const SpaceWeatherTimeline = () => {
   const [currentDate, setCurrentDate] = useState(null);
 
   useEffect(() => {
+    //date inizio fine
+    const today = new Date();
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(today.getMonth()-1); //imposto mese data un mese indietro di oggi
+
+    const startDate= oneMonthAgo.toISOString().split('T')[0];
+    const endDate = today.toDateString().split('T')[0];
+
     const API_KEY = Api_Key_NASA;
     const url = 'https://api.nasa.gov/DONKI/FLR';
     const params = {
-      startDate: '2024-08-01',
-      endDate: '2024-08-31',
+      startDate: startDate,
+      endDate: endDate,
       api_key: API_KEY,
     };
 
