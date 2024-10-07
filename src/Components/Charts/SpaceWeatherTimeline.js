@@ -39,7 +39,7 @@ const SpaceWeatherTimeline = () => {
         const events = response.data.map(event => ({
           date: new Date(event.beginTime).toLocaleDateString(),
           type: event.classType,
-          description: `Eruzione solare di classe ${event.classType}`,
+          description: `Class solar flare: ${event.classType}`,
         }));
         setEventData(events);
 
@@ -50,7 +50,7 @@ const SpaceWeatherTimeline = () => {
         setLoading(false);
       })
       .catch(error => {
-        console.error('Errore nel recupero dei dati:', error);
+        console.error('Error while fetching data:', error);
         setError(error);
         setLoading(false);
       });
@@ -70,7 +70,7 @@ const SpaceWeatherTimeline = () => {
     labels: filteredEvents.map(event => event.date),
     datasets: [
       {
-        label: 'Eruzioni Solari',
+        label: 'Solar flares',
         data: filteredEvents.map(event => event.type.charCodeAt(0) - 65),
         fill: false,
         backgroundColor: 'red',
