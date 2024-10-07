@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { auth, provider } from '../Utils/firebase';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import {
   signInWithPopup,
   createUserWithEmailAndPassword,
@@ -57,8 +57,27 @@ const SignUpScreen = () => {
     setIsReset(false);
   };
 
+  const controlEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+  
+  const controlPassword = (password) => {
+    const passwordRegex = /^(?=.*[0-9]).{6,}$/; //almeno 6 car
+    return passwordRegex.test(password);
+  };
+
+
   const handleSignUp = async (e) => {
     e.preventDefault();
+    if(!controlEmail(email)){
+      alert('Please enter a valid email');
+      return;
+    }
+    if(!controlPassword(password)){
+      alert('Password must be at least 6 characters long and contain at least one number');
+      return;
+    }
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
@@ -81,6 +100,14 @@ const SignUpScreen = () => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
+    if(!controlEmail(email)){
+      alert('Please enter a valid email');
+      return;
+    }
+    if(!controlPassword(password)){
+      alert('Password must be at least 6 characters long and contain at least one number');
+      return;
+    }
     try {
       await signInWithEmailAndPassword(auth, email, password);
       navigate('/WeatherScreen');
@@ -118,33 +145,7 @@ const SignUpScreen = () => {
       setIsSigningInWithPopup(false);
     }
   };
-
-  const handlePasswordReset = async (e) => {
-    e.preventDefault();
-    if (!resetEmail) {
-      alert('Insert a valid e-mail address');
-      return;
-    }
-
-    try {
-      await sendPasswordResetEmail(auth, resetEmail);
-      setResetSent(true);
-      alert(`An email has been sent to ${resetEmail}`);
-    } catch (error) {
-      console.error('Error during password reset:', error);
-      switch (error.code) {
-        case 'auth/user-not-found':
-          alert('No user found with this email. Please check the email address.');
-          break;
-        case 'auth/invalid-email':
-          alert('Invalid email address. Please enter a valid one.');
-          break;
-        default:
-          alert('An error occurred during password reset. Try again later.');
-      }
-    }
-  };
-
+  
   const handleGoBack = () => {
     setIsSignUp(false);
     setIsReset(false);
@@ -194,21 +195,11 @@ const SignUpScreen = () => {
           </form>
         </div>
 
-        {isReset && (
+        
           <div className="form-container reset-password">
-            <form onSubmit={handlePasswordReset}>
-              <h1 className="form-text">Reset Password</h1>
-              {resetSent ? (
-                <p>An email has been sent to {resetEmail}. Follow the instructions to reset your password.</p>
-              ) : (
-                <>
-                  <input type="email" value={resetEmail} onChange={(e) => setResetEmail(e.target.value)} placeholder="Email" required />
-                  <button type="submit">Send Password Reset Email</button>
-                </>
-              )}
-            </form>
+              <Link to="/PasswordResetScreen"><span className="form-text">Reset Password</span></Link>
           </div>
-        )}
+        
 
         <div className="toggle-container">
           <div className="toggle">

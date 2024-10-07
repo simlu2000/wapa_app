@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import '../Styles/style_passwordreset.css';
 
@@ -7,8 +7,17 @@ function PasswordReset() {
     const [email, setEmail] = useState(''); //per memorizzare email utente
     const [message, setMessage] = useState('');
 
+    const controlEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
     const handlePasswordReset = async (e) => { //recupera istanza di autenticazione con getAuth() e invia email recupero
         e.preventDefault();
+        if (!controlEmail(email)) {
+            alert('Please enter a valid email');
+            return;
+        }
         const auth = getAuth();
 
         try {
@@ -33,7 +42,7 @@ function PasswordReset() {
                 />
                 <button id="send" type="submit">Send reset email</button>
                 <button id="return" type="submit"><Link to="/SignUpScreen"><a id="ret">Return to SignUp</a></Link></button>
-            
+
             </form>
             {message && <p>{message}</p>}
         </div>
