@@ -62,18 +62,5 @@ const provider = new GoogleAuthProvider();
 // Initialize Realtime Database
 const realtimeDb = getDatabase(app);
 
-// Handle Google authentication (using redirect for all devices)
-const signInWithGoogle = () => {
-  return signInWithPopup(auth, provider)
-    .then(result => {
-      // Success
-      console.log("Signed in with Google via popup");
-    })
-    .catch(error => {
-      // Error
-      console.error("Error during Google sign-in (popup):", error.message);
-    });
-};
-
-
-export { auth, realtimeDb, provider, signInWithGoogle, requestPermission };
+// Export the authentication methods and provider
+export { auth, realtimeDb, provider, signInWithPopup, signInWithRedirect, requestPermission };

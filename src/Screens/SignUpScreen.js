@@ -9,6 +9,7 @@ import {
   sendPasswordResetEmail,
   signInWithRedirect,
   getRedirectResult,
+  onAuthStateChanged,
 } from 'firebase/auth';
 import { setUserData } from '../Utils/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,6 +25,18 @@ const SignUpScreen = () => {
   const [resetSent, setResetSent] = useState(false);
   const [isSigningInWithPopup, setIsSigningInWithPopup] = useState(false); // Stato per gestire il caricamento del popup
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Se l'utente è autenticato, naviga verso la WeatherScreen
+        navigate('/WeatherScreen');
+      }
+    });
+
+    // Cleanup dell'observer quando il componente viene smontato
+    return () => unsubscribe();
+  }, [navigate]);
 
   useEffect(() => {
     // Controlla il risultato del redirect all'avvio del componente
