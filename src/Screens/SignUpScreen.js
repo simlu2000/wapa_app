@@ -3,7 +3,6 @@ import { auth, provider } from '../Utils/firebase';
 import { useNavigate } from 'react-router-dom';
 import {
   signInWithPopup,
-  GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
@@ -29,17 +28,14 @@ const SignUpScreen = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        // Se l'utente è autenticato, naviga verso la WeatherScreen
         navigate('/WeatherScreen');
       }
     });
 
-    // Cleanup dell'observer quando il componente viene smontato
     return () => unsubscribe();
   }, [navigate]);
 
   useEffect(() => {
-    // Controlla il risultato del redirect all'avvio del componente
     const checkRedirectResult = async () => {
       try {
         const result = await getRedirectResult(auth);
@@ -50,6 +46,7 @@ const SignUpScreen = () => {
         }
       } catch (error) {
         console.error('Error during redirect sign-in:', error);
+        alert('An error occurred during redirect sign-in. Please try again.');
       }
     };
     checkRedirectResult();
@@ -68,27 +65,44 @@ const SignUpScreen = () => {
       await setUserData(user.uid, { email: user.email, localities: [] });
       navigate('/WeatherScreen');
     } catch (error) {
-      console.error('Error during registration', error);
-      alert(error.message);
+      console.error('Error during registration:', error);
+      switch (error.code) {
+        case 'auth/email-already-in-use':
+          alert('This email address is already in use. Please use a different one.');
+          break;
+        case 'auth/weak-password':
+          alert('The password is too weak. Please use a stronger password.');
+          break;
+        default:
+          alert('An error occurred during registration. Please try again.');
+      }
     }
   };
 
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, email, password);
       navigate('/WeatherScreen');
     } catch (error) {
-      console.error('Error during sign-in', error);
-      alert(error.message);
+      console.error('Error during sign-in:', error);
+      switch (error.code) {
+        case 'auth/wrong-password':
+          alert('Incorrect password. Please try again.');
+          break;
+        case 'auth/user-not-found':
+          alert('No user found with this email. Please check the email address or sign up.');
+          break;
+        default:
+          alert('An error occurred during sign-in. Please try again.');
+      }
     }
   };
 
   const handleGoogleSignIn = async () => {
     try {
-      setIsSigningInWithPopup(true); // Mostra il messaggio di caricamento
+      setIsSigningInWithPopup(true);
       if (window.innerWidth < 768) {
-        // Usa il redirect per dispositivi mobili
         await signInWithRedirect(auth, provider);
       } else {
         await signInWithPopup(auth, provider);
@@ -97,11 +111,11 @@ const SignUpScreen = () => {
       if (error.code === 'auth/popup-closed-by-user') {
         console.warn('Popup di autenticazione chiuso dall\'utente. Riprova.');
       } else {
-        console.error('Error during Google sign-in', error);
+        console.error('Error during Google sign-in:', error);
         alert('An error occurred during Google sign-in. Please try again.');
       }
     } finally {
-      setIsSigningInWithPopup(false); // Nascondi il messaggio di caricamento
+      setIsSigningInWithPopup(false);
     }
   };
 
@@ -117,8 +131,17 @@ const SignUpScreen = () => {
       setResetSent(true);
       alert(`An email has been sent to ${resetEmail}`);
     } catch (error) {
-      console.error('Error during password reset', error);
-      alert('Error during password reset. Try again later.');
+      console.error('Error during password reset:', error);
+      switch (error.code) {
+        case 'auth/user-not-found':
+          alert('No user found with this email. Please check the email address.');
+          break;
+        case 'auth/invalid-email':
+          alert('Invalid email address. Please enter a valid one.');
+          break;
+        default:
+          alert('An error occurred during password reset. Try again later.');
+      }
     }
   };
 
