@@ -3,12 +3,12 @@ import { auth, provider } from '../Utils/firebase';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   signInWithPopup,
+  GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   signInWithRedirect,
   getRedirectResult,
-  onAuthStateChanged,
 } from 'firebase/auth';
 import { setUserData } from '../Utils/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -25,17 +25,18 @@ const SignUpScreen = () => {
   const [isSigningInWithPopup, setIsSigningInWithPopup] = useState(false); // Stato per gestire il caricamento del popup
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigate('/WeatherScreen');
-      }
-    });
+  const controlEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
 
-    return () => unsubscribe();
-  }, [navigate]);
+  const controlPassword = (password) => {
+    const passwordRegex = /^(?=.*[0-9]).{6,}$/; //almeno 6 car
+    return passwordRegex.test(password);
+  };
 
   useEffect(() => {
+    // Controlla il risultato del redirect all'avvio del componente
     const checkRedirectResult = async () => {
       try {
         const result = await getRedirectResult(auth);
@@ -46,7 +47,6 @@ const SignUpScreen = () => {
         }
       } catch (error) {
         console.error('Error during redirect sign-in:', error);
-        alert('An error occurred during redirect sign-in. Please try again.');
       }
     };
     checkRedirectResult();
@@ -57,25 +57,14 @@ const SignUpScreen = () => {
     setIsReset(false);
   };
 
-  const controlEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
-  
-  const controlPassword = (password) => {
-    const passwordRegex = /^(?=.*[0-9]).{6,}$/; //almeno 6 car
-    return passwordRegex.test(password);
-  };
-
-
   const handleSignUp = async (e) => {
     e.preventDefault();
-    if(!controlEmail(email)){
-      alert('Please enter a valid email');
+    if (!controlEmail) {
+      alert("Insert a valid email address");
       return;
     }
-    if(!controlPassword(password)){
-      alert('Password must be at least 6 characters long and contain at least one number');
+    if (!controlPassword) {
+      alert("Password must contains at least 6 characters");
       return;
     }
     try {
@@ -84,68 +73,72 @@ const SignUpScreen = () => {
       await setUserData(user.uid, { email: user.email, localities: [] });
       navigate('/WeatherScreen');
     } catch (error) {
-      console.error('Error during registration:', error);
-      switch (error.code) {
-        case 'auth/email-already-in-use':
-          alert('This email address is already in use. Please use a different one.');
-          break;
-        case 'auth/weak-password':
-          alert('The password is too weak. Please use a stronger password.');
-          break;
-        default:
-          alert('An error occurred during registration. Please try again.');
-      }
+      console.error('Error during registration', error);
+      alert(error.message);
     }
   };
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    if(!controlEmail(email)){
-      alert('Please enter a valid email');
+    if (!controlEmail) {
+      alert("Insert a valid email address");
       return;
     }
-    if(!controlPassword(password)){
-      alert('Password must be at least 6 characters long and contain at least one number');
+    if (!controlPassword) {
+      alert("Password must contains at least 6 characters");
       return;
     }
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
       navigate('/WeatherScreen');
     } catch (error) {
-      console.error('Error during sign-in:', error);
-      switch (error.code) {
-        case 'auth/wrong-password':
-          alert('Incorrect password. Please try again.');
-          break;
-        case 'auth/user-not-found':
-          alert('No user found with this email. Please check the email address or sign up.');
-          break;
-        default:
-          alert('An error occurred during sign-in. Please try again.');
-      }
+      console.error('Error during sign-in', error);
+      alert(error.message);
     }
   };
 
   const handleGoogleSignIn = async () => {
     try {
-      setIsSigningInWithPopup(true);
+      setIsSigningInWithPopup(true); // Mostra il messaggio di caricamento
       if (window.innerWidth < 768) {
+        // Usa il redirect per dispositivi mobili
         await signInWithRedirect(auth, provider);
+        navigate('/WeatherScreen');
+
       } else {
         await signInWithPopup(auth, provider);
+        navigate('/WeatherScreen');
+
       }
     } catch (error) {
       if (error.code === 'auth/popup-closed-by-user') {
         console.warn('Popup di autenticazione chiuso dall\'utente. Riprova.');
       } else {
-        console.error('Error during Google sign-in:', error);
+        console.error('Error during Google sign-in', error);
         alert('An error occurred during Google sign-in. Please try again.');
       }
     } finally {
-      setIsSigningInWithPopup(false);
+      setIsSigningInWithPopup(false); // Nascondi il messaggio di caricamento
     }
   };
-  
+
+  const handlePasswordReset = async (e) => {
+    e.preventDefault();
+    if (!resetEmail) {
+      alert('Insert a valid e-mail address');
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, resetEmail);
+      setResetSent(true);
+      alert(`An email has been sent to ${resetEmail}`);
+    } catch (error) {
+      console.error('Error during password reset', error);
+      alert('Error during password reset. Try again later.');
+    }
+  };
+
   const handleGoBack = () => {
     setIsSignUp(false);
     setIsReset(false);
@@ -195,11 +188,11 @@ const SignUpScreen = () => {
           </form>
         </div>
 
-        
-          <div className="form-container reset-password">
-              <Link to="/PasswordResetScreen"><span className="form-text">Reset Password</span></Link>
-          </div>
-        
+
+        <div className="form-container reset-password">
+          <Link to="/PasswordResetScreen"><span className="form-text">Reset Password</span></Link>
+        </div>
+
 
         <div className="toggle-container">
           <div className="toggle">
