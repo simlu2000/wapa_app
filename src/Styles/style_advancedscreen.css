@@ -45,7 +45,6 @@ body {
 }
 
 #advanced-intro {
-    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -53,6 +52,14 @@ body {
     background-color: #000000;
     position: relative;
     text-align: center;
+    overflow: auto; /* Permetti lo scrolling */
+    z-index: 0; /* Assicurati che il background non interferisca con gli elementi sovrapposti */
+
+}
+#changeBackground{
+    width:50px;
+    height:50px;
+    border-radius: 25px;
 }
 
 #central-button {

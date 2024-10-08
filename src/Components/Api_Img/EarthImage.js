@@ -28,13 +28,7 @@ const EarthImage = ({ setBackgroundImageUrl }) => {
         fetchImage();
     }, [apiKey, setBackgroundImageUrl]);
 
-    return (
-        <div className="planet-area">
-            {imageUrl ? (
-                <img src={imageUrl} alt="Daily Earth image from NASA EPIC" style={{ width: '100%', height: 'auto' }} />
-            ) : null} {/* Rimuoviamo il testo di caricamento */}
-        </div>
-    );
+    return null;
 }
 
 export default EarthImage;

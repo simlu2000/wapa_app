@@ -11,12 +11,15 @@ import animationData from '../Animations/Animation - 1726519636363.json';
 import Lottie from 'react-lottie';
 import LunarPhases from "../Components/Advanced/LunarPhases";
 import "../Styles/style_lunarphases.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEarth, faStar } from '@fortawesome/free-solid-svg-icons';
+
 
 const AdvancedScreen = () => {
-    const [backgroundImage, setBackgroundImage] = useState("");
+    const [backgroundImage, setBackgroundImage] = useState(""); // Background per gestire immagine
     const [imageDate, setImageDate] = useState("");
-    const [universeVisible, setUniverseVisible] = useState(false);
-    const [loading, setLoading] = useState(true); // Stato di caricamento
+    const [isAstronomicImage, setIsAstronomicImage] = useState(true);
+    const [loading, setLoading] = useState(true);
     const [isOffline, setIsOffline] = useState(!navigator.onLine);
 
     const defaultOptions = {
@@ -42,71 +45,72 @@ const AdvancedScreen = () => {
     }, []);
 
     useEffect(() => {
-        // Simulazione di caricamento di dati
         const fetchData = async () => {
             try {
-                // Qui puoi inserire il codice per caricare dati o immagini
                 await new Promise(resolve => setTimeout(resolve, 2000)); // Simula un'attesa di 2 secondi
-                setBackgroundImage('path_to_your_image'); // Esempio di impostazione immagine di sfondo
+                setBackgroundImage('path_to_your_image'); // Imposta immagine di default
                 setImageDate('Date of the image');
-                setUniverseVisible(true);
             } catch (error) {
                 console.error("Error loading data", error);
             } finally {
-                setLoading(false); // Imposta loading a false dopo il caricamento
+                setLoading(false);
             }
         };
 
         fetchData();
-
-        return () => {
-            // Clean-up se necessario
-        };
     }, []);
 
-    const handleFlyClick = () => {
-        const missile = document.getElementById("missile");
-        missile.classList.add("fly-animation");
+    // Funzione per alternare tra le immagini di AstronomicImage e EarthImage
+    const handleSwitchImage = () => {
+        setIsAstronomicImage(!isAstronomicImage);
     };
 
     return (
         <>
             {loading ? (
                 <div className="animation-container">
-                    <Lottie options={defaultOptions} height={"200px"}
-                        width={"200px"} />
+                    <Lottie options={defaultOptions} height={"200px"} width={"200px"} />
                 </div>
             ) : (
                 <>
-                    <AstronomicImage setBackgroundImage={setBackgroundImage} setImageDate={setImageDate} />
+                    {isAstronomicImage ? (
+                        <AstronomicImage setBackgroundImage={setBackgroundImage} setImageDate={setImageDate} />
+                    ) : (
+                        <EarthImage setBackgroundImageUrl={setBackgroundImage} />
+                    )}
+
                     <section id="advanced-intro" style={{
                         backgroundImage: `url(${backgroundImage})`,
                         backgroundSize: "cover",
                         backgroundPosition: "center",
-                        height: "100vh",
+                        minHeight: "100vh",
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "center",
                         position: "relative",
                         transition: "background-image 0.5s ease-in-out",
-                        color: "#F7F7F7"
+                        color: "#F7F7F7",
+                        overflow: "auto", //scrolling
                     }}>
                         <div id="advanced-title">
+
                             <div id="area-title">
                                 <h1 className="title">
                                     Navigate the
-                                    <a id="universe">
-                                        {" "}universe.
-                                    </a>
+                                    <a id="universe"> universe. </a>
                                 </h1>
-                            </div>
 
+                            </div><button id="changeBackground" onClick={handleSwitchImage} className="switch-image-button">
+                                {isAstronomicImage ? <FontAwesomeIcon icon={faEarth} color={'#F7F7F7'} font-size={'30px'} />
+                                    : <FontAwesomeIcon icon={faStar} color={'#F7F7F7'} font-size={'30px'} />
+                                }
+                            </button>
                             <button id="central-button">
+
                                 <a href="#phases" id="seeUniverse">EXPLORE</a>
                                 <span className="arrow"></span>
                             </button>
-
 
                             {imageDate && (
                                 <div id="image-date" className="image-date">
@@ -115,18 +119,11 @@ const AdvancedScreen = () => {
                             )}
                         </div>
                     </section>
-
                     <div id="phases">
                         <LunarPhases />
                     </div>
 
                     <section id="second-container" className="mini-container">
-                        <div id="earth" className="event-item">
-                            <h3 className="data-title">Earth image of today</h3>
-                            <EarthImage />
-                        </div>
-
-
                         <div id="celestial" className="event-item">
                             <h3 id="event-title" className="data-title">Celestial<br />events</h3>
                             <CelestialEvents />
@@ -139,10 +136,9 @@ const AdvancedScreen = () => {
                             <NaturalEvents />
                         </div>
                         <div id="objects">
-                        <h3 className="data-title">Objects near Earth</h3>
+                            <h3 className="data-title">Objects near Earth</h3>
                             <NearEarthObjects />
                         </div>
-
 
                         <div id="timeline">
                             <h3 className="data-title">Timeline of Solar Eruptions</h3>
@@ -154,8 +150,7 @@ const AdvancedScreen = () => {
                         </div>
                     </section>
                 </>
-            )
-            }
+            )}
         </>
     );
 }
