@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pages-cache-v2'; // Incrementa la versione
+const CACHE_NAME = 'pages-cache-v3';
 
 const filesToCache = [
   '/',
@@ -13,12 +13,24 @@ const filesToCache = [
 ];
 
 // Installazione del Service Worker
-self.addEventListener('install', event => {
+self.addEventListener('install', (event) => {
   console.log('Service worker installing...');
   event.waitUntil(
-    caches.keys().then(cacheNames => {
+    caches.open(CACHE_NAME).then((cache) => {
+      console.log('Adding static files to cache');
+      return cache.addAll(filesToCache);
+    })
+  );
+  self.skipWaiting();
+});
+
+// Attivazione del Service Worker
+self.addEventListener('activate', (event) => {
+  console.log('Service worker activating...');
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
       return Promise.all(
-        cacheNames.map(cacheName => {
+        cacheNames.map((cacheName) => {
           if (cacheName !== CACHE_NAME) {
             console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
@@ -27,64 +39,56 @@ self.addEventListener('install', event => {
       );
     })
   );
-
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      console.log('Adding static files to cache');
-      return cache.addAll(filesToCache);
-    })
-  );
-  self.skipWaiting();
+  self.clients.claim();
 });
 
 // Gestione della cache per le richieste fetch
-self.addEventListener('fetch', event => {
+self.addEventListener('fetch', (event) => {
   if (event.request.url.includes('apis.google.com')) {
     console.log('Google API request, skipping service worker for:', event.request.url);
     return;
   }
 
   event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        if (response) {
-          console.log('Found', event.request.url, 'in cache');
-          return response;
-        }
+    caches.match(event.request).then((response) => {
+      if (response) {
+        console.log('Found', event.request.url, 'in cache');
+        return response;
+      }
 
-        console.log('Resource not found in cache, fetching:', event.request.url);
-        return fetch(event.request).then(networkResponse => {
+      console.log('Resource not found in cache, fetching:', event.request.url);
+      return fetch(event.request)
+        .then((networkResponse) => {
           let responseClone = networkResponse.clone();
-          if (event.request.method !== 'POST') {
-            caches.open(CACHE_NAME).then(cache => {
+          if (event.request.method !== 'POST' && networkResponse.status === 200) {
+            caches.open(CACHE_NAME).then((cache) => {
               cache.put(event.request, responseClone);
             });
           }
           return networkResponse;
+        })
+        .catch(() => {
+          return caches.match('/fallback.html');
         });
-      }).catch(() => {
-        return caches.match('/fallback.html');
-      })
+    })
   );
 });
 
 // Gestione delle notifiche push
 self.addEventListener('push', (event) => {
-  const data = event.data.json();
+  const data = event.data ? event.data.json() : {};
   console.log('Push notification received:', data);
 
   const options = {
-    body: data.body,
+    body: data.body || 'Notifica senza contenuto',
     icon: '/icons/icon-192x192.png',
     badge: '/icons/badge-72x72.png',
     data: {
-      url: data.url
+      url: data.url || '/'
     }
   };
 
-  event.waitUntil(
-    self.registration.showNotification(data.title, options)
-  );
+  event.waitUntil(self.registration.showNotification(data.title || 'Notifica', options));
 });
 
 // Gestione del click sulle notifiche push
@@ -103,4 +107,9 @@ self.addEventListener('notificationclick', (event) => {
       }
     })
   );
+});
+
+// Aggiornamento della versione dell'app (gestione controllerchange)
+self.addEventListener('controllerchange', () => {
+  console.log('Nuova versione disponibile. Aggiorna l\'app per nuove funzionalità!');
 });
