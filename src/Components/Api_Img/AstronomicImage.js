@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-//import { Api_Key_NASA } from '../../Utils/API_KEYS';
 
 const AstronomicImage = ({ setBackgroundImage, setImageDate }) => {
     const [astronomicImageData, setAstronomicImageData] = useState(null);
@@ -22,7 +21,7 @@ const AstronomicImage = ({ setBackgroundImage, setImageDate }) => {
                     setBackgroundImage(response.data.url);
                     setImageDate(response.data.date);
                 } else {
-                    setBackgroundImage(''); // o un URL di default per i video
+                    setBackgroundImage('');
                     setImageDate('');
                 }
             } catch (error) {
@@ -37,7 +36,13 @@ const AstronomicImage = ({ setBackgroundImage, setImageDate }) => {
     if (error) return <p className="text-no-data">Error while loading data. Try later.</p>;
     if (!astronomicImageData) return <div>Loading...</div>;
 
-    return null; 
+    return (
+        <div>
+            {astronomicImageData && (
+                <h5 className="image-date">{astronomicImageData.date}</h5>
+            )}
+        </div>
+    );
 };
 
 export default AstronomicImage;

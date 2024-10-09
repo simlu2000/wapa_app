@@ -169,6 +169,14 @@ body {
 .text-no-data{
     color:#F7F7F7;
 }
+.image-date {
+    position: absolute;
+    right:0;
+    font-size: 14px;
+    background-color: #000000; 
+    padding: 5px;
+    border-radius: 5px;
+}
 
 
 /*----------------------------------------------Responsive---------------------------------*/
