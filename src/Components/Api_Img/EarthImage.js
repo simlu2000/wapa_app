@@ -21,7 +21,8 @@ const EarthImage = ({ setBackgroundImageUrl }) => {
                     setBackgroundImageUrl(imageUrl);
                 }
             } catch (error) {
-                if (error) return <p className="text-no-data">Error while loading data. Try later.</p>;
+                /*if (error) return <p className="text-error" style={ {color:"#000000"}}>Error while loading Earth. Try later.</p>;*/
+                return null;
             }
             
         };
