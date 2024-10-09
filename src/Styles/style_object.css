@@ -97,16 +97,19 @@
   .neo-container {
     width:100%;
     margin-left:0;
+
   }
   .neo-title {
     font-size: 1.25rem;
+
   }
 
   .neo-item {
-    padding: 8px;
+    padding: 60px;
   }
   #objects{
     width:90%;
+
   }
 
   .neo-details p {

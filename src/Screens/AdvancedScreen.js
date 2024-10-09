@@ -47,8 +47,8 @@ const AdvancedScreen = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                await new Promise(resolve => setTimeout(resolve, 2000)); // Simula un'attesa di 2 secondi
-                setBackgroundImage('path_to_your_image'); // Imposta immagine di default
+                await new Promise(resolve => setTimeout(resolve, 100)); //n'attesa di 1 secondo
+                setBackgroundImage('path_to_your_image'); 
                 setImageDate('Date of the image');
             } catch (error) {
                 console.error("Error loading data", error);
@@ -100,7 +100,7 @@ const AdvancedScreen = () => {
                                     Navigate the&nbsp;
                                     <a id="universe changeBackground" onClick={handleSwitchImage} className="switch-image-button">
                                         {isAstronomicImage ? <a id="to-earth" className="title">Earth&nbsp;↻</a>
-                                            : <a id="to-universe" className="title">Universe&nbsp;↻</a>
+                                            : <a id="to-universe" className="title">Cosmo&nbsp;↻</a>
                                         }
                                     </a>
                                 </h1>
