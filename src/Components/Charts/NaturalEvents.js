@@ -45,8 +45,8 @@ const NaturalEventsChart = () => {
     fetchEvents();
   }, []);
 
-  if (loading) return <p>Loading data...</p>;
-  if (error) return <p>Error while loading data: {error}</p>;
+  if (loading) return <p className="text-no-data">Loading data...</p>;
+  if (error) return <p className="text-no-data">Error while loading data. Try later.</p>;
 
   return (
     <section id="natural-events">

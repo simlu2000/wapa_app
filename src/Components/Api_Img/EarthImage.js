@@ -21,13 +21,15 @@ const EarthImage = ({ setBackgroundImageUrl }) => {
                     setBackgroundImageUrl(imageUrl);
                 }
             } catch (error) {
-                console.error('Errore nel recuperare l\'immagine:', error);
+                if (error) return <p className="text-no-data">Error while loading data. Try later.</p>;
             }
+            
         };
 
         fetchImage();
     }, [apiKey, setBackgroundImageUrl]);
 
+    
     return null;
 }
 

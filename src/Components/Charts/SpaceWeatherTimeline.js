@@ -64,7 +64,7 @@ const SpaceWeatherTimeline = () => {
   }, [currentDate, eventData]);
 
   if (loading) return <p>Loading data...</p>;
-  if (error) return <p>Error while loading data: {error.message}</p>;
+  if (error) return <p className="text-no-data">Error while loading data. Try later.</p>;
 
   const data = {
     labels: filteredEvents.map(event => event.date),

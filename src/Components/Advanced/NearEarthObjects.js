@@ -56,7 +56,7 @@ const NearEarthObjects = () => {
   }, [API_KEY]);
 
   if (loading) return <p>Loading data...</p>;
-  if (error) return <p>Error while loading data: {error}</p>;
+  if (error) return <p className="text-no-data">Error while loading data. Try later.</p>;
 
  // Impostazioni dello slider
  const sliderSettings = {

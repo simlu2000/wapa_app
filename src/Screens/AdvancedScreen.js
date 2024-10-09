@@ -97,15 +97,18 @@ const AdvancedScreen = () => {
 
                             <div id="area-title">
                                 <h1 className="title">
-                                    Navigate the
-                                    <a id="universe"> universe. </a>
+                                    Navigate the&nbsp;
+                                    <a id="universe changeBackground" onClick={handleSwitchImage} className="switch-image-button">
+                                        {isAstronomicImage ? <a id="to-earth" className="title">Earth&nbsp;↻</a>
+                                            : <a id="to-universe" className="title">Universe&nbsp;↻</a>
+                                        }
+                                    </a>
                                 </h1>
 
-                            </div><button id="changeBackground" onClick={handleSwitchImage} className="switch-image-button">
-                                {isAstronomicImage ? <FontAwesomeIcon icon={faEarth} color={'#F7F7F7'} font-size={'30px'} />
-                                    : <FontAwesomeIcon icon={faStar} color={'#F7F7F7'} font-size={'30px'} />
-                                }
-                            </button>
+
+                            </div>
+
+
                             <button id="central-button">
 
                                 <a href="#phases" id="seeUniverse">EXPLORE</a>
@@ -118,11 +121,13 @@ const AdvancedScreen = () => {
                                 </div>
                             )}
                         </div>
+
                     </section>
                     <div id="phases">
                         <LunarPhases />
                     </div>
 
+                
                     <section id="second-container" className="mini-container">
                         <div id="celestial" className="event-item">
                             <h3 id="event-title" className="data-title">Celestial<br />events</h3>

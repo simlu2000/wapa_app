@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-//import { Api_Key_NASA } from '../../Utils/API_KEYS'; // Assicurati che questo sia il tuo file con la chiave API
 import "../../Styles/style_celestialevents.css";
 
 const CelestialEvents = () => {
@@ -39,7 +38,7 @@ const CelestialEvents = () => {
   }, []);
 
   if (loading) return <p>Loading data...</p>;
-  if (error) return <p>Error while loading data {error}</p>;
+  if (error) return <p className="text-no-data">Error while loading data. Try later.</p>;
 
   return (
     <section id="celestial-events">
@@ -47,12 +46,12 @@ const CelestialEvents = () => {
         <ul>
           {events.map((event, idx) => (
             <li key={idx}>
-              <strong>{event.title || 'Event name'}</strong>: {event.explanation || 'Description'} (Data: {event.date || 'Data not available'})
+              <strong>{event.title || 'Event name'}</strong>: {event.explanation || 'Description'} (Date: {event.date || 'Date not available'})
             </li>
           ))}
         </ul>
       ) : (
-        <p>No predicted data.</p>
+        <p className="text-no-data">No predicted data.</p>
       )}
     </section>
   );

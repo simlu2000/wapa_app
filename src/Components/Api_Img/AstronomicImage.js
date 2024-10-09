@@ -27,13 +27,14 @@ const AstronomicImage = ({ setBackgroundImage, setImageDate }) => {
                 }
             } catch (error) {
                 console.error("Error fetching the image:", error);
+                setBackgroundImage('');
                 setError(error);
             }
         };
         fetchImage();
     }, [apiKey, setBackgroundImage, setImageDate]);
 
-    if (error) return <div>Error: {error.message}</div>;
+    if (error) return <p className="text-no-data">Error while loading data. Try later.</p>;
     if (!astronomicImageData) return <div>Loading...</div>;
 
     return null; 

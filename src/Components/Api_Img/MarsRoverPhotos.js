@@ -57,7 +57,7 @@ const MarsRoverPhotos = () => {
       }
 
       if (photosFound.length === 0) {
-        setError('Nessuna foto disponibile nelle date recenti.');
+        setError('No photos recently.');
       }
       setLoading(false);
     };
@@ -65,8 +65,8 @@ const MarsRoverPhotos = () => {
     fetchMostRecentPhotos();
   }, [API_KEY]);
 
-  if (loading) return <p className="loading">Caricamento delle foto in corso...</p>;
-  if (error) return <p className="loading">Errore nel caricamento delle foto: {error}</p>;
+  if (loading) return <p className="loading">Loading...</p>;
+  if (error) return <p className="text-no-data">Error while loading data. Try later.</p>;
 
   const sliderSettings = {
     dots: true,

@@ -35,7 +35,7 @@ const LunarPhases = () => {
     }, []);
 
     if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
+    if (error) return <p className="text-no-data">Error while loading data. Try later.</p>;
 
     return (
         <div className="lunar-phase">
