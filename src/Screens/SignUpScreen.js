@@ -183,16 +183,10 @@ const SignUpScreen = () => {
             <span>or use your email and password</span>
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
-            <a href="#" onClick={(e) => { e.preventDefault(); setIsReset(true); setIsSignUp(false); }}>Forgot Your Password?</a>
+            <Link to="/PasswordResetScreen"><span className="form-text">Forgot your password?</span></Link>
             <button type="submit">Sign In</button>
           </form>
         </div>
-
-
-        <div className="form-container reset-password">
-          <Link to="/PasswordResetScreen"><span className="form-text">Reset Password</span></Link>
-        </div>
-
 
         <div className="toggle-container">
           <div className="toggle">
