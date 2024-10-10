@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom'; // Import useLocation for accessing navigation state
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { auth } from '../Utils/firebase';
-import { addLocation, removeLocation, getUserLocalities } from '../Utils/userService';
+import { getUserLocalities } from '../Utils/userService';
 import WindCharts from '../Components/Charts/WindCharts';
-import TempCharts from '../Components/Charts/TempCharts';
-import TempMCharts from '../Components/Charts/TempMCharts';
 import MoreDataCharts from '../Components/Charts/MoreDataCharts';
 import PressureCharts from '../Components/Charts/PressureCharts';
 import Sunrise from '../Components/Charts/Sunrise';
@@ -18,9 +16,6 @@ import SearchLocation from '../Components/SearchLocation';
 import Loader from '../Components/loader';
 import '../Styles/style_weatherscreen.css';
 import animationData from '../Animations/Animation - 1726518835813.json';
-import Lottie from 'react-lottie';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -55,6 +50,7 @@ const WeatherScreen = () => {
     const [user, setUser] = useState(null);
     const locationState = useLocation();
     const [isOffline, setIsOffline] = useState(!navigator.onLine);
+
     const navigate = useNavigate();
 
     // Gestione dello stato online/offline
@@ -118,13 +114,6 @@ const WeatherScreen = () => {
         }
     }, [locationState]);
 
-    // Notifiche meteo
-    useEffect(() => {
-        if (weatherData) {
-            checkTimeAndNotify(weatherData);
-        }
-    }, [weatherData]);
-
     // Funzione per recuperare i dati meteo
     const fetchWeatherData = async (latitude, longitude) => {
         try {
@@ -182,63 +171,6 @@ const WeatherScreen = () => {
             Haze: 'linear-gradient(to right, #757F9A, #D7DDE8)',
         };
         return gradients[weatherMain] || 'linear-gradient(to right, #83a4d4, #b6fbff)';
-    };
-
-    // Controllo del meteo e invio notifiche
-    const checkWeatherAndNotify = (weatherData) => {
-        if (!weatherData) return;
-
-        const weatherMain = weatherData.weather[0].main;
-        const temp = weatherData.main.temp;
-        let notificationPayload = null;
-
-        if (weatherMain === 'Rain') {
-            notificationPayload = {
-                title: 'Weather Alert',
-                body: 'Rain expected tomorrow, get your umbrella!',
-            };
-        } else if (weatherMain === 'Thunderstorm') {
-            notificationPayload = {
-                title: 'Weather Alert',
-                body: 'Thunderstorm alert! Stay indoors and avoid outdoor activities!',
-            };
-        } else if (temp < 0) {
-            notificationPayload = {
-                title: 'Weather Alert',
-                body: 'Temperature extremely low! Dress warmly!',
-            };
-        } else if (temp > 35) {
-            notificationPayload = {
-                title: 'Weather Alert',
-                body: 'Temperature extremely high! Drink a lot of water and avoid direct sun!',
-            };
-        } else if (temp < 25) {
-            notificationPayload = {
-                title: 'Weather Alert TEST',
-                body: 'TEST: Temperature < 25',
-            };
-        }
-
-        if (notificationPayload) {
-            sendNotification(notificationPayload);
-        }
-    };
-
-    // Controllo del tempo e invio notifiche a una certa ora
-    const checkTimeAndNotify = (weatherData) => {
-        const now = new Date();
-        const hours = now.getHours();
-        const minutes = now.getMinutes();
-
-        if (user && hours === 11 && minutes === 50) {
-            checkWeatherAndNotify(weatherData);
-        }
-    };
-
-    // Funzione per inviare notifiche
-    const sendNotification = (payload) => {
-        // Implementa la logica per inviare notifiche, come ad esempio tramite Firebase Cloud Messaging
-        console.log('Sending notification:', payload);
     };
 
     const handleSearch = (query) => {

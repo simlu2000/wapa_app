@@ -28,6 +28,7 @@ body {
     background-size: cover;
     background-position: center;
     width: 100%;
+    
 }
 
 #weather-intro {
@@ -79,7 +80,8 @@ body {
 
 #meteo-title {
     margin-top: 30%;
-    
+    text-shadow: 2px 2px 2px #424242;
+
 }
 
 
@@ -96,8 +98,7 @@ h1 {
 .meteo-title,
 .meteo-subtitle {
     color: #F7F7F7;
-    text-shadow: 1px 1px 1px #dedede;
-
+    text-shadow: 1px 1px 1px #424242;
 }
 #max{
     margin-bottom:10%;
@@ -498,7 +499,6 @@ h1 {
 
     .meteo-title {
         font-size: 3rem;
-        text-shadow: none;
         margin-top: -10%;
     }
 

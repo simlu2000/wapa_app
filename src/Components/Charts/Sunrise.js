@@ -52,7 +52,7 @@ const Sunrise = ({ sunriseTime }) => {
             .attr("y", radius - 50)
             .text(`Sunrise at ${date.toLocaleTimeString()}`)
             .attr("fill", colors.sunrise)
-            .attr("font-size", 28);
+            .attr("font-size", 14);
     }, [sunriseTime]);
 
     const iconStyle = {

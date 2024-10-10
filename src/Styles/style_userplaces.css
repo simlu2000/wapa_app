@@ -3,7 +3,7 @@
     width:95%;
     border-radius:25px;
     margin-top: 5%;
-    margin-left:0;
+    margin-left:5%;
     
 }
 .user-places-container h2{
@@ -13,7 +13,7 @@
 .user-places-container ul {
     list-style-type: none;
     padding: 0;
-    margin-left: 5%;
+    margin-left: 4%;
 
 }
 #loc-area{
@@ -42,28 +42,26 @@
 }
 
 .user-places-container button {
-    margin-right:0; 
     padding: 5px 10px; 
     border: none; 
     border-radius: 25px;
     cursor: pointer; 
+    margin-left:5px;
 }
 
 .user-places-container button:hover {
     background-color: #000000; 
+    color:#F7F7F7;
 }
 
 #location{
     font-size:1rem;
     border-radius:25px;
     color:#000000;
-    margin-left:0;
-    backdrop-filter: blur(5px);
-
 }
 
 #location:hover{
-    background-color: blue;
+    background-color: #000000;
     color:#F7F7F7;
 }
 
@@ -72,6 +70,11 @@
     color:#F7F7F7;
     margin-left:5%;
     width:40px;
+}
+#btn-loc{
+}
+#btn-del:hover{
+    color:#F7F7F7;
 }
 
 /*----------------------------------------------Responsive---------------------------------*/

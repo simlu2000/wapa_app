@@ -73,7 +73,7 @@ const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSe
                         <button id="location" className="btn-loc" onClick={() => onSelectLocation(loc)}>
                             {loc}
                             <button className="btn-del" id="bt1" onClick={() => handleRemoveClick(loc)}>
-                                <FontAwesomeIcon icon={faRemove} style={{ color: "#000000" }} />
+                                <FontAwesomeIcon icon={faRemove} style={{ color: "red" }} />
                             </button>
                         </button>
 

@@ -9,7 +9,8 @@ const WindCharts = ({ windSpeed}) => {
                 left: "center",
                 textStyle:{
                     fontSize:20,
-                    color:"#f7f7f7"
+                    color:"#f7f7f7",
+                    textShadow: "5px 5px 5px (#000000)"
                 }
                 
                 
