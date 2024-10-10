@@ -16,18 +16,8 @@ import SearchLocation from '../Components/SearchLocation';
 import Loader from '../Components/loader';
 import '../Styles/style_weatherscreen.css';
 import animationData from '../Animations/Animation - 1726518835813.json';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
 
 const Api_Key_OpenWeather = process.env.REACT_APP_Api_Key_OpenWeather;
-
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',
-    iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
-    shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
-});
 
 const defaultOptions = {
     loop: true,
@@ -37,7 +27,6 @@ const defaultOptions = {
         preserveAspectRatio: 'xMidYMid slice'
     }
 };
-
 
 const WeatherScreen = () => {
     const [weatherData, setWeatherData] = useState(null);
@@ -298,23 +287,7 @@ const WeatherScreen = () => {
                             <h3 className="meteo-box-label">Air Poll. µg/m³</h3>
                             <MoreDataCharts value={airPollutionData ? airPollutionData.pm2_5 : 'N/A'} />
                         </section>
-                        <section id="map" className="data-boxes meteo-box">
-                            <MapContainer
-                                center={[location.latitude, location.longitude]}
-                                zoom={13}
-                                style={{ height: '400px', width: '100%', borderRadius: '25px' }}
-                            >
-                                <TileLayer
-                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                                />
-                                <Marker position={[location.latitude, location.longitude]}>
-                                    <Popup>
-                                        You are here! <br /> Latitude: {location.latitude}, Longitude: {location.longitude}.
-                                    </Popup>
-                                </Marker>
-                            </MapContainer>
-                        </section>
+                       
                     </section>
                 </section>
             )}
