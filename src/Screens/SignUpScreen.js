@@ -13,7 +13,7 @@ import {
 import { setUserData } from '../Utils/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
-import '../Styles/style_signupscreen.css';
+import '../Styles/style_signupscreen.css'; // Assicurati che lo stile sia aggiornato
 
 const SignUpScreen = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -31,7 +31,7 @@ const SignUpScreen = () => {
   }
 
   const controlPassword = (password) => {
-    const passwordRegex = /^(?=.*[0-9]).{6,}$/; //almeno 6 car
+    const passwordRegex = /^(?=.*[0-9]).{6,}$/; // almeno 6 caratteri
     return passwordRegex.test(password);
   };
 
@@ -104,11 +104,9 @@ const SignUpScreen = () => {
         // Usa il redirect per dispositivi mobili
         await signInWithRedirect(auth, provider);
         navigate('/WeatherScreen');
-
       } else {
         await signInWithPopup(auth, provider);
         navigate('/WeatherScreen');
-
       }
     } catch (error) {
       if (error.code === 'auth/popup-closed-by-user') {
@@ -145,65 +143,30 @@ const SignUpScreen = () => {
   };
 
   return (
-    <>
-      <div className="background">
-        {[...Array(20)].map((_, i) => <span key={i}></span>)}
+    <div id="signinPage">
+
+      <div id="slogan-container">
+        <button id="go-home" className=""><Link to="/"> ← Back to WAPA</Link></button>
       </div>
-
-      <div className={`box-form ${isSignUp ? 'sign-up-mode' : ''}`} id="box">
-        {isSigningInWithPopup && (
-          <div className="loading-message">
-            <p>Autenticazione in corso, per favore attendi...</p>
-          </div>
-        )}
-        <div className={`form-container sign-up ${isSignUp ? '' : 'hidden'}`}>
-          <button id="back" onClick={handleGoBack}>Go back</button>
-          <form id="sign" onSubmit={handleSignUp}>
-            <h1 className="form-text">Create Account</h1>
-            <div className="social-icons">
-              <button type="button" className="icon" onClick={handleGoogleSignIn}>
-                <FontAwesomeIcon icon={faGooglePlusG} />
-              </button>
-            </div>
-            <span>or use your email for registration</span>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
-            <button type="submit">Sign Up</button>
+      <div id="form-container">
+        <div id="form-box">
+          <h1 className="title">{isSignUp ? 'Create Account' : 'Sign In'}</h1>
+          <form onSubmit={isSignUp ? handleSignUp : handleSignIn}>
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required className="input-field" />
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required className="input-field" />
+            <Link to="/PasswordResetScreen"><p>Forgot your password?</p></Link>
+            <button type="submit" className="submit-btn">{isSignUp ? 'Sign Up' : 'Sign In'}</button>
           </form>
-        </div>
-
-        <div className={`form-container sign-in ${isReset ? 'hidden' : ''}`}>
-          <form onSubmit={handleSignIn}>
-            <h1 className="form-text">Sign In</h1>
-            <div className="social-icons">
-              <button type="button" className="icon" onClick={handleGoogleSignIn}>
-                <FontAwesomeIcon icon={faGooglePlusG} />
-              </button>
-            </div>
-            <span>or use your email and password</span>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
-            <Link to="/PasswordResetScreen"><span className="form-text">Forgot your password?</span></Link>
-            <button type="submit">Sign In</button>
-          </form>
-        </div>
-
-        <div className="toggle-container">
-          <div className="toggle">
-            <div className={`toggle-panel toggle-left ${isSignUp ? '' : 'hidden'}`}>
-              <h1 className="form-text">Welcome Back!</h1>
-              <p>Enter your personal details to use all of WAPA features</p>
-              <button className="hidden" id="login" onClick={toggleForm}>Sign In</button>
-            </div>
-            <div className={`toggle-panel toggle-right ${isSignUp ? 'hidden' : ''}`}>
-              <h1 className="form-text">Hello!</h1>
-              <p>Register with your personal details to use all of WAPA features</p>
-              <button className="hidden" id="register" onClick={toggleForm}>Sign Up</button>
-            </div>
+          <div id="social-login">
+            <p>Or sign in with</p>
+            <button className="google-btn" onClick={handleGoogleSignIn}>
+              <FontAwesomeIcon icon={faGooglePlusG} />
+            </button>
           </div>
+          <p className="toggle-text">{isSignUp ? 'Already have an account?' : 'Don\'t have an account?'} <span onClick={toggleForm} className="toggle-link">{isSignUp ? 'Sign In' : 'Sign Up'}</span></p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
