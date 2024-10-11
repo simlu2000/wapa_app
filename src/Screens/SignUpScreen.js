@@ -22,21 +22,21 @@ const SignUpScreen = () => {
   const [password, setPassword] = useState('');
   const [resetEmail, setResetEmail] = useState('');
   const [resetSent, setResetSent] = useState(false);
-  const [isSigningInWithPopup, setIsSigningInWithPopup] = useState(false); // Stato per gestire il caricamento del popup
+  const [isSigningInWithPopup, setIsSigningInWithPopup] = useState(false); //stato per gestire il caricamento del popup
   const navigate = useNavigate();
 
   const controlEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   }
-
+  
   const controlPassword = (password) => {
-    const passwordRegex = /^(?=.*[0-9]).{6,}$/; // almeno 6 caratteri
+    const passwordRegex = /^(?=.*[0-9]).{6,}$/; // almeno 6 caratteri ed un numero
     return passwordRegex.test(password);
   };
-
+  
   useEffect(() => {
-    // Controlla il risultato del redirect all'avvio del componente
+    //Controlla il risultato del redirect all'avvio del componente
     const checkRedirectResult = async () => {
       try {
         const result = await getRedirectResult(auth);
@@ -59,12 +59,12 @@ const SignUpScreen = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    if (!controlEmail) {
+    if (!controlEmail(email)) {
       alert("Insert a valid email address");
       return;
     }
-    if (!controlPassword) {
-      alert("Password must contains at least 6 characters");
+    if (!controlPassword(password)) {
+      alert("Password must contain at least 6 characters and include at least one number");
       return;
     }
     try {
@@ -77,15 +77,16 @@ const SignUpScreen = () => {
       alert(error.message);
     }
   };
+  
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    if (!controlEmail) {
+    if (!controlEmail(email)) {
       alert("Insert a valid email address");
       return;
     }
-    if (!controlPassword) {
-      alert("Password must contains at least 6 characters");
+    if (!controlPassword(password)) {
+      alert("Password must contain at least 6 characters and include at least one number");
       return;
     }
     try {
@@ -96,6 +97,7 @@ const SignUpScreen = () => {
       alert(error.message);
     }
   };
+  
 
   const handleGoogleSignIn = async () => {
     try {
