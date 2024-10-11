@@ -38,7 +38,7 @@
   text-align: center;
 }
 
-.title {
+.title-signup {
   margin-bottom: 20px;
   font-size: 24px;
   font-weight: bold;
@@ -157,7 +157,7 @@
     padding: 10px;
   }
 
-  .title {
+  .title-signup {
     font-size: 20px;
   }
 

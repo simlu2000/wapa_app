@@ -152,7 +152,7 @@ const SignUpScreen = () => {
       </div>
       <div id="form-container">
         <div id="form-box">
-          <h1 className="title">{isSignUp ? 'Create Account' : 'Sign In'}</h1>
+          <h1 className="title-signup">{isSignUp ? 'Create Account' : 'Sign In'}</h1>
           <form onSubmit={isSignUp ? handleSignUp : handleSignIn}>
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required className="input-field" />
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required className="input-field" />
