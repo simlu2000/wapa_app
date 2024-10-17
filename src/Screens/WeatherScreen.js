@@ -173,6 +173,16 @@ const WeatherScreen = () => {
         return (y * alpha) / (x - alpha);
     };
 
+    //vibrazione dispositivo
+    const triggerVibration = (pattern) => {
+        if (navigator.vibrate) {
+          //vibrazione dispositivo in base al pattern passato nella chiamata
+          navigator.vibrate(pattern);
+        } else {
+          console.log("Vibration API non supportata da questo dispositivo.");
+        }
+      };
+
     return (
         <>
             <section
@@ -196,6 +206,8 @@ const WeatherScreen = () => {
                             <>
                                 <h1 id="place" className="meteo-title">In {city}:</h1>
                                 <h1 id="place-subtitle" className="meteo-title">{weatherData.weather[0].description}, feels {Math.floor(weatherData.main.feels_like)} °C</h1>
+                                {weatherData.weather[0].description === 'Thunderstorm' && triggerVibration([500, 200, 500])}
+                                {weatherData.weather[0].description === 'Rain' && triggerVibration([300, 100, 300])}
                                 {/*<h1 className="meteo-subtitle">Feels {Math.floor(weatherData.main.feels_like)} °C</h1>*/}
                                 <div>
                                     <h2 className="meteo-subtitle">Min: {Math.floor(weatherData.main.temp_min)} °C</h2>
