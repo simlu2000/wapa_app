@@ -165,7 +165,7 @@ const WeatherScreen = () => {
     const handleSearch = (query) => {
         navigate('/WeatherScreen', { state: { query } });
     };
-    
+
     const calculateDewPoint = (temp, hum) => {
         const x = 17.27;
         const y = 237.7;
@@ -176,12 +176,12 @@ const WeatherScreen = () => {
     //vibrazione dispositivo
     const triggerVibration = (pattern) => {
         if (navigator.vibrate) {
-          //vibrazione dispositivo in base al pattern passato nella chiamata
-          navigator.vibrate(pattern);
+            //vibrazione dispositivo in base al pattern passato nella chiamata
+            navigator.vibrate(pattern);
         } else {
-          console.log("Vibration API non supportata da questo dispositivo.");
+            console.log("Vibration API non supportata da questo dispositivo.");
         }
-      };
+    };
 
     return (
         <>
@@ -199,7 +199,7 @@ const WeatherScreen = () => {
             >
                 <section className="mini-container">
                     {loading ? (
-                        <Loader/>
+                        <Loader />
                     ) : (
                         <div id="meteo-title">
 
@@ -299,7 +299,7 @@ const WeatherScreen = () => {
                             <h3 className="meteo-box-label">Air Poll. µg/m³</h3>
                             <MoreDataCharts value={airPollutionData ? airPollutionData.pm2_5 : 'N/A'} />
                         </section>
-                       
+
                     </section>
                 </section>
             )}
