@@ -148,7 +148,7 @@ const SignUpScreen = () => {
     <div id="signinPage">
 
       <div id="slogan-container">
-        <button id="go-home" className=""><Link to="/"> ← Back to WAPA</Link></button>
+        <button id="go-home" className=""><Link to="/"> <h2 id="back">← Back to WAPA</h2></Link></button>
       </div>
       <div id="form-container">
         <div id="form-box">

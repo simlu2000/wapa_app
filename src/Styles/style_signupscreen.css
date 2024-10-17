@@ -7,6 +7,7 @@
   background-repeat: no-repeat;
   background-position: cover;
   background-size: 100%;
+  
 }
 
 #go-home {
@@ -17,9 +18,14 @@
   font-size: 1.2rem;
   font-weight: bold;
   background: transparent;
-  border: 1px solid #F7F7F7;
+  color:#000000;
+  border: 1px solid #000000;
+  
 }
-
+#back{
+  color:#000000;
+  font-size:1rem;
+}
 #form-container {
   right: 0;
   position: absolute;

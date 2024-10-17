@@ -36,13 +36,6 @@ const AstronomicImage = ({ setBackgroundImage, setImageDate }) => {
     if (error) return <p className="text-no-data">Error while loading data. Try later.</p>;
     if (!astronomicImageData) return <div>Loading...</div>;
 
-    return (
-        <div>
-            {astronomicImageData && (
-                <h5 className="image-date">{astronomicImageData.date}</h5>
-            )}
-        </div>
-    );
 };
 
 export default AstronomicImage;

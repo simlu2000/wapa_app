@@ -116,8 +116,8 @@ const AdvancedScreen = () => {
                             </button>
 
                             {imageDate && (
-                                <div id="image-date" className="image-date">
-                                    <p>{imageDate}</p>
+                                <div id="image-date">
+                                    <p id="date-text">{imageDate}</p>
                                 </div>
                             )}
                         </div>
