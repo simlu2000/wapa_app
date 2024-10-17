@@ -149,10 +149,12 @@ const AdvancedScreen = () => {
                             <h3 className="data-title">Timeline of Solar Eruptions</h3>
                             <SpaceWeatherTimeline />
                         </div>
+                        {/*
                         <div id="mars" className="event-item">
                             <h3 className="data-title">Mars Rover Photos, Rover Curiosity</h3>
                             <MarsRoverPhotos />
                         </div>
+                        */}
                     </section>
                 </>
             )}
