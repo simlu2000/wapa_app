@@ -39,8 +39,13 @@ const WeatherScreen = () => {
     const [user, setUser] = useState(null);
     const locationState = useLocation();
     const [isOffline, setIsOffline] = useState(!navigator.onLine);
-
+    const [vibrationEnabled, setVibrationEnabled] = useState(false);
+    const [IsVibrationSupported, setIsVibrationSupported]= useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setIsVibrationSupported('vibrate' in navigator);
+    }, []);
 
     // Gestione dello stato online/offline
     useEffect(() => {
@@ -173,13 +178,17 @@ const WeatherScreen = () => {
         return (y * alpha) / (x - alpha);
     };
 
+    //funzione per abilitare o no la vibrazione
+    const handleVibrationConsent = (e) => {
+        setVibrationEnabled(e.target.checked);
+    }
     //vibrazione dispositivo
     const triggerVibration = (pattern) => {
-        if (navigator.vibrate) {
+        if (vibrationEnabled && vibrationEnabled) {
             //vibrazione dispositivo in base al pattern passato nella chiamata
             navigator.vibrate(pattern);
         } else {
-            console.log("Vibration API non supportata da questo dispositivo.");
+            console.log("Vibration API not supported or not enabled");
         }
     };
 
@@ -206,12 +215,29 @@ const WeatherScreen = () => {
                             <>
                                 <h1 id="place" className="meteo-title">In {city}:</h1>
                                 <h1 id="place-subtitle" className="meteo-title">{weatherData.weather[0].description}, feels {Math.floor(weatherData.main.feels_like)} °C</h1>
-                                {weatherData.weather[0].description === 'Thunderstorm' && triggerVibration([500, 200, 500])}
-                                {weatherData.weather[0].description === 'Rain' && triggerVibration([300, 100, 300])}
+
                                 {/*<h1 className="meteo-subtitle">Feels {Math.floor(weatherData.main.feels_like)} °C</h1>*/}
                                 <div>
                                     <h2 className="meteo-subtitle">Min: {Math.floor(weatherData.main.temp_min)} °C</h2>
                                     <h2 id="max" className="meteo-subtitle">Max: {Math.floor(weatherData.main.temp_max)} °C</h2>
+                                    {setIsVibrationSupported && (
+                                        <div>
+                                            <label>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={vibrationEnabled}
+                                                    onChange={handleVibrationConsent}
+                                                />
+                                                Enable vibration for rain or storm
+                                            </label>
+                                        </div>
+
+                                    )}
+
+                                    {weatherData.weather[0].description === 'Thunderstorm' && triggerVibration([500, 200, 500])}
+                                    {weatherData.weather[0].description === 'Rain' && triggerVibration([300, 100, 300])}
+                                    {weatherData.weather[0].description === 'Light Rain' && triggerVibration([200, 100, 100])}
+
                                 </div>
                                 <SearchLocation onSearch={handleSearch} />
 
