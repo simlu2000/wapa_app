@@ -42,9 +42,6 @@ const WeatherScreen = () => {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        setIsVibrationSupported('vibrate' in navigator);
-    }, []);
 
     // Gestione dello stato online/offline
     useEffect(() => {
