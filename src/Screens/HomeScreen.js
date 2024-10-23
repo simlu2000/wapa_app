@@ -8,8 +8,9 @@ import logo from "../img/logo.png";
 import locationLogo from "../img/locationLogo.png";
 
 function isMobileDevice() {
-  return /Mobi|Android/i.test(navigator.userAgent);
+  return /Mobi|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
 }
+
 
 const useNetworkStatus = () => {
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
