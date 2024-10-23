@@ -21,7 +21,7 @@ self.addEventListener('install', (event) => {
       return cache.addAll(filesToCache);
     })
   );
-  self.skipWaiting();
+  self.skipWaiting(); // Per forzare l'attivazione immediata del nuovo SW
 });
 
 // Attivazione del Service Worker
@@ -39,7 +39,7 @@ self.addEventListener('activate', (event) => {
       );
     })
   );
-  self.clients.claim();
+  self.clients.claim(); // Prende il controllo della pagina subito dopo l'attivazione
 });
 
 // Gestione della cache per le richieste fetch
@@ -48,6 +48,12 @@ self.addEventListener('fetch', (event) => {
     console.log('Google API request, skipping service worker for:', event.request.url);
     return;
   }
+  
+  // Solo per richieste GET (non POST o altre)
+  if (event.request.method !== 'GET') {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then((response) => {
       if (response) {
@@ -56,19 +62,29 @@ self.addEventListener('fetch', (event) => {
       }
 
       console.log('Resource not found in cache, fetching:', event.request.url);
-      return fetch(event.request)
-        .then((networkResponse) => {
-          let responseClone = networkResponse.clone();
-          if (event.request.method !== 'POST' && networkResponse.status === 200) {
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, responseClone);
-            });
-          }
-          return networkResponse;
-        })
-        .catch(() => {
-          return caches.match('/fallback.html');
+      return fetch(event.request).then((networkResponse) => {
+        // Verifica che la risposta sia valida e non sia HTML
+        if (
+          !networkResponse || 
+          networkResponse.status !== 200 || 
+          networkResponse.type === 'basic' &&
+          networkResponse.headers.get('content-type').includes('text/html')
+        ) {
+          return networkResponse; // Restituisci la risposta ma non metterla in cache
+        }
+
+        let responseClone = networkResponse.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseClone);
         });
+
+        return networkResponse;
+      }).catch(() => {
+        // Restituisci la pagina di fallback solo per richieste HTML
+        if (event.request.headers.get('accept').includes('text/html')) {
+          return caches.match('/fallback.html');
+        }
+      });
     })
   );
 });
