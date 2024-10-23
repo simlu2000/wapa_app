@@ -66,17 +66,14 @@ const HomeScreen = () => {
     <>
       <section id="intro" className="weather-container">
         <div id="title-logo-container" className="content">
-          {!isOffline ? (
+          
             isMobile ? (
               <div className="gradient-background"></div>
             ) : (
               <CloudBackground />
             )
-          ) : (
-            <div className="gradient-fallback">
-              <h1>You are offline. Some features may not be available.</h1>
-            </div>
-          )}
+         
+         
         </div>
       </section>
 
