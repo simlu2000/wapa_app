@@ -7,12 +7,22 @@ import "../Styles/style_homescreen.css";
 import logo from "../img/logo.png";
 import locationLogo from "../img/locationLogo.png";
 
+
+function isMobileDevice() { 
+  return /Mobi|Android/.test(navigator.userAgent);
+}
+
 const HomeScreen = () => {
   const [isVisible, setIsVisible] = useState(false);
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.5 });
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
   const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
+
+  useEffect( () => {
+    setIsMobile(isMobileDevice());
+   }, []);
 
   useEffect(() => {
     if (inView) {
@@ -47,8 +57,14 @@ const HomeScreen = () => {
 
           <div id="title-logo-container" className="content">
             {!isOffline ? (
+              isMobile ? (
+                //fallback per mobile -> gradiente
+                <div className = "gradient-background"></div>
+              ): (
               <CloudBackground />
+              )
             ) : (
+              //fallback offline
               <div className="gradient-fallback">
                 <h1>You are offline. Some features may not be available.</h1>
               </div>

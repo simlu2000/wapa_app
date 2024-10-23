@@ -28,6 +28,10 @@ const defaultOptions = {
     }
 };
 
+function isMobileDevice() { //rilevazione dispositivo mobile
+    return /Mobi/Android/isMobileDevice.test(navigator.userAgent);
+  }
+
 const WeatherScreen = () => {
     const [weatherData, setWeatherData] = useState(null);
     const [airPollutionData, setAirPollutionData] = useState(null);
@@ -42,6 +46,8 @@ const WeatherScreen = () => {
 
     const navigate = useNavigate();
 
+
+ 
 
     // Gestione dello stato online/offline
     useEffect(() => {

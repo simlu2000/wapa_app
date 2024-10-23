@@ -3,6 +3,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Clouds, Cloud, CameraControls, Sky as SkyImpl } from "@react-three/drei";
 import { useRef, useEffect } from "react";
 
+
 export default function App() {
   // Gestisce la dimensione del Canvas quando la finestra viene ridimensionata
   useEffect(() => {
@@ -106,7 +107,7 @@ function Sky() {
         <Clouds material={THREE.MeshLambertMaterial} limit={200} range={200}>
           <Cloud ref={cloud0} fade={10} speed={0.1} growth={4} volume={6} opacity={0.3} bounds={[6, 1, 1]} color="white" />
           <Cloud fade={10} speed={0.1} growth={4} volume={6} opacity={0.3} bounds={[6, 1, 1]} color="#eed0d0" seed={2} position={[15, 0, 0]} />
-          {/*<Cloud fade={10} speed={0.1} growth={4} volume={6} opacity={0.3} bounds={[6, 1, 1]} color="#d0e0d0" seed={3} position={[-15, 0, 0]} />
+          <Cloud fade={10} speed={0.1} growth={4} volume={6} opacity={0.3} bounds={[6, 1, 1]} color="#d0e0d0" seed={3} position={[-15, 0, 0]} />
           {/*<Cloud fade={10} speed={0.1} growth={4} volume={6} opacity={0.8} bounds={[6, 1, 1]} color="#c0c0dd" seed={5} position={[0, 0, 12]} />
           <Cloud concentrate="outside" growth={100} color="#ffccdd" opacity={1.25} seed={0.3} bounds={200} volume={200} />*/}
         </Clouds>
