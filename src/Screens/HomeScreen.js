@@ -8,14 +8,17 @@ import logo from "../img/logo.png";
 import locationLogo from "../img/locationLogo.png";
 
 
-function isMobileDevice() { 
-  return /Mobi|Android/.test(navigator.userAgent);
+function isMobileDevice() {
+  if (typeof window !== "undefined" && typeof navigator !== "undefined") {
+    return /Mobi|Android/.test(navigator.userAgent);
+  }
+  return false;
 }
 
 const HomeScreen = () => {
   const [isVisible, setIsVisible] = useState(false);
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.5 });
-  const [isOffline, setIsOffline] = useState(!navigator.onLine);
+  const [isOffline, setIsOffline] = useState(typeof window !== "undefined" ? !navigator.onLine : false);
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
