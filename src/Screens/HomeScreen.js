@@ -58,12 +58,12 @@ const HomeScreen = () => {
 
           <div id="title-logo-container" className="content">
             {!isOffline ? (
-              isMobile ? (
+             
                 //fallback per mobile -> gradiente
                 <div className = "gradient-background"></div>
-              ): (
-              <CloudBackground />
-              )
+              
+                
+              
             ) : (
               //fallback offline
               <div className="gradient-fallback">
