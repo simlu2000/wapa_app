@@ -28,9 +28,6 @@ const defaultOptions = {
     }
 };
 
-function isMobileDevice() { //rilevazione dispositivo mobile
-    return /Mobi/Android/isMobileDevice.test(navigator.userAgent);
-  }
 
 const WeatherScreen = () => {
     const [weatherData, setWeatherData] = useState(null);
