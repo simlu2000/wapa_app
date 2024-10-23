@@ -31,7 +31,7 @@ export const setUserData = async (userId, userData) => {
 export const addLocation = async (userId, location) => {
     try {
         const locationRef = ref(db, `users/${userId}/localities/${location}`);
-        await set(locationRef, true); // Set the location value to true
+        await set(locationRef, true);
     } catch (error) {
         console.error('Error adding location:', error);
         throw error;
@@ -41,7 +41,7 @@ export const addLocation = async (userId, location) => {
 export const removeLocation = async (userId, location) => {
     try {
         const locationRef = ref(db, `users/${userId}/localities/${location}`);
-        await remove(locationRef); // Remove the location from the database
+        await remove(locationRef);
     } catch (error) {
         console.error('Error removing location:', error);
         throw error;

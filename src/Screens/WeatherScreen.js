@@ -108,9 +108,12 @@ const WeatherScreen = () => {
     const fetchWeatherData = async (latitude, longitude) => {
         try {
             const [weatherResponse, airPollutionResponse, forecastResponse] = await Promise.all([
-                axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${Api_Key_OpenWeather}&units=metric`),
-                axios.get(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${Api_Key_OpenWeather}`),
-                axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${Api_Key_OpenWeather}&units=metric`)
+                axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&
+                    lon=${longitude}&appid=${Api_Key_OpenWeather}&units=metric`),
+                axios.get(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}
+                    &lon=${longitude}&appid=${Api_Key_OpenWeather}`),
+                axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}
+                    &lon=${longitude}&appid=${Api_Key_OpenWeather}&units=metric`)
             ]);
 
             setWeatherData(weatherResponse.data);
@@ -197,9 +200,9 @@ const WeatherScreen = () => {
 
                             <>
                                 <h1 id="place" className="meteo-title">In {city}:</h1>
-                                <h1 id="place-subtitle" className="meteo-title">{weatherData.weather[0].description}, feels {Math.floor(weatherData.main.feels_like)} °C</h1>
-
-                                {/*<h1 className="meteo-subtitle">Feels {Math.floor(weatherData.main.feels_like)} °C</h1>*/}
+                                <h1 id="place-subtitle" className="meteo-title">{weatherData.weather[0].description}, 
+                                    feels {Math.floor(weatherData.main.feels_like)} °C
+                                </h1>
                                 <div>
                                     <h2 className="meteo-subtitle">Min: {Math.floor(weatherData.main.temp_min)} °C</h2>
                                     <h2 id="max" className="meteo-subtitle">Max: {Math.floor(weatherData.main.temp_max)} °C</h2>

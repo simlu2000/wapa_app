@@ -16,7 +16,6 @@ const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSe
                 console.error("Error fetching localities:", error);
             }
         };
-
         if (userId) {
             fetchLocalities();
         }

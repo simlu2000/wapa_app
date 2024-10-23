@@ -21,7 +21,6 @@ const NaturalEventsChart = () => {
           acc[category] = (acc[category] || 0) + 1;
           return acc;
         }, {});
-
         // Converti l'oggetto in un array per Chart.js
         const formattedData = {
           labels: Object.keys(data),
@@ -33,7 +32,6 @@ const NaturalEventsChart = () => {
             borderWidth: 1,
           }],
         };
-
         setEventsData(formattedData);
       } catch (error) {
         setError(error.message);

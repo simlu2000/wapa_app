@@ -48,7 +48,6 @@ self.addEventListener('fetch', (event) => {
     console.log('Google API request, skipping service worker for:', event.request.url);
     return;
   }
-
   event.respondWith(
     caches.match(event.request).then((response) => {
       if (response) {

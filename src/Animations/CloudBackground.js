@@ -78,12 +78,12 @@ function Sky() {
     const handleContextLost = (event) => {
       event.preventDefault();
       console.log('WebGL context lost!');
-      //logica per ripristinare il contesto se necessario
+      //ripristino contesto
     };
 
     const handleContextRestored = () => {
       console.log('WebGL context restored!');
-      //logica per ripristinare la scena se necessario
+      //ripristino scena
     };
 
     if (canvas) {
