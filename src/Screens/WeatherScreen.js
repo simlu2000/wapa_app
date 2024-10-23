@@ -109,26 +109,33 @@ const WeatherScreen = () => {
 
     // Funzione per recuperare i dati meteo
     const fetchWeatherData = async (latitude, longitude) => {
+        if (!latitude || !longitude) {
+            console.error("Invalid latitude or longitude");
+            return;
+        }
+    
         try {
             const [weatherResponse, airPollutionResponse, forecastResponse] = await Promise.all([
-                axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&
-                    lon=${longitude}&appid=${Api_Key_OpenWeather}&units=metric`),
-                axios.get(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}
-                    &lon=${longitude}&appid=${Api_Key_OpenWeather}`),
-                axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}
-                    &lon=${longitude}&appid=${Api_Key_OpenWeather}&units=metric`)
+                axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${Api_Key_OpenWeather}&units=metric`),
+                axios.get(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${Api_Key_OpenWeather}`),
+                axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${Api_Key_OpenWeather}&units=metric`)
             ]);
-
-            setWeatherData(weatherResponse.data);
-            setCity(weatherResponse.data.name);
-            setAirPollutionData(airPollutionResponse.data.list[0].components);
-            setForecastData(forecastResponse.data.list);
+    
+            if (weatherResponse.data && weatherResponse.data.weather) {
+                setWeatherData(weatherResponse.data);
+                setCity(weatherResponse.data.name);
+                setAirPollutionData(airPollutionResponse.data.list[0].components);
+                setForecastData(forecastResponse.data.list);
+            } else {
+                console.error("Weather data not found");
+            }
         } catch (error) {
             console.error("Error during fetching weather data", error);
         } finally {
             setLoading(false);
         }
     };
+    
 
     // Funzione per recuperare i dati meteo in base alla località cercata
     const fetchWeatherBySearchedLocation = async (searchLocation) => {
