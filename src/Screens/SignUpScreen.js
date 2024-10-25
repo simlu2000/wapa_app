@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { auth, provider } from '../Utils/firebase';
+import { auth, googleProvider } from '../Utils/firebase';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   signInWithPopup,
@@ -13,7 +13,7 @@ import {
 import { setUserData } from '../Utils/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
-import '../Styles/style_signupscreen.css'; // Assicurati che lo stile sia aggiornato
+import '../Styles/style_signupscreen.css'; 
 
 const SignUpScreen = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -104,15 +104,15 @@ const SignUpScreen = () => {
       setIsSigningInWithPopup(true); // Mostra il messaggio di caricamento
       if (window.innerWidth < 768) {
         // Usa il redirect per dispositivi mobili
-        await signInWithRedirect(auth, provider);
+        await signInWithRedirect(auth, googleProvider);
         navigate('/WeatherScreen');
       } else {
-        await signInWithPopup(auth, provider);
+        await signInWithPopup(auth, googleProvider);
         navigate('/WeatherScreen');
       }
     } catch (error) {
       if (error.code === 'auth/popup-closed-by-user') {
-        console.warn('Popup di autenticazione chiuso dall\'utente. Riprova.');
+        console.warn('Popup closed by the user. Try again.');
       } else {
         console.error('Error during Google sign-in', error);
         alert('An error occurred during Google sign-in. Please try again.');
