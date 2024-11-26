@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { auth, googleProvider } from '../Utils/firebase';
+import { auth } from '../Utils/firebase';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   signInWithPopup,
@@ -14,6 +14,8 @@ import { setUserData } from '../Utils/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
 import '../Styles/style_signupscreen.css'; 
+import { provider as googleProvider } from '../Utils/firebase';
+
 
 const SignUpScreen = () => {
   const [isSignUp, setIsSignUp] = useState(false);

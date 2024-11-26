@@ -17,7 +17,6 @@
 
 }
 #loc-area{
-    width:90%;
     border-radius:25px;
     margin-bottom:25px; 
 }
@@ -39,43 +38,48 @@
     justify-content: space-between; 
     align-items: center; 
     padding: 5px 0;
+    
 }
 
 .user-places-container button {
     padding: 5px 10px; 
-    border: none; 
+    border:none; 
     border-radius: 25px;
     cursor: pointer; 
     margin-left:5px;
+    width: 90%;
+    background-color: transparent;
+    
+    
 }
-
-.user-places-container button:hover {
-    background-color: #000000; 
-    color:#F7F7F7;
-}
-
 #location{
-    font-size:1rem;
+    font-size:1.2rem;
     border-radius:25px;
     color:#000000;
 }
 
 #location:hover{
-    background-color: #000000;
-    color:#F7F7F7;
+    color: rgba(31, 55, 107, 1);
 }
 
+
 #add-loc{
-    background-color: #82cbff;
+    background-color: rgba(31, 55, 107, 1);
     color:#F7F7F7;
     margin-left:5%;
     width:40px;
 }
-#btn-loc{
-}
+
 #btn-del:hover{
     color:#F7F7F7;
+
 }
+
+#add-loc:hover{
+    background-color: #000000;
+    color: #F7F7F7;
+}
+
 
 /*----------------------------------------------Responsive---------------------------------*/
 @media (max-width: 992px) {

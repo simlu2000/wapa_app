@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import '../Styles/style_passwordreset.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowCircleLeft, faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 function PasswordReset() {
     const [email, setEmail] = useState(''); //per memorizzare email utente
@@ -41,7 +43,8 @@ function PasswordReset() {
                     required
                 />
                 <button id="send" type="submit">Send reset email</button>
-                <button id="return" type="submit"><Link to="/SignUpScreen"><a id="ret">Return to SignUp</a></Link></button>
+                <h2 id="ret"><Link to="/SignUpScreen"><FontAwesomeIcon icon={faArrowCircleLeft} style={{color:'rgba(200, 130, 255, 1)'}}/></Link></h2>
+                
 
             </form>
             {message && <p>{message}</p>}

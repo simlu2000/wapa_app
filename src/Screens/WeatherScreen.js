@@ -19,16 +19,6 @@ import animationData from '../Animations/Animation - 1726518835813.json';
 
 const Api_Key_OpenWeather = process.env.REACT_APP_Api_Key_OpenWeather;
 
-const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-        preserveAspectRatio: 'xMidYMid slice'
-    }
-};
-
-
 const WeatherScreen = () => {
     const [weatherData, setWeatherData] = useState(null);
     const [airPollutionData, setAirPollutionData] = useState(null);
@@ -43,8 +33,6 @@ const WeatherScreen = () => {
 
     const navigate = useNavigate();
 
-
- 
 
     // Gestione dello stato online/offline
     useEffect(() => {

@@ -58,7 +58,10 @@
   margin-right: 15px;
   white-space: nowrap;
 }
-
+.sidebar-link:hover{
+  color:#000000;
+  background-color: rgba(130, 203, 255, 0.441);
+}
 /*Colore delle icone e svg */
 .sidebar-link i,
 .sidebar-link svg {
@@ -66,12 +69,6 @@
   font-size: 1.5rem;
   margin-right: 10px;
   vertical-align: middle;
-}
-
-/*Testo delle voci del menu in stato hover */
-.sidebar-link:hover {
-  background-color: #7890fa;
-  color: #000000;
 }
 
 /*----------------------------------------------Responsive---------------------------------*/
@@ -87,7 +84,6 @@
 
   .sidebar.open {
     transform: translateX(0);
-    /* Mostra la sidebar quando è aperta sui dispositivi mobili */
   }
 
   .sidebar-content {

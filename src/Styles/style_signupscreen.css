@@ -7,7 +7,7 @@
   background-repeat: no-repeat;
   background-position: cover;
   background-size: 100%;
-  
+
 }
 
 #go-home {
@@ -18,14 +18,16 @@
   font-size: 1.2rem;
   font-weight: bold;
   background: transparent;
-  color:#000000;
+  color: #000000;
   border: 1px solid #000000;
-  
+
 }
-#back{
-  color:#000000;
-  font-size:1rem;
+
+#back {
+  color: #000000;
+  font-size: 1rem;
 }
+
 #form-container {
   right: 0;
   position: absolute;
@@ -66,7 +68,8 @@
 .submit-btn {
   width: 100%;
   padding: 12px;
-  background-color: #7890fa;
+  background: rgb(31, 55, 107);
+  background: linear-gradient(90deg, rgba(31, 55, 107, 1) 0%, rgba(200, 130, 255, 1) 60%, rgba(130, 203, 255, 1) 100%);
   color: white;
   border: none;
   border-radius: 5px;
@@ -76,7 +79,7 @@
 }
 
 .submit-btn:hover {
-  background-color: #7890fa;
+  background-color: #000000;
 }
 
 .social-login p {
@@ -84,7 +87,7 @@
 }
 
 .google-btn {
-  background-color: #54817a;
+  background-color: rgba(200, 130, 255, 1);
   color: white;
   padding: 12px;
   border: none;
@@ -107,7 +110,7 @@
 }
 
 .toggle-link {
-  color: #54817a;
+  color: rgba(200, 130, 255, 1);
   cursor: pointer;
 }
 
@@ -190,7 +193,7 @@
   }
 }
 
-@media (max-width: 481px){
+@media (max-width: 481px) {
   .google-btn {
     margin-left: 44%;
   }

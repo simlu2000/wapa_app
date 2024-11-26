@@ -87,7 +87,7 @@ const HomeScreen = () => {
       <section id="about-area" className="container-data">
         <div>
           <h1 id="features-title">Our Features</h1>
-          <h2 id="features-subtitle">Stay connected to see new features in the future</h2>
+          <h2 id="features-subtitle">Stay connected to be updated</h2>
         </div>
 
         <div id="things" className="info-box-container">
@@ -121,7 +121,7 @@ const HomeScreen = () => {
           <h2 id="call-to-action-text">Join WAPA!🚀</h2>
           <h3 id="call-to-action-text2">
             Become part of our community and gain instant access to your favorite places, advanced predictions, and a customizable experience.<br />
-            Don't wait! Your new WAPA experience starts here 💡
+            Don't wait! Your new weather experience starts here 💡
             <div id="signup-area">
               <h2><Link to="/SignUpScreen">Sign up</Link></h2>
             </div>
