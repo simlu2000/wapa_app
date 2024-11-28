@@ -78,12 +78,13 @@
     height: 100vh;
     top: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(243, 243, 243, 0.9);
     transition: transform 0.3s ease;
   }
 
   .sidebar.open {
     transform: translateX(0);
+    width: 85%;
   }
 
   .sidebar-content {
@@ -92,13 +93,9 @@
 
   .sidebar-link {
     font-size: 1rem;
-    color: #F7F7F7;
     padding: 15px 0;
   }
 
-  .sidebar-link svg {
-    color: #F7F7F7;
-  }
 
   .sidebar-link span {
     display: block;
