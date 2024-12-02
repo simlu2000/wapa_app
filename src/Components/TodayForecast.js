@@ -19,23 +19,25 @@ const TodayForecast = ({ forecast }) => {
     const applyBackgroundGradient = (weatherMain) => {
         switch (weatherMain) {
             case 'Clear':
-                return 'rgba(255, 223, 70, 0.7)'; // Soleggiato
+                return 'linear-gradient(to bottom, #0083B0, #00B4DB)';
             case 'Clouds':
-                return 'rgba(150, 150, 150, 0.7)'; // Nuvoloso
+                return 'linear-gradient(to bottom, #485563, #29323c)';
             case 'Rain':
-                return 'rgba(0, 60, 120, 0.7)'; // Pioggia
+                return 'linear-gradient(to bottom, #00416a, #e4e5e6)';
+            case 'Light Rain':
+                return 'linear-gradient(to bottom, #00416a, #e4e5e6)';
             case 'Snow':
-                return 'rgba(200, 200, 255, 0.7)'; // Neve
+                return 'linear-gradient(to bottom, #8e9eab, #eef2f3)';
             case 'Thunderstorm':
-                return 'rgba(255, 165, 0, 0.7)'; // Temporale
+                return 'linear-gradient(to bottom, #ffb75e, #ed8f03)';
             case 'Drizzle':
-                return 'rgba(70, 130, 180, 0.7)'; // Pioggerella
+                return 'linear-gradient(to right, #4CA1AF, #C4E0E5)';
             case 'Fog':
             case 'Mist':
             case 'Haze':
-                return 'rgba(128, 128, 128, 0.7)'; // Nebbia/Foschia
+                return 'linear-gradient(to bottom, #3e5151, #decba4)';
             default:
-                return 'rgba(100, 100, 100, 0.7)'; // Default
+                return 'linear-gradient(to right, #83a4d4, #b6fbff)';
         }
     };
 
@@ -115,7 +117,7 @@ const TodayForecast = ({ forecast }) => {
         plugins: {
             legend: {
                 labels: {
-                    color: 'white', 
+                    color: '#000000', 
                 },
             },
         },

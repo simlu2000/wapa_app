@@ -152,8 +152,8 @@ const WeatherScreen = () => {
         const gradients = {
             Clear: 'linear-gradient(to bottom, #0083B0, #00B4DB)', 
             Clouds: 'linear-gradient(to bottom, #485563, #29323c)',
-            Rain: 'linear-gradient(o bottom, #00416a, #e4e5e6)',
-            'Light Rain': 'linear-gradient(o bottom, #00416a, #e4e5e6)',
+            Rain: 'linear-gradient(to bottom, #00416a, #e4e5e6)',
+            'Light Rain': 'linear-gradient(to bottom, #00416a, #e4e5e6)',
             Snow: 'linear-gradient(to bottom, #8e9eab, #eef2f3)',
             Thunderstorm: 'linear-gradient(to bottom, #ffb75e, #ed8f03)',
             Drizzle: 'linear-gradient(to right, #4CA1AF, #C4E0E5)',

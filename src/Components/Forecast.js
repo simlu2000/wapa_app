@@ -15,23 +15,23 @@ const Forecast = ({ forecast }) => {
     const applyBackgroundGradient = (weatherMain) => {
         switch (weatherMain) {
             case 'Clear':
-                return 'linear-gradient(to top, #fff1eb 0%, #ace0f9 100%)';
+                return 'linear-gradient(to bottom, #0083B0, #00B4DB)';
             case 'Clouds':
-                return 'linear-gradient(-20deg, #616161 0%, #9bc5c3 100%)';
+                return 'linear-gradient(to bottom, #485563, #29323c)';
             case 'Rain':
-                return 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)';
+                return 'linear-gradient(to bottom, #00416a, #e4e5e6)';
             case 'Light Rain':
-                return 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)';
+                return 'linear-gradient(to bottom, #00416a, #e4e5e6)';
             case 'Snow':
-                return 'linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%)';
+                return 'linear-gradient(to bottom, #8e9eab, #eef2f3)';
             case 'Thunderstorm':
-                return 'linear-gradient(to right, #f83600 0%, #f9d423 100%)';
+                return 'linear-gradient(to bottom, #ffb75e, #ed8f03)';
             case 'Drizzle':
                 return 'linear-gradient(to right, #4CA1AF, #C4E0E5)';
             case 'Fog':
             case 'Mist':
             case 'Haze':
-                return 'linear-gradient(to right, #757F9A, #D7DDE8)';
+                return 'linear-gradient(to bottom, #3e5151, #decba4)';
             default:
                 return 'linear-gradient(to right, #83a4d4, #b6fbff)';
         }
