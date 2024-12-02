@@ -1,14 +1,27 @@
-#wapa-title {
+.info-title {
   text-align: center;
-  font-size: 3.5rem;
+  font-size: 2.5rem;
   color: #000000;
 }
 
-.about-container {
+.about-container,
+.developer-card,
+.contact-form {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 30vh;
+  width: 90%;
+  border-radius: 25px;
+  padding: 25px;
+  margin: 0 auto;
+  text-align: justify;
+  background: #7F7FD5;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  font-size: 1.3rem;
 }
 
 .sidebar-toggle {
@@ -22,4 +35,37 @@
   justify-content: center;
   align-items: center;
   margin-top: 0;
+}
+
+.contact-form input {
+  width: 70%;
+  border: none;
+  border-radius: 25px;
+  height: 25px;
+  margin-bottom: 15px;
+}
+
+#name {
+  margin-left: 10%;
+}
+
+#email {
+  margin-left: 7%;
+}
+
+#message {
+  border-radius: 25px;
+}
+
+#sendmess {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 25px;
+  border-radius: 25px;
+  border:none;
+  margin-top: 20px;
+  position: relative;
+  
 }
