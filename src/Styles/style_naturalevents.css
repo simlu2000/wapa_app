@@ -9,22 +9,26 @@
 
   }
 #natural{
-  width:50%
+  width:60%
 }
 
   /*----------------------------------------------Responsive---------------------------------*/
   @media (max-width: 992px) {
     #natural-events{
-      width:85%;
+      width:100%;
+    }
+    #natural{
+      margin-left:0;
+      width:auto;
     }
   }
 
-  @media (max-width: 769px) {
+  @media (max-width: 768px) {
     #natural-events{
-      width:85%;
+      min-width:90%;
     }
   }
-  @media (max-width: 480px) {
+  @media (max-width: 481px) {
     #natural-events{
       width:90%;
       margin-left:5%

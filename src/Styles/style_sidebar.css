@@ -30,7 +30,6 @@
   transform: translateX(0);
 }
 
-/* Espansione sidebar al passaggio del mouse sui dispositivi di grandi dimensioni */
 @media (min-width: 768px) {
   .sidebar {
     transform: translateX(0);
@@ -40,7 +39,6 @@
   .sidebar:hover {
     width: 350px;
     transform: translateX(0);
-    /* Mostra la sidebar quando si passa sopra */
   }
 }
 
@@ -60,7 +58,6 @@
 }
 .sidebar-link:hover{
   color:#000000;
-  background-color: rgba(130, 203, 255, 0.441);
 }
 /*Colore delle icone e svg */
 .sidebar-link i,
@@ -126,7 +123,6 @@
     cursor: pointer;
     z-index: 1100;
     visibility: visible;
-    /* Visibile solo su dispositivi mobili */
   }
 
   .sidebar-toggle:hover {

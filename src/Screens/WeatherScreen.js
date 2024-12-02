@@ -150,16 +150,16 @@ const WeatherScreen = () => {
     // Applicazione dello sfondo gradiente in base al meteo
     const applyBackgroundGradient = (weatherMain) => {
         const gradients = {
-            Clear: 'linear-gradient(to top, #fff1eb 0%, #ace0f9 100%)',
-            Clouds: 'linear-gradient(-20deg, #616161 0%, #9bc5c3 100%)',
-            Rain: 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)',
-            'Light Rain': 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)',
-            Snow: 'linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%)',
-            Thunderstorm: 'linear-gradient(to right, #f83600 0%, #f9d423 100%)',
+            Clear: 'linear-gradient(to bottom, #0083B0, #00B4DB)', 
+            Clouds: 'linear-gradient(to bottom, #485563, #29323c)',
+            Rain: 'linear-gradient(o bottom, #00416a, #e4e5e6)',
+            'Light Rain': 'linear-gradient(o bottom, #00416a, #e4e5e6)',
+            Snow: 'linear-gradient(to bottom, #8e9eab, #eef2f3)',
+            Thunderstorm: 'linear-gradient(to bottom, #ffb75e, #ed8f03)',
             Drizzle: 'linear-gradient(to right, #4CA1AF, #C4E0E5)',
-            Fog: 'linear-gradient(to right, #757F9A, #D7DDE8)',
-            Mist: 'linear-gradient(to right, #757F9A, #D7DDE8)',
-            Haze: 'linear-gradient(to right, #757F9A, #D7DDE8)',
+            Fog: 'linear-gradient(to bottom, #3e5151, #decba4)',
+            Mist: 'linear-gradient(to bottom, #3e5151, #decba4)',
+            Haze: 'linear-gradient(to bottom, #3e5151, #decba4)',
         };
         return gradients[weatherMain] || 'linear-gradient(to right, #83a4d4, #b6fbff)';
     };

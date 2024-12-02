@@ -252,9 +252,9 @@ body {
     }
 }
 
-@media (max-width: 769px) {
+@media (max-width: 768px) {
     .title {
-        font-size: 6rem;
+        font-size: 5rem;
     }
 
     #advanced-title {
