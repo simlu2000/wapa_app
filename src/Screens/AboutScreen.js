@@ -19,7 +19,6 @@ const AboutScreen = () => {
             <section>
                 <h2 className="info-title">About the Developer</h2>
                 <div className="developer-card">
-                    <img src="path/to/your-photo.jpg" alt="Simone Lutero" className="developer-photo" />
                     <div className="developer-info">
                         <h3>Simone Lutero</h3>
                         <p>Studente di Informatica e Full-stack Developer</p>
