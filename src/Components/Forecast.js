@@ -94,7 +94,7 @@ const Forecast = ({ forecast }) => {
     });
 
     return (
-        <section className="meteo-box-container forecast-container" style={{
+        <section className="meteo-table forecast-container" style={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',

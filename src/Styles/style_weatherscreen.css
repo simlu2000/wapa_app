@@ -472,7 +472,7 @@ h1 {
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 481px) {
     h1 {
         font-size: 3.5em;
     }
