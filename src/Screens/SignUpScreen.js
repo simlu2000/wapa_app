@@ -103,8 +103,16 @@ const SignUpScreen = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithRedirect(auth, googleProvider);
-    } catch (error) {
+      setIsSigningInWithPopup(true); // Mostra il messaggio di caricamento
+      if (window.innerWidth < 768) {
+        // Usa il redirect per dispositivi mobili
+        await signInWithPopup(auth, googleProvider);
+        navigate('/WeatherScreen');
+      } else {
+        await signInWithRedirect(auth, googleProvider);
+        navigate('/WeatherScreen');
+      }
+    }  catch (error) {
       console.error('Error during Google sign-in', error);
       alert('An error occurred during Google sign-in. Please try again.');
     }
