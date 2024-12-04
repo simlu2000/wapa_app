@@ -103,20 +103,13 @@ const SignUpScreen = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      setIsSigningInWithPopup(true); // Mostra il messaggio di caricamento
-      await signInWithPopup(auth, googleProvider);
-      navigate('/WeatherScreen');
+      await signInWithRedirect(auth, googleProvider);
     } catch (error) {
-      if (error.code === 'auth/popup-closed-by-user') {
-        console.warn('Popup closed by the user. Try again.');
-      } else {
-        console.error('Error during Google sign-in', error);
-        alert('An error occurred during Google sign-in. Please try again.');
-      }
-    } finally {
-      setIsSigningInWithPopup(false); // Nascondi il messaggio di caricamento
+      console.error('Error during Google sign-in', error);
+      alert('An error occurred during Google sign-in. Please try again.');
     }
   };
+  
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
