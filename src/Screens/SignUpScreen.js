@@ -13,7 +13,7 @@ import {
 import { setUserData } from '../Utils/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
-import '../Styles/style_signupscreen.css'; 
+import '../Styles/style_signupscreen.css';
 import { provider as googleProvider } from '../Utils/firebase';
 
 
@@ -31,12 +31,12 @@ const SignUpScreen = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   }
-  
+
   const controlPassword = (password) => {
     const passwordRegex = /^(?=.*[0-9]).{6,}$/; // almeno 6 caratteri ed un numero
     return passwordRegex.test(password);
   };
-  
+
   useEffect(() => {
     //Controlla il risultato del redirect all'avvio del componente
     const checkRedirectResult = async () => {
@@ -79,7 +79,7 @@ const SignUpScreen = () => {
       alert(error.message);
     }
   };
-  
+
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -99,19 +99,13 @@ const SignUpScreen = () => {
       alert(error.message);
     }
   };
-  
+
 
   const handleGoogleSignIn = async () => {
     try {
       setIsSigningInWithPopup(true); // Mostra il messaggio di caricamento
-      if (window.innerWidth < 768) {
-        // Usa il redirect per dispositivi mobili
-        await signInWithRedirect(auth, googleProvider);
-        navigate('/WeatherScreen');
-      } else {
-        await signInWithPopup(auth, googleProvider);
-        navigate('/WeatherScreen');
-      }
+      await signInWithPopup(auth, googleProvider);
+      navigate('/WeatherScreen');
     } catch (error) {
       if (error.code === 'auth/popup-closed-by-user') {
         console.warn('Popup closed by the user. Try again.');
