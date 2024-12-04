@@ -38,7 +38,6 @@ const SignUpScreen = () => {
   };
 
   useEffect(() => {
-    //Controlla il risultato del redirect all'avvio del componente
     const checkRedirectResult = async () => {
       try {
         const result = await getRedirectResult(auth);
@@ -53,6 +52,7 @@ const SignUpScreen = () => {
     };
     checkRedirectResult();
   }, [navigate]);
+
 
   const toggleForm = () => {
     setIsSignUp(!isSignUp);
