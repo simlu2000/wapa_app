@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { auth } from '../Utils/firebase';
 import { useNavigate, Link } from 'react-router-dom';
 import {
-  signInWithPopup,
-  GoogleAuthProvider,
+  signInWithRedirect,
+  getRedirectResult,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
-  signInWithRedirect,
-  getRedirectResult,
 } from 'firebase/auth';
 import { setUserData } from '../Utils/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,7 +22,6 @@ const SignUpScreen = () => {
   const [password, setPassword] = useState('');
   const [resetEmail, setResetEmail] = useState('');
   const [resetSent, setResetSent] = useState(false);
-  const [isSigningInWithPopup, setIsSigningInWithPopup] = useState(false); //stato per gestire il caricamento del popup
   const navigate = useNavigate();
 
   const controlEmail = (email) => {
@@ -103,24 +100,11 @@ const SignUpScreen = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      setIsSigningInWithPopup(true); // Mostra il messaggio di caricamento
-      if (window.innerWidth < 768) {
-        // Usa il redirect per dispositivi mobili
-        await signInWithRedirect(auth, googleProvider);
-        navigate('/WeatherScreen');
-      } else {
-        await signInWithPopup(auth, googleProvider);
-        navigate('/WeatherScreen');
-      }
+      // Usa sempre il redirect per l'accesso con Google
+      await signInWithRedirect(auth, googleProvider);
     } catch (error) {
-      if (error.code === 'auth/popup-closed-by-user') {
-        console.warn('Popup closed by the user. Try again.');
-      } else {
-        console.error('Error during Google sign-in', error);
-        alert('An error occurred during Google sign-in. Please try again.');
-      }
-    } finally {
-      setIsSigningInWithPopup(false); // Nascondi il messaggio di caricamento
+      console.error('Error during Google sign-in', error);
+      alert('An error occurred during Google sign-in. Please try again.');
     }
   };
 
