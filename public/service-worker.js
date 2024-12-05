@@ -9,7 +9,14 @@ const filesToCache = [
   '/fallback.html',
   '/manifest.json',
   '/icons/logo-144x144.png',
-  '/src/img/WAPA_logo.png',
+  '/src/img/wapa_logo.png',
+  '/src/img/alarmLogo.png',
+  '/src/img/earth.png',
+  '/src/img/locationLogo.png',
+  '/src/img/mapsLogo.png',
+  '/src/img/signupPageIntro.png',
+  '/src/img/spaceShip.png',
+  '/src/img/sun.png',
 ];
 
 // Installazione del Service Worker

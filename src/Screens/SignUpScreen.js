@@ -3,11 +3,9 @@ import { auth } from '../Utils/firebase';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   signInWithPopup,
-  GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
-  signInWithRedirect,
   getRedirectResult,
 } from 'firebase/auth';
 import { setUserData } from '../Utils/userService';
@@ -16,7 +14,6 @@ import { faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
 import '../Styles/style_signupscreen.css';
 import { provider as googleProvider } from '../Utils/firebase';
 
-
 const SignUpScreen = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [isReset, setIsReset] = useState(false);
@@ -24,18 +21,8 @@ const SignUpScreen = () => {
   const [password, setPassword] = useState('');
   const [resetEmail, setResetEmail] = useState('');
   const [resetSent, setResetSent] = useState(false);
-  const [isSigningInWithPopup, setIsSigningInWithPopup] = useState(false); //stato per gestire il caricamento del popup
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 480); // Stato per gestire la larghezza dello schermo
   const navigate = useNavigate();
-
-  const controlEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
-
-  const controlPassword = (password) => {
-    const passwordRegex = /^(?=.*[0-9]).{6,}$/; // almeno 6 caratteri ed un numero
-    return passwordRegex.test(password);
-  };
 
   useEffect(() => {
     const checkRedirectResult = async () => {
@@ -53,6 +40,17 @@ const SignUpScreen = () => {
     checkRedirectResult();
   }, [navigate]);
 
+  // Aggiungi l'event listener per il resize dello schermo
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 480);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const toggleForm = () => {
     setIsSignUp(!isSignUp);
@@ -61,12 +59,8 @@ const SignUpScreen = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    if (!controlEmail(email)) {
-      alert("Insert a valid email address");
-      return;
-    }
-    if (!controlPassword(password)) {
-      alert("Password must contain at least 6 characters and include at least one number");
+    if (!email || !password) {
+      alert('Please fill in both fields');
       return;
     }
     try {
@@ -80,19 +74,14 @@ const SignUpScreen = () => {
     }
   };
 
-
   const handleSignIn = async (e) => {
     e.preventDefault();
-    if (!controlEmail(email)) {
-      alert("Insert a valid email address");
-      return;
-    }
-    if (!controlPassword(password)) {
-      alert("Password must contain at least 6 characters and include at least one number");
+    if (!email || !password) {
+      alert('Please fill in both fields');
       return;
     }
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, email, password);
       navigate('/WeatherScreen');
     } catch (error) {
       console.error('Error during sign-in', error);
@@ -100,19 +89,15 @@ const SignUpScreen = () => {
     }
   };
 
-
   const handleGoogleSignIn = async () => {
     try {
-      
-        await signInWithPopup(auth, googleProvider);
-        navigate('/WeatherScreen');
-      
-    }  catch (error) {
+      await signInWithPopup(auth, googleProvider);
+      navigate('/WeatherScreen');
+    } catch (error) {
       console.error('Error during Google sign-in', error);
       alert('An error occurred during Google sign-in. Please try again.');
     }
   };
-  
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
@@ -138,18 +123,39 @@ const SignUpScreen = () => {
 
   return (
     <div id="signinPage">
-
-      <div id="slogan-container">
-        <button id="go-home" className=""><Link to="/"> <h2 id="back">← Back to WAPA</h2></Link></button>
-      </div>
+      {!isMobile && (
+        <div id="slogan-container">
+          <button id="go-home" className="">
+            <Link to="/"> <h2 id="back">← Back to WAPA</h2></Link>
+          </button>
+        </div>
+      )}
       <div id="form-container">
         <div id="form-box">
           <h1 className="title-signup">{isSignUp ? 'Create Account' : 'Sign In'}</h1>
           <form onSubmit={isSignUp ? handleSignUp : handleSignIn}>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required className="input-field" />
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required className="input-field" />
-            <Link to="/PasswordResetScreen"><p>Forgot your password?</p></Link>
-            <button type="submit" className="submit-btn">{isSignUp ? 'Sign Up' : 'Sign In'}</button>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              required
+              className="input-field"
+            />
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              required
+              className="input-field"
+            />
+            <Link to="/PasswordResetScreen">
+              <p>Forgot your password?</p>
+            </Link>
+            <button type="submit" className="submit-btn">
+              {isSignUp ? 'Sign Up' : 'Sign In'}
+            </button>
           </form>
           <div id="social-login">
             <p>Or sign in with</p>
@@ -157,7 +163,12 @@ const SignUpScreen = () => {
               <FontAwesomeIcon icon={faGooglePlusG} />
             </button>
           </div>
-          <p className="toggle-text">{isSignUp ? 'Already have an account?' : 'Don\'t have an account?'} <span onClick={toggleForm} className="toggle-link">{isSignUp ? 'Sign In' : 'Sign Up'}</span></p>
+          <p className="toggle-text">
+            {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
+            <span onClick={toggleForm} className="toggle-link">
+              {isSignUp ? 'Sign In' : 'Sign Up'}
+            </span>
+          </p>
         </div>
       </div>
     </div>
