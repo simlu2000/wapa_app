@@ -31,6 +31,8 @@ self.addEventListener('install', (event) => {
   self.skipWaiting(); // Per forzare l'attivazione immediata del nuovo SW
 });
 
+
+
 // Attivazione del Service Worker
 self.addEventListener('activate', (event) => {
   console.log('Service worker activating...');

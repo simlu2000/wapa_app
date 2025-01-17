@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   getRedirectResult,
+  GoogleAuthProvider,
 } from 'firebase/auth';
 import { setUserData } from '../Utils/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -89,15 +90,33 @@ const SignUpScreen = () => {
     }
   };
 
-  const handleGoogleSignIn = async () => {
-    try {
-      await signInWithPopup(auth, googleProvider);
-      navigate('/WeatherScreen');
+  const signInWithGoogle = async () => {
+    /*try {
+      await signInWithPopup(auth, provider);
     } catch (error) {
-      console.error('Error during Google sign-in', error);
-      alert('An error occurred during Google sign-in. Please try again.');
+      if (error.code === 'auth/popup-blocked' || error.code === 'auth/popup-closed-by-user') {
+        // Fallback to redirect
+        await signInWithRedirect(auth, provider);
+      } else {
+        console.error('Error during sign-in:', error);
+      }
     }
-  };
+  };*/
+  try{
+    const result=await signInWithPopup(auth,provider);
+    const credential=GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    const user=result.user;
+
+    //memorizza i dati dell'utente nel Realtime Database
+    await setUserData(user.uid,{ email:user.email, localities:[]});
+
+    navigate('/');
+  }catch(error){
+    console.error("Error during Google sign-in",error);
+    alert(error.message);
+  }
+};
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
