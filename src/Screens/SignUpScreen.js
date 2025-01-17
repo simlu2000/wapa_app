@@ -103,7 +103,7 @@ const SignUpScreen = () => {
     }
   };*/
   try{
-    const result=await signInWithPopup(auth,provider);
+    const result = await signInWithPopup(auth, googleProvider);
     const credential=GoogleAuthProvider.credentialFromResult(result);
     const token = credential.accessToken;
     const user=result.user;
@@ -178,8 +178,8 @@ const SignUpScreen = () => {
           </form>
           <div id="social-login">
             <p>Or sign in with</p>
-            <button className="google-btn" onClick={handleGoogleSignIn}>
-              <FontAwesomeIcon icon={faGooglePlusG} />
+            <button className="google-btn" onClick={signInWithGoogle}>
+            <FontAwesomeIcon icon={faGooglePlusG} />
             </button>
           </div>
           <p className="toggle-text">
