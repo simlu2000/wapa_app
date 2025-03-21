@@ -30,12 +30,9 @@ const WeatherScreen = () => {
     const [user, setUser] = useState(null);
     const locationState = useLocation();
     const [isOffline, setIsOffline] = useState(!navigator.onLine);
-    const [isLocationReady, setIsLocationReady] = useState(false);  // New state for location readiness
 
     const navigate = useNavigate();
 
-    const defaultLatitude = 40.7128; // Default latitude (e.g. New York)
-    const defaultLongitude = -74.0060; // Default longitude (e.g. New York)
 
     // Gestione dello stato online/offline
     useEffect(() => {
@@ -67,9 +64,12 @@ const WeatherScreen = () => {
         return () => unsubscribe();
     }, []);
 
-    // Recupero della località dell'utente
+    // Recupero dati meteo in base alla posizione
     useEffect(() => {
-        if (!locationState.state?.query) {
+        if (location.latitude && location.longitude) {
+            fetchWeatherData(location.latitude, location.longitude);
+        } else if (!locationState.state?.query) {
+            // Se non è stata selezionata una città, usa il GPS per ottenere la posizione dell'utente
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
@@ -77,37 +77,16 @@ const WeatherScreen = () => {
                             latitude: position.coords.latitude,
                             longitude: position.coords.longitude,
                         });
-                        setIsLocationReady(true);  // Mark location as ready
                     },
                     (error) => {
                         console.error('Error getting location', error);
-                        alert("Unable to retrieve your location. Please ensure GPS is enabled or enter a location manually.");
-                        setLocation({
-                            latitude: defaultLatitude,
-                            longitude: defaultLongitude
-                        });
-                        setIsLocationReady(true);  // Set location ready even if it's the default
                     }
                 );
             } else {
                 console.error('Geolocation is not supported by this browser');
-                setLocation({
-                    latitude: defaultLatitude,
-                    longitude: defaultLongitude
-                });
-                setIsLocationReady(true);  // Set location ready even if geolocation isn't supported
             }
-        } else {
-            setIsLocationReady(true);  // If a query is present, mark location as ready
         }
-    }, [locationState]);
-
-    // Recupero dati meteo in base alla posizione
-    useEffect(() => {
-        if (isLocationReady && location.latitude && location.longitude) {
-            fetchWeatherData(location.latitude, location.longitude);
-        }
-    }, [isLocationReady, location]);
+    }, [locationState, location]);
 
     // Recupero dati meteo in base alla città cercata
     useEffect(() => {
@@ -149,47 +128,25 @@ const WeatherScreen = () => {
     // Funzione per recuperare i dati meteo in base alla località cercata
     const fetchWeatherBySearchedLocation = async (searchLocation) => {
         try {
-            // Split the location by commas, only take the city part (ignoring state or country)
-            const locationParts = searchLocation.split(',');
-            const city = locationParts[0].trim(); // Get only the city
-    
-            // Encode the city name for URL compatibility
-            const encodedCity = encodeURIComponent(city);
-    
-            // Fetch coordinates from OpenWeather Geocoding API
-            const geoResponse = await axios.get(
-                `https://api.openweathermap.org/geo/1.0/direct?q=${encodedCity}&limit=1&appid=${Api_Key_OpenWeather}`
+            const response = await axios.get(
+                `https://api.openweathermap.org/data/2.5/weather?q=${searchLocation}&appid=${Api_Key_OpenWeather}&units=metric`
             );
-    
-            if (geoResponse.data.length === 0) {
-                alert("City not found, please check the name and try again.");
-                return;
-            }
-    
-            const { lat, lon } = geoResponse.data[0];
-    
-            // Fetch weather data using the coordinates
-            const weatherResponse = await axios.get(
-                `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${Api_Key_OpenWeather}&units=metric&lang=it`
-            );
-    
-            // Set the weather data
-            setWeatherData(weatherResponse.data);
-            setCity(weatherResponse.data.name);
+            setWeatherData(response.data);
+            setCity(response.data.name);
             setLocation({
-                latitude: weatherResponse.data.coord.lat,
-                longitude: weatherResponse.data.coord.lon
+                latitude: response.data.coord.lat,
+                longitude: response.data.coord.lon
             });
+
+            const forecastResponse = await axios.get(
+                `https://api.openweathermap.org/data/2.5/forecast?lat=${response.data.coord.lat}&lon=${response.data.coord.lon}&appid=${Api_Key_OpenWeather}&units=metric`
+            );
+            setForecastData(forecastResponse.data.list);
         } catch (error) {
-            if (error.response && error.response.status === 404) {
-                alert("City not found, please check the name and try again.");
-            } else {
-                console.error("Error. Location not found", error);
-            }
+            console.error("Error. Location not found", error);
         }
     };
-    
-    
+
     // Applicazione dello sfondo gradiente in base al meteo
     const applyBackgroundGradient = (weatherMain) => {
         const gradients = {
@@ -208,11 +165,8 @@ const WeatherScreen = () => {
     };
 
     const handleSearch = (query) => {
-        // Prendi solo la prima parte del nome della località (es. 'Milano')
-        const city = query.split(',')[0];
-        navigate('/WeatherScreen', { state: { query: city } });
+        navigate('/WeatherScreen', { state: { query } });
     };
-    
 
     const calculateDewPoint = (temp, hum) => {
         const x = 17.27;
@@ -241,6 +195,7 @@ const WeatherScreen = () => {
                         <Loader />
                     ) : (
                         <div id="meteo-title">
+
                             <>
                                 <h1 id="place" className="meteo-title">In {city}:</h1>
                                 <h1 id="place-subtitle" className="meteo-title">{weatherData.weather[0].description}, 
@@ -252,9 +207,15 @@ const WeatherScreen = () => {
 
                                 </div>
                                 <SearchLocation onSearch={handleSearch} />
+
                             </>
+
+
+
                         </div>
                     )}
+
+
                 </section>
             </section>
 
@@ -268,6 +229,8 @@ const WeatherScreen = () => {
 
             {weatherData && weatherData.clouds && forecastData && (
                 <section id="meteo-area" className="today-data">
+
+
                     <div className="charts-container" style={{
                         backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)'
                     }}>
@@ -295,19 +258,42 @@ const WeatherScreen = () => {
                                 </div>
                             </div>
                         </section>
+                        <section id="temp-min" className="data-boxes meteo-box">
+                            <h3 className="meteo-box-label">Temp Min: {weatherData.main.temp_min} C°</h3>
+                            <div className="progress-bar">
+                                <div className="progress" style={{ width: `${weatherData.main.temp_min}%` }}>
+                                    <PercentageBox label={`${weatherData.main.temp_min}C°`} />
+                                </div>
+                            </div>
+                        </section>
+                        <section id="temp-max" className="data-boxes meteo-box">
+                            <h3 className="meteo-box-label">Temp Max: {weatherData.main.temp_max} C°</h3>
+                            <div className="progress-bar">
+                                <div className="progress" style={{ width: `${weatherData.main.temp_max}%` }}>
+                                    <PercentageBox label={`${weatherData.main.temp_max}C°`} />
+                                </div>
+                            </div>
+                        </section>
+
+
+
+                        <section id="sunrise" className="data-boxes meteo-box">
+                            <Sunrise sunriseTime={weatherData.sys.sunrise} />
+                        </section>
+                        <section id="sunset" className="data-boxes meteo-box">
+                            <Sunset sunsetTime={weatherData.sys.sunset} />
+                        </section>
+
+                        <section id="dew-point" className="data-boxes meteo-box">
+                            <h3 className="meteo-box-label">Dew Point</h3>
+                            <MoreDataCharts value={calculateDewPoint(weatherData.main.temp, weatherData.main.humidity).toFixed(1)} />
+                        </section>
+                        <section id="air-pollution" className="data-boxes meteo-box">
+                            <h3 className="meteo-box-label">Air Poll. µg/m³</h3>
+                            <MoreDataCharts value={airPollutionData ? airPollutionData.pm2_5 : 'N/A'} />
+                        </section>
+
                     </section>
-                </section>
-            )}
-            {weatherData && airPollutionData && (
-                <section id="sunrise-sunset-area" className="charts-container">
-                    <Sunrise
-                        sunrise={weatherData.sys.sunrise}
-                        sunset={weatherData.sys.sunset}
-                    />
-                    <Sunset
-                        sunrise={weatherData.sys.sunrise}
-                        sunset={weatherData.sys.sunset}
-                    />
                 </section>
             )}
         </>

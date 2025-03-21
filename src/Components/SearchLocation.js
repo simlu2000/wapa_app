@@ -38,7 +38,9 @@ const SearchLocation = ({ onSearch }) => {
                         onChange={(e) => setQuery(e.target.value)}
                     />
                 </Autocomplete>
-                
+                <button type="submit" className="search-button">
+                    <FontAwesomeIcon icon={faSearch} />
+                </button>
             </form>
         </LoadScript>
     );

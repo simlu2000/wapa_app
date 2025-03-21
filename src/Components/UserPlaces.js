@@ -1,47 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../Styles/style_userplaces.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAdd, faRemove } from '@fortawesome/free-solid-svg-icons';
 
-// Accessing the API key from environment variables
-const Api_Key_GooglePlaces = process.env.REACT_APP_Api_Key_googlePlaces;
-
 const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSelectLocation, getUserLocalities: fetchUserLocalities }) => {
     const [localities, setLocalities] = useState([]);
     const [newLocation, setNewLocation] = useState('');
-    const inputRef = useRef(null); 
-
-    useEffect(() => {
-        const loadGoogleMapsScript = () => {
-            if (!window.google) {
-                const script = document.createElement('script');
-                
-                // Correctly injecting the API key into the URL
-                script.src = `https://maps.googleapis.com/maps/api/js?key=${Api_Key_GooglePlaces}&libraries=places`;  // Correct template literal usage
-                script.async = true;
-                script.defer = true;
-                script.onload = () => {
-                    // Initialize autocomplete after the script is loaded
-                    if (inputRef.current) {
-                        const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
-                            types: ['(cities)'], // Limit the suggestions to cities
-                            componentRestrictions: { country: 'IT' }, // Restrict to Italy if needed
-                        });
-
-                        autocomplete.addListener("place_changed", () => {
-                            const place = autocomplete.getPlace();
-                            if (place && place.formatted_address) {
-                                setNewLocation(place.formatted_address); // Set the input value to the selected place
-                            }
-                        });
-                    }
-                };
-                document.head.appendChild(script);
-            }
-        };
-
-        loadGoogleMapsScript();
-    }, []); // Only run once when component is mounted
 
     useEffect(() => {
         const fetchLocalities = async () => {
@@ -63,7 +27,7 @@ const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSe
                 await onAddLocation(newLocation);
                 const updatedLocalities = await fetchUserLocalities(userId);
                 setLocalities(updatedLocalities);
-                setNewLocation(''); // Clear the input field after adding
+                setNewLocation('');
             } catch (error) {
                 console.error("Error adding location:", error);
             }
@@ -80,13 +44,17 @@ const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSe
         }
     };
 
+    useEffect(() => {
+        console.log('UserPlaces props:', { userId, onAddLocation, onRemoveLocation, onSelectLocation });
+    }, [userId, onAddLocation, onRemoveLocation, onSelectLocation]);
+
     return (
+
         <section className="user-places-container">
             <input
                 type="text"
                 id="fav-insert"
                 className="new-loc"
-                ref={inputRef}
                 value={newLocation}
                 onChange={(e) => setNewLocation(e.target.value)}
                 placeholder="Add new location"
@@ -96,16 +64,17 @@ const UserPlaces = ({ weatherData, userId, onAddLocation, onRemoveLocation, onSe
                 onClick={handleAddClick}
                 disabled={localities.length >= 6}
             >
-                <FontAwesomeIcon icon={faAdd} style={{ color: "#F7F7F7" }} />
+                <FontAwesomeIcon icon={faAdd} style={{ color: "#F7F7F7", }} />
             </button>
             <ul>
                 {localities.map((loc) => (
-                    <li key={loc.toUpperCase()}>
+                    <li key={loc}>
                         <button id="location" className="btn-loc" onClick={() => onSelectLocation(loc)}>
                             {loc}
-                            <FontAwesomeIcon icon={faRemove} style={{ color: "red", marginLeft: '5%', fontSize: '1rem' }} onClick={() => handleRemoveClick(loc)} />
-                            <hr />
+                            <FontAwesomeIcon icon={faRemove} style={{ color: "red", marginLeft:'5%', fontSize:'1rem'}} onClick={() => handleRemoveClick(loc)} />
+                            <hr></hr>
                         </button>
+
                     </li>
                 ))}
             </ul>
