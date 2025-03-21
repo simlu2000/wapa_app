@@ -143,7 +143,7 @@ const WeatherScreen = () => {
             );
             setForecastData(forecastResponse.data.list);
         } catch (error) {
-            console.error("Error. Location not found.", error);
+            console.error("Error. Location not found", error);
         }
     };
 
