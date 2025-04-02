@@ -176,12 +176,12 @@ const SignUpScreen = () => {
               {isSignUp ? 'Sign Up' : 'Sign In'}
             </button>
           </form>
-          <div id="social-login">
+          {/*<div id="social-login">
             <p>Or sign in with</p>
             <button className="google-btn" onClick={signInWithGoogle}>
             <FontAwesomeIcon icon={faGooglePlusG} />
             </button>
-          </div>
+          </div> */}
           <p className="toggle-text">
             {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
             <span onClick={toggleForm} className="toggle-link">
