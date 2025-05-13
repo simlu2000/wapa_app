@@ -64,7 +64,6 @@ const SideBar = ({ user }) => {
           <IconButton edge="start" color="#000000" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             <Menu />
           </IconButton>
-          <h6>WAPA</h6>
         </Toolbar>
       </AppBar>
 

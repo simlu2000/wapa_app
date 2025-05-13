@@ -140,14 +140,6 @@ const UserProfileScreen = ({ user }) => {
               Notifications
             </label>*/}
           </div>
-          <div id="loc-area">
-            <UserPlaces
-              userId={user.uid}
-              onAddLocation={handleAddLocation}
-              onRemoveLocation={handleRemoveLocation}
-              getUserLocalities={getUserLocalities}
-            />
-          </div>
           <button onClick={handleLogout} id="logout-button">
             <FontAwesomeIcon icon={faSignOutAlt} style={{ color: "#F7F7F7" }} />
           </button>
