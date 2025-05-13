@@ -11,12 +11,9 @@ import animationData from '../Animations/Animation - 1726519636363.json';
 import Lottie from 'react-lottie';
 import LunarPhases from "../Components/Advanced/LunarPhases";
 import "../Styles/style_lunarphases.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEarth, faStar } from '@fortawesome/free-solid-svg-icons';
-
 
 const AdvancedScreen = () => {
-    const [backgroundImage, setBackgroundImage] = useState(""); // Background per gestire immagine
+    const [backgroundImage, setBackgroundImage] = useState("");
     const [imageDate, setImageDate] = useState("");
     const [isAstronomicImage, setIsAstronomicImage] = useState(true);
     const [loading, setLoading] = useState(true);
@@ -99,9 +96,11 @@ const AdvancedScreen = () => {
                                 <h1 className="title">
                                     Navigate the&nbsp;
                                     <a id="universe changeBackground" onClick={handleSwitchImage} className="switch-image-button">
-                                        {isAstronomicImage ? <a id="to-earth" className="title">Earth&nbsp;↻</a>
-                                            : <a id="to-universe" className="title">Cosmo&nbsp;↻</a>
-                                        }
+                                        {isAstronomicImage ? (
+                                            <a id="to-earth" className="title">Earth&nbsp;↻</a>
+                                        ) : (
+                                        <a id="to-universe" className="title">Cosmo&nbsp;↻</a>
+                                        )}
                                     </a>
                                 </h1>
 
