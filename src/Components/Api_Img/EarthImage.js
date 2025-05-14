@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import Loader from "../loader";
 const EarthImage = ({ setBackgroundImageUrl }) => {
     const [imageUrl, setImageUrl] = useState('');
     const apiKey = process.env.REACT_APP_Api_Key_NASA;
@@ -21,8 +21,7 @@ const EarthImage = ({ setBackgroundImageUrl }) => {
                     setBackgroundImageUrl(imageUrl);
                 }
             } catch (error) {
-                /*if (error) return <p className="text-error" style={ {color:"#000000"}}>Error while loading Earth. Try later.</p>;*/
-                return null;
+                return <Loader/>
             }
             
         };

@@ -1,29 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUserLocalities, addLocation, removeLocation } from '../Utils/userService';
-import UserPlaces from '../Components/UserPlaces';
 import { signOut, auth } from '../Utils/firebase';
 import '../Styles/style_userprofilescreen.css';
-import animationData from '../Animations/Animation - 1721298712078.json';
-import Lottie from 'react-lottie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-
+import Loader from '../Components/loader';
 
 const UserProfileScreen = ({ user }) => {
   const [userLocalities, setUserLocalities] = useState([]);
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice'
-    }
-  };
 
   useEffect(() => {
     const fetchUserLocalities = async () => {
@@ -117,12 +105,7 @@ const UserProfileScreen = ({ user }) => {
   return (
     <>
       {loading ? (
-        <div className="animation-container">
-          <Lottie
-            options={defaultOptions}
-            height={"150px"}
-            width={"150px"}
-          />        </div>
+        <Loader/>
       ) : (<>
         <section id="users-data" className="container-data">
           <h1>Your Profile</h1>

@@ -4,14 +4,11 @@ import "../Styles/style_advancedscreen.css";
 import SpaceWeatherTimeline from "../Components/Charts/SpaceWeatherTimeline";
 import CelestialEvents from "../Components/Advanced/CelestialEvents";
 import NaturalEvents from "../Components/Charts/NaturalEvents";
-import MarsRoverPhotos from "../Components/Api_Img/MarsRoverPhotos";
 import NearEarthObjects from "../Components/Advanced/NearEarthObjects";
 import EarthImage from "../Components/Api_Img/EarthImage";
-import animationData from '../Animations/Animation - 1726519636363.json';
-import Lottie from 'react-lottie';
 import LunarPhases from "../Components/Advanced/LunarPhases";
 import "../Styles/style_lunarphases.css";
-
+import Loader from "../Components/loader";
 const AdvancedScreen = () => {
     const [backgroundImage, setBackgroundImage] = useState("");
     const [imageDate, setImageDate] = useState("");
@@ -19,14 +16,6 @@ const AdvancedScreen = () => {
     const [loading, setLoading] = useState(true);
     const [isOffline, setIsOffline] = useState(!navigator.onLine);
 
-    const defaultOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: animationData,
-        rendererSettings: {
-            preserveAspectRatio: 'xMidYMid slice'
-        }
-    };
 
     useEffect(() => {
         const handleOnline = () => setIsOffline(false);
@@ -65,8 +54,8 @@ const AdvancedScreen = () => {
     return (
         <>
             {loading ? (
-                <div className="animation-container">
-                    <Lottie options={defaultOptions} height={"200px"} width={"200px"} />
+                <div className="loader-area">
+                    <Loader/>
                 </div>
             ) : (
                 <>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import Loader from "../loader";
 const AstronomicImage = ({ setBackgroundImage, setImageDate }) => {
     const [astronomicImageData, setAstronomicImageData] = useState(null);
     const [error, setError] = useState(null);
@@ -33,8 +33,8 @@ const AstronomicImage = ({ setBackgroundImage, setImageDate }) => {
         fetchImage();
     }, [apiKey, setBackgroundImage, setImageDate]);
 
-    if (error) return <p className="text-no-data">Error while loading data. Try later.</p>;
-    if (!astronomicImageData) return <div>Loading...</div>;
+    if (error) return <Loader/>;
+    if (!astronomicImageData) return <Loader/>;
 
 };
 
