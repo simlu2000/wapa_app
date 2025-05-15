@@ -19,7 +19,7 @@ JavaScript
 
 HTML/CSS
 
-Chart.js / ApexCharts (per i grafici)
+Chart.js / Apache ECharts / D3.js (per i grafici)
 
 Weather & Astronomy APIs
 
