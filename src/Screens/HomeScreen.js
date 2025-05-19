@@ -6,6 +6,8 @@ import "animate.css";
 import "../Styles/style_homescreen.css";
 import logo from "../img/logo.png";
 import locationLogo from "../img/locationLogo.png";
+import { Button } from '@mui/material';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 function isMobileDevice() {
   return /Mobi|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
@@ -78,11 +80,22 @@ const HomeScreen = () => {
       </section>
 
       <section id="discover-btn-area" className="button-area">
-        <button id="central-button">
-          <a href="#about-area" id="discover">DISCOVER</a>
-          <span className="arrow"></span>
-        </button>
-      </section>
+  <Button
+    variant="contained"
+    color="primary"
+    href="#about-area"
+    endIcon={<ArrowDownwardIcon />}
+    id="secondary"
+    sx={{
+      textTransform: 'uppercase',
+      fontWeight: 'bold',
+      paddingX: 4,
+      paddingY: 1.5,
+    }}
+  >
+    Discover
+  </Button>
+</section>
 
       <section id="about-area" className="container-data">
         <div>
