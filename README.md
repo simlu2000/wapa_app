@@ -1,86 +1,59 @@
-# WAPA
+☁️ WAPA – Weather and Advanced Predictions App
+Weather and the universe, at your fingertips.
 
-WAPA App è una web app meteorologica progettata per raccogliere e visualizzare dati climatici basilari e avanzati da varie fonti tramite l'uso di API. Il progetto è parte della mia tesi universitaria ed è ancora in fase di sviluppo.
+WAPA è una web app sviluppata in React come progetto di tesi universitaria. Ti permette di consultare dati meteorologici dettagliati e previsioni avanzate, unendo informazioni atmosferiche e astronomiche in un'unica interfaccia. Utilizza sia la geolocalizzazione GPS che la ricerca manuale, ed è una Progressive Web App (PWA), installabile direttamente dal tuo browser!
 
+⚠️ Il design responsive è ancora in fase di miglioramento, quindi alcune visualizzazioni potrebbero non essere ottimali su tutti i dispositivi.
 
-## Funzionalità
+🧪 Periodo di sviluppo
+📅 Aprile 2024 – Ottobre 2024
 
- - Visualizzazione dati climatici basilari:
-	 - Temperatura percepita
-	 - Temperatura minima e massima
-	 - Umidità
-	 - Pressione
-	 - Punto di rugiada
-	 - Ora alba e tramonto
-	 - Percentuale nuvolosità
-	 - Visualizzazione forecast (previsioni a 5 			giorni)
- - Determinazione località:
-	 - Tramite barra di ricerca
-	 - Tramite localizzazione utente
-	 - Selezione località preferita utente
- - Visualizzazione dati avanzati (da realizzare con API NASA)
+Prova la demo-> https://www.wapaweather.com/
 
-## Gestione utenza
+🧰 Tecnologie utilizzate
+React
 
-### Registrazione
+Firebase
 
-Accesso tramite email/password o account Google
+JavaScript
 
-## API Utilizzate
-- OpenWeatherAPI: fornisce i dati meteo
-- Unsplash API: imposta lo sfondo della schermata home in base a un'immagine generata casualmente dalla categoria 'sky'
+HTML/CSS
 
-NASA API:
-- EPIC: immagini quotidiane della Terra
-- APOD: immagine astronomica quotidiana
-- DONKI: informazioni e analisi su dati avanzati come il chiarore solare degli ultimi 30 giorni
+Chart.js / Apache ECharts / D3.js (per i grafici)
 
-## Librerie:
--  React.js
-- D3.JS
-- eCharts
-- FaIcon
-- Leaflet.js
+Weather & Astronomy APIs
 
-## Gestione Database utenti
+✨ Funzionalità principali
+🌤️ Dati meteo in tempo reale, con grafico della temperatura
 
-- Firebase Realtime DB: utilizzato per la gestione del database utenti
-- Firebase Authentication: implementato per l'autenticazione degli utenti
+⏳ Previsioni fino a 5 giorni, aggiornate ogni 3 ore
 
-# Schermate
-- HomeScreen: introduzione alla app con elenco delle funzionalità offerte
-- WeatherScreen: visualizzazione dati climatici in forma testuale e grafica (alba e tramonto visualizzati con un chart generato con D3.JS; velocità del vento, temperatura e pressione mediante charts generati da ECharts) e mappe interattive
-- UserProfileScreen: pagina riservata all'utente con possibilità di aggiunta/rimozione località
-- SignUpScreen: pagina di registrazione/accesso
-- AdvancedScreen (da realizzare)
-- PrivacyPolicyScreen
+📊 Grafici avanzati su velocità del vento, pressione atmosferica, punto di rugiada e qualità dell’aria
 
-## Componenti
+💬 Account utente per salvare fino a 6 località preferite
 
-- EarthImage: generazione immagine quotidiana della Terra mediante NASA EPIC API
-- UnsplashFetching: sfondo schermata home
-- PressureChart, TempChart e WindCharts
-- Sunrise, Sunset
-- PrecipitationMap, TemperatureMap, - WeatherMap, WindMap
-- Footer (da inserire)
-- NavBar
-- PercentageBox: barra progressiva per le percentuali
-- SearchLocation
-- UserPlaces: preferenze utente
+🌙 Fasi lunari e eventi celesti
 
-## Stato del progetto
-Il progetto non è ancora completo. Mancano le seguenti parti:
+🌍 Eventi naturali, categorizzati per tipo e intensità
 
-- Realizzazione della pagina di dati avanzati (AdvancedScreen)
-- Sistemazione e completamento del lato responsive
+🪐 Monitoraggio di oggetti vicini alla Terra (NEO)
 
+☀️ Attività solare, incluse le eruzioni solari
 
-## Installazione
+📦 Installazione locale
+git clone https://github.com/tuo-username/wapa.git
+cd wapa
+npm install
+npm start
 
+🛠️ Build per la produzione
+npm run build
 
-Clona la repository: git clone https://github.com/simlu2000/wapa_app.git
-Entra nella directory del progetto: cd wapa_app
-Installa le dipendenze: npm install
-Installa animazioni: npm install lottie-react-web react-animation
-Avvia l'applicazione: npm start
+🚀 Roadmap futura
+Miglioramento della responsività
 
+Aggiunta mappa interattiva per gli eventi naturali
+
+Dark mode automatica
+
+Sezione educativa con curiosità meteo/astronomiche
