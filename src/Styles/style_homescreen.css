@@ -104,7 +104,7 @@ a:hover {
 .button-area {
   display: flex;
   justify-content: center;
-  height: 12vh;
+  height: 6vh;
   border: none;
   background-color: #F5F5F5;
 }
@@ -256,8 +256,8 @@ a:hover {
 /*----------------------------------------Call to action area-----------------------------------------------*/
 #call-to-action-area {
   background: #7F7FD5;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(135deg, #f093fb 0%, #86d1ff 100%);
-  background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: -webkit-linear-gradient(135deg, #fde8ff 0%, #86d1ff 100%);
+  background: linear-gradient(to right, #91EAE4, #c5d9ff, #7F7FD5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   display: flex;
   justify-content: center;
   align-items: center;

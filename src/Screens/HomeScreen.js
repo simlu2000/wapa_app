@@ -8,6 +8,7 @@ import logo from "../img/logo.png";
 import locationLogo from "../img/locationLogo.png";
 import { Button } from '@mui/material';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
 function isMobileDevice() {
   return /Mobi|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
@@ -90,7 +91,7 @@ const HomeScreen = () => {
             textTransform: 'uppercase',
             fontWeight: 'bold',
             paddingX: 4,
-            paddingY: 1.5,
+            paddingY: 0.5,
           }}
         >
           Discover
@@ -139,17 +140,16 @@ const HomeScreen = () => {
               <Button
                 variant="contained"
                 color="primary"
-                href="#about-area"
-                endIcon={<ArrowDownwardIcon />}
+                endIcon={<ArrowRightIcon />}
                 id="secondary"
                 sx={{
                   textTransform: 'uppercase',
                   fontWeight: 'bold',
                   paddingX: 4,
-                  paddingY: 1.5,
+                  paddingY: 0.5,
                 }}
               >
-                <h2><Link to="/SignUpScreen">Sign up</Link></h2>
+                <p><Link to="/SignUpScreen">Sign up</Link></p>
               </Button>
             </div>
           </h3>

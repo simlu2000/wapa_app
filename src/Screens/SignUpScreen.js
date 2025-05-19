@@ -13,6 +13,8 @@ import { setUserData } from '../Utils/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGooglePlusG } from '@fortawesome/free-brands-svg-icons';
 import '../Styles/style_signupscreen.css';
+import { Button } from '@mui/material';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { provider as googleProvider } from '../Utils/firebase';
 
 const SignUpScreen = () => {
@@ -102,21 +104,21 @@ const SignUpScreen = () => {
       }
     }
   };*/
-  try{
-    const result = await signInWithPopup(auth, googleProvider);
-    const credential=GoogleAuthProvider.credentialFromResult(result);
-    const token = credential.accessToken;
-    const user=result.user;
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      const user = result.user;
 
-    //memorizza i dati dell'utente nel Realtime Database
-    await setUserData(user.uid,{ email:user.email, localities:[]});
+      //memorizza i dati dell'utente nel Realtime Database
+      await setUserData(user.uid, { email: user.email, localities: [] });
 
-    navigate('/');
-  }catch(error){
-    console.error("Error during Google sign-in",error);
-    alert(error.message);
-  }
-};
+      navigate('/');
+    } catch (error) {
+      console.error("Error during Google sign-in", error);
+      alert(error.message);
+    }
+  };
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
@@ -144,9 +146,21 @@ const SignUpScreen = () => {
     <div id="signinPage">
       {!isMobile && (
         <div id="slogan-container">
-          <button id="go-home" className="">
-            <Link to="/"> <h2 id="back">← Back to WAPA</h2></Link>
-          </button>
+          <Button
+            variant="contained"
+            color="primary"
+            href="#about-area"
+            endIcon={<ArrowLeftIcon />}
+            id="go-home"
+            sx={{
+              textTransform: 'uppercase',
+              fontWeight: 'bold',
+              paddingX: 4,
+              paddingY: 0.5,
+            }}
+          >
+            <p id="back"><Link to="/">Back</Link></p>
+          </Button>
         </div>
       )}
       <div id="form-container">
