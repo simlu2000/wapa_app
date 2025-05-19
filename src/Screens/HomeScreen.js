@@ -1,7 +1,7 @@
 import React, { useState, useEffect, startTransition } from "react";
 import { Link } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
-import CloudBackground from "../Animations/CloudBackground"; 
+import CloudBackground from "../Animations/CloudBackground";
 import "animate.css";
 import "../Styles/style_homescreen.css";
 import logo from "../img/logo.png";
@@ -70,7 +70,7 @@ const HomeScreen = () => {
       <section id="intro" className="weather-container">
         <div id="title-logo-container" className="content">
           {!isOffline ? (
-              <CloudBackground />
+            <CloudBackground />
           ) : (
             <div className="gradient-fallback">
               <h1>You are offline. Some features may not be available.</h1>
@@ -80,22 +80,22 @@ const HomeScreen = () => {
       </section>
 
       <section id="discover-btn-area" className="button-area">
-  <Button
-    variant="contained"
-    color="primary"
-    href="#about-area"
-    endIcon={<ArrowDownwardIcon />}
-    id="secondary"
-    sx={{
-      textTransform: 'uppercase',
-      fontWeight: 'bold',
-      paddingX: 4,
-      paddingY: 1.5,
-    }}
-  >
-    Discover
-  </Button>
-</section>
+        <Button
+          variant="contained"
+          color="primary"
+          href="#about-area"
+          endIcon={<ArrowDownwardIcon />}
+          id="secondary"
+          sx={{
+            textTransform: 'uppercase',
+            fontWeight: 'bold',
+            paddingX: 4,
+            paddingY: 1.5,
+          }}
+        >
+          Discover
+        </Button>
+      </section>
 
       <section id="about-area" className="container-data">
         <div>
@@ -136,7 +136,21 @@ const HomeScreen = () => {
             Become part of our community and gain instant access to your favorite places, advanced predictions, and a customizable experience.<br />
             Don't wait! Your new weather experience starts here 💡
             <div id="signup-area">
-              <h2><Link to="/SignUpScreen">Sign up</Link></h2>
+              <Button
+                variant="contained"
+                color="primary"
+                href="#about-area"
+                endIcon={<ArrowDownwardIcon />}
+                id="secondary"
+                sx={{
+                  textTransform: 'uppercase',
+                  fontWeight: 'bold',
+                  paddingX: 4,
+                  paddingY: 1.5,
+                }}
+              >
+                <h2><Link to="/SignUpScreen">Sign up</Link></h2>
+              </Button>
             </div>
           </h3>
         </div>
