@@ -6,6 +6,8 @@ import '../Styles/style_userprofilescreen.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import Loader from '../Components/loader';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
 const UserProfileScreen = ({ user }) => {
   const [userLocalities, setUserLocalities] = useState([]);
@@ -105,23 +107,20 @@ const UserProfileScreen = ({ user }) => {
   return (
     <>
       {loading ? (
-        <Loader/>
+        <Loader />
       ) : (<>
         <section id="users-data" className="container-data">
           <h1>Your Profile</h1>
           <div id="user-area">
-            <label htmlFor="user-email">E-mail:</label>
-            <input id="user-email" className="user-info" type="email" value={user.email} readOnly />
-            <label htmlFor="user-name" id="label2">Name:</label>
-            <input id="user-name" className="user-info" type="text" value={user.displayName || "N/A"} readOnly />
-            {/*<label id="label3">
-              <input
-                type="checkbox"
-                checked={notificationsEnabled}
-                onChange={handleToggleChange}
-              />
-              Notifications
-            </label>*/}
+            <Box
+              component="form"
+              sx={{ '& > :not(style)': { m: 1, width: '40ch' } }}
+              noValidate
+              autoComplete="off"
+            >
+              <TextField id="filled-basic" variant="filled" value={user.displayName || "N/A"} />
+              <TextField id="filled-basic" variant="filled" value={user.email} />
+            </Box>
           </div>
           <button onClick={handleLogout} id="logout-button">
             <FontAwesomeIcon icon={faSignOutAlt} style={{ color: "#F7F7F7" }} />

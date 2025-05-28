@@ -9,6 +9,9 @@ import EarthImage from "../Components/Api_Img/EarthImage";
 import LunarPhases from "../Components/Advanced/LunarPhases";
 import "../Styles/style_lunarphases.css";
 import Loader from "../Components/loader";
+import { Button } from '@mui/material';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+
 const AdvancedScreen = () => {
     const [backgroundImage, setBackgroundImage] = useState("");
     const [imageDate, setImageDate] = useState("");
@@ -34,7 +37,7 @@ const AdvancedScreen = () => {
         const fetchData = async () => {
             try {
                 await new Promise(resolve => setTimeout(resolve, 100)); //n'attesa di 1 secondo
-                setBackgroundImage('path_to_your_image'); 
+                setBackgroundImage('path_to_your_image');
                 setImageDate('Date of the image');
             } catch (error) {
                 console.error("Error loading data", error);
@@ -55,7 +58,7 @@ const AdvancedScreen = () => {
         <>
             {loading ? (
                 <div className="loader-area">
-                    <Loader/>
+                    <Loader />
                 </div>
             ) : (
                 <>
@@ -80,29 +83,36 @@ const AdvancedScreen = () => {
                         overflow: "auto", //scrolling
                     }}>
                         <div id="advanced-title">
-
-                            <div id="area-title">
+                            <div id="area-title" onClick={handleSwitchImage} className="switch-image-button">
                                 <h1 className="title">
-                                    Navigate the&nbsp;
-                                    <a id="universe changeBackground" onClick={handleSwitchImage} className="switch-image-button">
-                                        {isAstronomicImage ? (
-                                            <a id="to-earth" className="title">Earth&nbsp;↻</a>
-                                        ) : (
-                                        <a id="to-universe" className="title">Cosmo&nbsp;↻</a>
-                                        )}
-                                    </a>
+                                    {isAstronomicImage ? (
+                                        <>Explore the Earth👆</>
+                                    ) : (
+                                        <>Explore the Cosmo👆</>
+                                    )}
                                 </h1>
 
 
                             </div>
 
 
-                            <button id="central-button">
-
-                                <a href="#phases" id="seeUniverse">EXPLORE</a>
-                                <span className="arrow"></span>
-                            </button>
-
+                            <section id="central-button" >
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    href="#phases"
+                                    endIcon={<ArrowDownwardIcon />}
+                                    id="secondary"
+                                    sx={{
+                                        textTransform: 'uppercase',
+                                        fontWeight: 'bold',
+                                        paddingX: 4,
+                                        paddingY: 0.5,
+                                    }}
+                                >
+                                    EXPLORE
+                                </Button>
+                            </section>
                             {imageDate && (
                                 <div id="image-date">
                                     <p id="date-text">{imageDate}</p>
@@ -115,7 +125,7 @@ const AdvancedScreen = () => {
                         <LunarPhases />
                     </div>
 
-                
+
                     <section id="second-container" className="mini-container">
                         <div id="celestial" className="event-item">
                             <h3 id="event-title" className="data-title">Celestial<br />events</h3>

@@ -21,9 +21,14 @@ body {
     max-width: 800px;
 }
 
+#area-title{
+    width:auto;
+    
+}
 .title {
     font-size: 6rem;
-    margin-top: 15%;
+    margin-top: 10%;
+
 }
 
 #subtitle {
@@ -37,7 +42,8 @@ body {
     position: absolute;
     bottom: 65px;
     right: 65px;
-    background: rgba(0, 0, 0, 0.5);
+    background-color: rgba(255, 255, 255, 0.154);
+    border-radius: 25px;
     padding: 5px;
     border-radius: 5px;
     color: #F7F7F7;
@@ -89,13 +95,6 @@ body {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    background: #7F7FD5;
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    backdrop-filter: blur(6px);
     color: white;
     border: none;
     padding: 10px 20px;
@@ -117,25 +116,6 @@ body {
     align-items: center;
     width: 100%;
     height: 100%;
-}
-
-#central-button:hover {
-    background-color: #82cbff;
-
-}
-
-#central-button .arrow {
-    width: 6px;
-    height: 6px;
-    border-right: 2px solid #C2FFE9;
-    border-bottom: 2px solid #C2FFE9;
-    transform: rotate(-45deg);
-    margin-left: 6px;
-    transition: transform 0.3s ease;
-}
-
-#central-button:hover .arrow {
-    transform: rotate(-45deg) translate(4px, 4px);
 }
 
 #second-container {
