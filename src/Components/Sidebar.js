@@ -38,7 +38,8 @@ const SideBar = ({ user }) => {
   };
 
   const handleSelectLocation = (location) => {
-    navigate('/WeatherScreen', { state: { query: location } });
+    {/*navigate('/WeatherScreen', { state: { query: location } });*/ }
+navigate('/WeatherScreen', { state: { query: location } });
     setIsMenuOpen(false);
   };
 
@@ -98,7 +99,7 @@ const SideBar = ({ user }) => {
             </ListItem>
           )}
           {user && (
-            <ListItem  button component={Link} onClick={() => setIsDialogOpen(true)}>
+            <ListItem button component={Link} onClick={() => setIsDialogOpen(true)}>
               <ListItemIcon><Search sx={{ color: 'black' }} /></ListItemIcon>
               <ListItemText sx={{ color: 'black' }} primary="Localities" />
             </ListItem>
@@ -119,18 +120,24 @@ const SideBar = ({ user }) => {
       >
         <BottomNavigationAction icon={<Home fontSize="small" />} component={Link} to="/" />
         {/*<BottomNavigationAction label="About" icon={<Info />} component={Link} to="/AboutScreen" />*/}
-        <BottomNavigationAction
-          icon={<Search fontSize="small" />}
-          onClick={() => setIsDialogOpen(true)}
-        />
+        {user && (
+          <BottomNavigationAction
+            icon={<Search fontSize="small" />}
+            onClick={() => setIsDialogOpen(true)}
+          />
+        )}
+
         <BottomNavigationAction icon={<Cloud fontSize="small" />} component={Link} to="/WeatherScreen" />
         <BottomNavigationAction icon={<Rocket fontSize="small" />} component={Link} to="/AdvancedScreen" />
-        {user && (
+
+        {user ? (
           <BottomNavigationAction
             icon={<Person fontSize="small" />}
             component={Link}
             to="/UserProfileScreen"
           />
+        ) : (
+          <BottomNavigationAction icon={<Person fontSize="small" />} component={Link} to="/SignUpScreen" />
         )}
       </BottomNavigation>
 

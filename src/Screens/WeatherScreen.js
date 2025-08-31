@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom'; 
+import { useLocation } from 'react-router-dom'; // Import useLocation for accessing navigation state
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../Utils/firebase';
@@ -15,6 +15,7 @@ import PercentageBox from '../Components/PercentageBox';
 import SearchLocation from '../Components/SearchLocation';
 import Loader from '../Components/loader';
 import '../Styles/style_weatherscreen.css';
+
 const Api_Key_OpenWeather = process.env.REACT_APP_Api_Key_OpenWeather;
 
 const WeatherScreen = () => {

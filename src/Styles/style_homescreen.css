@@ -148,8 +148,12 @@ a:hover {
 
 /*-----------------------------------------------features---------------------------------------------*/
 #about-area {
-  background-color: #F5F5F5;
-  display: flex;
+background: linear-gradient(to top,
+      #cbe6f9 0%,
+      #9ecaf0 40%,
+      #89b9eb 70%,
+      #b5cde7 85%,
+      #e7d0d6 100%);  display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
@@ -158,14 +162,14 @@ a:hover {
 
 #features-title {
   font-size: 4rem;
-  color: #000000;
+  color: #ffffff;
   margin-top: 10%;
   text-align: center;
 }
 
 #features-subtitle {
   font-size: 1.5rem;
-  color: #000000;
+  color: #ffffff;
   margin-top: -35px;
   text-align: center;
 }
@@ -174,26 +178,34 @@ a:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px; 
-  margin-top: 3%; 
-  margin-bottom: 3%; 
+  gap: 10px;
+  margin-top: 3%;
+  margin-bottom: 3%;
   width: 76%;
   margin-left: auto;
   margin-right: auto;
 }
 
 .info-box {
-  padding: 5px; 
-  background: linear-gradient(135deg, #be72c6 0%, #6da9ce 100%);
+  padding: 5px;
+   background: rgba(255, 255, 255, 0.15); /* trasparente */
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.25); /* bordo vetroso */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); /* ombra soft */
+  color: #fff;
+  font-weight: 500;
   border-radius: 50px;
 }
 
 .info-box p {
-  margin-left: 5%; 
-  margin-right: 5%; 
-  margin-top: 5%; 
-  margin-bottom: 5%; 
-  color:#F7F7F7;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  color: #F7F7F7;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  font-weight: 600;
   font-size: 1.2rem;
 
 }
@@ -207,10 +219,11 @@ a:hover {
 .info-box-large p {
   font-size: 1.8rem;
 }
+
 .info-box-large {
   flex: 1;
   min-height: 300px;
-  margin-left: 2%; 
+  margin-left: 2%;
 }
 
 .info-box-small p {
@@ -224,7 +237,7 @@ a:hover {
   justify-content: space-between;
   gap: 10px;
   min-height: 300px;
-  margin-left: 1%; 
+  margin-left: 1%;
 }
 
 .info-box img {
@@ -243,7 +256,8 @@ a:hover {
   height: 100%;
 }
 
-.info-box h1, .info-box h2 {
+.info-box h1,
+.info-box h2 {
   font-size: 2.5rem;
   margin-top: 10%;
 }
@@ -255,9 +269,13 @@ a:hover {
 
 /*----------------------------------------Call to action area-----------------------------------------------*/
 #call-to-action-area {
-  background: #7F7FD5;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(135deg, #fde8ff 0%, #86d1ff 100%);
-  background: linear-gradient(to right, #91EAE4, #c5d9ff, #7F7FD5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: rgba(255, 255, 255, 0.15); /* trasparente */
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.25); /* bordo vetroso */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); /* ombra soft */
+  color: #fff;
+  font-weight: 500;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -285,18 +303,24 @@ a:hover {
 #signup-area h2 a:hover {
   background-color: #000000;
   color: #F7F7F7;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  font-weight: 600;
 }
 
 #call-to-action-text {
   font-size: 3rem;
-  color:#F7F7F7;
+  color: #F7F7F7;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  font-weight: 600;
 }
 
 #call-to-action-text2 {
   margin-left: 15%;
   margin-right: 15%;
   font-size: 1.5rem;
-  color:#F7F7F7;
+  color: #F7F7F7;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  font-weight: 600;
 
 }
 
@@ -313,7 +337,8 @@ a:hover {
   position: relative;
   width: 100vw;
   height: 100vh;
-  pointer-events: none;   /* Permette gli eventi del mouse e del touch di passare attraverso il canvas */
+  pointer-events: none;
+  /* Permette gli eventi del mouse e del touch di passare attraverso il canvas */
 }
 
 .weather-animation .canvas-container {
@@ -323,7 +348,8 @@ a:hover {
   left: 0;
   width: 100%;
   height: 90vh;
-  pointer-events: auto;   /* Abilita gli eventi del mouse e del touch per il canvas */
+  pointer-events: auto;
+  /* Abilita gli eventi del mouse e del touch per il canvas */
 }
 
 .centered-text {
@@ -340,8 +366,8 @@ a:hover {
   text-overflow: ellipsis;
 }
 
-.centered-text h2{
-  color:#F7F7F7;
+.centered-text h2 {
+  color: #F7F7F7;
 }
 
 canvas {
@@ -377,7 +403,7 @@ canvas {
 
   #features-subtitle {
     font-size: 1.2rem;
-  } 
+  }
 
   #intro-title {
     font-size: 5rem;
@@ -386,18 +412,21 @@ canvas {
 }
 
 @media (max-width: 768px) {
-  .info-box-container{
+  .info-box-container {
     flex-direction: column;
-    width:100%;
+    width: 100%;
   }
 
-  .info-box{
-    width:100%;
-    font-size:1rem;
+  .info-box {
+    width: 100%;
+    font-size: 1rem;
   }
-  .info-box h1, .info-box h2{
-    font-size:1.5rem;
+
+  .info-box h1,
+  .info-box h2 {
+    font-size: 1.5rem;
   }
+
   #title-area {
     padding: 0 5%;
   }
@@ -427,18 +456,20 @@ canvas {
     font-size: 3rem;
   }
 
-  .info-box{
-    padding:10px;
-    font-size:0.9rem;
+  .info-box {
+    padding: 10px;
+    font-size: 0.9rem;
   }
 
-  #feauters-title{
-    font-size:2rem;
+  #feauters-title {
+    font-size: 2rem;
   }
-  .info-box-container{
-    width:80%;
-    gap:10px;
+
+  .info-box-container {
+    width: 80%;
+    gap: 10px;
   }
+
   .cloud-background {
     position: absolute;
     top: 0;
@@ -460,10 +491,11 @@ canvas {
     text-align: left;
   }
 
-  .info-box-container{
-    width:95%;
-    gap:10px;
+  .info-box-container {
+    width: 95%;
+    gap: 10px;
   }
+
   .weather-animation .canvas-container {
     height: 100vh;
   }
@@ -483,12 +515,14 @@ canvas {
 
   #discover-btn-area {
     height: 5vh;
+    margin-top: 5%;
   }
 
   .arrow-button {
     width: 100px;
     height: 35px;
     font-size: 1rem;
+    
   }
 
   #features-title {

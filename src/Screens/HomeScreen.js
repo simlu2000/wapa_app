@@ -80,25 +80,37 @@ const HomeScreen = () => {
         </div>
       </section>
 
-      <section id="discover-btn-area" className="button-area">
-        <Button
-          variant="contained"
-          color="primary"
-          href="#about-area"
-          endIcon={<ArrowDownwardIcon />}
-          id="secondary"
-          sx={{
-            textTransform: 'uppercase',
-            fontWeight: 'bold',
-            paddingX: 4,
-            paddingY: 0.5,
-          }}
-        >
-          Discover
-        </Button>
-      </section>
-
       <section id="about-area" className="container-data">
+        <section id="discover-btn-area" className="button-area" sx={{
+          textTransform: 'uppercase',
+          fontWeight: 'bold',
+          px: 4,
+          py: 0.5,
+          background: "rgba(255, 255, 255, 0.15)", // trasparente>
+        }}>
+          <Button
+            variant="contained"
+            color="primary"
+            href="#about-area"
+            endIcon={<ArrowDownwardIcon />}
+            id="secondary"
+            sx={{
+              textTransform: 'uppercase',
+              fontWeight: 'bold',
+              px: 4,
+              py: 0.5,
+              background: "rgba(231, 208, 214, 0.55)", // trasparente
+              backdropFilter: "blur(20px) saturate(180%)",
+              WebkitBackdropFilter: "blur(20px) saturate(180%)", // prefisso safari
+              border: "1px solid rgba(255, 255, 255, 0.25)", // bordo vetroso
+              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)", // ombra soft
+              color: "#fff",
+            }}
+          >
+            Discover
+          </Button>
+
+        </section>
         <div>
           <h1 id="features-title">Our Features</h1>
           <h2 id="features-subtitle">Stay connected to be updated</h2>
@@ -147,6 +159,13 @@ const HomeScreen = () => {
                   fontWeight: 'bold',
                   paddingX: 4,
                   paddingY: 0.5,
+                  
+                  background: "#47a9ffdb", // trasparente
+              backdropFilter: "blur(20px) saturate(180%)",
+              WebkitBackdropFilter: "blur(20px) saturate(180%)", // prefisso safari
+              border: "1px solid rgba(255, 255, 255, 0.25)", // bordo vetroso
+              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)", // ombra soft
+              color: "#fff",
                 }}
               >
                 <p><Link to="/SignUpScreen">Sign up</Link></p>
