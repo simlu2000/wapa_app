@@ -86,7 +86,7 @@ const HomeScreen = () => {
           fontWeight: 'bold',
           px: 4,
           py: 0.5,
-          background: "rgba(255, 255, 255, 0.15)", // trasparente>
+          background: "rgba(137, 185, 235, 1)", // trasparente>
         }}>
           <Button
             variant="contained"
@@ -99,10 +99,10 @@ const HomeScreen = () => {
               fontWeight: 'bold',
               px: 4,
               py: 0.5,
-              background: "rgba(231, 208, 214, 0.55)", // trasparente
+              background: "rgba(137, 185, 235, 1)", // trasparente
               backdropFilter: "blur(20px) saturate(180%)",
               WebkitBackdropFilter: "blur(20px) saturate(180%)", // prefisso safari
-              border: "1px solid rgba(255, 255, 255, 0.25)", // bordo vetroso
+              border: "1px solid rgba(137, 185, 235, 1)", // bordo vetroso
               boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)", // ombra soft
               color: "#fff",
             }}

@@ -100,14 +100,14 @@ const WeatherScreen = () => {
             console.error("Invalid latitude or longitude");
             return;
         }
-    
+
         try {
             const [weatherResponse, airPollutionResponse, forecastResponse] = await Promise.all([
                 axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${Api_Key_OpenWeather}&units=metric`),
                 axios.get(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${Api_Key_OpenWeather}`),
                 axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${Api_Key_OpenWeather}&units=metric`)
             ]);
-    
+
             if (weatherResponse.data && weatherResponse.data.weather) {
                 setWeatherData(weatherResponse.data);
                 setCity(weatherResponse.data.name);
@@ -122,7 +122,7 @@ const WeatherScreen = () => {
             setLoading(false);
         }
     };
-    
+
 
     // Funzione per recuperare i dati meteo in base alla località cercata
     const fetchWeatherBySearchedLocation = async (searchLocation) => {
@@ -149,7 +149,7 @@ const WeatherScreen = () => {
     // Applicazione dello sfondo gradiente in base al meteo
     const applyBackgroundGradient = (weatherMain) => {
         const gradients = {
-            Clear: 'linear-gradient(to bottom, #0083B0, #00B4DB)', 
+            Clear: 'linear-gradient(to bottom, #0083B0, #00B4DB)',
             Clouds: 'linear-gradient(to bottom, #485563, #29323c)',
             Rain: 'linear-gradient(to bottom, #00416a, #e4e5e6)',
             'Light Rain': 'linear-gradient(to bottom, #00416a, #e4e5e6)',
@@ -197,7 +197,7 @@ const WeatherScreen = () => {
 
                             <>
                                 <h1 id="place" className="meteo-title">In {city}:</h1>
-                                <h1 id="place-subtitle" className="meteo-title">{weatherData.weather[0].description}, 
+                                <h1 id="place-subtitle" className="meteo-title">{weatherData.weather[0].description},
                                     feels {Math.floor(weatherData.main.feels_like)} °C
                                 </h1>
                                 <div>
@@ -208,93 +208,108 @@ const WeatherScreen = () => {
                                 <SearchLocation onSearch={handleSearch} />
 
                             </>
-
-
-
                         </div>
                     )}
-
-
                 </section>
             </section>
 
-            <Forecast forecast={forecastData} isMobile={true} />
+            <section style={{
+                backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)',
+            }}>
 
-            {forecastData && (
-                <section id="today-area" >
-                    <TodayForecast forecast={forecastData} isMobile={true} />
-                </section>
-            )}
+                <Forecast forecast={forecastData} isMobile={true} />
 
-            {weatherData && weatherData.clouds && forecastData && (
-                <section id="meteo-area" className="today-data">
-
-
-                    <div className="charts-container" style={{
-                        backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)'
-                    }}>
-                        <WindCharts windSpeed={weatherData.wind.speed} />
-                        {/*<TempCharts initialTemperature={weatherData.main.temp} />*/}
-                        <PressureCharts initialPressure={weatherData.main.pressure} />
-                    </div>
-
-                    <section className="meteo-box-container" style={{
-                        backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)'
-                    }}>
-                        <section id="clouds" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Clouds {weatherData.clouds.all}%</h3>
-                            <div className="progress-bar">
-                                <div className="progress" style={{ width: `${weatherData.clouds.all}%` }}>
-                                    <PercentageBox label={`${weatherData.clouds.all}%`} />
-                                </div>
-                            </div>
-                        </section>
-                        <section id="humidity" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Humidity {weatherData.main.humidity}%</h3>
-                            <div className="progress-bar">
-                                <div className="progress" style={{ width: `${weatherData.main.humidity}%` }}>
-                                    <PercentageBox label={`${weatherData.main.humidity}%`} />
-                                </div>
-                            </div>
-                        </section>
-                        <section id="temp-min" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Temp Min: {weatherData.main.temp_min} C°</h3>
-                            <div className="progress-bar">
-                                <div className="progress" style={{ width: `${weatherData.main.temp_min}%` }}>
-                                    <PercentageBox label={`${weatherData.main.temp_min}C°`} />
-                                </div>
-                            </div>
-                        </section>
-                        <section id="temp-max" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Temp Max: {weatherData.main.temp_max} C°</h3>
-                            <div className="progress-bar">
-                                <div className="progress" style={{ width: `${weatherData.main.temp_max}%` }}>
-                                    <PercentageBox label={`${weatherData.main.temp_max}C°`} />
-                                </div>
-                            </div>
-                        </section>
-
-
-
-                        <section id="sunrise" className="data-boxes meteo-box">
-                            <Sunrise sunriseTime={weatherData.sys.sunrise} />
-                        </section>
-                        <section id="sunset" className="data-boxes meteo-box">
-                            <Sunset sunsetTime={weatherData.sys.sunset} />
-                        </section>
-
-                        <section id="dew-point" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Dew Point</h3>
-                            <MoreDataCharts value={calculateDewPoint(weatherData.main.temp, weatherData.main.humidity).toFixed(1)} />
-                        </section>
-                        <section id="air-pollution" className="data-boxes meteo-box">
-                            <h3 className="meteo-box-label">Air Poll. µg/m³</h3>
-                            <MoreDataCharts value={airPollutionData ? airPollutionData.pm2_5 : 'N/A'} />
-                        </section>
-
+                {forecastData && (
+                    <section id="today-area" >
+                        <TodayForecast forecast={forecastData} isMobile={true} />
                     </section>
-                </section>
-            )}
+                )}
+
+                {weatherData && weatherData.clouds && forecastData && (
+                    <section id="meteo-area" className="today-data">
+                        <div className="charts-container" style={{
+                            backgroundImage: weatherData
+                                ? applyBackgroundGradient(weatherData.weather[0].main)
+                                : 'linear-gradient(to right, #83a4d4, #b6fbff)',
+                            background: 'rgba(255, 255, 255, 0.87)',
+                            backdropFilter: 'blur(20px) saturate(180%)',
+                            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                            border: '1px solid rgba(255, 255, 255, 0.25)',
+                            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+                        }}
+                        >
+                            <WindCharts windSpeed={weatherData.wind.speed} />
+                            {/*<TempCharts initialTemperature={weatherData.main.temp} />*/}
+                            <PressureCharts initialPressure={weatherData.main.pressure} />
+                        </div>
+
+                        <section className="meteo-box-container" style={{
+                            backgroundImage: weatherData
+                                ? applyBackgroundGradient(weatherData.weather[0].main)
+                                : 'linear-gradient(to right, #83a4d4, #b6fbff)',
+                            background: 'rgba(255, 255, 255, 0.87)',
+                            backdropFilter: 'blur(20px) saturate(180%)',
+                            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                            border: '1px solid rgba(255, 255, 255, 0.25)',
+                            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+                        }}
+                        >
+                            <section id="clouds" className="data-boxes meteo-box">
+                                <h3 className="meteo-box-label">Clouds {weatherData.clouds.all}%</h3>
+                                <div className="progress-bar">
+                                    <div className="progress" style={{ width: `${weatherData.clouds.all}%` }}>
+                                        <PercentageBox label={`${weatherData.clouds.all}%`} />
+                                    </div>
+                                </div>
+                            </section>
+                            <section id="humidity" className="data-boxes meteo-box">
+                                <h3 className="meteo-box-label">Humidity {weatherData.main.humidity}%</h3>
+                                <div className="progress-bar">
+                                    <div className="progress" style={{ width: `${weatherData.main.humidity}%` }}>
+                                        <PercentageBox label={`${weatherData.main.humidity}%`} />
+                                    </div>
+                                </div>
+                            </section>
+                            <section id="temp-min" className="data-boxes meteo-box">
+                                <h3 className="meteo-box-label">Temp Min: {weatherData.main.temp_min} C°</h3>
+                                <div className="progress-bar">
+                                    <div className="progress" style={{ width: `${weatherData.main.temp_min}%` }}>
+                                        <PercentageBox label={`${weatherData.main.temp_min}C°`} />
+                                    </div>
+                                </div>
+                            </section>
+                            <section id="temp-max" className="data-boxes meteo-box">
+                                <h3 className="meteo-box-label">Temp Max: {weatherData.main.temp_max} C°</h3>
+                                <div className="progress-bar">
+                                    <div className="progress" style={{ width: `${weatherData.main.temp_max}%` }}>
+                                        <PercentageBox label={`${weatherData.main.temp_max}C°`} />
+                                    </div>
+                                </div>
+                            </section>
+
+
+
+                            <section id="sunrise" className="data-boxes meteo-box">
+                                <Sunrise sunriseTime={weatherData.sys.sunrise} />
+                            </section>
+                            <section id="sunset" className="data-boxes meteo-box">
+                                <Sunset sunsetTime={weatherData.sys.sunset} />
+                            </section>
+
+                            <section id="dew-point" className="data-boxes meteo-box">
+                                <h3 className="meteo-box-label">Dew Point</h3>
+                                <MoreDataCharts value={calculateDewPoint(weatherData.main.temp, weatherData.main.humidity).toFixed(1)} />
+                            </section>
+                            <section id="air-pollution" className="data-boxes meteo-box">
+                                <h3 className="meteo-box-label">Air Poll. µg/m³</h3>
+                                <MoreDataCharts value={airPollutionData ? airPollutionData.pm2_5 : 'N/A'} />
+                            </section>
+
+                        </section>
+                    </section>
+
+                )}
+            </section>
         </>
     );
 };

@@ -14,15 +14,15 @@ const PressureCharts = ({ initialPressure }) => {
                 text: "Atmospheric pressure",
                 left: "center",
                 textStyle: {
-                    fontSize:20,
-                    color: "#f7f7f7"
+                    fontSize: 20,
+                    color: "#000000",
                 }
 
             },
             tooltip: {
                 formatter: '{a} <br/>{b} : {c}%',
                 textStyle: {
-                    color: "#f7f7f7"
+                    color: "#000000",
                 }
 
             },
@@ -38,19 +38,19 @@ const PressureCharts = ({ initialPressure }) => {
                     },
                     title: {
                         textStyle: {
-                            color: "#f7f7f7"
+                            color: "#000000",
                         }
                     },
                     axisLabel: {
                         textStyle: {
-                            color: "#f7f7f7"
+                            color: "#000000",
                         }
                     },
                     detail: {
                         formatter: '{value}',
                         textStyle: {
                             fontSize: 10,
-                            color: "#f7f7f7"
+                            color: "#000000",
                         }
                     },
                     data: [
@@ -58,10 +58,10 @@ const PressureCharts = ({ initialPressure }) => {
                             value: pressure,
                             name: 'A. Pressure',
                             textStyle: {
-                                color: "#F7F7F7",
+                                color: "#000000",
                             },
                             itemStyle: {
-                                color: "#F7F7F7",
+                                color: "#000000",
                             }
                         }
                     ]

@@ -1,7 +1,7 @@
 import React from "react";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Tooltip, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import "../Styles/style_forecast.css"; // Assicurati che il percorso sia corretto
+import "../Styles/style_forecast.css"; 
 
 // Registrare i componenti necessari di Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);

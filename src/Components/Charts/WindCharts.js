@@ -9,7 +9,7 @@ const WindCharts = ({ windSpeed}) => {
                 left: "center",
                 textStyle:{
                     fontSize:20,
-                    color:"#f7f7f7",
+                    color:"#000000",
                     textShadow: "5px 5px 5px (#000000)"
                 }
                 
@@ -43,7 +43,7 @@ const WindCharts = ({ windSpeed}) => {
                     distance: 25,
                     textStyle:{
                         fontSize:11,
-                        color:"#f7f7f7"
+                    color:"#000000",
                     }
                 },
                 pointer: {
@@ -55,7 +55,7 @@ const WindCharts = ({ windSpeed}) => {
                     formatter: '{value} m/s',
                     textStyle:{
                         fontSize:16,
-                        color:"#f7f7f7",
+                    color:"#000000",
                     }
                 },
                 data: [{

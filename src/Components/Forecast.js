@@ -7,7 +7,7 @@ const Forecast = ({ forecast }) => {
     if (!forecast) {
         return (
             <div className="loading-container">
-                
+
             </div>
         );
     }
@@ -94,14 +94,14 @@ const Forecast = ({ forecast }) => {
     });
 
     return (
-        <section className="meteo-table forecast-container" style={{
+        <section className="meteo-table" style={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
             transition: 'background-image 0.5s ease-in-out',
+            
         }}>
-            <h2>Next 5 days</h2>
             <table className="forecast-table">
                 <thead>
                     <tr>
