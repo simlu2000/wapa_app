@@ -8,7 +8,7 @@ const Sunrise = ({ sunriseTime }) => {
         if (!sunriseTime) return; // Verifica ora
 
         const width = 300;
-        const height = 300;
+        const height = 400;
         const radius = Math.min(width, height) / 2 - 20;
 
         const colors = {
@@ -49,15 +49,15 @@ const Sunrise = ({ sunriseTime }) => {
         svg.append("text")
             .attr("text-anchor", "middle") 
             .attr("dominant-baseline", "central")
-            .attr("y", radius - 50)
+            .attr("y", radius + 25)
             .text(`Sunrise at ${date.toLocaleTimeString()}`)
             .attr("fill", colors.sunrise)
-            .attr("font-size", 14);
+            .attr("font-size", 22)
     }, [sunriseTime]);
 
     const iconStyle = {
         position: 'absolute',
-        top: '135px',
+        top: '190px',
         left: '150px',
         transform: 'translate(-50%, -50%)',
         color: '#FFA500',
@@ -65,7 +65,7 @@ const Sunrise = ({ sunriseTime }) => {
     };
 
     return (
-        <div className="light-chart" style={{ position: 'relative', width: '300px', height: '300px' }}>
+        <div className="light-chart" style={{ position: 'relative', width: '300px', height: '400px' }}>
             <svg id="sunrise-sunset-chart"></svg>
             <FontAwesomeIcon icon={faSun} style={iconStyle} />
         </div>

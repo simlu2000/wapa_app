@@ -23,7 +23,10 @@ const WindCharts = ({ windSpeed}) => {
                 },
                 axisLine: {
                     lineStyle: {
-                        width: 16
+                        width: 16,
+                        color: [[1, '#FFFFFF']],
+                        border: ['2px solid black']
+
                     }
                 },
                 axisTick: {

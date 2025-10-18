@@ -100,9 +100,9 @@ const Forecast = ({ forecast }) => {
             alignItems: 'center',
             justifyContent: 'center',
             transition: 'background-image 0.5s ease-in-out',
-            background: 'rgba(255, 255, 255, 0.87)',
+            background: 'rgba(255, 255, 255, 0.73)',
             width:'97%',
-            marginTop:'10%',
+            marginTop:'5%',
             boxShadow: '2px 2px 8px rgba(0, 0, 0, 0.3)'
 
             

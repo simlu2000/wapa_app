@@ -176,7 +176,7 @@ const WeatherScreen = () => {
 
 
     return (
-        <section style={{backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)',}}>
+        <section style={{ backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)', }}>
             <section
                 id="weather-intro"
                 className="container-data"
@@ -223,7 +223,9 @@ const WeatherScreen = () => {
                 )}
 
                 {weatherData && weatherData.clouds && forecastData && (
-                    <section id="meteo-area" className="today-data">
+                    <section id="meteo-area" className="today-data" style={{
+                        background: 'rgba(255, 255, 255, 0.73)',
+                    }}>
                         <div className="charts-container" style={{
                             border: '1px solid rgba(255, 255, 255, 0.25)',
                             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
@@ -235,7 +237,6 @@ const WeatherScreen = () => {
                         </div>
 
                         <section className="meteo-box-container" style={{
-                            background: 'rgba(255, 255, 255, 0.87)',
                             backdropFilter: 'blur(20px) saturate(180%)',
                             WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                             border: '1px solid rgba(255, 255, 255, 0.25)',
@@ -280,7 +281,7 @@ const WeatherScreen = () => {
                             <section id="sunrise" className="data-boxes meteo-box">
                                 <Sunrise sunriseTime={weatherData.sys.sunrise} />
                             </section>
-                            <section id="sunset" className="data-boxes meteo-box">
+                            <section id="sunset" className="data-boxes meteo-box" style={{height:'auto'}}>
                                 <Sunset sunsetTime={weatherData.sys.sunset} />
                             </section>
 
