@@ -99,9 +99,9 @@ const HomeScreen = () => {
               fontWeight: 'bold',
               px: 4,
               py: 0.5,
-              background: "rgba(137, 185, 235, 1)", // trasparente
-              backdropFilter: "blur(20px) saturate(180%)",
-              WebkitBackdropFilter: "blur(20px) saturate(180%)", // prefisso safari
+              background: 'linear-gradient(135deg, rgba(135,179,223,0.85) 0%, rgba(102,133,180,0.85) 50%, rgba(255,192,200,0.85) 100%)',
+              backdropFilter: 'blur(20px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(20px) saturate(180%)',
               border: "1px solid rgba(137, 185, 235, 1)", // bordo vetroso
               boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)", // ombra soft
               color: "#fff",
@@ -159,13 +159,13 @@ const HomeScreen = () => {
                   fontWeight: 'bold',
                   paddingX: 4,
                   paddingY: 0.5,
-                  
+
                   background: "#47a9ffdb", // trasparente
-              backdropFilter: "blur(20px) saturate(180%)",
-              WebkitBackdropFilter: "blur(20px) saturate(180%)", // prefisso safari
-              border: "1px solid rgba(255, 255, 255, 0.25)", // bordo vetroso
-              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)", // ombra soft
-              color: "#fff",
+                  backdropFilter: "blur(20px) saturate(180%)",
+                  WebkitBackdropFilter: "blur(20px) saturate(180%)", // prefisso safari
+                  border: "1px solid rgba(255, 255, 255, 0.25)", // bordo vetroso
+                  boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)", // ombra soft
+                  color: "#fff",
                 }}
               >
                 <p><Link to="/SignUpScreen">Sign up</Link></p>

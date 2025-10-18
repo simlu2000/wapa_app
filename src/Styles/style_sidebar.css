@@ -53,9 +53,11 @@
   margin-right: 15px;
   white-space: nowrap;
 }
-.sidebar-link:hover{
-  color:#000000;
+
+.sidebar-link:hover {
+  color: #000000;
 }
+
 /*Colore delle icone e svg */
 .sidebar-link i,
 .sidebar-link svg {
@@ -72,9 +74,19 @@
     height: 100vh;
     top: 0;
     left: 0;
-    background-color: rgba(243, 243, 243, 0.9);
+    background-color: rgba(243, 243, 243, 0.6);
+    /* trasparenza più leggera per effetto vetro */
+    backdrop-filter: blur(20px) saturate(180%);
+    /* sfocatura + saturazione */
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    /* Safari support */
+    border-radius: 12px;
+    /* opzionale, per bordi smussati */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    /* profondità e “glass feel” */
     transition: transform 0.3s ease;
   }
+
 
   .sidebar.open {
     transform: translateX(0);

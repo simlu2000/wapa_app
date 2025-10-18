@@ -1,7 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faCloudRain, faSnowflake, faBolt, faCloud, faCloudShowersHeavy, faSmog } from '@fortawesome/free-solid-svg-icons';
-import "../Styles/style_forecast.css"; // Assicurati che il percorso sia corretto
+import "../Styles/style_forecast.css"; 
 
 const Forecast = ({ forecast }) => {
     if (!forecast) {
@@ -100,6 +100,13 @@ const Forecast = ({ forecast }) => {
             alignItems: 'center',
             justifyContent: 'center',
             transition: 'background-image 0.5s ease-in-out',
+            background: 'rgba(255, 255, 255, 0.87)',
+            backdropFilter: 'blur(20px) saturate(180%)',
+            webkitBackdropFilter: 'blur(20px) saturate(180%)',
+            width:'97%',
+            marginTop:'10%',
+            boxShadow: '2px 2px 8px rgba(0, 0, 0, 0.3)'
+
             
         }}>
             <table className="forecast-table">

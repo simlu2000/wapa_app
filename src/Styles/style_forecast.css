@@ -24,7 +24,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     margin-bottom: 5%;
-    margin-top: '5%';
+
 }
 
 .forecast-table {
@@ -32,6 +32,8 @@
     border-collapse: collapse;
     border-radius: 25px;
     overflow: hidden;
+    margin-top:5%;
+
 
 }
 
@@ -77,7 +79,7 @@
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.25);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 /*Today forecasts*/
@@ -89,8 +91,6 @@
     width: 100%;
     overflow-x: auto;
     /*scroll se troppo grande*/
-
-
 }
 
 .today-forecast-container h2 {
@@ -278,7 +278,7 @@ p {
     }
 
     .today-forecast-container {
-        width: 100%;
+        width: 97%;
         padding: 10px;
     }
 

@@ -176,7 +176,7 @@ const WeatherScreen = () => {
 
 
     return (
-        <>
+        <section style={{backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)',}}>
             <section
                 id="weather-intro"
                 className="container-data"
@@ -213,10 +213,7 @@ const WeatherScreen = () => {
                 </section>
             </section>
 
-            <section style={{
-                backgroundImage: weatherData ? applyBackgroundGradient(weatherData.weather[0].main) : 'linear-gradient(to right, #83a4d4,#b6fbff)',
-            }}>
-
+            <section>
                 <Forecast forecast={forecastData} isMobile={true} />
 
                 {forecastData && (
@@ -228,12 +225,6 @@ const WeatherScreen = () => {
                 {weatherData && weatherData.clouds && forecastData && (
                     <section id="meteo-area" className="today-data">
                         <div className="charts-container" style={{
-                            backgroundImage: weatherData
-                                ? applyBackgroundGradient(weatherData.weather[0].main)
-                                : 'linear-gradient(to right, #83a4d4, #b6fbff)',
-                            background: 'rgba(255, 255, 255, 0.87)',
-                            backdropFilter: 'blur(20px) saturate(180%)',
-                            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                             border: '1px solid rgba(255, 255, 255, 0.25)',
                             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
                         }}
@@ -310,7 +301,7 @@ const WeatherScreen = () => {
 
                 )}
             </section>
-        </>
+        </section>
     );
 };
 
